@@ -1,0 +1,55 @@
+.pre-loader{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+     z-index: 99999; /* makes sure it stays on top */
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    backdrop-filter:saturate(180%) blur(20px)
+  }
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Work Sans', sans-serif;
+    color: black;
+}
+
+.form-signin {
+    font-family: 'Montserrat', sans-serif;
+    
+}
+
+input {
+    font-family: 'Work Sans', sans-serif;
+}
+
+.btn-primary { 
+    color: #fff;
+    background: #1abc9c;
+    border-color: #1abc9c;
+   
+}
+
+.btn-primary:hover{
+    background-color: #16a085;
+    border-color: #16a085;
+}
+
+a {
+    color: #16a085;
+}
+
+a:hover{
+   color: #16a085;
+}
+
+h1{
+    color: #16a085; 
+}
+
+h3{
+    color: #6c757d; 
+}

@@ -1,0 +1,1 @@
+[03-Aug-2018 18:31:56 UTC] PHP Fatal error:  Class 'OpenpayApiResourceBase' not found in /home/rooa73/public_html/filavip.mx/libs/openpay/sdk/data/OpenpayApiDB.php on line 95

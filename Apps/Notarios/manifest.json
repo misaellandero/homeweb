@@ -1,0 +1,35 @@
+{
+    "name": "Notarios CDMX",
+    "short_name": "Notarios CDMX",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#fff",
+    "theme_color": "#1abc9c",
+    "orientation": "portrait-primary",
+    "icons": [
+      {
+        "src": "Imagenes/AppIcon/iOSAppfinal_48x48.png",
+        "type": "image/png", "sizes": "48x48"
+      },
+      {
+        "src": "Imagenes/AppIcon/iOSAppfinal_72x72.png",
+        "type": "image/png", "sizes": "72x72"
+      },
+      {
+        "src": "Imagenes/AppIcon/iOSAppfinal_96x96.png",
+        "type": "image/png","sizes": "96x96"
+      },
+      {
+        "src": "Imagenes/AppIcon/iOSAppfinal_144x144.png",
+        "type": "image/png", "sizes": "144x144"
+      },
+      {
+        "src": "Imagenes/AppIcon/iOSAppfinal_192x192.png",
+        "type": "image/png", "sizes": "192x192"
+      },
+      {
+        "src": "Imagenes/AppIcon/iOSAppfinal_512x512.png",
+        "type": "image/png", "sizes": "512x512"
+      } 
+    ]
+  }

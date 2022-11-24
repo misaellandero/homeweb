@@ -1,0 +1,18 @@
+[
+    {
+    "curso":"Introducción a Xcode",
+    "profesor":"Jael Rubacaba"
+    },
+    {
+    "curso":"Introducción a iOS 15",
+    "profesor":"Hector Neira"
+    },
+    {
+    "curso":"Introducción a Objective-c",
+    "profesor":"Hugo Landines"
+    },
+    {
+    "curso":"Introducción a SwiftUI",
+    "profesor":"Misael Landero"
+    }
+]
