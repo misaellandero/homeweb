@@ -1,80 +1,3 @@
-<?php
-session_start();
-
-$id_usuario = $_SESSION['id_session'] ?? '';
-include 'sistema/php/users/permisos_perfil.php';
-$datosUsuario = datosUsuario($id_usuario,$conn);
-$id_perfil = $datosUsuario[0]['id_perfil'];
-$verificado = $datosUsuario[0]['verificado'];
-$password = $datosUsuario[0]['password'];
-$email = $datosUsuario[0]['email'];
-$permisos = PermisosSistema($id_perfil,$conn);
-$direccionesEnvio = DirUsuario($id_usuario,$conn);
-// var_dump($_SESSION);
-//var_dump($direccionesEnvio);
-//var_dump($datosUsuario);
-//var_dump($permisos);
- 
-
-
-include 'sistema/php/inventarios/consulta_precio_e_impuestos.php';
-include 'sistema/php/pago/calcular_comision_paypal.php';
-
-$comisionFijaPayPal = $datosTienda[0]['paypal_com_fija'];
-$comisionPorciento = $datosTienda[0]['paypal_com_tarjeta'];
-$produccion = $datosTienda[0]['modo_produccion']; 
-$pedido = $datosUsuario[0]['pedido'];
-
-$comisionFijaOpenPay = $datosTienda[0]['openpay_com_fija'];
-
-$comisionOpenPay_0 = $datosTienda[0]['openpay_com_tarjeta_0']; 
-$comisionOpenPay_3 = $datosTienda[0]['openpay_com_tarjeta_3']; 
-$comisionOpenPay_6 = $datosTienda[0]['openpay_com_tarjeta_6']; 
-$comisionOpenPay_9 = $datosTienda[0]['openpay_com_tarjeta_9']; 
-$comisionOpenPay_12 = $datosTienda[0]['openpay_com_tarjeta_12']; 
-$fb_appId = $datosTienda[0]['fb_appId']; 
-$fb_state = $datosTienda[0]['fb_state'];  
-$fb_redirect = $datosTienda[0]['fb_redirect']; 
-
-$notificaciones = 0;
-
-if (is_null($direccionesEnvio)) { 
-  $notificaciones = $notificaciones + 1; 
-}
-
-
-if (is_null($email)) { 
-  $notificaciones = $notificaciones + 1; 
-}
-
-if (is_null($password)) { 
-  $notificaciones = $notificaciones + 1; 
-}
-
-if ($verificado == 0) {
-	$notificaciones = $notificaciones + 1; 
-}
-
-if ($pedido > 0) {
-  $notificaciones = $notificaciones + 1; 
-}
-	
-if ($produccion == 0) {
-//echo 'Sesion: <br>';
-//var_dump($_SESSION);
-//echo 'Direccion Envio: <br>';
-//var_dump($direccionesEnvio);
-//echo 'Datos usuario: <br>';
-//var_dump($datosUsuario);
-//echo 'Permisos: <br>';
-//var_dump($permisos);
-}  
-
-$producto_buscar = $_GET['Producto'] ?? '';
-
-
-
-?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -97,7 +20,7 @@ $producto_buscar = $_GET['Producto'] ?? '';
   		<link rel="apple-touch-icon" sizes="57x57" href="sistema/images/<?php echo $datosEmpresa[0]['icon_site'];?>"" />
      
  	<!-- Site Title -->
-  <title> <?php echo $datosTienda[0]['titulo_tienda'];?></title>
+  <title>Misael landero 🧑🏻‍💻</title>
 
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
@@ -114,17 +37,7 @@ $producto_buscar = $_GET['Producto'] ?? '';
 
 <body class="register-page landing-page">
   <!-- Navbar -->
-
   
-  <?php
-    if (($datosTienda[0]['modo_tienda']) == "tienda") {
-      echo '<input type="text" value="true" id="tipo_tienda" hidden="true">';
-     } else {
-       echo '<input type="text" value="false" id="tipo_tienda" hidden="true">';
-     }
-  ?>
-  
-    
   <nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="100">
     <div class="container">
       <div class="navbar-translate">
@@ -143,7 +56,7 @@ $producto_buscar = $_GET['Producto'] ?? '';
           <div class="row">
             <div class="col-6 collapse-brand">
               <a>
-                LanderCorp.mx
+                Misaellandero.com
               </a>
 
             </div>
@@ -154,19 +67,19 @@ $producto_buscar = $_GET['Producto'] ?? '';
             </div>
           </div>
         </div>
-        <ul class="navbar-nav">
-          <li class="nav-item  p-0 wow slideInRight" data-wow-duration="1s" >
-                <a class="nav-link"   href="#Servicios" ><i class="fa fa-laptop-code"></i> Servicios</a>
-          </li>
-          <li class="nav-item  p-0 wow slideInRight" data-wow-duration="2s">
-                <a class="nav-link" href="#Portafolio" ><i class="fa fa-briefcase"></i> Portafolio</a>
-           </li>
-           <li class="nav-item  p-0 wow slideInRight" data-wow-duration="3s">
-                <a class="nav-link"  href="#SobreMi" ><i class="fa fa-smile-wink"></i> Sobre Mi</a>
-           </li>
-           <li class="nav-item  p-0 wow slideInRight" data-wow-duration="4s">
-                <a class="nav-link"  href="http://blog.landercorp.mx" ><i class="fa fa-code"></i>  Blog</a>
-           </li> 
+        <ul class="navbar-nav"> 
+            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="3s">
+                  <a class="nav-link"  href="#SobreMi" ><i class="fa fa-smile-wink"></i> Sobre Mi</a>
+            </li>
+            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="4s">
+                  <a class="nav-link"  href="http://blog.landercorp.mx" ><i class="fa fa-code"></i>  Blog</a>
+            </li> 
+            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="1s" >
+              <a class="nav-link"   href="#Servicios" ><i class="fa fa-laptop-code"></i> Servicios</a>
+        </li>
+        <li class="nav-item  p-0 wow slideInRight" data-wow-duration="2s">
+              <a class="nav-link" href="#Portafolio" ><i class="fa fa-briefcase"></i> Portafolio</a>
+        </li>
            <li class="nav-item p-0" >
             <a class="nav-link btn btn-warning d-none d-lg-block text-white wow slideInRight pulse" data-wow-duration="5s"   href="#contacto" onclick="scrollToDownload()">
               Solicita una cotización
