@@ -42,8 +42,8 @@
     <div class="container">
       <div class="navbar-translate">
         <a class="navbar-brand" href="#">
-          <img src="sistema/images/icono_claro.svg"  class="img-fluid rounded-circle shadow-lg icon-claro wow slideInLeft" data-wow-duration="6s"width="8%" alt="">
-          <img src="sistema/images/icono_oscuro.svg"  class="img-fluid rounded-circle shadow-lg icon-oscuro wow slideInLeft" data-wow-duration="6s" width="8%" alt="">
+          <img src="sistema/images/icono.jpg"  class="img-fluid rounded-circle shadow-lg icon-claro wow slideInLeft" data-wow-duration="6s"width="8%" alt="">
+          <img src="sistema/images/icono.jpg"  class="img-fluid rounded-circle shadow-lg icon-oscuro wow slideInLeft" data-wow-duration="6s" width="8%" alt="">
         </a>
         <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-bar bar1"></span>
@@ -69,20 +69,17 @@
         </div>
         <ul class="navbar-nav"> 
             <li class="nav-item  p-0 wow slideInRight" data-wow-duration="3s">
-                  <a class="nav-link"  href="#SobreMi" ><i class="fa fa-smile-wink"></i> Sobre Mi</a>
+                  <a class="nav-link"  href="#SobreMi" ><i class="fa fa-smile-wink"></i> Me</a>
+            </li> 
+            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="2s">
+                  <a class="nav-link" href="#Portafolio" ><i class="fa fa-laptop-code"></i> Portafolio</a>
             </li>
             <li class="nav-item  p-0 wow slideInRight" data-wow-duration="4s">
-                  <a class="nav-link"  href="http://blog.landercorp.mx" ><i class="fa fa-code"></i>  Blog</a>
-            </li> 
-            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="1s" >
-              <a class="nav-link"   href="#Servicios" ><i class="fa fa-laptop-code"></i> Servicios</a>
-        </li>
-        <li class="nav-item  p-0 wow slideInRight" data-wow-duration="2s">
-              <a class="nav-link" href="#Portafolio" ><i class="fa fa-briefcase"></i> Portafolio</a>
-        </li>
+                  <a class="nav-link"  href="http://blog.landercorp.mx" ><i class="fa fa-code"></i> Blog</a>
+            </li>  
            <li class="nav-item p-0" >
             <a class="nav-link btn btn-warning d-none d-lg-block text-white wow slideInRight pulse" data-wow-duration="5s"   href="#contacto" onclick="scrollToDownload()">
-              Solicita una cotización
+              Get in touch
             </a>
           </li>
            
@@ -121,24 +118,24 @@
             <div> 
               <br>
               <br>
-            <h4 class="wow slideInLeft text-blue" data-wow-duration="4s"><span >Desarrollador Web y Swift </span></h4>
-            <p class="text-white mb-3 wow slideInLeft" data-wow-duration="5s">¡Hola mi nombres es Misael! Ayudo a las empresas a aumentar sus ganancias y digitalizar sus procesos mediante elegantes y modernas <strong> Apps, Sitios Web y Sistemas Informáticos</strong> </p>
+            <h4 class="wow slideInLeft text-blue" data-wow-duration="4s"><span >Swift, Objetive-C, UIKit and SwiftUI  </span></h4>
+            <p class="text-white mb-3 wow slideInLeft" data-wow-duration="5s">Hi, my name is Misael. I like to help companies grow their businesses. <strong>Creating elegant and inclusive websites and apps.</strong> </p>
             <div class="btn-wrapper mb-3">
-            <a href="#contacto" class="btn btn-success btn-link btn-sm wow slideInLeft" data-wow-duration="6s" > <p class="category text-success d-inline">Cuentame sobre tu proyecto <i class="tim-icons icon-minimal-right"></i></p></a>
+            <a href="#contacto" class="btn btn-success btn-link btn-sm wow slideInLeft" data-wow-duration="6s" > <p class="category text-success d-inline">Tell me about your project.<i class="tim-icons icon-minimal-right"></i></p></a>
             </div>
             </div>
 
             <div class="btn-wrapper">
             
               <div class="button-container">
-                <a href="<?php echo $datosEmpresa[0]['twtr']?>" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="3s">
+                <a href="https://twitter.com/MisaelLandero" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="3s">
                   <i class="fab fa-twitter"></i>
                 </a>
-                <a href="<?php echo $datosEmpresa[0]['inst']?>" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="2s"   >
+                <a href="https://www.instagram.com/misaellandero" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="2s"   >
                   <i class="fab fa-instagram"></i>
                 </a>
-                <a href="<?php echo $datosEmpresa[0]['fb']?>" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="1s">
-                  <i class="fab fa-facebook"></i>
+                <a href="https://www.linkedin.com/mwlite/in/francisco-misael-landero-ychante-07b6a9122" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="1s">
+                  <i class="fa fa-briefcase"></i>
                 </a>
               </div>
             </div>
@@ -147,149 +144,163 @@
         </div>
       </div>
     </div>
-
-    <section class="section section-lg section-coins">
-      <img src="blk-desing/assets/img/path3.png" class="path">
+    <section class="servicios main wow fadeInDown" data-wow-duration="3s"  id="SobreMi">
       <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <hr class="line-info">
-            <h1 class="wow fadeInRight" data-wow-duration="3s" >
-              <span > Herramientas y soluciones para todos</span>
-              <span class="text-info" >nuestras Apps y Sistemas</span>
-            </h1>
+        <div class="row d-flex justify-content-center">
+          <div class="menu-content pb-60 col-lg-10">
+          <div class="title text-white text-center"> 
+            <div class="row d-flex justify-content-center">
+              <div class="menu-content pb-60 col-lg-10">
+                <div class="">
+                  <br>
+                  <br>
+                  <br>
+                    <h1 class="wow fadeInDown animated" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;"><i class="fa fa-smile-wink"></i> Me</h1>
+                    <br>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-6">
+
+<h3 class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">Hello, my name is Misael Landero. </h3>
+<div class="text-justify">
+<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;">  I am a student at the National Autonomous University of Mexico  <a href="">#UNAM</a> (2014).</p>
+<p class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;"> spend a lot of my time as a volunteer, teaching people about the Bible and how it can give them hope and improve their lives. If you want to learn more about this, visit <a href="https://web.archive.org/web/20201113164838/https://www.jw.org/es">JW.ORG</a>.</p>
+<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;">To support myself, I program and design websites and computer systems.</p>
+
+<p class="wow fadeInUp" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;">Since I was a child, computers have been a part of my life, and now I want to share what I love and what I've learned with those who need it.</p>
+<p class="wow fadeInDown" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;"> With fresh, innovative solutions tailored exactly to your needs, whatever you need will become a reality.</p>
+<br>
+<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;"><H5>2022 UPDATE:</H5></p>
+<p class="wow fadeInUp" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;">A lot has change since 2014 i finally finish college and get my degree i also work at <a href="">Dexcom</a> on the <a href="">G6 App</a></p>
+<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;">Im an iOS developer but still do some web, i love my work and im going to keep the old bio because i like to remeber how i started.</p>
+<p class="wow fadeInUp" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;">BTW i still love to help people to learn about God check my own app <a href="">Revisits</a> a tool for Jehovah witness</p>
+</div>  
+</div>
+
+<div class="col-md-6">
+<img class="img-fluid rounded" src="sistema/images/misaellandero.JPG" alt="">
+<div class="text-justify">
+
+<p>I live in Mexico and have been programming since I was 17 (2014).</p> 
+</div>
+</div> 
+
+ 
+</div>
+                </div>
+              </div>
+            </div>
+          </div> 
           </div>
+          </div>
+        </div>						
+        </section> 
+
+    <section id="Portafolio" class="section section-lg section-coins">
+      <img src="blk-desing/assets/img/path3.png" class="path">
+      <div class="container"> 
+        <br>
+        <br>
+        <div class="row">  
+          <div class="wow fadeInRight col-md-12 content-center" data-wow-duration="3s">  
+         <h1> <i class="fa fa-laptop-code"></i> Portafolio</h1>
+          </div> 
         </div>
         <div class="row" id="pq_comprar">
           <div class="col-md-4">
             <div class="card card-coin card-plain">
               <div class="card-header">
-                <img src="blk-desing/assets/img/bitcoin.png" class="img-center img-fluid">
+                <img src="sistema/images/imagen_promocional/RevisitsLogo.png" class="img-center img-fluid">
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-12 text-center">
-                    <h4 class="text-uppercase">Light Coin</h4>
-                    <span>Plan</span>
-                    <hr class="line-primary">
+                    <h4 class="text-uppercase">Revisits</h4>
+                    <span>iOS macOS ipadOS</span>
+                    <hr class="line-primary"> 
+                    <p>Return Visits Manager</p> 
+                    <hr class="line-primary"> 
                   </div>
                 </div>
                 <div class="row">
                   <ul class="list-group">
-                    <li class="list-group-item">50 messages</li>
-                    <li class="list-group-item">100 emails</li>
-                    <li class="list-group-item">24/7 Support</li>
+                    <li class="list-group-item">SwiftUI</li>
+                    <li class="list-group-item">Coredata</li>
+                    <li class="list-group-item">CloudKit</li>
                   </ul>
                 </div>
               </div>
               <div class="card-footer text-center">
-                <button class="btn btn-primary btn-simple">Get plan</button>
+                <a href="https://apps.apple.com/us/app/revisits/id1513271477" class="btn btn-dark btn-round">Get on Appstore </a>
+              </div>
+              <div class="card-footer text-center">
+                <a href="Apps/Revisits/index_revisitas.html">Go to the website</a>
               </div>
             </div>
           </div>
           <div class="col-md-4">
             <div class="card card-coin card-plain">
               <div class="card-header">
-                <img src="blk-desing/assets/img/etherum.png" class="img-center img-fluid">
+                <img src="sistema/images/imagen_promocional/Notarios.png" class="img-center img-fluid">
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-12 text-center">
-                    <h4 class="text-uppercase">Dark Coin</h4>
-                    <span>Plan</span>
+                    <h4 class="text-uppercase">Notarios CDMX</h4>
+                    <span>iOS ipadOS</span>
                     <hr class="line-success">
+                    <p>CDMX's notaries directory </p> 
+                    <hr class="line-primary"> 
                   </div>
                 </div>
                 <div class="row">
                   <ul class="list-group">
-                    <li class="list-group-item">150 messages</li>
-                    <li class="list-group-item">1000 emails</li>
-                    <li class="list-group-item">24/7 Support</li>
+                    <li class="list-group-item">SwiftUI</li>
+                    <li class="list-group-item">FireBase</li>
+                    <li class="list-group-item">PWA</li>
                   </ul>
                 </div>
               </div>
               <div class="card-footer text-center">
-                <button class="btn btn-success btn-simple">Get plan</button>
-              </div>
+                <a href="https://apps.apple.com/us/app/directorio-notarios-cdmx/id1544000342" class="btn btn-dark btn-round">Get on Appstore </a>
+              </div> 
             </div>
           </div>
           <div class="col-md-4">
             <div class="card card-coin card-plain">
               <div class="card-header">
-                <img src="blk-desing/assets/img/ripp.png" class="img-center img-fluid">
+                <img src="sistema/images/imagen_promocional/handsUpLesco.png" class="img-center img-fluid">
               </div>
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-12 text-center">
-                    <h4 class="text-uppercase">Bright Coin</h4>
-                    <span>Plan</span>
-                    <hr class="line-info">
+                    <h4 class="text-uppercase">Hands Up Lesco</h4>
+                    <span>iOS macOS ipadOS</span> 
+                    <hr class="line-success">
+                    <p>Language of signs</p> 
+                    <hr class="line-primary"> 
                   </div>
                 </div>
                 <div class="row">
                   <ul class="list-group">
-                    <li class="list-group-item">350 messages</li>
-                    <li class="list-group-item">10K emails</li>
-                    <li class="list-group-item">24/7 Support</li>
+                    <li class="list-group-item">SwiftUI</li>
+                    <li class="list-group-item">Coredata</li>
+                    <li class="list-group-item">VideoGame</li>
                   </ul>
                 </div>
               </div>
-              <div class="card-footer text-center">
-                <button class="btn btn-info btn-simple">Get plan</button>
+              <div class="card-footer text-center"> 
+                <a href="https://www.facebook.com/HandsUpCR" class="btn btn-info btn-round">Get info <i class="fab fa-facebook"></i></a> 
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-
-  <?php 
-			include 'sistema/estructura/tienda/detalles_articulo.php';
-		?>
+    </section> 
+  
    
-    <div class="main servicios" id="Servicios"> 
-    <br>
-    <br>
-    <div class="content-center wow fadeInUp" data-wow-duration="3s" >
       <br>
-      <br>
-     <h1><i class="fa fa-laptop-code"></i> Servicios</h1>
-     <p>Soluciones a la medida para nuestros clientes</p>
-    </div> 
-    <div class="bd-example wow fadeInUp" data-wow-duration="3s">
-												<div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-															<ol class="carousel-indicators" id="indicadores"> 
-															</ol>
-															<div class="carousel-inner " id="carousel"> </div>
-															<a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-																<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-																<span class="sr-only">Previous</span>
-															</a>
-															<a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-																<span class="carousel-control-next-icon" aria-hidden="true"></span>
-																<span class="sr-only">Next</span>
-															</a>
-											 </div>
-											
-										</div>
-    </div>
-
-    <div class="main" id="Portafolio">
-    <br>
-    <br>        
-    <div class="content-center">
-      <br>
-      <br>
-      <h1 class="white-text wow fadeInDown" data-wow-duration="3s" ><i class="fa fa-briefcase"></i> Portafolio</h1>
-      <div class="container-fluid">
-        <div id="productos-destacados"  class="row wow zoomInUp" data-wow-duration="3s"> 
-        </div>	 
-      </div>
-      <br>
-
-      <a role="button" id="ver_mas_portafolio" class="btn btn-dark btn-default btn-lg wow fadeInUp" data-wow-duration="3s"  > Ver más</a>
-      <h1 class="white-text todos-portafolio wow fadeInDown" data-wow-duration="3s" >Todos mi trabajos</h1>
-      <p class="white-text">Elije una categoria para cargar todos los trabjos</p>
+  
      <div class="container">
           
       <div class="row"> 
@@ -312,31 +323,7 @@
     </div> 
     </div> 
 
-      <section class="servicios main wow fadeInDown" data-wow-duration="3s"  id="SobreMi">
-									<div class="container">
-										<div class="row d-flex justify-content-center">
-											<div class="menu-content pb-60 col-lg-10">
-											<div class="title text-white text-center"> 
-												<div class="row d-flex justify-content-center">
-													<div class="menu-content pb-60 col-lg-10">
-														<div class="">
-                              <br>
-                              <br>
-                              <br>
-																<h1 class="wow fadeInDown animated" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;"><i class="fa fa-smile-wink"></i> Sobre Mi.</h1>
-																<br>
-																<br>
-																<div class="row">
-																	<?php echo $datosEmpresa[0]['sobre_nosotros_largo'];?> 	  	
-																</div>
-														</div>
-													</div>
-												</div>
-											</div> 
-											</div>
-											</div>
-										</div>						
-                    </section>
+      
     
     <section id="contacto">
     <div class="page-header">
@@ -349,20 +336,17 @@
               <br>
               <div class="card card-home wow fadeInLeft" data-wow-duration="3s" >
                 <div class="card-header"> 
-                  <h2 class="card-title wow slideInRight" >Solicita tu cotización</h2>
+                  <h2 class="card-title wow slideInRight" >Request your quote</h2>
                 </div>
                 <div class="card-body wow slideInRight"> 
-                <h1 class=""><strong>Tomemos un ☕️ cafe y conversemos sobre tu idea, yo invito 😉.</strong> <br> </h1>
-                <h3>Podemos comenzar desde cero e ir desarrollando tu proyecto paso a paso <strong> envía un correo 📮 o contacta por redes sociales </strong> estaré feliz de darte una cotización sin costo.</h3>
+                <h1 class=""><strong>Let's grab a ☕️ coffee and chat about your idea, I'll treat 😉.</strong> <br> </h1>
+                <h3>We can start from scratch and develop your project step by step, <strong>send an email 📮 </strong> or contact me on social media, I will be happy to give you a free quote.</h3>
                 <p></p>
                 </div>
                 <div class="card-footer">
                
-                  <a href="mailto:<?php echo $datosEmpresa[0]["mail"]?>" class="btn btn-info btn-default btn-lg wow slideInUp" data-wow-duration="1s"><i class="fa fa-envelope"></i> Email</a>
-              
-                  <a  href="https://<?php echo $datosEmpresa[0]['mgn'];?>"  class="btn btn-warning btn-lg wow slideInUp" data-wow-duration="2s"><i class="fab fa-facebook-messenger"></i> Menssager</a>
+                  <a href="mailto:hola@misaellandero.com" class="btn btn-info btn-default btn-lg wow slideInUp" data-wow-duration="1s"><i class="fa fa-envelope"></i> Email</a>
                
-                  <a href="https://api.whatsapp.com/send?phone=<?php echo $datosEmpresa[0]['wtsp'];?>" class="btn btn-success btn-default btn-lg wow slideInUp" data-wow-duration="3s"><i class="fab fa-whatsapp"></i> Whatsapp</a>
                 </div>
               </div>
             </div>  
@@ -388,16 +372,16 @@
           </div>
 						<div class="col-lg-5 col-md-6 col-sm-6">
 							<div class="single-footer-widget">
-								<h6>Aviso Legal</h6>
-								Al usar este sitio se entiende que usted acepta nuestros <a class="terminos"  data-toggle="modal" data-target="#modal-terminos" href="#" > <i class="fa fa-file-text"> terminos y condiciones</i></a> de uso.
+								<h6>Legal</h6>
+								misaellandero.com does not collect personal information.
 								<p class="footer-text text-white">
                   <br>
 									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                  <img src="sistema/images/icono_claro.svg"  class="img-fluid rounded-circle shadow-lg icon-claro wow infinite pulse"      width="8%" alt="">
-                  <img src="sistema/images/icono_oscuro.svg"  class="img-fluid rounded-circle shadow-lg icon-oscuro wow  infinite pulse"  width="8%" alt="">
+                  <img src="sistema/images/icono.jpg"  class="img-fluid rounded-circle shadow-lg icon-claro wow infinite pulse"      width="8%" alt="">
+                  <img src="sistema/images/icono.jpg"  class="img-fluid rounded-circle shadow-lg icon-oscuro wow  infinite pulse"  width="8%" alt="">
                   <br>
                   <br>
-									<?php echo $datosEmpresa[0]['nombre'];?> Copyright &copy;<script>document.write(new Date().getFullYear());</script> | Todos los derechos reservados | Esta pagina web es un producto artesanal hecho a mano por <a href="http://www.landercorp.mx" target="_blank">LanderCorp.mx</a>
+									Copyright &copy;<script>document.write(new Date().getFullYear());</script> | All rights reserved | This website is a handmade artisan product by <a href="misaellandero.com" target="_blank">misaellandero.com</a>
 									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								</p>
 														
@@ -405,38 +389,29 @@
 						</div>
 						<div class="col-lg-3  col-md-3 col-sm-3">
 							<div class="single-footer-widget">
-							   <h6>Sobre nosotros</h6>
-								<p class="text-white">
-								<?php echo $datosEmpresa[0]['sobre_nosotros_corto'];?>	
-								</p>
+							  
 								
 							</div>
 							
 						</div>						
 						<div class="col-lg-2 col-md-6 col-sm-6 social-widget">
 							<div class="single-footer-widget">
-								<h6>Siguenos</h6>
-                <p class="text-white">En nuestras redes sociales</p>
+								<h6>Follow us</h6>
+                <p class="text-white">On social networks</p>
                 <div class="button-container">
-                <a href="<?php echo $datosEmpresa[0]['twtr']?>" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="3s">
-                  <i class="fab fa-twitter"></i>
-                </a>
-                <a href="<?php echo $datosEmpresa[0]['inst']?>" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="2s"   >
-                  <i class="fab fa-instagram"></i>
-                </a>
-                <a href="<?php echo $datosEmpresa[0]['fb']?>" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="1s">
-                  <i class="fab fa-facebook"></i>
-                </a>
+                  <a href="https://twitter.com/MisaelLandero" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="3s">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                  <a href="https://www.instagram.com/misaellandero" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="2s"   >
+                    <i class="fab fa-instagram"></i>
+                  </a>
+                  <a href="https://www.linkedin.com/mwlite/in/francisco-misael-landero-ychante-07b6a9122" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="1s">
+                    <i class="fa fa-briefcase"></i>
+                  </a>
               </div>
 							 
 							</div>
-							<br>
-							<div class="single-footer-widget">
-							<h5 class="text-white">Administración</h5>
-								<ul class="list-unstyled text-small">
-									<li><a href="sistema/home.php"> <i class="fa fa-user"></i> Iniciar Sesión</a></li> 
-								</ul>	
-							</div>
+							<br> 
 						</div>  
 					</div>
 				</div>
