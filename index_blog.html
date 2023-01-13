@@ -2,6 +2,9 @@
 layout: default
 ---
 <div class="posts">
+  <h2>{{ post.title }}</h2>
+  <p>{{ post.excerpt }}</p>
+  <p>Site Variable: {{ site }}</p>
   {% for post in site.posts %}
      <h1>Test</h1>
   {% endfor %}
