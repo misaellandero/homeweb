@@ -39,6 +39,8 @@ disqus: Misael Landero
 # Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
 google_analytics:
 
+domain: misaellandero.com     # if you want to force HTTPS, specify the domain without the http at the start, e.g. example.com
+ 
 # Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
 # Used for Sitemap.xml and your RSS feed
 url: https://misaellandero.com
