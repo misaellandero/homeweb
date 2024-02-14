@@ -1,0 +1,37 @@
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+apellido	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $apellido = trim($_POST['apellidos']);$/;"	v	language:PHP
+apellido	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $apellido = trim($_POST['apellidos']);$/;"	v	language:PHP
+conn	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $conn = require_once '..\/conexion.php';$/;"	v	language:PHP
+conn	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $conn = require_once '..\/conexion.php';$/;"	v	language:PHP
+email	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $email = '';$/;"	v	language:PHP
+email	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $email = '';$/;"	v	language:PHP
+id	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^          $id = $row['id'];$/;"	v	language:PHP
+id	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^       $id = $conn->lastInsertId();$/;"	v	language:PHP
+id	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^   $id = 0;$/;"	v	language:PHP
+id	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^          $id = $row['id'];$/;"	v	language:PHP
+id	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^       $id = $conn->lastInsertId();$/;"	v	language:PHP
+id	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^   $id = 0;$/;"	v	language:PHP
+id_perfil	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $id_perfil = 0;$/;"	v	language:PHP
+id_perfil	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $id_perfil = 0;$/;"	v	language:PHP
+nombre	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $nombre = trim($_POST['nombre']);$/;"	v	language:PHP
+nombre	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $nombre = trim($_POST['nombre']);$/;"	v	language:PHP
+password	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $password = '';$/;"	v	language:PHP
+password	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $password = '';$/;"	v	language:PHP
+result	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^       $result = $conn->prepare($sql) or die ($sql);$/;"	v	language:PHP
+result	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^   $result = $conn->prepare($sql) or die ($sql);$/;"	v	language:PHP
+result	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^   $result = $conn->prepare($sql) or die ($sql);$/;"	v	language:PHP
+result	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^       $result = $conn->prepare($sql) or die ($sql);$/;"	v	language:PHP
+result	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^   $result = $conn->prepare($sql) or die ($sql);$/;"	v	language:PHP
+result	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^   $result = $conn->prepare($sql) or die ($sql);$/;"	v	language:PHP
+sql	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^       $sql = "INSERT INTO `usuarios_usuarios` (nombre, apellido, telefono, email, id_perfil, password, token, state) values (:nombre, :apellido, :telefono, :email, :id_perfil, :password, :token, :state)";$/;"	v	language:PHP
+sql	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^   $sql = "SELECT * FROM `usuarios_usuarios` WHERE `id` = '$id' ";$/;"	v	language:PHP
+sql	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^   $sql = "SELECT * FROM `usuarios_usuarios` WHERE `token` = '$token' ";$/;"	v	language:PHP
+sql	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^       $sql = "INSERT INTO `usuarios_usuarios` (nombre, apellido, telefono, email, id_perfil, password, token, state) values (:nombre, :apellido, :telefono, :email, :id_perfil, :password, :token, :state)";$/;"	v	language:PHP
+sql	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^   $sql = "SELECT * FROM `usuarios_usuarios` WHERE `id` = '$id' ";$/;"	v	language:PHP
+sql	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^   $sql = "SELECT * FROM `usuarios_usuarios` WHERE `telefono` = '$telefono' ";$/;"	v	language:PHP
+state	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $state = trim($_POST['state']);$/;"	v	language:PHP
+state	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $state = trim($_POST['state']);$/;"	v	language:PHP
+telefono	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $telefono = trim($_POST['telefono']);$/;"	v	language:PHP
+telefono	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $telefono = trim($_POST['telefono']);$/;"	v	language:PHP
+token	/media/jorsh/Data/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $token = trim($_POST['token']);$/;"	v	language:PHP
+token	/var/www/html/inventario_punto_venta/sistema/php/users/crear.php	/^  $token = trim($_POST['token']);$/;"	v	language:PHP

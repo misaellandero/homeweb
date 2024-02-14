@@ -1,0 +1,33 @@
+CREATE TABLE `configuraciones_tienda` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cabezera_titulo` text NOT NULL,
+  `cabezara_texto` text NOT NULL,
+  `img_portada` text NOT NULL,
+  `titulo_tienda` text,
+  `ver_mas_dir` text,
+  `modo_produccion` int(11) DEFAULT NULL,
+  `paypal_com_fija` decimal(10,2) DEFAULT NULL,
+  `paypal_com_tarjeta` decimal(10,2) DEFAULT NULL,
+  `cordenada_mapa` text,
+  `paypal` int(11) NOT NULL,
+  `paypal_cliente_id_sandbox` text,
+  `paypal_secret_sandbox` text,
+  `paypal_cliente_id` text,
+  `paypal_secret` text,
+  `openpay` int(11) DEFAULT NULL,
+  `openpay_com_fija` decimal(10,2) DEFAULT NULL,
+  `openpay_com_tarjeta_0` decimal(10,2) DEFAULT NULL,
+  `openpay_cliente_id_sandbox` text,
+  `openpay_secret_sandbox` text,
+  `openpay_cliente_id` text,
+  `openpay_secret` text,
+  `openpay_public_sandbox` text,
+  `openpay_public` text,
+  `openpay_com_tarjeta_3` decimal(10,2) NOT NULL,
+  `openpay_com_tarjeta_6` decimal(10,2) NOT NULL,
+  `openpay_com_tarjeta_9` decimal(10,2) NOT NULL,
+  `openpay_com_tarjeta_12` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `configuraciones_tienda` (`id`, `cabezera_titulo`, `cabezara_texto`, `img_portada`, `titulo_tienda`, `ver_mas_dir`, `modo_produccion`, `paypal_com_fija`, `paypal_com_tarjeta`, `cordenada_mapa`, `paypal`, `paypal_cliente_id_sandbox`, `paypal_secret_sandbox`, `paypal_cliente_id`, `paypal_secret`, `openpay`, `openpay_com_fija`, `openpay_com_tarjeta_0`, `openpay_cliente_id_sandbox`, `openpay_secret_sandbox`, `openpay_cliente_id`, `openpay_secret`, `openpay_public_sandbox`, `openpay_public`, `openpay_com_tarjeta_3`, `openpay_com_tarjeta_6`, `openpay_com_tarjeta_9`, `openpay_com_tarjeta_12`) VALUES ('1', 'VERANO 2019', 'Vea lo nuevo de nuestra colección', 'portada', 'Tienda', '#productos', '0', '4.64', '20.24', NULL, '1', 'Abbn8ekpCn589HtRk1wfKm4s4M9qBW8z1b81QtPT2meNupzhXZXP4WiXCOcLO7tIbUX4rRbxyZYVT_i2', 'ENZfMD8OSZCZ3iJIVrKgbxkwKiKWEp8iT55bUxzKpAM2wOs-WdQoH3Obf8jceNynWW8W18obDYYjTJD5', 'AcieaxHeJbhBGb1olIangnAReC9pbNjSdRLJRXwVTP-X6fmniyKybQSDrx3y2ETX4Dj9g3a8zvwBm4sz', 'ECKmzpVn-4yeKOeCacMfZgt2iwNN0yUVxZ_-hqHXF6bujoXQLIHycg4zHcfRe08UHgxWAYHhk92X9R_I', '1', '4.00', '2.90', 'mccoygxz4bxfobm2vpo2', 'sk_c4cade22b6fa4ecfb61b6167fad6aba8', ' ', '', 'pk_2660475754774df084c6951144ef3fb2', ' ', '4.80', '7.80', '10.80', '13.80');
