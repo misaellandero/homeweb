@@ -17,7 +17,12 @@ body {
   background-color: rgb(255, 255, 255);
 }
  
- 
+.beta-area {
+  background: url(../img/beta-bg.JPG) center;
+  background-size: cover;
+}
+
+
 .btn-circle {
   width: 30px;
   height: 30px;
