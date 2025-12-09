@@ -69,6 +69,7 @@ let rolActual = "verificador";
 let filtrosEtiquetas = new Set();
 let etiquetasDisponibles = [];
 let dataTable = null;
+let waitlistDataTable = null;
 let configuracionFechas = null;
 
 // Configura los correos permitidos para cada rol.
@@ -288,17 +289,29 @@ function obtenerInfoLado(lado) {
   return { render: `<span class="status-pill status-pill--desconocido">${lado}</span>` };
 }
 
-function renderAcciones(id) {
+function renderAcciones(id, opciones = {}) {
+  const incluirPromover = !!opciones.incluirPromover;
+  const puedePromover = opciones.puedePromover !== false;
   const puedeEditar = true;
   const puedeBorrar = rolActual === "admin";
-  return `
-    <button class="btn btn--ghost" data-action="seleccionar" data-id="${id}" ${
+  const botones = [
+    `<button class="btn btn--ghost" data-action="seleccionar" data-id="${id}" ${
       puedeEditar ? "" : "disabled"
-    }>Editar</button>
-    <button class="btn btn--ghost btn--danger" data-action="borrar" data-id="${id}" ${
+    }>Editar</button>`,
+    `<button class="btn btn--ghost btn--danger" data-action="borrar" data-id="${id}" ${
       puedeBorrar ? "" : "disabled"
-    }>Borrar</button>
-  `;
+    }>Borrar</button>`,
+  ];
+  if (incluirPromover) {
+    botones.push(
+      `<button class="btn btn--ghost" data-action="promover" data-id="${id}" ${
+        puedePromover ? "" : "disabled"
+      }>
+        Subir a invitado
+      </button>`
+    );
+  }
+  return botones.join("");
 }
 
 function actualizarEtiquetasDisponibles() {
@@ -414,7 +427,8 @@ function mapInvitadoToRow(invitado) {
   };
 }
 
-function construirColumnasDataTable() {
+function construirColumnasDataTable(opciones = {}) {
+  const incluirPromover = !!opciones.incluirPromover;
   return [
     { data: "nombreCompleto", title: "Nombre completo" },
     {
@@ -458,7 +472,13 @@ function construirColumnasDataTable() {
       title: "Acciones",
       orderable: false,
       searchable: false,
-      render: (data, type) => (type === "display" ? renderAcciones(data) : data),
+      render: (data, type, row) =>
+        type === "display"
+          ? renderAcciones(data, {
+              incluirPromover,
+              puedePromover: row?.puedePromover !== false,
+            })
+          : data,
     },
   ];
 }
@@ -484,59 +504,40 @@ function pintarTabla() {
     dataTable.rows.add(data);
     dataTable.draw();
   }
-  renderTablaListaEspera();
+  pintarTablaListaEspera();
   actualizarResumenCapacidad();
 }
 
-function renderTablaListaEspera() {
+function pintarTablaListaEspera() {
   if (!waitlistBody) return;
   const disponibles = calcularDisponibles();
-  const puedePromover = typeof disponibles === "number" ? disponibles > 0 : false;
-  const lista = invitadosCache
+  const waitlistData = invitadosCache
     .filter((inv) => inv.esListaEspera)
-    .sort((a, b) => {
-      const prioA = typeof a.prioridadListaEspera === "number" ? a.prioridadListaEspera : 9999;
-      const prioB = typeof b.prioridadListaEspera === "number" ? b.prioridadListaEspera : 9999;
-      return prioA - prioB;
-    });
-
-  if (!lista.length) {
-    waitlistBody.innerHTML =
-      '<tr><td colspan="4">No hay invitados en lista de espera.</td></tr>';
-    return;
-  }
-
-  waitlistBody.innerHTML = lista
     .map((inv) => {
-      const prio =
-        inv.prioridadListaEspera ?? "—";
-      const estado = inv.estadoInvitacion || "Pendiente";
-      const estadoInfo = inv.esListaEspera
-        ? { label: "Lista de espera", className: "status-pill--waitlist" }
-        : obtenerInfoEstado(estado);
-      const disabled = !puedePromover ? "disabled" : "";
-      const puedeEditar = true;
-      const puedeBorrar = rolActual === "admin";
-      return `
-        <tr data-id="${inv.id}">
-          <td>${inv.nombreCompleto || "Sin nombre"}</td>
-          <td>${prio}</td>
-          <td>${estadoInfo ? renderEstadoPill(estadoInfo) : estado}</td>
-          <td>
-            <button class="btn btn--ghost" data-action="seleccionar" ${
-              puedeEditar ? "" : "disabled"
-            }>Editar</button>
-            <button class="btn btn--ghost btn--danger" data-action="borrar" ${
-              puedeBorrar ? "" : "disabled"
-            }>Borrar</button>
-            <button class="btn btn--ghost" data-action="promover" ${disabled}>
-              Subir a invitado
-            </button>
-          </td>
-        </tr>
-      `;
-    })
-    .join("");
+      const row = mapInvitadoToRow(inv);
+      row.puedePromover =
+        typeof disponibles === "number"
+          ? (Number(inv.numInvitadosPermitidos) || 0) <= disponibles
+          : false;
+      return row;
+    });
+  if (!waitlistDataTable) {
+    waitlistDataTable = $("#tabla-lista-espera").DataTable({
+      data: waitlistData,
+      columns: construirColumnasDataTable({ incluirPromover: true }),
+      responsive: true,
+      language: {
+        url: "https://cdn.datatables.net/plug-ins/1.13.8/i18n/es-MX.json",
+      },
+      createdRow: (row, rowData) => {
+        row.dataset.id = rowData.id;
+      },
+    });
+  } else {
+    waitlistDataTable.clear();
+    waitlistDataTable.rows.add(waitlistData);
+    waitlistDataTable.draw();
+  }
 }
 
 /**
@@ -859,9 +860,10 @@ waitlistBody?.addEventListener("click", (event) => {
 
   if (action === "promover") {
     const disponibles = calcularDisponibles();
-    if (disponibles !== null && disponibles <= 0) {
+    const cupoNecesario = Number(invitado.numInvitadosPermitidos) || 0;
+    if (disponibles !== null && disponibles < cupoNecesario) {
       if (waitlistStatus) {
-        waitlistStatus.textContent = "No hay cupos libres para subir invitados.";
+        waitlistStatus.textContent = "No hay cupos suficientes para este invitado.";
       }
       return;
     }
@@ -1163,7 +1165,21 @@ function obtenerCapacidadMaxima() {
 }
 
 function contarInvitadosActivos() {
-  return invitadosCache.filter((invitado) => !invitado.esListaEspera).length;
+  return invitadosCache
+    .filter((invitado) => !invitado.esListaEspera)
+    .reduce(
+      (acc, invitado) => acc + (Number(invitado.numInvitadosPermitidos) || 0),
+      0
+    );
+}
+
+function contarInvitadosListaEspera() {
+  return invitadosCache
+    .filter((invitado) => invitado.esListaEspera)
+    .reduce(
+      (acc, invitado) => acc + (Number(invitado.numInvitadosPermitidos) || 0),
+      0
+    );
 }
 
 function calcularDisponibles() {
@@ -1187,8 +1203,7 @@ function actualizarResumenCapacidad() {
   const libres = disponibles ?? 0;
   summaryDisponibles.textContent = `${libres} disponibles de ${max}`;
   if (headerActivos) headerActivos.textContent = contarInvitadosActivos();
-  if (headerEspera)
-    headerEspera.textContent = invitadosCache.filter((inv) => inv.esListaEspera).length;
+  if (headerEspera) headerEspera.textContent = contarInvitadosListaEspera();
   if (headerDisponibles) headerDisponibles.textContent = libres;
   if (waitlistStatus) {
     waitlistStatus.textContent =
@@ -1241,8 +1256,10 @@ function validarFechasPromover(fechas) {
 async function promoverInvitadoListaEspera(fechas) {
   if (!invitadoListaEsperaSeleccionado) return;
   const disponibles = calcularDisponibles();
-  if (disponibles !== null && disponibles <= 0) {
-    if (promoverMensaje) promoverMensaje.textContent = "No hay cupos disponibles.";
+  const cupoNecesario =
+    Number(invitadoListaEsperaSeleccionado.numInvitadosPermitidos) || 0;
+  if (disponibles !== null && disponibles < cupoNecesario) {
+    if (promoverMensaje) promoverMensaje.textContent = "No hay cupos disponibles suficientes.";
     return;
   }
   try {
