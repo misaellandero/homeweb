@@ -372,6 +372,15 @@ textarea:focus {
   margin-bottom: 0.5rem;
 }
 
+.damas-card {
+  margin-top: 1.5rem;
+}
+
+#tabla-damas img {
+  max-width: 80px;
+  border-radius: var(--radius);
+}
+
 #estado-invitado p {
   margin: 0 0 0.35rem;
 }
@@ -776,6 +785,14 @@ th {
   color: inherit;
   cursor: pointer;
   font-size: 0.8rem;
+}
+
+.itinerary-form-card {
+  margin-bottom: 1.5rem;
+}
+
+#tabla-itinerario td {
+  vertical-align: middle;
 }
 
 .tag-chip {

@@ -122,6 +122,20 @@
               Itinerario
             </button>
           </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="tab-damas-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab-damas"
+              type="button"
+              role="tab"
+              aria-controls="tab-damas"
+              aria-selected="false"
+            >
+              Damas y Caballeros
+            </button>
+          </li>
         </ul>
 
         <div class="tab-content" id="panelTabsContent">
@@ -188,6 +202,8 @@
                     <th>Lado</th>
                     <th>Código</th>
                     <th>N° invitados</th>
+                    <th>Contacto</th>
+                    <th>Contactos adicionales</th>
                     <th>Estado</th>
                     <th>N° confirmados</th>
                     <th>Vestimenta</th>
@@ -234,6 +250,7 @@
               </table>
             </div>
           </section>
+
         </div>
 
         <div class="tab-pane fade" id="tab-fechas" role="tabpanel" aria-labelledby="tab-fechas-tab">
@@ -299,10 +316,77 @@
         </div>
 
         <div class="tab-pane fade" id="tab-itinerario" role="tabpanel" aria-labelledby="tab-itinerario-tab">
-          <div class="card">
+          <div class="card itinerary-form-card">
             <h2>Itinerario del evento</h2>
-            <p class="form-helper">Próximamente podrás gestionar horarios y actividades aquí.</p>
+            <form id="itinerario-form" class="form-grid">
+              <label>Nombre del evento
+                <input type="text" name="nombreEvento" placeholder="Ceremonia civil" required />
+              </label>
+              <label>Lugar
+                <input type="text" name="lugarEvento" placeholder="Salon, Jardín, etc." required />
+              </label>
+              <label>Horario
+                <input type="datetime-local" name="horaEvento" required />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Agregar al itinerario</button>
+              </div>
+              <p class="form-helper" id="itinerario-mensaje"></p>
+            </form>
           </div>
+
+          <section class="card">
+            <div class="table-header">
+              <h2>Eventos programados</h2>
+            </div>
+            <div class="table-wrapper">
+              <table class="display" id="tabla-itinerario">
+                <thead>
+                  <tr>
+                    <th>Evento</th>
+                    <th>Lugar</th>
+                    <th>Horario</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="itinerario-body">
+                  <tr>
+                    <td colspan="4">Todavía no hay eventos en el itinerario.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div class="tab-pane fade" id="tab-damas" role="tabpanel" aria-labelledby="tab-damas-tab">
+          <section class="card">
+            <div class="table-header">
+              <h2>Damas y Caballeros</h2>
+              <div class="table-actions">
+                <button id="add-dama-btn" class="btn btn--secondary hidden">Agregar</button>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table class="display" id="tabla-damas">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Lado</th>
+                    <th>Rol</th>
+                    <th>Vestuario</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="damas-body">
+                  <tr>
+                    <td colspan="6">Aún no hay damas ni caballeros registrados.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
         </div>
         </div>
 
@@ -334,6 +418,10 @@
                 />
               </label>
               <label>Número de invitados<input type="number" name="numInvitadosPermitidos" min="1" value="1" /></label>
+              <label>Número de contacto<input type="tel" name="contactoPrincipal" placeholder="Ej. +52 55 1234 5678" required /></label>
+              <label>Contactos adicionales (coma)
+                <input type="text" name="contactosAdicionales" placeholder="+52..., +1..." />
+              </label>
               <label>Estado (fase interna)
                 <select name="estadoInvitacion">
                   <option value="pendiente_primera_confirmacion">Invitación sin respuesta</option>
@@ -395,6 +483,49 @@
       </div>
     </div>
 
+    <div class="modal fade" id="modal-dama" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card">
+          <div class="modal-header">
+            <h2 class="modal-title">Damas y Caballeros</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form id="damas-form" class="form-grid">
+              <input type="hidden" name="id" />
+              <label>Nombre completo<input type="text" name="nombre" required /></label>
+              <label>Lado
+                <select name="lado">
+                  <option value="novia">Novia</option>
+                  <option value="novio">Novio</option>
+                </select>
+              </label>
+              <label>Rol
+                <select name="rol">
+                  <option value="dama">Dama de honor</option>
+                  <option value="caballero">Caballero</option>
+                </select>
+              </label>
+              <label>Vestuario confirmado
+                <select name="vestuarioConfirmado">
+                  <option value="false">Pendiente</option>
+                  <option value="true">Confirmado</option>
+                </select>
+              </label>
+              <label>Imagen del vestido o traje (URL)
+                <input type="url" name="imagen" placeholder="https://..." />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Guardar</button>
+                <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+              <p class="form-helper" id="damas-mensaje"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="modal-editar" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content card">
@@ -417,6 +548,8 @@
                 </select>
               </label>
               <label>Número confirmado de asistentes<input type="number" name="rsvpNumAsistentes" min="0" /></label>
+              <label>Número de contacto<input type="tel" name="contactoPrincipal" placeholder="Ej. +52 55 1234 5678" /></label>
+              <label>Contactos adicionales (coma)<input type="text" name="contactosAdicionales" placeholder="+52..., +1..." /></label>
               <label>Vestimenta lista<select name="vestimentaConfirmada"><option value="false">No</option><option value="true">Sí</option></select></label>
               <label>Viaje listo<select name="viajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
               <label>Hospedaje listo<select name="hospedajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>

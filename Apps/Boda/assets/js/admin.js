@@ -62,6 +62,14 @@ const crearEtiquetasSugerencia = document.getElementById("crear-etiquetas-sugere
 const editarEtiquetasSugerencia = document.getElementById("editar-etiquetas-sugerencia");
 const crearTagEditor = document.getElementById("crear-tag-editor");
 const editarTagEditor = document.getElementById("editar-tag-editor");
+const itinerarioForm = document.getElementById("itinerario-form");
+const itinerarioBody = document.getElementById("itinerario-body");
+const itinerarioMensaje = document.getElementById("itinerario-mensaje");
+const damasForm = document.getElementById("damas-form");
+const damasBody = document.getElementById("damas-body");
+const damasMensaje = document.getElementById("damas-mensaje");
+const addDamaBtn = document.getElementById("add-dama-btn");
+const modalDama = document.getElementById("modal-dama");
 
 const modalCrearInstance =
   typeof bootstrap !== "undefined" && modalCrear ? new bootstrap.Modal(modalCrear) : null;
@@ -69,6 +77,8 @@ const modalEditarInstance =
   typeof bootstrap !== "undefined" && modalEditar ? new bootstrap.Modal(modalEditar) : null;
 const modalPromoverInstance =
   typeof bootstrap !== "undefined" && modalPromover ? new bootstrap.Modal(modalPromover) : null;
+const modalDamaInstance =
+  typeof bootstrap !== "undefined" && modalDama ? new bootstrap.Modal(modalDama) : null;
 
 if (crearInvitadoForm && crearTagEditor) {
   actualizarTagEditor(crearInvitadoForm, crearTagEditor);
@@ -88,6 +98,9 @@ let etiquetasDisponibles = [];
 let dataTable = null;
 let waitlistDataTable = null;
 let configuracionFechas = null;
+let eventosItinerario = [];
+let damasCaballeros = [];
+let damaSeleccionada = null;
 
 // Configura los correos permitidos para cada rol.
 const ROLE_CONFIG = {
@@ -106,6 +119,9 @@ function actualizarUIporRol() {
   const esAdmin = rolActual === "admin";
   addInvitadoBtn?.classList.toggle("hidden", !esAdmin);
   deadlinePanel?.classList.toggle("hidden", !esAdmin);
+  itinerarioForm?.classList.toggle("hidden", !esAdmin);
+  damasForm?.classList.toggle("hidden", !esAdmin);
+  addDamaBtn?.classList.toggle("hidden", !esAdmin);
   if (borrarInvitadoBtn) {
     borrarInvitadoBtn.disabled = !esAdmin;
     borrarInvitadoBtn.title = esAdmin
@@ -225,6 +241,23 @@ function renderTagChips(valor) {
 
 function normalizarEtiqueta(tag = "") {
   return tag.trim().toLowerCase();
+}
+
+function parseContactos(valor = "") {
+  if (!valor) return [];
+  return valor
+    .split(",")
+    .map((contacto) => contacto.trim())
+    .filter(Boolean);
+}
+
+function renderContactChips(lista) {
+  if (!lista || !lista.length) {
+    return '<span class="tag-chip tag-chip--empty">Sin contactos</span>';
+  }
+  return `<div class="tags-cell">${lista
+    .map((contacto) => `<span class="tag-chip">${contacto}</span>`)
+    .join("")}</div>`;
 }
 
 function encontrarEtiquetaSimilar(nombre = "") {
@@ -438,6 +471,16 @@ function cerrarModal(modalInstance) {
   modalInstance?.hide();
 }
 
+function formatearFechaHora(fechaISO) {
+  if (!fechaISO) return "--";
+  const fecha = new Date(fechaISO);
+  if (Number.isNaN(fecha.getTime())) return "--";
+  return new Intl.DateTimeFormat("es-MX", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(fecha);
+}
+
 function actualizarMaximoConfirmados(form) {
   if (!form || !form.elements) return;
   const totalInput = form.elements["numInvitadosPermitidos"];
@@ -491,6 +534,9 @@ function mapInvitadoToRow(invitado) {
   const etiquetas = Array.isArray(invitado.etiquetas)
     ? invitado.etiquetas
     : parseEtiquetas(invitado.etiquetas || "");
+  const contactosAdicionales = Array.isArray(invitado.contactosAdicionales)
+    ? invitado.contactosAdicionales
+    : parseContactos(invitado.contactosAdicionales || "");
   const estadoValor = invitado.estadoInvitacion || "";
   const estadoInfo = invitado.esListaEspera
     ? { label: "Lista de espera", className: "status-pill--waitlist" }
@@ -503,6 +549,9 @@ function mapInvitadoToRow(invitado) {
     ladoRender: ladoInfo.render,
     codigoInvitacion: invitado.codigoInvitacion || "-",
     numInvitadosPermitidos: invitado.numInvitadosPermitidos ?? "-",
+    contactoPrincipal: invitado.contactoPrincipal || "-",
+    contactosAdicionalesTexto: contactosAdicionales.join(", "),
+    contactosAdicionalesRender: renderContactChips(contactosAdicionales),
     estadoInvitacion: estadoValor || "-",
     estadoLegible: estadoInfo.label,
     estadoRender: renderEstadoPill(estadoInfo),
@@ -528,6 +577,12 @@ function construirColumnasDataTable(opciones = {}) {
     },
     { data: "codigoInvitacion", title: "Código" },
     { data: "numInvitadosPermitidos", title: "N° invitados" },
+    { data: "contactoPrincipal", title: "Contacto" },
+    {
+      data: "contactosAdicionalesTexto",
+      title: "Contactos adicionales",
+      render: (data, type, row) => (type === "display" ? row.contactosAdicionalesRender : data),
+    },
     {
       data: "estadoLegible",
       title: "Estado",
@@ -702,6 +757,8 @@ async function crearInvitado(formData) {
   payload.esListaEspera = payload.esListaEspera === "true";
   payload.fechaEnvioInvitacion = payload.fechaEnvioInvitacion || new Date().toISOString();
   payload.etiquetas = parseEtiquetas(formData.get("etiquetas") || "");
+  payload.contactoPrincipal = formData.get("contactoPrincipal")?.trim() || "";
+  payload.contactosAdicionales = parseContactos(formData.get("contactosAdicionales") || "");
   if (!payload.codigoInvitacion) {
     payload.codigoInvitacion = await generarCodigoInvitacion(
       payload.nombreCompleto,
@@ -738,6 +795,9 @@ async function actualizarInvitado(formData) {
     }
   );
   payload.etiquetas = parseEtiquetas(formData.get("etiquetas") || "");
+  payload.contactoPrincipal =
+    formData.get("contactoPrincipal")?.trim() || invitadoSeleccionado.contactoPrincipal || "";
+  payload.contactosAdicionales = parseContactos(formData.get("contactosAdicionales") || "");
   const maxPermitidos =
     payload.numInvitadosPermitidos ??
     invitadoSeleccionado.numInvitadosPermitidos ??
@@ -873,10 +933,16 @@ auth.onAuthStateChanged((user) => {
     if (rolActual === "admin") {
       cargarConfiguracionFechas();
     }
+    cargarItinerario();
+    cargarDamasCaballeros();
   } else {
     filtroActual = "todos";
     filtroLado = "todos";
     ladoFilterSelect && (ladoFilterSelect.value = "todos");
+    eventosItinerario = [];
+    renderItinerario();
+    damasCaballeros = [];
+    renderDamasCaballeros();
   }
 });
 
@@ -970,6 +1036,46 @@ editarInvitadoForm?.addEventListener("submit", (event) => {
 asignarLugarBtn?.addEventListener("click", asignarLugarListaEspera);
 
 borrarInvitadoBtn?.addEventListener("click", borrarInvitado);
+
+itinerarioForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  agregarEventoItinerario(new FormData(event.target));
+});
+
+itinerarioBody?.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-action='borrar-itinerario']");
+  if (!btn) return;
+  const id = btn.closest("tr")?.dataset?.id;
+  if (!id) return;
+  borrarEventoItinerario(id);
+});
+
+damasForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  guardarDamaCaballero(new FormData(event.target));
+});
+
+addDamaBtn?.addEventListener("click", () => {
+  if (rolActual !== "admin") return;
+  abrirModalDama();
+});
+
+damasBody?.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-action]");
+  if (!btn) return;
+  const action = btn.dataset.action;
+  const row = btn.closest("tr");
+  const id = row?.dataset?.id;
+  if (!action || !id) return;
+  if (action === "editar-dama") {
+    const persona = damasCaballeros.find((item) => item.id === id);
+    abrirModalDama(persona || null);
+  } else if (action === "toggle-vestuario") {
+    alternarVestuarioDama(id);
+  } else if (action === "borrar-dama") {
+    borrarDamaCaballero(id);
+  }
+});
 
 waitlistBody?.addEventListener("click", (event) => {
   const button = event.target.closest("[data-action]");
@@ -1271,6 +1377,230 @@ function formatearFechaResumen(iso) {
     dateStyle: "medium",
     timeStyle: "short",
   });
+}
+
+async function cargarItinerario() {
+  if (!itinerarioBody) return;
+  try {
+    const snap = await db.collection("itinerario").orderBy("hora").get();
+    eventosItinerario = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    renderItinerario();
+  } catch (error) {
+    console.error("Error al cargar itinerario", error);
+    itinerarioBody.innerHTML =
+      '<tr><td colspan="4">No pudimos cargar el itinerario.</td></tr>';
+  }
+}
+
+function renderItinerario() {
+  if (!itinerarioBody) return;
+  if (!eventosItinerario.length) {
+    itinerarioBody.innerHTML =
+      '<tr><td colspan="4">Todavía no hay eventos en el itinerario.</td></tr>';
+    return;
+  }
+  itinerarioBody.innerHTML = eventosItinerario
+    .map(
+      (evento) => `
+        <tr data-id="${evento.id}">
+          <td>${evento.nombreEvento || "-"}</td>
+          <td>${evento.lugarEvento || "-"}</td>
+          <td>${formatearFechaHora(evento.hora)}</td>
+          <td>
+            <button class="btn btn--ghost btn--danger" data-action="borrar-itinerario">
+              Borrar
+            </button>
+          </td>
+        </tr>
+      `
+    )
+    .join("");
+}
+
+async function agregarEventoItinerario(formData) {
+  if (rolActual !== "admin") {
+    if (itinerarioMensaje) {
+      itinerarioMensaje.textContent = "Solo los administradores pueden agregar eventos.";
+    }
+    return;
+  }
+  const nombreEvento = formData.get("nombreEvento")?.trim();
+  const lugarEvento = formData.get("lugarEvento")?.trim();
+  const horaEvento = formData.get("horaEvento");
+  if (!nombreEvento || !lugarEvento || !horaEvento) {
+    if (itinerarioMensaje) {
+      itinerarioMensaje.textContent = "Completa todos los campos.";
+    }
+    return;
+  }
+  const fecha = new Date(horaEvento);
+  if (Number.isNaN(fecha.getTime())) {
+    if (itinerarioMensaje) {
+      itinerarioMensaje.textContent = "La fecha del evento no es válida.";
+    }
+    return;
+  }
+  try {
+    await db.collection("itinerario").add({
+      nombreEvento,
+      lugarEvento,
+      hora: fecha.toISOString(),
+      creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    itinerarioForm.reset();
+    if (itinerarioMensaje) itinerarioMensaje.textContent = "Evento agregado.";
+    await cargarItinerario();
+  } catch (error) {
+    console.error("Error al agregar evento", error);
+    if (itinerarioMensaje) itinerarioMensaje.textContent = "No pudimos agregar el evento.";
+  }
+}
+
+async function borrarEventoItinerario(id) {
+  if (rolActual !== "admin") return;
+  if (!id) return;
+  if (!confirm("¿Deseas eliminar este evento?")) return;
+  try {
+    await db.collection("itinerario").doc(id).delete();
+    await cargarItinerario();
+  } catch (error) {
+    console.error("Error al borrar evento", error);
+  }
+}
+
+async function cargarDamasCaballeros() {
+  if (!damasBody) return;
+  try {
+    const snap = await db.collection("damasCaballeros").orderBy("nombre").get();
+    damasCaballeros = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    renderDamasCaballeros();
+  } catch (error) {
+    console.error("Error al cargar damas y caballeros", error);
+    damasBody.innerHTML =
+      '<tr><td colspan="6">No pudimos cargar esta sección.</td></tr>';
+  }
+}
+
+function renderDamasCaballeros() {
+  if (!damasBody) return;
+  if (!damasCaballeros.length) {
+    damasBody.innerHTML =
+      '<tr><td colspan="6">Aún no has agregado damas ni caballeros.</td></tr>';
+    return;
+  }
+  damasBody.innerHTML = damasCaballeros
+    .map((persona) => {
+      const vestuario = persona.vestuarioConfirmado
+        ? '<span class="status-pill status-pill--fase1">Listo</span>'
+        : '<span class="status-pill status-pill--pendiente">Pendiente</span>';
+      const imagen = persona.imagen
+        ? `<a href="${persona.imagen}" target="_blank" rel="noopener">Ver imagen</a>`
+        : "—";
+      return `
+        <tr data-id="${persona.id}">
+          <td>${persona.nombre || "-"}</td>
+          <td>${persona.lado || "-"}</td>
+          <td>${persona.rol || "-"}</td>
+          <td>${vestuario}</td>
+          <td>${imagen}</td>
+          <td>
+            <button class="btn btn--ghost" data-action="editar-dama" data-id="${persona.id}">
+              Editar
+            </button>
+            <button class="btn btn--ghost" data-action="toggle-vestuario" data-id="${persona.id}">
+              Cambiar estado
+            </button>
+            <button class="btn btn--ghost btn--danger" data-action="borrar-dama" data-id="${persona.id}">
+              Borrar
+            </button>
+          </td>
+        </tr>
+      `;
+    })
+    .join("");
+}
+
+function abrirModalDama(persona = null) {
+  if (!damasForm) return;
+  damaSeleccionada = persona;
+  if (damasMensaje) damasMensaje.textContent = "";
+  damasForm.reset();
+  damasForm.elements["id"].value = persona?.id || "";
+  damasForm.elements["nombre"].value = persona?.nombre || "";
+  damasForm.elements["lado"].value = persona?.lado || "novia";
+  damasForm.elements["rol"].value = persona?.rol || "dama";
+  damasForm.elements["vestuarioConfirmado"].value = persona?.vestuarioConfirmado ? "true" : "false";
+  damasForm.elements["imagen"].value = persona?.imagen || "";
+  modalDamaInstance?.show();
+}
+
+async function guardarDamaCaballero(formData) {
+  if (rolActual !== "admin") {
+    if (damasMensaje) damasMensaje.textContent = "Solo los administradores pueden agregar.";
+    return;
+  }
+  const id = formData.get("id")?.trim();
+  const nombre = formData.get("nombre")?.trim();
+  const lado = formData.get("lado") || "novia";
+  const rol = formData.get("rol") || "dama";
+  const vestuarioConfirmado = formData.get("vestuarioConfirmado") === "true";
+  const imagen = formData.get("imagen")?.trim() || "";
+  if (!nombre || !lado || !rol) {
+    if (damasMensaje) damasMensaje.textContent = "Completa todos los campos obligatorios.";
+    return;
+  }
+  try {
+    if (id) {
+      await db
+        .collection("damasCaballeros")
+        .doc(id)
+        .update({ nombre, lado, rol, vestuarioConfirmado, imagen });
+      if (damasMensaje) damasMensaje.textContent = "Registro actualizado.";
+    } else {
+      await db.collection("damasCaballeros").add({
+        nombre,
+        lado,
+        rol,
+        vestuarioConfirmado,
+        imagen,
+        creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      if (damasMensaje) damasMensaje.textContent = "Agregado al listado.";
+    }
+    damasForm.reset();
+    modalDamaInstance?.hide();
+    await cargarDamasCaballeros();
+  } catch (error) {
+    console.error("Error al guardar damas/caballeros", error);
+    if (damasMensaje) damasMensaje.textContent = "No pudimos guardar el registro.";
+  }
+}
+
+async function alternarVestuarioDama(id) {
+  if (!id) return;
+  const persona = damasCaballeros.find((item) => item.id === id);
+  if (!persona) return;
+  try {
+    await db
+      .collection("damasCaballeros")
+      .doc(id)
+      .update({ vestuarioConfirmado: !persona.vestuarioConfirmado });
+    await cargarDamasCaballeros();
+  } catch (error) {
+    console.error("Error al actualizar vestuario", error);
+  }
+}
+
+async function borrarDamaCaballero(id) {
+  if (rolActual !== "admin") return;
+  if (!id) return;
+  if (!confirm("¿Deseas eliminar este registro?")) return;
+  try {
+    await db.collection("damasCaballeros").doc(id).delete();
+    await cargarDamasCaballeros();
+  } catch (error) {
+    console.error("Error al borrar registro de damas/caballeros", error);
+  }
 }
 
 function obtenerCapacidadMaxima() {
