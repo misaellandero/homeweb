@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel · Boda Misael</title>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body class="admin">
+    <header class="admin__header">
+      <div class="container">
+        <h1>Panel de invitados</h1>
+        <button id="logout-btn" class="btn btn--secondary">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <main class="container">
+      <section id="auth-section" class="card">
+        <h2>Acceso</h2>
+        <form id="login-form">
+          <label for="email">Correo</label>
+          <input type="email" id="email" required />
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" required />
+          <button type="submit" class="btn">Ingresar</button>
+          <p id="login-message" class="form-helper"></p>
+        </form>
+      </section>
+
+      <section id="dashboard" class="hidden">
+        <div class="card filters">
+          <h2>Filtros rápidos</h2>
+          <div class="filter-buttons">
+            <button data-filter="fase1" class="btn btn--ghost">Confirmados Fase 1</button>
+            <button data-filter="final" class="btn btn--ghost">Confirmados Final</button>
+            <button data-filter="lista-espera" class="btn btn--ghost">Lista de espera</button>
+            <button data-filter="todos" class="btn btn--ghost">Ver todos</button>
+          </div>
+        </div>
+
+        <section class="card">
+          <div class="table-header">
+            <h2>Invitados</h2>
+            <button id="refresh-table" class="btn btn--secondary">Actualizar</button>
+          </div>
+          <div class="table-wrapper">
+            <table id="tabla-invitados">
+              <thead>
+                <tr>
+                  <th>Nombre completo</th>
+                  <th>Lado</th>
+                  <th>Código</th>
+                  <th># Permitidos</th>
+                  <th>Estado</th>
+                  <th># Confirmados</th>
+                  <th>Vestimenta</th>
+                  <th>Viaje</th>
+                  <th>Hospedaje</th>
+                  <th>Lista espera</th>
+                  <th>Prioridad</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-body">
+                <tr>
+                  <td colspan="12">Sin datos por ahora.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="grid-2">
+          <article class="card">
+            <h2>Crear invitado</h2>
+            <form id="crear-invitado-form" class="form-grid">
+              <label>Nombre completo<input type="text" name="nombreCompleto" required /></label>
+              <label>Lado
+                <select name="lado">
+                  <option value="novio">Novio</option>
+                  <option value="novia">Novia</option>
+                </select>
+              </label>
+              <label>Código<input type="text" name="codigoInvitacion" required /></label>
+              <label># Permitidos<input type="number" name="numInvitadosPermitidos" min="1" value="1" /></label>
+              <label>Estado
+                <select name="estadoInvitacion">
+                  <option value="pendiente_primera_confirmacion">Pendiente Fase 1</option>
+                  <option value="confirmado_fase1">Confirmado Fase 1</option>
+                  <option value="confirmado_final">Confirmado Final</option>
+                  <option value="rechazado">Rechazado</option>
+                </select>
+              </label>
+              <label>Lista de espera
+                <select name="esListaEspera">
+                  <option value="false">No</option>
+                  <option value="true">Sí</option>
+                </select>
+              </label>
+              <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" value="0" /></label>
+              <label>Notas<textarea name="notas" rows="2"></textarea></label>
+              <button type="submit" class="btn">Guardar</button>
+              <p class="form-helper" id="crear-invitado-mensaje"></p>
+            </form>
+          </article>
+
+          <article class="card">
+            <h2>Editar invitado</h2>
+            <form id="editar-invitado-form" class="form-grid">
+              <label>ID invitado<input type="text" name="id" placeholder="Documento seleccionado" readonly /></label>
+              <label>Nombre completo<input type="text" name="nombreCompleto" /></label>
+              <label>Estado
+                <select name="estadoInvitacion">
+                  <option value="pendiente_primera_confirmacion">Pendiente Fase 1</option>
+                  <option value="confirmado_fase1">Confirmado Fase 1</option>
+                  <option value="confirmado_final">Confirmado Final</option>
+                  <option value="rechazado">Rechazado</option>
+                  <option value="cancelado_por_tiempo">Cancelado por tiempo</option>
+                </select>
+              </label>
+              <label>Acompañantes confirmados<input type="number" name="rsvpNumAsistentes" min="0" /></label>
+              <label>Vestimenta lista<select name="vestimentaConfirmada"><option value="false">No</option><option value="true">Sí</option></select></label>
+              <label>Viaje listo<select name="viajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
+              <label>Hospedaje listo<select name="hospedajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
+              <label>Lista de espera<select name="esListaEspera"><option value="false">No</option><option value="true">Sí</option></select></label>
+              <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" /></label>
+              <label>Notas<textarea name="notas" rows="3"></textarea></label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Actualizar</button>
+                <button type="button" id="asignar-lugar" class="btn btn--secondary">Asignar lugar</button>
+                <button type="button" id="borrar-invitado" class="btn btn--danger">Eliminar</button>
+              </div>
+              <p class="form-helper" id="editar-invitado-mensaje"></p>
+            </form>
+          </article>
+        </section>
+      </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
+    <script src="../assets/js/firebase-config.js"></script>
+    <script src="../assets/js/admin.js"></script>
+  </body>
+</html>

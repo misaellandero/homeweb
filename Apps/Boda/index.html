@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boda Misael &amp; Novia</title>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content container">
+        <p class="eyebrow">¡Nos casamos!</p>
+        <h1>Misael &amp; Nombre de la Novia</h1>
+        <p class="hero__date">Sábado 12 de julio de 2025 · 5:00 PM</p>
+        <p class="hero__location">Hacienda Los Encinos · Ciudad, País</p>
+        <a class="btn" href="#rsvp">Confirmar asistencia</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section" id="detalles">
+        <div class="container">
+          <h2>Detalles de la Celebración</h2>
+          <div class="details-grid">
+            <article>
+              <h3>Lugar</h3>
+              <p class="place-name">Hacienda Los Encinos</p>
+              <p>Av. Principal 123, Ciudad, País</p>
+              <a
+                class="btn-link"
+                href="https://maps.google.com/?q=Hacienda+Los+Encinos"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Cómo llegar</a
+              >
+            </article>
+            <article>
+              <h3>Código de Vestimenta</h3>
+              <p>Semi-formal • Colores neutros o pastel • Evitar blanco y rojo.</p>
+            </article>
+            <article>
+              <h3>Programa</h3>
+              <ul class="timeline">
+                <li><span>17:00</span> Ceremonia civil</li>
+                <li><span>18:00</span> Cóctel de bienvenida</li>
+                <li><span>19:30</span> Cena</li>
+                <li><span>22:00</span> Fiesta</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--accent" id="rsvp">
+        <div class="container">
+          <h2>RSVP</h2>
+          <p>
+            Ingresa tu código de invitación para confirmar asistencia y ayudarnos a
+            planear cada detalle.
+          </p>
+
+          <form id="codigo-form" class="card">
+            <label for="codigoInvitacion">Código de invitación</label>
+            <div class="input-group">
+              <input
+                type="text"
+                id="codigoInvitacion"
+                name="codigoInvitacion"
+                placeholder="Ej. MISAEL2025"
+                required
+              />
+              <button type="submit" class="btn">Validar código</button>
+            </div>
+            <p class="form-helper" id="codigo-mensaje"></p>
+          </form>
+
+          <form id="rsvp-form" class="card hidden" aria-live="polite">
+            <h3>Confirma tu asistencia</h3>
+            <div class="form-field">
+              <label>¿Podrás asistir?</label>
+              <div class="options">
+                <label><input type="radio" name="asistencia" value="si" /> Sí</label>
+                <label><input type="radio" name="asistencia" value="no" /> No</label>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="numAcompanantes">Número de acompañantes</label>
+              <input
+                type="number"
+                id="numAcompanantes"
+                name="numAcompanantes"
+                min="0"
+                value="0"
+              />
+              <small id="acompanantes-help">Máximo permitido: --</small>
+            </div>
+
+            <div class="form-field">
+              <label for="comentarios">Comentarios o restricciones alimenticias</label>
+              <textarea id="comentarios" name="comentarios" rows="3"></textarea>
+            </div>
+
+            <fieldset id="fase2" class="form-field hidden">
+              <legend>Confirmación final</legend>
+              <label>
+                <input type="checkbox" id="vestimentaConfirmada" /> Vestimenta lista
+              </label>
+              <label>
+                <input type="checkbox" id="viajeConfirmado" /> Viaje confirmado
+              </label>
+              <label>
+                <input type="checkbox" id="hospedajeConfirmado" /> Hospedaje confirmado
+              </label>
+            </fieldset>
+
+            <div class="status-box" id="estadoInvitacion"></div>
+            <button type="submit" class="btn">Guardar respuesta</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>Con cariño, Misael &amp; Nombre de la Novia · #MisaelSeCasa</p>
+      </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
+    <script src="assets/js/firebase-config.js"></script>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>
