@@ -286,11 +286,22 @@ img {
   box-shadow: 0 15px 30px rgba(90, 112, 34, 0.25);
 }
 
-.btn--ghost:hover {
-  background: var(--color-light);
-  color: var(--color-primary);
-  border-color: var(--color-primary);
-  opacity: 1;
+.btn,
+.btn--secondary,
+.btn--danger,
+.btn--ghost {
+  color: var(--color-light);
+}
+
+.btn:hover,
+.btn:focus,
+.btn--secondary:hover,
+.btn--secondary:focus,
+.btn--danger:hover,
+.btn--danger:focus,
+.btn--ghost:hover,
+.btn--ghost:focus {
+  color: var(--color-light);
 }
 
 label,
@@ -564,6 +575,12 @@ body.admin .capacity-panel {
   margin-bottom: 1.5rem;
 }
 
+body.admin .capacity-pill--neutral {
+  border-color: rgba(0, 0, 0, 0.15);
+  color: var(--color-dark);
+  background: rgba(0, 0, 0, 0.04);
+}
+
 body.admin .capacity-pill-group {
   display: flex;
   gap: 0.5rem;
@@ -729,6 +746,83 @@ th {
   align-items: center;
   gap: 0.5rem;
   flex-wrap: wrap;
+}
+
+.table-actions--stacked {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.table-actions--stacked .btn {
+  width: 100%;
+  text-align: left;
+}
+.table-actions--compact .btn {
+  min-width: 160px;
+}
+
+.priority-control {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.priority-control .btn {
+  padding: 0.2rem 0.5rem;
+}
+.priority-control span {
+  min-width: 2rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.contactos-extra__content {
+  margin-top: 0.4rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.05);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.budget-summary-card {
+  margin-bottom: 1.5rem;
+}
+
+.budget-totals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.budget-total {
+  background: rgba(0, 0, 0, 0.04);
+  padding: 1rem;
+  border-radius: var(--radius);
+  text-align: center;
+}
+
+.budget-total p {
+  margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.budget-total strong {
+  display: block;
+  font-size: 1.2rem;
+  margin-top: 0.4rem;
+  color: var(--color-dark);
+}
+
+.budget-total--balance strong {
+  color: var(--color-primary);
+}
+
+.budget-chart {
+  max-width: 420px;
+  margin: 0 auto;
 }
 
 .filter-buttons {

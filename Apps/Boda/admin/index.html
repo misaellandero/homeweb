@@ -105,7 +105,21 @@
               aria-controls="tab-fechas"
               aria-selected="false"
             >
-              Fechas globales
+              Fechas límite
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="tab-presupuesto-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab-presupuesto"
+              type="button"
+              role="tab"
+              aria-controls="tab-presupuesto"
+              aria-selected="false"
+            >
+              Presupuesto
             </button>
           </li>
           <li class="nav-item" role="presentation">
@@ -152,6 +166,14 @@
                   Disponibles: <strong id="summary-disponibles">--</strong>
                 </span>
               </div>
+              <div class="table-actions capacity-pill-group">
+                <span class="capacity-pill capacity-pill--neutral">
+                  Lugares ocupados (Dara): <strong id="summary-novia">--</strong>
+                </span>
+                <span class="capacity-pill capacity-pill--neutral">
+                  Lugares ocupados (Misael): <strong id="summary-novio">--</strong>
+                </span>
+              </div> 
             </div>
             <form id="capacidad-form" class="capacity-form">
               <label for="capacidadMaxima" class="form-helper">Capacidad máxima de invitados</label>
@@ -203,8 +225,8 @@
                     <th>Código</th>
                     <th>N° invitados</th>
                     <th>Contacto</th>
-                    <th>Contactos adicionales</th>
                     <th>Estado</th>
+                    <th>Acciones</th>
                     <th>N° confirmados</th>
                     <th>Vestimenta</th>
                     <th>Viaje</th>
@@ -212,7 +234,8 @@
                     <th>Lista espera</th>
                     <th>Prioridad</th>
                     <th>Etiquetas</th>
-                    <th>Acciones</th>
+                    <th>Contactos adicionales</th>
+                    <th>Gestión de cupo</th>
                   </tr>
                 </thead>
                 <tbody id="tabla-body"></tbody>
@@ -235,7 +258,9 @@
                     <th>Lado</th>
                     <th>Código</th>
                     <th>N° invitados</th>
+                    <th>Contacto</th>
                     <th>Estado</th>
+                    <th>Acciones</th>
                     <th>N° confirmados</th>
                     <th>Vestimenta</th>
                     <th>Viaje</th>
@@ -243,7 +268,8 @@
                     <th>Lista espera</th>
                     <th>Prioridad</th>
                     <th>Etiquetas</th>
-                    <th>Acciones</th>
+                    <th>Contactos adicionales</th>
+                    <th>Gestión de cupo</th>
                   </tr>
                 </thead>
                 <tbody id="waitlist-body"></tbody>
@@ -256,7 +282,7 @@
         <div class="tab-pane fade" id="tab-fechas" role="tabpanel" aria-labelledby="tab-fechas-tab">
           <div class="card deadline-panel" id="deadline-panel">
             <div class="table-header">
-              <h2>Fechas límite globales</h2>
+              <h2>Fechas límite</h2>
               <div class="table-actions">
                 <span class="tag-chip tag-chip--status" id="deadline-sync-status">Sin cambios</span>
               </div>
@@ -315,6 +341,130 @@
           </div>
         </div>
 
+        <div class="tab-pane fade" id="tab-presupuesto" role="tabpanel" aria-labelledby="tab-presupuesto-tab">
+          <section class="card budget-summary-card">
+            <div class="table-header">
+              <h2>Resumen financiero</h2>
+            </div>
+            <div class="budget-totals">
+              <div class="budget-total">
+                <p>Ingresos totales</p>
+                <strong id="budget-ingresos">--</strong>
+              </div>
+              <div class="budget-total">
+                <p>Gastos totales</p>
+                <strong id="budget-gastos">--</strong>
+              </div>
+              <div class="budget-total">
+                <p>Apoyos / Ahorros</p>
+                <strong id="budget-apoyos">--</strong>
+              </div>
+              <div class="budget-total budget-total--balance">
+                <p>Saldo</p>
+                <strong id="budget-balance">--</strong>
+              </div>
+            </div>
+            <div class="budget-chart">
+              <canvas id="presupuesto-chart" height="220"></canvas>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="table-header">
+              <h2>Registrar gasto o ingreso</h2>
+            </div>
+            <form id="presupuesto-form" class="form-grid" autocomplete="off">
+              <label>Concepto
+                <input type="text" name="concepto" placeholder="Pastel de boda, DJ, etc." required />
+              </label>
+              <label>Tipo
+                <select name="tipo">
+                  <option value="gasto">Gasto</option>
+                  <option value="ingreso">Ingreso</option>
+                </select>
+              </label>
+              <label>Modalidad
+                <select name="modalidad">
+                  <option value="fijo">Costo fijo</option>
+                  <option value="por_persona">Costo por persona</option>
+                </select>
+              </label>
+              <label>Monto base
+                <input type="number" name="montoBase" step="0.01" min="0" placeholder="Ej. 1500" required />
+              </label>
+              <label>Número de personas
+                <input type="number" name="numPersonas" min="0" placeholder="Solo si es por persona" />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Agregar</button>
+                <button type="reset" class="btn btn--secondary">Limpiar</button>
+              </div>
+              <p class="form-helper" id="presupuesto-mensaje"></p>
+            </form>
+          </section>
+
+          <section class="card">
+            <div class="table-header">
+              <h2>Detalle de gastos e ingresos</h2>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Concepto</th>
+                    <th>Tipo</th>
+                    <th>Modalidad</th>
+                    <th>Monto base</th>
+                    <th>Personas</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="presupuesto-body">
+                  <tr>
+                    <td colspan="7">Todavía no registras movimientos.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="table-header">
+              <h2>Ahorros y apoyos</h2>
+            </div>
+            <form id="apoyos-form" class="form-grid">
+              <label>Descripción
+                <input type="text" name="descripcion" placeholder="Donación, ahorro, etc." required />
+              </label>
+              <label>Monto
+                <input type="number" name="monto" step="0.01" min="0" placeholder="Ej. 20000" required />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Agregar apoyo</button>
+                <button type="reset" class="btn btn--secondary">Limpiar</button>
+              </div>
+              <p class="form-helper" id="apoyos-mensaje"></p>
+            </form>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Descripción</th>
+                    <th>Monto</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="apoyos-body">
+                  <tr>
+                    <td colspan="3">Aún no registras apoyos.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
         <div class="tab-pane fade" id="tab-itinerario" role="tabpanel" aria-labelledby="tab-itinerario-tab">
           <div class="card itinerary-form-card">
             <h2>Itinerario del evento</h2>
@@ -364,6 +514,12 @@
             <div class="table-header">
               <h2>Damas y Caballeros</h2>
               <div class="table-actions">
+                <span class="capacity-pill capacity-pill--neutral">
+                  Damas: <strong id="count-damas">--</strong>
+                </span>
+                <span class="capacity-pill capacity-pill--neutral">
+                  Caballeros: <strong id="count-caballeros">--</strong>
+                </span>
                 <button id="add-dama-btn" class="btn btn--secondary hidden">Agregar</button>
               </div>
             </div>

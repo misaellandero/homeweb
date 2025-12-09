@@ -39,6 +39,10 @@ const summaryFechaDetalles = document.getElementById("summary-fecha-detalles");
 const summaryFechaBoda = document.getElementById("summary-fecha-boda");
 const summaryCapacidad = document.getElementById("summary-capacidad");
 const summaryDisponibles = document.getElementById("summary-disponibles");
+const summaryNovia = document.getElementById("summary-novia");
+const summaryNovio = document.getElementById("summary-novio");
+const summaryNoviaTotal = document.getElementById("summary-novia-total");
+const summaryNovioTotal = document.getElementById("summary-novio-total");
 const headerFechaRespuesta = document.getElementById("header-fecha-respuesta");
 const headerFechaDetalles = document.getElementById("header-fecha-detalles");
 const headerFechaBoda = document.getElementById("header-fecha-boda");
@@ -70,6 +74,21 @@ const damasBody = document.getElementById("damas-body");
 const damasMensaje = document.getElementById("damas-mensaje");
 const addDamaBtn = document.getElementById("add-dama-btn");
 const modalDama = document.getElementById("modal-dama");
+const countDamasElem = document.getElementById("count-damas");
+const countCaballerosElem = document.getElementById("count-caballeros");
+const presupuestoForm = document.getElementById("presupuesto-form");
+const presupuestoBody = document.getElementById("presupuesto-body");
+const presupuestoMensaje = document.getElementById("presupuesto-mensaje");
+const apoyosForm = document.getElementById("apoyos-form");
+const apoyosBody = document.getElementById("apoyos-body");
+const apoyosMensaje = document.getElementById("apoyos-mensaje");
+const budgetIngresosElem = document.getElementById("budget-ingresos");
+const budgetGastosElem = document.getElementById("budget-gastos");
+const budgetApoyosElem = document.getElementById("budget-apoyos");
+const budgetBalanceElem = document.getElementById("budget-balance");
+const presupuestoChartCanvas = document.getElementById("presupuesto-chart");
+const damasLadoSelect = damasForm?.elements?.lado || null;
+const damasRolSelect = damasForm?.elements?.rol || null;
 
 const modalCrearInstance =
   typeof bootstrap !== "undefined" && modalCrear ? new bootstrap.Modal(modalCrear) : null;
@@ -101,6 +120,12 @@ let configuracionFechas = null;
 let eventosItinerario = [];
 let damasCaballeros = [];
 let damaSeleccionada = null;
+let ultimaSeleccionLadoInvitado = "novia";
+let ultimaSeleccionLadoDama = "novia";
+let ultimaSeleccionRolDama = "dama";
+let presupuestoItems = [];
+let apoyosItems = [];
+let presupuestoChart = null;
 
 // Configura los correos permitidos para cada rol.
 const ROLE_CONFIG = {
@@ -122,6 +147,8 @@ function actualizarUIporRol() {
   itinerarioForm?.classList.toggle("hidden", !esAdmin);
   damasForm?.classList.toggle("hidden", !esAdmin);
   addDamaBtn?.classList.toggle("hidden", !esAdmin);
+  presupuestoForm?.classList.toggle("hidden", !esAdmin);
+  apoyosForm?.classList.toggle("hidden", !esAdmin);
   if (borrarInvitadoBtn) {
     borrarInvitadoBtn.disabled = !esAdmin;
     borrarInvitadoBtn.title = esAdmin
@@ -251,13 +278,21 @@ function parseContactos(valor = "") {
     .filter(Boolean);
 }
 
-function renderContactChips(lista) {
-  if (!lista || !lista.length) {
-    return '<span class="tag-chip tag-chip--empty">Sin contactos</span>';
+function renderContactosAdicionales(row) {
+  const lista = Array.isArray(row.contactosAdicionalesLista) ? row.contactosAdicionalesLista : [];
+  if (!lista.length) {
+    return "—";
   }
-  return `<div class="tags-cell">${lista
-    .map((contacto) => `<span class="tag-chip">${contacto}</span>`)
-    .join("")}</div>`;
+  const targetId = `contactos-extra-${row.id}`;
+  const contenido = lista.map((contacto) => `<div>${contacto}</div>`).join("");
+  return `
+    <div class="contactos-extra">
+      <button type="button" class="btn btn--ghost" data-action="toggle-contactos" data-target="${targetId}">
+        Ver más
+      </button>
+      <div id="${targetId}" class="contactos-extra__content hidden">${contenido}</div>
+    </div>
+  `;
 }
 
 function encontrarEtiquetaSimilar(nombre = "") {
@@ -308,6 +343,8 @@ const ESTADO_DEFAULT = {
   description: "Aún no marcamos el avance de este invitado.",
   className: "status-pill--desconocido",
 };
+
+const ESTADOS_CAPACIDAD_EXCLUIDOS = new Set(["cancelado_por_tiempo", "rechazado"]);
 
 function normalizarEstadoValor(estado = "") {
   if (typeof estado !== "string") return "";
@@ -380,7 +417,42 @@ function renderAcciones(id, opciones = {}) {
       </button>`
     );
   }
-  return botones.join("");
+  return `<div class="table-actions table-actions--stacked table-actions--compact">${botones.join(
+    ""
+  )}</div>`;
+}
+
+function renderGestionCupo(id) {
+  const puedeGestionar = rolActual === "admin";
+  return `
+    <div class="table-actions table-actions--stacked">
+      <button class="btn btn--ghost" data-action="cancelar" data-id="${id}" ${
+        puedeGestionar ? "" : "disabled"
+      }>Cancelar invitación</button>
+      <button class="btn btn--ghost" data-action="bajar-espera" data-id="${id}" ${
+        puedeGestionar ? "" : "disabled"
+      }>Bajar a lista de espera</button>
+    </div>
+  `;
+}
+
+function renderPrioridadControls(row) {
+  const puedeGestionar = rolActual === "admin";
+  const valor =
+    typeof row.prioridadValor === "number" && !Number.isNaN(row.prioridadValor)
+      ? row.prioridadValor
+      : row.prioridad ?? "-";
+  return `
+    <div class="priority-control">
+      <button class="btn btn--ghost" data-action="prioridad-up" data-id="${row.id}" ${
+        puedeGestionar ? "" : "disabled"
+      } title="Aumentar prioridad">&#9650;</button>
+      <span>${valor}</span>
+      <button class="btn btn--ghost" data-action="prioridad-down" data-id="${row.id}" ${
+        puedeGestionar ? "" : "disabled"
+      } title="Bajar prioridad">&#9660;</button>
+    </div>
+  `;
 }
 
 function actualizarSugerenciaEtiqueta(inputElem, helperElem) {
@@ -481,6 +553,15 @@ function formatearFechaHora(fechaISO) {
   }).format(fecha);
 }
 
+function formatearMoneda(valor) {
+  const numero = Number(valor) || 0;
+  return new Intl.NumberFormat("es-MX", {
+    style: "currency",
+    currency: "MXN",
+    maximumFractionDigits: 2,
+  }).format(numero);
+}
+
 function actualizarMaximoConfirmados(form) {
   if (!form || !form.elements) return;
   const totalInput = form.elements["numInvitadosPermitidos"];
@@ -542,6 +623,10 @@ function mapInvitadoToRow(invitado) {
     ? { label: "Lista de espera", className: "status-pill--waitlist" }
     : obtenerInfoEstado(estadoValor);
   const ladoInfo = obtenerInfoLado(invitado.lado);
+  const prioridadValor = Number(invitado.prioridadListaEspera);
+  const prioridadLegible = Number.isFinite(prioridadValor)
+    ? prioridadValor
+    : invitado.prioridadListaEspera ?? "-";
   return {
     id: invitado.id,
     nombreCompleto: invitado.nombreCompleto || "",
@@ -551,7 +636,7 @@ function mapInvitadoToRow(invitado) {
     numInvitadosPermitidos: invitado.numInvitadosPermitidos ?? "-",
     contactoPrincipal: invitado.contactoPrincipal || "-",
     contactosAdicionalesTexto: contactosAdicionales.join(", "),
-    contactosAdicionalesRender: renderContactChips(contactosAdicionales),
+    contactosAdicionalesLista: contactosAdicionales,
     estadoInvitacion: estadoValor || "-",
     estadoLegible: estadoInfo.label,
     estadoRender: renderEstadoPill(estadoInfo),
@@ -560,15 +645,19 @@ function mapInvitadoToRow(invitado) {
     viaje: invitado.viajeConfirmado ? "Sí" : "No",
     hospedaje: invitado.hospedajeConfirmado ? "Sí" : "No",
     listaEspera: invitado.esListaEspera ? "Sí" : "No",
-    prioridad: invitado.prioridadListaEspera ?? "-",
+    prioridad: prioridadLegible,
+    prioridadValor: Number.isFinite(prioridadValor) ? prioridadValor : null,
     etiquetasTexto: etiquetas.join(", "),
     etiquetasRender: renderTagChips(etiquetas),
+    esListaEsperaFlag: !!invitado.esListaEspera,
   };
 }
 
 function construirColumnasDataTable(opciones = {}) {
   const incluirPromover = !!opciones.incluirPromover;
-  return [
+  const incluirGestionCupo = !!opciones.incluirGestionCupo;
+  const controlPrioridad = !!opciones.controlPrioridad;
+  const columnas = [
     { data: "nombreCompleto", title: "Nombre completo" },
     {
       data: "lado",
@@ -579,14 +668,22 @@ function construirColumnasDataTable(opciones = {}) {
     { data: "numInvitadosPermitidos", title: "N° invitados" },
     { data: "contactoPrincipal", title: "Contacto" },
     {
-      data: "contactosAdicionalesTexto",
-      title: "Contactos adicionales",
-      render: (data, type, row) => (type === "display" ? row.contactosAdicionalesRender : data),
-    },
-    {
       data: "estadoLegible",
       title: "Estado",
       render: (data, type, row) => (type === "display" ? row.estadoRender : data),
+    },
+    {
+      data: "id",
+      title: "Acciones",
+      orderable: false,
+      searchable: false,
+      render: (data, type, row) =>
+        type === "display"
+          ? renderAcciones(data, {
+              incluirPromover,
+              puedePromover: row?.puedePromover !== false,
+            })
+          : data,
     },
     { data: "rsvpNumAsistentes", title: "N° confirmados" },
     {
@@ -605,7 +702,17 @@ function construirColumnasDataTable(opciones = {}) {
       render: (data, type) => (type === "display" ? (data === "Sí" ? "✔" : "—") : data),
     },
     { data: "listaEspera", title: "Lista espera" },
-    { data: "prioridad", title: "Prioridad" },
+    {
+      data: "prioridad",
+      title: "Prioridad",
+      render: (data, type, row) => {
+        if (type !== "display") return data;
+        if (controlPrioridad && row.esListaEsperaFlag) {
+          return renderPrioridadControls(row);
+        }
+        return data ?? "-";
+      },
+    },
     {
       data: "etiquetasTexto",
       title: "Etiquetas",
@@ -613,19 +720,24 @@ function construirColumnasDataTable(opciones = {}) {
       render: (data, type, row) => (type === "display" ? row.etiquetasRender : data),
     },
     {
-      data: "id",
-      title: "Acciones",
-      orderable: false,
-      searchable: false,
+      data: "contactosAdicionalesTexto",
+      title: "Contactos adicionales",
       render: (data, type, row) =>
-        type === "display"
-          ? renderAcciones(data, {
-              incluirPromover,
-              puedePromover: row?.puedePromover !== false,
-            })
-          : data,
+        type === "display" ? renderContactosAdicionales(row) : data,
     },
   ];
+
+  if (incluirGestionCupo) {
+    columnas.push({
+      data: "id",
+      title: "Gestión de cupo",
+      orderable: false,
+      searchable: false,
+      render: (data, type) => (type === "display" ? renderGestionCupo(data) : data),
+    });
+  }
+
+  return columnas;
 }
 
 function pintarTabla() {
@@ -635,7 +747,7 @@ function pintarTabla() {
   if (!dataTable) {
     dataTable = $("#tabla-invitados").DataTable({
       data,
-      columns: construirColumnasDataTable(),
+      columns: construirColumnasDataTable({ incluirGestionCupo: true }),
       responsive: true,
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.13.8/i18n/es-MX.json",
@@ -669,7 +781,11 @@ function pintarTablaListaEspera() {
   if (!waitlistDataTable) {
     waitlistDataTable = $("#tabla-lista-espera").DataTable({
       data: waitlistData,
-      columns: construirColumnasDataTable({ incluirPromover: true }),
+      columns: construirColumnasDataTable({
+        incluirPromover: true,
+        incluirGestionCupo: true,
+        controlPrioridad: true,
+      }),
       responsive: true,
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.13.8/i18n/es-MX.json",
@@ -727,13 +843,26 @@ function filtrarInvitado(invitado) {
 function seleccionarInvitado(id) {
   invitadoSeleccionado = invitadosCache.find((inv) => inv.id === id) || null;
   if (!invitadoSeleccionado) return;
+  if (editarInvitadoForm) {
+    editarInvitadoForm.reset();
+  }
   for (const [key, value] of Object.entries(invitadoSeleccionado)) {
     if (editarInvitadoForm.elements[key] === undefined) continue;
     if (key === "etiquetas" && Array.isArray(value)) {
       editarInvitadoForm.elements[key].value = value.join(", ");
       continue;
     }
-    editarInvitadoForm.elements[key].value = value;
+    if (key === "contactosAdicionales" && Array.isArray(value)) {
+      editarInvitadoForm.elements[key].value = value.join(", ");
+      continue;
+    }
+    let formattedValue = value;
+    if (typeof formattedValue === "boolean") {
+      formattedValue = formattedValue ? "true" : "false";
+    } else if (formattedValue === null || formattedValue === undefined) {
+      formattedValue = "";
+    }
+    editarInvitadoForm.elements[key].value = formattedValue;
   }
   editarInvitadoForm.elements["id"].value = invitadoSeleccionado.id;
   actualizarMaximoConfirmados(editarInvitadoForm);
@@ -857,6 +986,66 @@ async function asignarLugarListaEspera() {
   }
 }
 
+async function cancelarInvitacion(id) {
+  if (rolActual !== "admin" || !id) return;
+  const invitado = invitadosCache.find((inv) => inv.id === id);
+  if (!invitado) return;
+  const confirmar = confirm(
+    `¿Cancelar la invitación de ${invitado.nombreCompleto || "este invitado"}?`
+  );
+  if (!confirmar) return;
+  try {
+    await db
+      .collection("invitados")
+      .doc(id)
+      .update({
+        estadoInvitacion: "cancelado_por_tiempo",
+        esListaEspera: false,
+        rsvpNumAsistentes: 0,
+      });
+    await cargarListaInvitados();
+  } catch (error) {
+    console.error("Error al cancelar la invitación", error);
+  }
+}
+
+async function moverInvitadoAListaEspera(id) {
+  if (rolActual !== "admin" || !id) return;
+  const invitado = invitadosCache.find((inv) => inv.id === id);
+  if (!invitado || invitado.esListaEspera) return;
+  const confirmar = confirm(
+    `El invitado ${invitado.nombreCompleto || ""} pasará a la lista de espera. ¿Continuar?`
+  );
+  if (!confirmar) return;
+  try {
+    await db
+      .collection("invitados")
+      .doc(id)
+      .update({
+        esListaEspera: true,
+        estadoInvitacion: "pendiente_primera_confirmacion",
+        rsvpNumAsistentes: 0,
+      });
+    await cargarListaInvitados();
+  } catch (error) {
+    console.error("Error al mover a lista de espera", error);
+  }
+}
+
+async function ajustarPrioridadListaEspera(id, delta) {
+  if (rolActual !== "admin" || !id || !delta) return;
+  const invitado = invitadosCache.find((inv) => inv.id === id);
+  if (!invitado || !invitado.esListaEspera) return;
+  const actual = Number(invitado.prioridadListaEspera) || 0;
+  const nuevoValor = Math.max(0, actual + delta);
+  try {
+    await db.collection("invitados").doc(id).update({ prioridadListaEspera: nuevoValor });
+    await cargarListaInvitados();
+  } catch (error) {
+    console.error("Error al ajustar prioridad", error);
+  }
+}
+
 /**
  * Revisa expiraciones y actualiza estados cuando sea necesario.
  */
@@ -935,6 +1124,8 @@ auth.onAuthStateChanged((user) => {
     }
     cargarItinerario();
     cargarDamasCaballeros();
+    cargarPresupuestoItems();
+    cargarApoyos();
   } else {
     filtroActual = "todos";
     filtroLado = "todos";
@@ -943,6 +1134,10 @@ auth.onAuthStateChanged((user) => {
     renderItinerario();
     damasCaballeros = [];
     renderDamasCaballeros();
+    presupuestoItems = [];
+    apoyosItems = [];
+    renderPresupuesto();
+    renderApoyos();
   }
 });
 
@@ -967,11 +1162,24 @@ tablaBody?.addEventListener("click", (event) => {
   if (!button || !tablaBody.contains(button)) return;
   const action = button.dataset.action;
   const id = button.dataset.id || button.closest("tr")?.dataset.id;
+  if (action === "toggle-contactos") {
+    const targetId = button.dataset.target;
+    if (!targetId) return;
+    const panel = document.getElementById(targetId);
+    if (!panel) return;
+    panel.classList.toggle("hidden");
+    button.textContent = panel.classList.contains("hidden") ? "Ver más" : "Ocultar";
+    return;
+  }
   if (!id) return;
   if (action === "seleccionar") {
     seleccionarInvitado(id);
   } else if (action === "borrar") {
     borrarInvitadoPorId(id);
+  } else if (action === "cancelar") {
+    cancelarInvitacion(id);
+  } else if (action === "bajar-espera") {
+    moverInvitadoAListaEspera(id);
   }
 });
 
@@ -987,6 +1195,9 @@ crearInvitadoForm?.addEventListener("submit", (event) => {
 
 addInvitadoBtn?.addEventListener("click", async () => {
   if (rolActual !== "admin") return;
+  if (ladoCrearSelect) {
+    ladoCrearSelect.value = ultimaSeleccionLadoInvitado || ladoCrearSelect.value;
+  }
   await actualizarCodigoSugerido();
   abrirModal(modalCrearInstance);
   const nombreField =
@@ -999,7 +1210,22 @@ addInvitadoBtn?.addEventListener("click", async () => {
 });
 
 nombreCrearInput?.addEventListener("input", actualizarCodigoSugerido);
-ladoCrearSelect?.addEventListener("change", actualizarCodigoSugerido);
+ladoCrearSelect?.addEventListener("change", () => {
+  if (ladoCrearSelect.value) {
+    ultimaSeleccionLadoInvitado = ladoCrearSelect.value;
+  }
+  actualizarCodigoSugerido();
+});
+damasLadoSelect?.addEventListener("change", () => {
+  if (damasLadoSelect.value) {
+    ultimaSeleccionLadoDama = damasLadoSelect.value;
+  }
+});
+damasRolSelect?.addEventListener("change", () => {
+  if (damasRolSelect.value) {
+    ultimaSeleccionRolDama = damasRolSelect.value;
+  }
+});
 crearEtiquetasInput?.addEventListener("input", () => {
   actualizarSugerenciaEtiqueta(crearEtiquetasInput, crearEtiquetasSugerencia);
   actualizarTagEditor(crearInvitadoForm, crearTagEditor);
@@ -1080,6 +1306,15 @@ damasBody?.addEventListener("click", (event) => {
 waitlistBody?.addEventListener("click", (event) => {
   const button = event.target.closest("[data-action]");
   if (!button || !waitlistBody.contains(button)) return;
+  if (button.dataset.action === "toggle-contactos") {
+    const targetId = button.dataset.target;
+    if (!targetId) return;
+    const panel = document.getElementById(targetId);
+    if (!panel) return;
+    panel.classList.toggle("hidden");
+    button.textContent = panel.classList.contains("hidden") ? "Ver más" : "Ocultar";
+    return;
+  }
   const row = button.closest("tr");
   const id = row?.dataset?.id;
   if (!id) return;
@@ -1101,7 +1336,37 @@ waitlistBody?.addEventListener("click", (event) => {
     seleccionarInvitado(id);
   } else if (action === "borrar") {
     borrarInvitadoPorId(id);
+  } else if (action === "prioridad-up") {
+    ajustarPrioridadListaEspera(id, -1);
+  } else if (action === "prioridad-down") {
+    ajustarPrioridadListaEspera(id, 1);
   }
+});
+
+presupuestoForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  guardarPresupuestoItem(new FormData(event.target));
+});
+
+presupuestoBody?.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-action='borrar-presupuesto']");
+  if (!btn) return;
+  const id = btn.dataset.id;
+  if (!id) return;
+  borrarPresupuestoItem(id);
+});
+
+apoyosForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  guardarApoyo(new FormData(event.target));
+});
+
+apoyosBody?.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-action='borrar-apoyo']");
+  if (!btn) return;
+  const id = btn.dataset.id;
+  if (!id) return;
+  borrarApoyo(id);
 });
 
 promoverForm?.addEventListener("submit", (event) => {
@@ -1483,6 +1748,7 @@ async function cargarDamasCaballeros() {
 
 function renderDamasCaballeros() {
   if (!damasBody) return;
+  actualizarResumenDamasCaballeros();
   if (!damasCaballeros.length) {
     damasBody.innerHTML =
       '<tr><td colspan="6">Aún no has agregado damas ni caballeros.</td></tr>';
@@ -1520,6 +1786,260 @@ function renderDamasCaballeros() {
     .join("");
 }
 
+function actualizarResumenDamasCaballeros() {
+  if (!countDamasElem || !countCaballerosElem) return;
+  const damas = damasCaballeros.filter(
+    (persona) => (persona.rol || "").toLowerCase() === "dama"
+  ).length;
+  const caballeros = damasCaballeros.filter(
+    (persona) => (persona.rol || "").toLowerCase() === "caballero"
+  ).length;
+  countDamasElem.textContent = damas;
+  countCaballerosElem.textContent = caballeros;
+}
+
+async function cargarPresupuestoItems() {
+  if (!presupuestoBody) return;
+  try {
+    const snap = await db.collection("presupuesto").orderBy("concepto").get();
+    presupuestoItems = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    renderPresupuesto();
+  } catch (error) {
+    console.error("Error al cargar presupuesto", error);
+    presupuestoBody.innerHTML =
+      '<tr><td colspan="7">No pudimos cargar los movimientos.</td></tr>';
+  }
+}
+
+async function cargarApoyos() {
+  if (!apoyosBody) return;
+  try {
+    const snap = await db.collection("presupuestoApoyos").orderBy("descripcion").get();
+    apoyosItems = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    renderApoyos();
+  } catch (error) {
+    console.error("Error al cargar apoyos", error);
+    apoyosBody.innerHTML = '<tr><td colspan="3">No pudimos cargar los apoyos.</td></tr>';
+  }
+}
+
+function renderPresupuesto() {
+  if (!presupuestoBody) return;
+  if (!presupuestoItems.length) {
+    presupuestoBody.innerHTML =
+      '<tr><td colspan="7">Todavía no registras movimientos.</td></tr>';
+  } else {
+    const puedeBorrar = rolActual === "admin";
+    presupuestoBody.innerHTML = presupuestoItems
+      .map((item) => {
+        const total = Number(item.totalCalculado) || 0;
+        const personas =
+          item.modalidad === "por_persona"
+            ? item.numPersonas || 0
+            : "—";
+        return `
+          <tr data-id="${item.id}">
+            <td>${item.concepto || "-"}</td>
+            <td>${(item.tipo || "").toUpperCase()}</td>
+            <td>${item.modalidad === "por_persona" ? "Por persona" : "Costo fijo"}</td>
+            <td>${formatearMoneda(item.montoBase)}</td>
+            <td>${personas}</td>
+            <td>${formatearMoneda(total)}</td>
+            <td>
+              <button class="btn btn--ghost btn--danger" data-action="borrar-presupuesto" data-id="${item.id}" ${
+                puedeBorrar ? "" : "disabled"
+              }>Eliminar</button>
+            </td>
+          </tr>
+        `;
+      })
+      .join("");
+  }
+  actualizarResumenFinanciero();
+}
+
+function renderApoyos() {
+  if (!apoyosBody) return;
+  if (!apoyosItems.length) {
+    apoyosBody.innerHTML = '<tr><td colspan="3">Aún no registras apoyos.</td></tr>';
+  } else {
+    const puedeBorrar = rolActual === "admin";
+    apoyosBody.innerHTML = apoyosItems
+      .map(
+        (item) => `
+        <tr data-id="${item.id}">
+          <td>${item.descripcion || "-"}</td>
+          <td>${formatearMoneda(item.monto)}</td>
+          <td>
+            <button class="btn btn--ghost btn--danger" data-action="borrar-apoyo" data-id="${item.id}" ${
+              puedeBorrar ? "" : "disabled"
+            }>Eliminar</button>
+          </td>
+        </tr>
+      `
+      )
+      .join("");
+  }
+  actualizarResumenFinanciero();
+}
+
+async function guardarPresupuestoItem(formData) {
+  if (rolActual !== "admin") {
+    if (presupuestoMensaje) presupuestoMensaje.textContent = "Solo los administradores pueden agregar.";
+    return;
+  }
+  const concepto = formData.get("concepto")?.trim();
+  const tipo = formData.get("tipo") || "gasto";
+  const modalidad = formData.get("modalidad") || "fijo";
+  const montoBase = Number(formData.get("montoBase"));
+  let numPersonas = Number(formData.get("numPersonas"));
+  if (!concepto || Number.isNaN(montoBase)) {
+    if (presupuestoMensaje) presupuestoMensaje.textContent = "Completa el concepto y el monto.";
+    return;
+  }
+  let totalCalculado = montoBase;
+  if (modalidad === "por_persona") {
+    if (Number.isNaN(numPersonas) || numPersonas <= 0) {
+      if (presupuestoMensaje) presupuestoMensaje.textContent =
+        "Define cuántas personas pagarán este concepto.";
+      return;
+    }
+    totalCalculado = montoBase * numPersonas;
+  } else {
+    numPersonas = 0;
+  }
+  try {
+    await db.collection("presupuesto").add({
+      concepto,
+      tipo,
+      modalidad,
+      montoBase,
+      numPersonas,
+      totalCalculado,
+      creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    presupuestoForm?.reset();
+    if (presupuestoMensaje) presupuestoMensaje.textContent = "Movimiento agregado.";
+    await cargarPresupuestoItems();
+  } catch (error) {
+    console.error("Error al guardar movimiento", error);
+    if (presupuestoMensaje) presupuestoMensaje.textContent =
+      "No pudimos registrar el movimiento.";
+  }
+}
+
+async function borrarPresupuestoItem(id) {
+  if (rolActual !== "admin" || !id) return;
+  if (!confirm("¿Eliminar este movimiento?")) return;
+  try {
+    await db.collection("presupuesto").doc(id).delete();
+    await cargarPresupuestoItems();
+  } catch (error) {
+    console.error("Error al borrar movimiento", error);
+  }
+}
+
+async function guardarApoyo(formData) {
+  if (rolActual !== "admin") {
+    if (apoyosMensaje) apoyosMensaje.textContent = "Solo los administradores pueden agregar.";
+    return;
+  }
+  const descripcion = formData.get("descripcion")?.trim();
+  const monto = Number(formData.get("monto"));
+  if (!descripcion || Number.isNaN(monto)) {
+    if (apoyosMensaje) apoyosMensaje.textContent = "Completa la descripción y el monto.";
+    return;
+  }
+  try {
+    await db.collection("presupuestoApoyos").add({
+      descripcion,
+      monto,
+      creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    apoyosForm?.reset();
+    if (apoyosMensaje) apoyosMensaje.textContent = "Apoyo registrado.";
+    await cargarApoyos();
+  } catch (error) {
+    console.error("Error al guardar apoyo", error);
+    if (apoyosMensaje) apoyosMensaje.textContent = "No pudimos registrar el apoyo.";
+  }
+}
+
+async function borrarApoyo(id) {
+  if (rolActual !== "admin" || !id) return;
+  if (!confirm("¿Eliminar este apoyo/ahorro?")) return;
+  try {
+    await db.collection("presupuestoApoyos").doc(id).delete();
+    await cargarApoyos();
+  } catch (error) {
+    console.error("Error al borrar apoyo", error);
+  }
+}
+
+function calcularTotalesPresupuesto() {
+  const totales = {
+    ingresos: 0,
+    gastos: 0,
+    apoyos: 0,
+  };
+  presupuestoItems.forEach((item) => {
+    const total = Number(item.totalCalculado) || 0;
+    if (item.tipo === "ingreso") {
+      totales.ingresos += total;
+    } else {
+      totales.gastos += total;
+    }
+  });
+  apoyosItems.forEach((apoyo) => {
+    totales.apoyos += Number(apoyo.monto) || 0;
+  });
+  return totales;
+}
+
+function actualizarResumenFinanciero() {
+  if (!budgetIngresosElem || !budgetGastosElem) return;
+  const totales = calcularTotalesPresupuesto();
+  budgetIngresosElem.textContent = formatearMoneda(totales.ingresos);
+  budgetGastosElem.textContent = formatearMoneda(totales.gastos);
+  budgetApoyosElem.textContent = formatearMoneda(totales.apoyos);
+  const balance = totales.ingresos + totales.apoyos - totales.gastos;
+  budgetBalanceElem.textContent = formatearMoneda(balance);
+  actualizarGraficaPresupuesto(totales);
+}
+
+function actualizarGraficaPresupuesto(totales) {
+  if (!presupuestoChartCanvas || typeof Chart === "undefined") return;
+  const dataset = [
+    Math.max(0, totales.gastos),
+    Math.max(0, totales.ingresos + totales.apoyos),
+  ];
+  const dataConfig = {
+    labels: ["Gastos", "Recursos"],
+    datasets: [
+      {
+        data: dataset,
+        backgroundColor: ["#cc8a9f", "#a3bc43"],
+      },
+    ],
+  };
+  if (presupuestoChart) {
+    presupuestoChart.data = dataConfig;
+    presupuestoChart.update();
+  } else {
+    presupuestoChart = new Chart(presupuestoChartCanvas, {
+      type: "pie",
+      data: dataConfig,
+      options: {
+        plugins: {
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    });
+  }
+}
+
 function abrirModalDama(persona = null) {
   if (!damasForm) return;
   damaSeleccionada = persona;
@@ -1527,8 +2047,9 @@ function abrirModalDama(persona = null) {
   damasForm.reset();
   damasForm.elements["id"].value = persona?.id || "";
   damasForm.elements["nombre"].value = persona?.nombre || "";
-  damasForm.elements["lado"].value = persona?.lado || "novia";
-  damasForm.elements["rol"].value = persona?.rol || "dama";
+  damasForm.elements["lado"].value =
+    persona?.lado || ultimaSeleccionLadoDama || "novia";
+  damasForm.elements["rol"].value = persona?.rol || ultimaSeleccionRolDama || "dama";
   damasForm.elements["vestuarioConfirmado"].value = persona?.vestuarioConfirmado ? "true" : "false";
   damasForm.elements["imagen"].value = persona?.imagen || "";
   modalDamaInstance?.show();
@@ -1617,13 +2138,44 @@ function obtenerCapacidadMaxima() {
   return 0;
 }
 
+function esInvitadoActivoParaCapacidad(invitado) {
+  if (!invitado || invitado.esListaEspera) return false;
+  const estado = (invitado.estadoInvitacion || "").trim();
+  return !ESTADOS_CAPACIDAD_EXCLUIDOS.has(estado);
+}
+
 function contarInvitadosActivos() {
   return invitadosCache
-    .filter((invitado) => !invitado.esListaEspera)
+    .filter(esInvitadoActivoParaCapacidad)
     .reduce(
       (acc, invitado) => acc + (Number(invitado.numInvitadosPermitidos) || 0),
       0
     );
+}
+
+function contarInvitadosPorLado(lado) {
+  const ladoNormalizado = (lado || "").toLowerCase();
+  if (!ladoNormalizado) return 0;
+  return invitadosCache
+    .filter(
+      (invitado) =>
+        esInvitadoActivoParaCapacidad(invitado) &&
+        (invitado.lado || "").toLowerCase() === ladoNormalizado
+    )
+    .reduce(
+      (acc, invitado) => acc + (Number(invitado.numInvitadosPermitidos) || 0),
+      0
+    );
+}
+
+function contarInvitacionesPorLado(lado) {
+  const ladoNormalizado = (lado || "").toLowerCase();
+  if (!ladoNormalizado) return 0;
+  return invitadosCache.filter(
+    (invitado) =>
+      esInvitadoActivoParaCapacidad(invitado) &&
+      (invitado.lado || "").toLowerCase() === ladoNormalizado
+  ).length;
 }
 
 function contarInvitadosListaEspera() {
@@ -1643,6 +2195,15 @@ function calcularDisponibles() {
 }
 
 function actualizarResumenCapacidad() {
+  const noviaActivos = contarInvitadosPorLado("novia");
+  const novioActivos = contarInvitadosPorLado("novio");
+  if (summaryNovia) summaryNovia.textContent = noviaActivos;
+  if (summaryNovio) summaryNovio.textContent = novioActivos;
+  const totalNovia = contarInvitacionesPorLado("novia");
+  const totalNovio = contarInvitacionesPorLado("novio");
+  if (summaryNoviaTotal) summaryNoviaTotal.textContent = totalNovia;
+  if (summaryNovioTotal) summaryNovioTotal.textContent = totalNovio;
+
   if (!summaryDisponibles) return;
   const max = obtenerCapacidadMaxima();
   const disponibles = calcularDisponibles();
@@ -1651,6 +2212,9 @@ function actualizarResumenCapacidad() {
     if (waitlistStatus) {
       waitlistStatus.textContent = "Define una capacidad máxima para habilitar ascensos.";
     }
+    if (headerActivos) headerActivos.textContent = contarInvitadosActivos();
+    if (headerEspera) headerEspera.textContent = contarInvitadosListaEspera();
+    if (headerDisponibles) headerDisponibles.textContent = "--";
     return;
   }
   const libres = disponibles ?? 0;
