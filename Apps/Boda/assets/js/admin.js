@@ -757,21 +757,17 @@ function construirColumnasDataTable(opciones = {}) {
       render: (data, type) => (type === "display" ? (data === "Sí" ? "✔" : "—") : data),
     },
     { data: "listaEspera", title: "Lista espera" },
-    ...(controlPrioridad
-      ? [
-          {
-            data: "prioridad",
-            title: "Prioridad",
-            render: (data, type, row) => {
-              if (type !== "display") return data;
-              if (row.esListaEsperaFlag) {
-                return renderPrioridadControls(row);
-              }
-              return data ?? "-";
-            },
-          },
-        ]
-      : []),
+    {
+      data: "prioridad",
+      title: "Prioridad",
+      render: (data, type, row) => {
+        if (type !== "display") return data;
+        if (controlPrioridad && row.esListaEsperaFlag) {
+          return renderPrioridadControls(row);
+        }
+        return data ?? "-";
+      },
+    },
     {
       data: "etiquetasTexto",
       title: "Etiquetas",
