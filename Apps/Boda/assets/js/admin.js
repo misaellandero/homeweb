@@ -38,6 +38,9 @@ const summaryFechaDetalles = document.getElementById("summary-fecha-detalles");
 const summaryFechaBoda = document.getElementById("summary-fecha-boda");
 const summaryCapacidad = document.getElementById("summary-capacidad");
 const summaryDisponibles = document.getElementById("summary-disponibles");
+const headerFechaRespuesta = document.getElementById("header-fecha-respuesta");
+const headerFechaDetalles = document.getElementById("header-fecha-detalles");
+const headerFechaBoda = document.getElementById("header-fecha-boda");
 const waitlistBody = document.getElementById("waitlist-body");
 const waitlistStatus = document.getElementById("waitlist-status");
 const modalPromover = document.getElementById("modal-promover");
@@ -1105,11 +1108,20 @@ function renderResumenFechas(fechas = {}) {
   if (summaryFechaRespuesta) {
     summaryFechaRespuesta.textContent = formatearFechaResumen(fechas.fechaLimiteRespuesta);
   }
+  if (headerFechaRespuesta) {
+    headerFechaRespuesta.textContent = formatearFechaResumen(fechas.fechaLimiteRespuesta);
+  }
   if (summaryFechaDetalles) {
     summaryFechaDetalles.textContent = formatearFechaResumen(fechas.fechaLimiteDetalles);
   }
+  if (headerFechaDetalles) {
+    headerFechaDetalles.textContent = formatearFechaResumen(fechas.fechaLimiteDetalles);
+  }
   if (summaryFechaBoda) {
     summaryFechaBoda.textContent = formatearFechaResumen(fechas.fechaBoda);
+  }
+  if (headerFechaBoda) {
+    headerFechaBoda.textContent = formatearFechaResumen(fechas.fechaBoda);
   }
   if (summaryCapacidad) {
     summaryCapacidad.textContent =

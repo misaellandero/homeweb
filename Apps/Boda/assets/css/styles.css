@@ -495,6 +495,31 @@ body.admin .deadline-node--secondary {
   background: rgba(0, 0, 0, 0.02);
 }
 
+.header-dates {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.header-dates .deadline-node {
+  flex: 1 1 200px;
+  min-height: 120px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-dates .deadline-node__date {
+  font-size: 1.25rem;
+}
+
+.header-dates .deadline-node__description {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 @media (min-width: 992px) {
   body.admin .deadline-timeline {
     flex-direction: row;
