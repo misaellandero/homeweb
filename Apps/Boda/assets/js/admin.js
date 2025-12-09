@@ -11,10 +11,37 @@ const crearInvitadoForm = document.getElementById("crear-invitado-form");
 const editarInvitadoForm = document.getElementById("editar-invitado-form");
 const asignarLugarBtn = document.getElementById("asignar-lugar");
 const borrarInvitadoBtn = document.getElementById("borrar-invitado");
+const crearCard = document.getElementById("crear-card");
+const rolInfo = document.getElementById("rol-info");
 
 let filtroActual = "todos";
 let invitadosCache = [];
 let invitadoSeleccionado = null;
+let rolActual = "verificador";
+
+// Configura los correos permitidos para cada rol.
+const ROLE_CONFIG = {
+  admin: ["novio@correo.com", "novia@correo.com"],
+  verificador: ["ayuda@correo.com"],
+};
+
+function obtenerRolPorCorreo(email) {
+  if (!email) return "verificador";
+  if (ROLE_CONFIG.admin.includes(email)) return "admin";
+  if (ROLE_CONFIG.verificador.includes(email)) return "verificador";
+  return "verificador";
+}
+
+function actualizarUIporRol() {
+  const esAdmin = rolActual === "admin";
+  crearCard?.classList.toggle("hidden", !esAdmin);
+  if (borrarInvitadoBtn) {
+    borrarInvitadoBtn.disabled = !esAdmin;
+    borrarInvitadoBtn.title = esAdmin
+      ? ""
+      : "Solo administradores pueden borrar invitados.";
+  }
+}
 
 /**
  * Inicia sesión con Firebase Authentication.
@@ -110,6 +137,7 @@ function seleccionarInvitado(id) {
  * Crea un invitado nuevo en Firestore.
  */
 async function crearInvitado(data) {
+  if (rolActual !== "admin") return;
   const payload = formDataToObject(data);
   payload.numInvitadosPermitidos = Number(payload.numInvitadosPermitidos || 0);
   payload.prioridadListaEspera = Number(payload.prioridadListaEspera || 0);
@@ -154,6 +182,7 @@ async function actualizarInvitado(data) {
  * Elimina el invitado activo.
  */
 async function borrarInvitado() {
+  if (rolActual !== "admin") return;
   if (!invitadoSeleccionado) return;
   if (!confirm("¿Deseas eliminar este registro?")) return;
   try {
@@ -246,8 +275,13 @@ loginForm?.addEventListener("submit", (event) => {
 
 auth.onAuthStateChanged((user) => {
   const isLogged = !!user;
+  rolActual = user ? obtenerRolPorCorreo(user.email) : "verificador";
   dashboard.classList.toggle("hidden", !isLogged);
   authSection.classList.toggle("hidden", isLogged);
+  actualizarUIporRol();
+  if (rolInfo) {
+    rolInfo.textContent = `Rol actual: ${isLogged ? rolActual : "--"}`;
+  }
   if (isLogged) {
     cargarListaInvitados().then(() => actualizarEstadosPorExpiracion());
   }
@@ -273,6 +307,11 @@ tablaBody?.addEventListener("click", (event) => {
 
 crearInvitadoForm?.addEventListener("submit", (event) => {
   event.preventDefault();
+  if (rolActual !== "admin") {
+    document.getElementById("crear-invitado-mensaje").textContent =
+      "Solo los administradores pueden crear invitados.";
+    return;
+  }
   crearInvitado(new FormData(event.target));
 });
 

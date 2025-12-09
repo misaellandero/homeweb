@@ -9,7 +9,10 @@
   <body class="admin">
     <header class="admin__header">
       <div class="container">
-        <h1>Panel de invitados</h1>
+        <div>
+          <h1>Panel de invitados</h1>
+          <p id="rol-info" class="form-helper">Rol actual: --</p>
+        </div>
         <button id="logout-btn" class="btn btn--secondary">Cerrar sesión</button>
       </div>
     </header>
@@ -71,7 +74,7 @@
         </section>
 
         <section class="grid-2">
-          <article class="card">
+          <article class="card" id="crear-card">
             <h2>Crear invitado</h2>
             <form id="crear-invitado-form" class="form-grid">
               <label>Nombre completo<input type="text" name="nombreCompleto" required /></label>
