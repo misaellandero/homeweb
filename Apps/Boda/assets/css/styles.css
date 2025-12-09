@@ -716,6 +716,17 @@ th {
   letter-spacing: 0.05em;
 }
 
+.name-cell strong {
+  display: block;
+  font-weight: 600;
+}
+
+.table-note {
+  margin-top: 0.2rem;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
 .grid-2 {
   display: grid;
   gap: 1.5rem;

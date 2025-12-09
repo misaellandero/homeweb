@@ -171,7 +171,7 @@
                   Lugares ocupados (Dara): <strong id="summary-novia">--</strong>
                 </span>
                 <span class="capacity-pill capacity-pill--neutral">
-                  Lugares ocupados (Misael): <strong id="summary-novio">--</strong>
+                  Lugares ocupados (Novio): <strong id="summary-novio">--</strong>
                 </span>
               </div> 
             </div>
@@ -224,6 +224,8 @@
                     <th>Lado</th>
                     <th>Código</th>
                     <th>N° invitados</th>
+                    <th>Adultos</th>
+                    <th>Niños</th>
                     <th>Contacto</th>
                     <th>Estado</th>
                     <th>Acciones</th>
@@ -232,7 +234,6 @@
                     <th>Viaje</th>
                     <th>Hospedaje</th>
                     <th>Lista espera</th>
-                    <th>Prioridad</th>
                     <th>Etiquetas</th>
                     <th>Contactos adicionales</th>
                     <th>Gestión de cupo</th>
@@ -258,6 +259,8 @@
                     <th>Lado</th>
                     <th>Código</th>
                     <th>N° invitados</th>
+                    <th>Adultos</th>
+                    <th>Niños</th>
                     <th>Contacto</th>
                     <th>Estado</th>
                     <th>Acciones</th>
@@ -266,7 +269,6 @@
                     <th>Viaje</th>
                     <th>Hospedaje</th>
                     <th>Lista espera</th>
-                    <th>Prioridad</th>
                     <th>Etiquetas</th>
                     <th>Contactos adicionales</th>
                     <th>Gestión de cupo</th>
@@ -371,41 +373,10 @@
 
           <section class="card">
             <div class="table-header">
-              <h2>Registrar gasto o ingreso</h2>
-            </div>
-            <form id="presupuesto-form" class="form-grid" autocomplete="off">
-              <label>Concepto
-                <input type="text" name="concepto" placeholder="Pastel de boda, DJ, etc." required />
-              </label>
-              <label>Tipo
-                <select name="tipo">
-                  <option value="gasto">Gasto</option>
-                  <option value="ingreso">Ingreso</option>
-                </select>
-              </label>
-              <label>Modalidad
-                <select name="modalidad">
-                  <option value="fijo">Costo fijo</option>
-                  <option value="por_persona">Costo por persona</option>
-                </select>
-              </label>
-              <label>Monto base
-                <input type="number" name="montoBase" step="0.01" min="0" placeholder="Ej. 1500" required />
-              </label>
-              <label>Número de personas
-                <input type="number" name="numPersonas" min="0" placeholder="Solo si es por persona" />
-              </label>
-              <div class="form-actions">
-                <button type="submit" class="btn">Agregar</button>
-                <button type="reset" class="btn btn--secondary">Limpiar</button>
-              </div>
-              <p class="form-helper" id="presupuesto-mensaje"></p>
-            </form>
-          </section>
-
-          <section class="card">
-            <div class="table-header">
               <h2>Detalle de gastos e ingresos</h2>
+              <div class="table-actions">
+                <button id="add-presupuesto-btn" class="btn btn--secondary hidden">Nuevo movimiento</button>
+              </div>
             </div>
             <div class="table-wrapper">
               <table>
@@ -414,15 +385,16 @@
                     <th>Concepto</th>
                     <th>Tipo</th>
                     <th>Modalidad</th>
-                    <th>Monto base</th>
-                    <th>Personas</th>
+                    <th>Monto fijo</th>
+                    <th>Costo adultos</th>
+                    <th>Costo niños</th>
                     <th>Total</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="presupuesto-body">
                   <tr>
-                    <td colspan="7">Todavía no registras movimientos.</td>
+                    <td colspan="8">Todavía no registras movimientos.</td>
                   </tr>
                 </tbody>
               </table>
@@ -432,20 +404,10 @@
           <section class="card">
             <div class="table-header">
               <h2>Ahorros y apoyos</h2>
-            </div>
-            <form id="apoyos-form" class="form-grid">
-              <label>Descripción
-                <input type="text" name="descripcion" placeholder="Donación, ahorro, etc." required />
-              </label>
-              <label>Monto
-                <input type="number" name="monto" step="0.01" min="0" placeholder="Ej. 20000" required />
-              </label>
-              <div class="form-actions">
-                <button type="submit" class="btn">Agregar apoyo</button>
-                <button type="reset" class="btn btn--secondary">Limpiar</button>
+              <div class="table-actions">
+                <button id="add-apoyo-btn" class="btn btn--secondary hidden">Nuevo apoyo</button>
               </div>
-              <p class="form-helper" id="apoyos-mensaje"></p>
-            </form>
+            </div>
             <div class="table-wrapper">
               <table>
                 <thead>
@@ -573,7 +535,9 @@
                   readonly
                 />
               </label>
-              <label>Número de invitados<input type="number" name="numInvitadosPermitidos" min="1" value="1" /></label>
+              <label>Número de invitados<input type="number" name="numInvitadosPermitidos" min="1" value="1" readonly /></label>
+              <label>Adultos asignados<input type="number" name="numAdultosPlaneados" min="0" value="0" /></label>
+              <label>Niños asignados<input type="number" name="numNinosPlaneados" min="0" value="0" /></label>
               <label>Número de contacto<input type="tel" name="contactoPrincipal" placeholder="Ej. +52 55 1234 5678" required /></label>
               <label>Contactos adicionales (coma)
                 <input type="text" name="contactosAdicionales" placeholder="+52..., +1..." />
@@ -604,6 +568,76 @@
                 <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
               </div>
               <p class="form-helper" id="crear-invitado-mensaje"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-presupuesto" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card">
+          <div class="modal-header">
+            <h2 class="modal-title">Registrar gasto o ingreso</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form id="presupuesto-form" class="form-grid" autocomplete="off">
+              <label>Concepto
+                <input type="text" name="concepto" placeholder="Pastel de boda, DJ, etc." required />
+              </label>
+              <label>Tipo
+                <select name="tipo">
+                  <option value="gasto">Gasto</option>
+                  <option value="ingreso">Ingreso</option>
+                </select>
+              </label>
+              <label>Modalidad
+                <select name="modalidad">
+                  <option value="fijo">Costo fijo</option>
+                  <option value="por_persona">Costo por persona</option>
+                </select>
+              </label>
+              <label>Monto fijo
+                <input type="number" name="montoBase" step="0.01" min="0" placeholder="Ej. 1500" />
+              </label>
+              <label>Costo por adulto
+                <input type="number" name="costoAdulto" step="0.01" min="0" placeholder="Ej. 450" />
+              </label>
+              <label>Costo por niño (opcional)
+                <input type="number" name="costoNino" step="0.01" min="0" placeholder="Ej. 250" />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Guardar</button>
+                <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+              <p class="form-helper" id="presupuesto-mensaje"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-apoyo" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card">
+          <div class="modal-header">
+            <h2 class="modal-title">Registrar apoyo o ahorro</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form id="apoyos-form" class="form-grid">
+              <label>Descripción
+                <input type="text" name="descripcion" placeholder="Donación, ahorro, etc." required />
+              </label>
+              <label>Monto
+                <input type="number" name="monto" step="0.01" min="0" placeholder="Ej. 20000" required />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Guardar</button>
+                <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+              <p class="form-helper" id="apoyos-mensaje"></p>
             </form>
           </div>
         </div>
@@ -693,7 +727,9 @@
             <form id="editar-invitado-form" class="form-grid">
               <label>ID invitado<input type="text" name="id" placeholder="Documento seleccionado" readonly /></label>
               <label>Nombre completo<input type="text" name="nombreCompleto" /></label>
-              <label>Número de invitados<input type="number" name="numInvitadosPermitidos" min="1" /></label>
+              <label>Número de invitados<input type="number" name="numInvitadosPermitidos" min="1" readonly /></label>
+              <label>Adultos asignados<input type="number" name="numAdultosPlaneados" min="0" /></label>
+              <label>Niños asignados<input type="number" name="numNinosPlaneados" min="0" /></label>
               <label>Estado (fase interna)
                 <select name="estadoInvitacion">
                   <option value="pendiente_primera_confirmacion">Invitación sin respuesta</option>

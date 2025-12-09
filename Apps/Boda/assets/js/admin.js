@@ -52,6 +52,8 @@ const modalPromover = document.getElementById("modal-promover");
 const promoverForm = document.getElementById("promover-form");
 const promoverDetalle = document.getElementById("promover-detalle");
 const promoverMensaje = document.getElementById("promover-mensaje");
+const modalPresupuesto = document.getElementById("modal-presupuesto");
+const modalApoyo = document.getElementById("modal-apoyo");
 const headerActivos = document.getElementById("header-activos");
 const headerEspera = document.getElementById("header-espera");
 const headerDisponibles = document.getElementById("header-disponibles");
@@ -87,6 +89,8 @@ const budgetGastosElem = document.getElementById("budget-gastos");
 const budgetApoyosElem = document.getElementById("budget-apoyos");
 const budgetBalanceElem = document.getElementById("budget-balance");
 const presupuestoChartCanvas = document.getElementById("presupuesto-chart");
+const addPresupuestoBtn = document.getElementById("add-presupuesto-btn");
+const addApoyoBtn = document.getElementById("add-apoyo-btn");
 const damasLadoSelect = damasForm?.elements?.lado || null;
 const damasRolSelect = damasForm?.elements?.rol || null;
 
@@ -98,6 +102,10 @@ const modalPromoverInstance =
   typeof bootstrap !== "undefined" && modalPromover ? new bootstrap.Modal(modalPromover) : null;
 const modalDamaInstance =
   typeof bootstrap !== "undefined" && modalDama ? new bootstrap.Modal(modalDama) : null;
+const modalPresupuestoInstance =
+  typeof bootstrap !== "undefined" && modalPresupuesto ? new bootstrap.Modal(modalPresupuesto) : null;
+const modalApoyoInstance =
+  typeof bootstrap !== "undefined" && modalApoyo ? new bootstrap.Modal(modalApoyo) : null;
 
 if (crearInvitadoForm && crearTagEditor) {
   actualizarTagEditor(crearInvitadoForm, crearTagEditor);
@@ -147,8 +155,8 @@ function actualizarUIporRol() {
   itinerarioForm?.classList.toggle("hidden", !esAdmin);
   damasForm?.classList.toggle("hidden", !esAdmin);
   addDamaBtn?.classList.toggle("hidden", !esAdmin);
-  presupuestoForm?.classList.toggle("hidden", !esAdmin);
-  apoyosForm?.classList.toggle("hidden", !esAdmin);
+  addPresupuestoBtn?.classList.toggle("hidden", !esAdmin);
+  addApoyoBtn?.classList.toggle("hidden", !esAdmin);
   if (borrarInvitadoBtn) {
     borrarInvitadoBtn.disabled = !esAdmin;
     borrarInvitadoBtn.title = esAdmin
@@ -268,6 +276,15 @@ function renderTagChips(valor) {
 
 function normalizarEtiqueta(tag = "") {
   return tag.trim().toLowerCase();
+}
+
+function escapeHTML(str = "") {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }
 
 function parseContactos(valor = "") {
@@ -562,6 +579,26 @@ function formatearMoneda(valor) {
   }).format(numero);
 }
 
+function obtenerNumeroInput(input) {
+  if (!input) return 0;
+  const numero = Number(input.value);
+  if (Number.isNaN(numero) || numero < 0) return 0;
+  return numero;
+}
+
+function recalcularTotalInvitados(form) {
+  if (!form || !form.elements) return;
+  const adultos = obtenerNumeroInput(form.elements["numAdultosPlaneados"]);
+  const ninos = obtenerNumeroInput(form.elements["numNinosPlaneados"]);
+  const total = adultos + ninos;
+  if (form.elements["numInvitadosPermitidos"]) {
+    form.elements["numInvitadosPermitidos"].value = total;
+  }
+  if (form === editarInvitadoForm || form === crearInvitadoForm) {
+    actualizarMaximoConfirmados(form);
+  }
+}
+
 function actualizarMaximoConfirmados(form) {
   if (!form || !form.elements) return;
   const totalInput = form.elements["numInvitadosPermitidos"];
@@ -627,13 +664,22 @@ function mapInvitadoToRow(invitado) {
   const prioridadLegible = Number.isFinite(prioridadValor)
     ? prioridadValor
     : invitado.prioridadListaEspera ?? "-";
+  const notasTexto =
+    typeof invitado.notas === "string" ? invitado.notas.trim() : "";
+  const notasRender = notasTexto
+    ? `<div class="table-note">${escapeHTML(notasTexto)}</div>`
+    : "";
   return {
     id: invitado.id,
     nombreCompleto: invitado.nombreCompleto || "",
+    notasTexto,
+    notasRender,
     lado: invitado.lado || "-",
     ladoRender: ladoInfo.render,
     codigoInvitacion: invitado.codigoInvitacion || "-",
     numInvitadosPermitidos: invitado.numInvitadosPermitidos ?? "-",
+    numAdultosPlaneados: invitado.numAdultosPlaneados ?? "-",
+    numNinosPlaneados: invitado.numNinosPlaneados ?? "-",
     contactoPrincipal: invitado.contactoPrincipal || "-",
     contactosAdicionalesTexto: contactosAdicionales.join(", "),
     contactosAdicionalesLista: contactosAdicionales,
@@ -658,7 +704,14 @@ function construirColumnasDataTable(opciones = {}) {
   const incluirGestionCupo = !!opciones.incluirGestionCupo;
   const controlPrioridad = !!opciones.controlPrioridad;
   const columnas = [
-    { data: "nombreCompleto", title: "Nombre completo" },
+    {
+      data: "nombreCompleto",
+      title: "Nombre completo",
+      render: (data, type, row) =>
+        type === "display"
+          ? `<div class="name-cell"><strong>${escapeHTML(data || "-")}</strong>${row.notasRender || ""}</div>`
+          : data,
+    },
     {
       data: "lado",
       title: "Lado",
@@ -666,6 +719,8 @@ function construirColumnasDataTable(opciones = {}) {
     },
     { data: "codigoInvitacion", title: "Código" },
     { data: "numInvitadosPermitidos", title: "N° invitados" },
+    { data: "numAdultosPlaneados", title: "Adultos" },
+    { data: "numNinosPlaneados", title: "Niños" },
     { data: "contactoPrincipal", title: "Contacto" },
     {
       data: "estadoLegible",
@@ -702,17 +757,21 @@ function construirColumnasDataTable(opciones = {}) {
       render: (data, type) => (type === "display" ? (data === "Sí" ? "✔" : "—") : data),
     },
     { data: "listaEspera", title: "Lista espera" },
-    {
-      data: "prioridad",
-      title: "Prioridad",
-      render: (data, type, row) => {
-        if (type !== "display") return data;
-        if (controlPrioridad && row.esListaEsperaFlag) {
-          return renderPrioridadControls(row);
-        }
-        return data ?? "-";
-      },
-    },
+    ...(controlPrioridad
+      ? [
+          {
+            data: "prioridad",
+            title: "Prioridad",
+            render: (data, type, row) => {
+              if (type !== "display") return data;
+              if (row.esListaEsperaFlag) {
+                return renderPrioridadControls(row);
+              }
+              return data ?? "-";
+            },
+          },
+        ]
+      : []),
     {
       data: "etiquetasTexto",
       title: "Etiquetas",
@@ -868,6 +927,7 @@ function seleccionarInvitado(id) {
   actualizarMaximoConfirmados(editarInvitadoForm);
   actualizarTagEditor(editarInvitadoForm, editarTagEditor);
   actualizarSugerenciaEtiqueta(editarEtiquetasInput, editarEtiquetasSugerencia);
+  recalcularTotalInvitados(editarInvitadoForm);
   abrirModal(modalEditarInstance);
 }
 
@@ -877,7 +937,9 @@ function seleccionarInvitado(id) {
 async function crearInvitado(formData) {
   if (rolActual !== "admin") return;
   const payload = formDataToObject(formData);
-  payload.numInvitadosPermitidos = Number(payload.numInvitadosPermitidos || 0);
+  payload.numAdultosPlaneados = Number(formData.get("numAdultosPlaneados")) || 0;
+  payload.numNinosPlaneados = Number(formData.get("numNinosPlaneados")) || 0;
+  payload.numInvitadosPermitidos = payload.numAdultosPlaneados + payload.numNinosPlaneados;
   payload.prioridadListaEspera = Number(payload.prioridadListaEspera || 0);
   payload.fechaLimiteRespuesta =
     payload.fechaLimiteRespuesta || deadlineForm?.fechaLimiteRespuesta?.value || null;
@@ -899,6 +961,7 @@ async function crearInvitado(formData) {
     await db.collection("invitados").add(payload);
     document.getElementById("crear-invitado-mensaje").textContent = "Invitado creado";
     crearInvitadoForm.reset();
+    recalcularTotalInvitados(crearInvitadoForm);
     await actualizarCodigoSugerido();
     cerrarModal(modalCrearInstance);
     actualizarTagEditor(crearInvitadoForm, crearTagEditor);
@@ -915,9 +978,18 @@ async function crearInvitado(formData) {
 async function actualizarInvitado(formData) {
   if (!invitadoSeleccionado) return;
   const payload = formDataToObject(formData);
-  ["rsvpNumAsistentes", "prioridadListaEspera", "numInvitadosPermitidos"].forEach((key) => {
+  const adultosPlaneados = Number(formData.get("numAdultosPlaneados")) || 0;
+  const ninosPlaneados = Number(formData.get("numNinosPlaneados")) || 0;
+  payload.numAdultosPlaneados = adultosPlaneados;
+  payload.numNinosPlaneados = ninosPlaneados;
+  [
+    "rsvpNumAsistentes",
+    "prioridadListaEspera",
+    "numInvitadosPermitidos",
+  ].forEach((key) => {
     if (key in payload) payload[key] = Number(payload[key] || 0);
   });
+  payload.numInvitadosPermitidos = adultosPlaneados + ninosPlaneados;
   ["vestimentaConfirmada", "viajeConfirmado", "hospedajeConfirmado", "esListaEspera"].forEach(
     (key) => {
       if (key in payload) payload[key] = payload[key] === "true";
@@ -1207,6 +1279,7 @@ addInvitadoBtn?.addEventListener("click", async () => {
   if (nombreField && nombreField.focus) nombreField.focus();
   actualizarTagEditor(crearInvitadoForm, crearTagEditor);
   actualizarSugerenciaEtiqueta(crearEtiquetasInput, crearEtiquetasSugerencia);
+  recalcularTotalInvitados(crearInvitadoForm);
 });
 
 nombreCrearInput?.addEventListener("input", actualizarCodigoSugerido);
@@ -1241,6 +1314,18 @@ if (editarInvitadoForm?.elements["numInvitadosPermitidos"]) {
     actualizarMaximoConfirmados(editarInvitadoForm)
   );
 }
+
+["numAdultosPlaneados", "numNinosPlaneados"].forEach((campo) => {
+  const inputCrear = crearInvitadoForm?.elements?.[campo];
+  if (inputCrear) {
+    inputCrear.addEventListener("input", () => recalcularTotalInvitados(crearInvitadoForm));
+  }
+  const inputEditar = editarInvitadoForm?.elements?.[campo];
+  if (inputEditar) {
+    inputEditar.addEventListener("input", () => recalcularTotalInvitados(editarInvitadoForm));
+  }
+});
+recalcularTotalInvitados(crearInvitadoForm);
 
 tagFilterContainer?.addEventListener("click", (event) => {
   const tag = event.target?.dataset?.tag;
@@ -1359,6 +1444,20 @@ presupuestoBody?.addEventListener("click", (event) => {
 apoyosForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   guardarApoyo(new FormData(event.target));
+});
+
+addPresupuestoBtn?.addEventListener("click", () => {
+  if (rolActual !== "admin") return;
+  presupuestoForm?.reset();
+  if (presupuestoMensaje) presupuestoMensaje.textContent = "";
+  modalPresupuestoInstance?.show();
+});
+
+addApoyoBtn?.addEventListener("click", () => {
+  if (rolActual !== "admin") return;
+  apoyosForm?.reset();
+  if (apoyosMensaje) apoyosMensaje.textContent = "";
+  modalApoyoInstance?.show();
 });
 
 apoyosBody?.addEventListener("click", (event) => {
@@ -1827,23 +1926,40 @@ function renderPresupuesto() {
   if (!presupuestoBody) return;
   if (!presupuestoItems.length) {
     presupuestoBody.innerHTML =
-      '<tr><td colspan="7">Todavía no registras movimientos.</td></tr>';
+      '<tr><td colspan="8">Todavía no registras movimientos.</td></tr>';
   } else {
     const puedeBorrar = rolActual === "admin";
     presupuestoBody.innerHTML = presupuestoItems
       .map((item) => {
         const total = Number(item.totalCalculado) || 0;
-        const personas =
+        const costoAdulto =
           item.modalidad === "por_persona"
-            ? item.numPersonas || 0
+            ? formatearMoneda(item.costoAdulto || 0)
             : "—";
+        const costoNino =
+          item.modalidad === "por_persona" && item.costoNino
+            ? formatearMoneda(item.costoNino || 0)
+            : item.modalidad === "por_persona"
+            ? "—"
+            : "—";
+        const adultosAplicados =
+          item.modalidad === "por_persona" ? item.totalAdultosAplicados || 0 : "-";
+        const ninosAplicados =
+          item.modalidad === "por_persona" ? item.totalNinosAplicados || 0 : "-";
         return `
           <tr data-id="${item.id}">
             <td>${item.concepto || "-"}</td>
             <td>${(item.tipo || "").toUpperCase()}</td>
             <td>${item.modalidad === "por_persona" ? "Por persona" : "Costo fijo"}</td>
-            <td>${formatearMoneda(item.montoBase)}</td>
-            <td>${personas}</td>
+            <td>${item.modalidad === "fijo" ? formatearMoneda(item.montoBase) : "—"}</td>
+            <td>${item.modalidad === "por_persona" ? `${costoAdulto} × ${adultosAplicados}` : "—"}</td>
+            <td>${
+              item.modalidad === "por_persona" && (item.costoNino || 0) > 0
+                ? `${costoNino} × ${ninosAplicados}`
+                : item.modalidad === "por_persona"
+                ? "—"
+                : "—"
+            }</td>
             <td>${formatearMoneda(total)}</td>
             <td>
               <button class="btn btn--ghost btn--danger" data-action="borrar-presupuesto" data-id="${item.id}" ${
@@ -1892,21 +2008,35 @@ async function guardarPresupuestoItem(formData) {
   const tipo = formData.get("tipo") || "gasto";
   const modalidad = formData.get("modalidad") || "fijo";
   const montoBase = Number(formData.get("montoBase"));
-  let numPersonas = Number(formData.get("numPersonas"));
-  if (!concepto || Number.isNaN(montoBase)) {
-    if (presupuestoMensaje) presupuestoMensaje.textContent = "Completa el concepto y el monto.";
+  const costoAdulto = Number(formData.get("costoAdulto"));
+  const costoNino = Number(formData.get("costoNino"));
+  if (!concepto) {
+    if (presupuestoMensaje) presupuestoMensaje.textContent = "Completa el concepto.";
     return;
   }
-  let totalCalculado = montoBase;
+  let totalCalculado = 0;
+  let numPersonas = 0;
+  let totalAdultosAplicados = 0;
+  let totalNinosAplicados = 0;
   if (modalidad === "por_persona") {
-    if (Number.isNaN(numPersonas) || numPersonas <= 0) {
+    if (Number.isNaN(costoAdulto) || costoAdulto <= 0) {
       if (presupuestoMensaje) presupuestoMensaje.textContent =
-        "Define cuántas personas pagarán este concepto.";
+        "Ingresa el costo por adulto para este concepto.";
       return;
     }
-    totalCalculado = montoBase * numPersonas;
+    totalAdultosAplicados = contarAdultosActivos();
+    totalNinosAplicados = contarNinosActivos();
+    totalCalculado = costoAdulto * totalAdultosAplicados;
+    if (!Number.isNaN(costoNino) && costoNino > 0) {
+      totalCalculado += costoNino * totalNinosAplicados;
+    }
+    numPersonas = totalAdultosAplicados + totalNinosAplicados;
   } else {
-    numPersonas = 0;
+    if (Number.isNaN(montoBase) || montoBase <= 0) {
+      if (presupuestoMensaje) presupuestoMensaje.textContent = "Ingresa un monto fijo válido.";
+      return;
+    }
+    totalCalculado = montoBase;
   }
   try {
     await db.collection("presupuesto").add({
@@ -1916,10 +2046,15 @@ async function guardarPresupuestoItem(formData) {
       montoBase,
       numPersonas,
       totalCalculado,
+      costoAdulto: Number.isNaN(costoAdulto) ? 0 : costoAdulto,
+      costoNino: Number.isNaN(costoNino) ? 0 : costoNino,
+      totalAdultosAplicados,
+      totalNinosAplicados,
       creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
     });
     presupuestoForm?.reset();
     if (presupuestoMensaje) presupuestoMensaje.textContent = "Movimiento agregado.";
+    modalPresupuestoInstance?.hide();
     await cargarPresupuestoItems();
   } catch (error) {
     console.error("Error al guardar movimiento", error);
@@ -1958,6 +2093,7 @@ async function guardarApoyo(formData) {
     });
     apoyosForm?.reset();
     if (apoyosMensaje) apoyosMensaje.textContent = "Apoyo registrado.";
+    modalApoyoInstance?.hide();
     await cargarApoyos();
   } catch (error) {
     console.error("Error al guardar apoyo", error);
@@ -2185,6 +2321,18 @@ function contarInvitadosListaEspera() {
       (acc, invitado) => acc + (Number(invitado.numInvitadosPermitidos) || 0),
       0
     );
+}
+
+function contarAdultosActivos() {
+  return invitadosCache
+    .filter(esInvitadoActivoParaCapacidad)
+    .reduce((acc, invitado) => acc + (Number(invitado.numAdultosPlaneados) || 0), 0);
+}
+
+function contarNinosActivos() {
+  return invitadosCache
+    .filter(esInvitadoActivoParaCapacidad)
+    .reduce((acc, invitado) => acc + (Number(invitado.numNinosPlaneados) || 0), 0);
 }
 
 function calcularDisponibles() {
