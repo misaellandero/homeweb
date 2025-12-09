@@ -41,19 +41,16 @@
         </div>
         <div class="header-dates">
           <div class="deadline-node">
-            <div class="deadline-node__title">Confirma asistencia</div>
-            <div class="deadline-node__tag">DIJO_QUE_SI</div>
-            <div class="deadline-node__date" id="summary-fecha-respuesta">--</div>
+            <div class="deadline-node__title">Confirmar asistencia</div>
+            <div class="deadline-node__date" id="header-fecha-respuesta">--</div>
           </div>
           <div class="deadline-node">
-            <div class="deadline-node__title">Checklist de atuendo y viaje</div>
-            <div class="deadline-node__tag">SI_CONFIRMADO</div>
-            <div class="deadline-node__date" id="summary-fecha-detalles">--</div>
+            <div class="deadline-node__title">Checklist atuendo y viaje</div>
+            <div class="deadline-node__date" id="header-fecha-detalles">--</div>
           </div>
           <div class="deadline-node">
             <div class="deadline-node__title">Día de la boda</div>
-            <div class="deadline-node__tag">Portada</div>
-            <div class="deadline-node__date" id="summary-fecha-boda">--</div>
+            <div class="deadline-node__date" id="header-fecha-boda">--</div>
           </div>
         </div>
       </div>
@@ -146,8 +143,7 @@
             <h2>Filtros rápidos</h2>
             <div class="filter-buttons">
               <button data-filter="fase1" class="btn btn--ghost">Confirmó asistencia</button>
-              <button data-filter="final" class="btn btn--ghost">Checklist completo</button>
-              <button data-filter="lista-espera" class="btn btn--ghost">Lista de espera</button>
+              <button data-filter="final" class="btn btn--ghost">Checklist completo</button> 
               <button data-filter="todos" class="btn btn--ghost">Ver todos</button>
             </div>
             <div class="tag-filter">
@@ -173,9 +169,9 @@
                     <th>Nombre completo</th>
                     <th>Lado</th>
                     <th>Código</th>
-                    <th># Permitidos</th>
+                    <th>N° invitados</th>
                     <th>Estado</th>
-                    <th># Confirmados</th>
+                    <th>N° confirmados</th>
                     <th>Vestimenta</th>
                     <th>Viaje</th>
                     <th>Hospedaje</th>
@@ -252,6 +248,12 @@
               <p class="form-helper">
                 Define aquí las fechas por defecto para nuevos invitados. También puedes aplicarlas a registros sin fechas.
               </p>
+              <p class="form-helper timeline-note">
+                <strong>Confirma asistencia (DIJO_QUE_SI)</strong> marca el plazo para que respondan
+                si asistirán. <strong>Checklist (SI_CONFIRMADO)</strong> es la fecha límite para
+                confirmar atuendo y viaje, y <strong>Día de la boda</strong> es la fecha oficial que
+                mostramos al público.
+              </p>
               <div class="deadline-timeline">
                 <div class="deadline-node">
                   <div class="deadline-node__title">Confirma asistencia</div>
@@ -284,133 +286,144 @@
       </section>
     </main>
 
-    <div id="modal-overlay" class="modal-overlay hidden"></div>
-
-    <section class="modal hidden" id="modal-crear" aria-hidden="true">
-      <div class="modal__window card">
-        <header class="modal__header">
-          <h2>Crear invitado</h2>
-          <button class="modal__close" data-close-modal="modal-crear" aria-label="Cerrar">×</button>
-        </header>
-        <form id="crear-invitado-form" class="form-grid">
-          <label>Nombre completo<input type="text" name="nombreCompleto" required /></label>
-          <label>Lado
-            <select name="lado">
-              <option value="novio">Novio</option>
-              <option value="novia">Novia</option>
-            </select>
-          </label>
-          <label>Código
-            <input
-              type="text"
-              name="codigoInvitacion"
-              placeholder="Se genera automáticamente"
-              readonly
-            />
-          </label>
-          <label># Permitidos<input type="number" name="numInvitadosPermitidos" min="1" value="1" /></label>
-          <label>Estado (fase interna)
-            <select name="estadoInvitacion">
-              <option value="pendiente_primera_confirmacion">Invitación sin respuesta</option>
-              <option value="confirmado_fase1">Confirmó asistencia</option>
-              <option value="confirmado_final">Checklist completado</option>
-              <option value="rechazado">Rechazado</option>
-            </select>
-          </label>
-          <label>Lista de espera
-            <select name="esListaEspera">
-              <option value="false">No</option>
-              <option value="true">Sí</option>
-            </select>
-          </label>
-          <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" value="0" /></label>
-          <label>Etiquetas (separadas por coma)
-            <input type="text" name="etiquetas" placeholder="Familia, Amigos" />
-          </label>
-          <label>Notas<textarea name="notas" rows="2"></textarea></label>
-          <div class="form-actions">
-            <button type="submit" class="btn">Guardar</button>
-            <button type="button" class="btn btn--secondary" data-close-modal="modal-crear">Cancelar</button>
+    <div class="modal fade" id="modal-crear" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content card">
+          <div class="modal-header">
+            <h2 class="modal-title">Crear invitado</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
-          <p class="form-helper" id="crear-invitado-mensaje"></p>
-        </form>
-      </div>
-    </section>
-
-    <section class="modal hidden" id="modal-promover" aria-hidden="true">
-      <div class="modal__window card">
-        <header class="modal__header">
-          <h2>Promover desde lista de espera</h2>
-          <button class="modal__close" data-close-modal="modal-promover" aria-label="Cerrar">×</button>
-        </header>
-        <form id="promover-form" class="form-grid">
-          <p class="form-helper" id="promover-detalle">Selecciona nuevas fechas límite:</p>
-          <label>Fecha límite de respuesta
-            <input type="datetime-local" name="fechaLimiteRespuesta" required />
-          </label>
-          <label>Fecha límite checklist
-            <input type="datetime-local" name="fechaLimiteDetalles" required />
-          </label>
-          <div class="form-actions">
-            <button type="submit" class="btn">Confirmar promoción</button>
-            <button type="button" class="btn btn--secondary" data-close-modal="modal-promover">
-              Cancelar
-            </button>
+          <div class="modal-body">
+            <form id="crear-invitado-form" class="form-grid">
+              <label>Nombre completo<input type="text" name="nombreCompleto" required /></label>
+              <label>Lado
+                <select name="lado">
+                  <option value="novio">Novio</option>
+                  <option value="novia">Novia</option>
+                </select>
+              </label>
+              <label>Código
+                <input
+                  type="text"
+                  name="codigoInvitacion"
+                  placeholder="Se genera automáticamente"
+                  readonly
+                />
+              </label>
+              <label>Número de invitados<input type="number" name="numInvitadosPermitidos" min="1" value="1" /></label>
+              <label>Estado (fase interna)
+                <select name="estadoInvitacion">
+                  <option value="pendiente_primera_confirmacion">Invitación sin respuesta</option>
+                  <option value="confirmado_fase1">Confirmó asistencia</option>
+                  <option value="confirmado_final">Checklist completado</option>
+                  <option value="rechazado">Rechazado</option>
+                </select>
+              </label>
+              <label>Lista de espera
+                <select name="esListaEspera">
+                  <option value="false">No</option>
+                  <option value="true">Sí</option>
+                </select>
+              </label>
+              <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" value="0" /></label>
+              <label>Etiquetas (separadas por coma)
+                <input type="text" name="etiquetas" placeholder="Familia, Amigos" />
+              </label>
+              <label>Notas<textarea name="notas" rows="2"></textarea></label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Guardar</button>
+                <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+              <p class="form-helper" id="crear-invitado-mensaje"></p>
+            </form>
           </div>
-          <p class="form-helper" id="promover-mensaje"></p>
-        </form>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <section class="modal hidden" id="modal-editar" aria-hidden="true">
-      <div class="modal__window card">
-        <header class="modal__header">
-          <h2>Editar invitado</h2>
-          <button class="modal__close" data-close-modal="modal-editar" aria-label="Cerrar">×</button>
-        </header>
-        <form id="editar-invitado-form" class="form-grid">
-          <label>ID invitado<input type="text" name="id" placeholder="Documento seleccionado" readonly /></label>
-          <label>Nombre completo<input type="text" name="nombreCompleto" /></label>
-          <label>Estado (fase interna)
-            <select name="estadoInvitacion">
-              <option value="pendiente_primera_confirmacion">Invitación sin respuesta</option>
-              <option value="confirmado_fase1">Confirmó asistencia</option>
-              <option value="confirmado_final">Checklist completado</option>
-              <option value="rechazado">Rechazado</option>
-              <option value="cancelado_por_tiempo">Cancelado por tiempo</option>
-            </select>
-          </label>
-          <label>Acompañantes confirmados<input type="number" name="rsvpNumAsistentes" min="0" /></label>
-          <label>Vestimenta lista<select name="vestimentaConfirmada"><option value="false">No</option><option value="true">Sí</option></select></label>
-          <label>Viaje listo<select name="viajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
-          <label>Hospedaje listo<select name="hospedajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
-          <label>Lista de espera<select name="esListaEspera"><option value="false">No</option><option value="true">Sí</option></select></label>
-          <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" /></label>
-          <label>Etiquetas (separadas por coma)<input type="text" name="etiquetas" /></label>
-          <label>Notas<textarea name="notas" rows="3"></textarea></label>
-          <div class="form-actions">
-            <button type="submit" class="btn">Actualizar</button>
-            <button type="button" id="asignar-lugar" class="btn btn--secondary">Asignar lugar</button>
-            <button type="button" id="borrar-invitado" class="btn btn--danger">Eliminar</button>
-            <button type="button" class="btn btn--secondary" data-close-modal="modal-editar">Cerrar</button>
+    <div class="modal fade" id="modal-promover" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card">
+          <div class="modal-header">
+            <h2 class="modal-title">Promover desde lista de espera</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
           </div>
-          <p class="form-helper" id="editar-invitado-mensaje"></p>
-        </form>
+          <div class="modal-body">
+            <form id="promover-form" class="form-grid">
+              <p class="form-helper" id="promover-detalle">Selecciona nuevas fechas límite:</p>
+              <label>Fecha límite de respuesta
+                <input type="datetime-local" name="fechaLimiteRespuesta" required />
+              </label>
+              <label>Fecha límite checklist
+                <input type="datetime-local" name="fechaLimiteDetalles" required />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Confirmar promoción</button>
+                <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">
+                  Cancelar
+                </button>
+              </div>
+              <p class="form-helper" id="promover-mensaje"></p>
+            </form>
+          </div>
+        </div>
       </div>
-    </section>
+    </div>
+
+    <div class="modal fade" id="modal-editar" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content card">
+          <div class="modal-header">
+            <h2 class="modal-title">Editar invitado</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form id="editar-invitado-form" class="form-grid">
+              <label>ID invitado<input type="text" name="id" placeholder="Documento seleccionado" readonly /></label>
+              <label>Nombre completo<input type="text" name="nombreCompleto" /></label>
+              <label>Número de invitados<input type="number" name="numInvitadosPermitidos" min="1" /></label>
+              <label>Estado (fase interna)
+                <select name="estadoInvitacion">
+                  <option value="pendiente_primera_confirmacion">Invitación sin respuesta</option>
+                  <option value="confirmado_fase1">Confirmó asistencia</option>
+                  <option value="confirmado_final">Checklist completado</option>
+                  <option value="rechazado">Rechazado</option>
+                  <option value="cancelado_por_tiempo">Cancelado por tiempo</option>
+                </select>
+              </label>
+              <label>Número confirmado de asistentes<input type="number" name="rsvpNumAsistentes" min="0" /></label>
+              <label>Vestimenta lista<select name="vestimentaConfirmada"><option value="false">No</option><option value="true">Sí</option></select></label>
+              <label>Viaje listo<select name="viajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
+              <label>Hospedaje listo<select name="hospedajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
+              <label>Lista de espera<select name="esListaEspera"><option value="false">No</option><option value="true">Sí</option></select></label>
+              <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" /></label>
+              <label>Etiquetas (separadas por coma)<input type="text" name="etiquetas" /></label>
+              <label>Notas<textarea name="notas" rows="3"></textarea></label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Actualizar</button>
+                <button type="button" id="asignar-lugar" class="btn btn--secondary">Asignar lugar</button>
+                <button type="button" id="borrar-invitado" class="btn btn--danger">Eliminar</button>
+                <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+              <p class="form-helper" id="editar-invitado-mensaje"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-    <script src="../assets/js/firebase-config.js"></script>
-    <script src="../assets/js/admin.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="../assets/js/firebase-config.js"></script>
+    <script src="../assets/js/admin.js"></script>
   </body>
 </html>

@@ -23,7 +23,6 @@ const codigoCrearInput =
   crearInvitadoForm && crearInvitadoForm.elements
     ? crearInvitadoForm.elements["codigoInvitacion"]
     : null;
-const modalOverlay = document.getElementById("modal-overlay");
 const modalCrear = document.getElementById("modal-crear");
 const modalEditar = document.getElementById("modal-editar");
 const addInvitadoBtn = document.getElementById("add-invitado-btn");
@@ -51,6 +50,13 @@ const headerDisponibles = document.getElementById("header-disponibles");
 const panelTabs = document.getElementById("panelTabs");
 const capacidadInput = document.getElementById("capacidadMaxima");
 const guardarCapacidadBtn = document.getElementById("guardar-capacidad");
+
+const modalCrearInstance =
+  typeof bootstrap !== "undefined" && modalCrear ? new bootstrap.Modal(modalCrear) : null;
+const modalEditarInstance =
+  typeof bootstrap !== "undefined" && modalEditar ? new bootstrap.Modal(modalEditar) : null;
+const modalPromoverInstance =
+  typeof bootstrap !== "undefined" && modalPromover ? new bootstrap.Modal(modalPromover) : null;
 
 let filtroActual = "todos";
 let invitadosCache = [];
@@ -95,7 +101,7 @@ function limpiarSeleccionInvitado() {
       editarInvitadoForm.elements["id"].value = "";
     }
   }
-  cerrarModal(modalEditar);
+  cerrarModal(modalEditarInstance);
 }
 
 function obtenerPrefijoNombre(nombre) {
@@ -261,6 +267,24 @@ function renderEstadoPill(info) {
   return `<span class="status-pill ${vigente.className}"${title}>${vigente.label}</span>`;
 }
 
+function obtenerInfoLado(lado) {
+  if (!lado) {
+    return { render: '<span class="status-pill status-pill--desconocido">Sin definir</span>' };
+  }
+  const lower = lado.toLowerCase();
+  if (lower === "novia") {
+    return {
+      render: '<span class="status-pill status-pill--lado novia">Novia</span>',
+    };
+  }
+  if (lower === "novio") {
+    return {
+      render: '<span class="status-pill status-pill--lado novio">Novio</span>',
+    };
+  }
+  return { render: `<span class="status-pill status-pill--desconocido">${lado}</span>` };
+}
+
 function renderAcciones(id) {
   const puedeEditar = true;
   const puedeBorrar = rolActual === "admin";
@@ -300,22 +324,27 @@ function renderFiltroEtiquetas() {
     .join("");
 }
 
-function abrirModal(modal) {
-  if (!modal) return;
-  modal.classList.remove("hidden");
-  modalOverlay?.classList.remove("hidden");
-  document.body.classList.add("modal-open");
+function abrirModal(modalInstance) {
+  modalInstance?.show();
 }
 
-function cerrarModal(modal) {
-  if (!modal) return;
-  modal.classList.add("hidden");
-  if (
-    modalCrear?.classList.contains("hidden") &&
-    modalEditar?.classList.contains("hidden")
-  ) {
-    modalOverlay?.classList.add("hidden");
-    document.body.classList.remove("modal-open");
+function cerrarModal(modalInstance) {
+  modalInstance?.hide();
+}
+
+function actualizarMaximoConfirmados(form) {
+  if (!form || !form.elements) return;
+  const totalInput = form.elements["numInvitadosPermitidos"];
+  const confirmInput = form.elements["rsvpNumAsistentes"];
+  if (!confirmInput) return;
+  const max = totalInput ? Number(totalInput.value) || 0 : 0;
+  if (max > 0) {
+    confirmInput.max = max;
+    if (Number(confirmInput.value) > max) {
+      confirmInput.value = max;
+    }
+  } else {
+    confirmInput.removeAttribute("max");
   }
 }
 
@@ -357,11 +386,15 @@ function mapInvitadoToRow(invitado) {
     ? invitado.etiquetas
     : parseEtiquetas(invitado.etiquetas || "");
   const estadoValor = invitado.estadoInvitacion || "";
-  const estadoInfo = obtenerInfoEstado(estadoValor);
+  const estadoInfo = invitado.esListaEspera
+    ? { label: "Lista de espera", className: "status-pill--waitlist" }
+    : obtenerInfoEstado(estadoValor);
+  const ladoInfo = obtenerInfoLado(invitado.lado);
   return {
     id: invitado.id,
     nombreCompleto: invitado.nombreCompleto || "",
     lado: invitado.lado || "-",
+    ladoRender: ladoInfo.render,
     codigoInvitacion: invitado.codigoInvitacion || "-",
     numInvitadosPermitidos: invitado.numInvitadosPermitidos ?? "-",
     estadoInvitacion: estadoValor || "-",
@@ -381,15 +414,19 @@ function mapInvitadoToRow(invitado) {
 function construirColumnasDataTable() {
   return [
     { data: "nombreCompleto", title: "Nombre completo" },
-    { data: "lado", title: "Lado" },
+    {
+      data: "lado",
+      title: "Lado",
+      render: (data, type, row) => (type === "display" ? row.ladoRender : data),
+    },
     { data: "codigoInvitacion", title: "Código" },
-    { data: "numInvitadosPermitidos", title: "# Permitidos" },
+    { data: "numInvitadosPermitidos", title: "N° invitados" },
     {
       data: "estadoLegible",
       title: "Estado",
       render: (data, type, row) => (type === "display" ? row.estadoRender : data),
     },
-    { data: "rsvpNumAsistentes", title: "# Confirmados" },
+    { data: "rsvpNumAsistentes", title: "N° confirmados" },
     {
       data: "vestimenta",
       title: "Vestimenta",
@@ -471,13 +508,24 @@ function renderTablaListaEspera() {
       const prio =
         inv.prioridadListaEspera ?? "—";
       const estado = inv.estadoInvitacion || "Pendiente";
+      const estadoInfo = inv.esListaEspera
+        ? { label: "Lista de espera", className: "status-pill--waitlist" }
+        : obtenerInfoEstado(estado);
       const disabled = !puedePromover ? "disabled" : "";
+      const puedeEditar = true;
+      const puedeBorrar = rolActual === "admin";
       return `
         <tr data-id="${inv.id}">
           <td>${inv.nombreCompleto || "Sin nombre"}</td>
           <td>${prio}</td>
-          <td>${estado}</td>
+          <td>${estadoInfo ? renderEstadoPill(estadoInfo) : estado}</td>
           <td>
+            <button class="btn btn--ghost" data-action="seleccionar" ${
+              puedeEditar ? "" : "disabled"
+            }>Editar</button>
+            <button class="btn btn--ghost btn--danger" data-action="borrar" ${
+              puedeBorrar ? "" : "disabled"
+            }>Borrar</button>
             <button class="btn btn--ghost" data-action="promover" ${disabled}>
               Subir a invitado
             </button>
@@ -492,6 +540,9 @@ function renderTablaListaEspera() {
  * Determina si el invitado pasa el filtro seleccionado.
  */
 function filtrarInvitado(invitado) {
+  if (filtroActual !== "lista-espera" && invitado.esListaEspera) {
+    return false;
+  }
   if (filtroActual === "fase1") {
     return invitado.estadoInvitacion === "confirmado_fase1";
   }
@@ -530,7 +581,8 @@ function seleccionarInvitado(id) {
     editarInvitadoForm.elements[key].value = value;
   }
   editarInvitadoForm.elements["id"].value = invitadoSeleccionado.id;
-  abrirModal(modalEditar);
+  actualizarMaximoConfirmados(editarInvitadoForm);
+  abrirModal(modalEditarInstance);
 }
 
 /**
@@ -560,7 +612,7 @@ async function crearInvitado(formData) {
     document.getElementById("crear-invitado-mensaje").textContent = "Invitado creado";
     crearInvitadoForm.reset();
     await actualizarCodigoSugerido();
-    cerrarModal(modalCrear);
+    cerrarModal(modalCrearInstance);
     await cargarListaInvitados();
   } catch (error) {
     console.error("Error al crear invitado", error);
@@ -573,7 +625,7 @@ async function crearInvitado(formData) {
 async function actualizarInvitado(formData) {
   if (!invitadoSeleccionado) return;
   const payload = formDataToObject(formData);
-  ["rsvpNumAsistentes", "prioridadListaEspera"].forEach((key) => {
+  ["rsvpNumAsistentes", "prioridadListaEspera", "numInvitadosPermitidos"].forEach((key) => {
     if (key in payload) payload[key] = Number(payload[key] || 0);
   });
   ["vestimentaConfirmada", "viajeConfirmado", "hospedajeConfirmado", "esListaEspera"].forEach(
@@ -582,6 +634,13 @@ async function actualizarInvitado(formData) {
     }
   );
   payload.etiquetas = parseEtiquetas(formData.get("etiquetas") || "");
+  const maxPermitidos =
+    payload.numInvitadosPermitidos ??
+    invitadoSeleccionado.numInvitadosPermitidos ??
+    0;
+  if (payload.rsvpNumAsistentes !== undefined && maxPermitidos > 0) {
+    payload.rsvpNumAsistentes = Math.min(payload.rsvpNumAsistentes, maxPermitidos);
+  }
 
   try {
     await db.collection("invitados").doc(invitadoSeleccionado.id).update(payload);
@@ -748,7 +807,7 @@ crearInvitadoForm?.addEventListener("submit", (event) => {
 addInvitadoBtn?.addEventListener("click", async () => {
   if (rolActual !== "admin") return;
   await actualizarCodigoSugerido();
-  abrirModal(modalCrear);
+  abrirModal(modalCrearInstance);
   const nombreField =
     crearInvitadoForm &&
     crearInvitadoForm.elements &&
@@ -756,31 +815,13 @@ addInvitadoBtn?.addEventListener("click", async () => {
   if (nombreField && nombreField.focus) nombreField.focus();
 });
 
-modalOverlay?.addEventListener("click", () => {
-  cerrarModal(modalCrear);
-  cerrarModal(modalEditar);
-  cerrarModal(modalPromover);
-});
-
-document.querySelectorAll("[data-close-modal]").forEach((btn) =>
-  btn.addEventListener("click", (event) => {
-    const targetId = event.currentTarget.getAttribute("data-close-modal");
-    if (!targetId) return;
-    const modal = document.getElementById(targetId);
-    cerrarModal(modal);
-  })
-);
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    cerrarModal(modalCrear);
-    cerrarModal(modalEditar);
-    cerrarModal(modalPromover);
-  }
-});
-
 nombreCrearInput?.addEventListener("input", actualizarCodigoSugerido);
 ladoCrearSelect?.addEventListener("change", actualizarCodigoSugerido);
+if (editarInvitadoForm?.elements["numInvitadosPermitidos"]) {
+  editarInvitadoForm.elements["numInvitadosPermitidos"].addEventListener("input", () =>
+    actualizarMaximoConfirmados(editarInvitadoForm)
+  );
+}
 
 tagFilterContainer?.addEventListener("click", (event) => {
   const tag = event.target?.dataset?.tag;
@@ -806,20 +847,27 @@ borrarInvitadoBtn?.addEventListener("click", borrarInvitado);
 waitlistBody?.addEventListener("click", (event) => {
   const button = event.target.closest("[data-action]");
   if (!button || !waitlistBody.contains(button)) return;
-  if (button.dataset.action !== "promover") return;
   const row = button.closest("tr");
   const id = row?.dataset?.id;
   if (!id) return;
+  const action = button.dataset.action;
   const invitado = invitadosCache.find((inv) => inv.id === id);
   if (!invitado) return;
-  const disponibles = calcularDisponibles();
-  if (disponibles !== null && disponibles <= 0) {
-    if (waitlistStatus) {
-      waitlistStatus.textContent = "No hay cupos libres para subir invitados.";
+
+  if (action === "promover") {
+    const disponibles = calcularDisponibles();
+    if (disponibles !== null && disponibles <= 0) {
+      if (waitlistStatus) {
+        waitlistStatus.textContent = "No hay cupos libres para subir invitados.";
+      }
+      return;
     }
-    return;
+    abrirModalPromover(invitado);
+  } else if (action === "seleccionar") {
+    seleccionarInvitado(id);
+  } else if (action === "borrar") {
+    borrarInvitadoPorId(id);
   }
-  abrirModalPromover(invitado);
 });
 
 promoverForm?.addEventListener("submit", (event) => {
@@ -1153,7 +1201,7 @@ function abrirModalPromover(invitado) {
   promoverForm.fechaLimiteDetalles.value = isoToLocalInputValue(
     configuracionFechas?.fechaLimiteDetalles
   );
-  abrirModal(modalPromover);
+  abrirModal(modalPromoverInstance);
 }
 
 function validarFechasPromover(fechas) {
@@ -1197,7 +1245,7 @@ async function promoverInvitadoListaEspera(fechas) {
       });
     if (promoverMensaje) promoverMensaje.textContent = "Invitado promovido.";
     invitadoListaEsperaSeleccionado = null;
-    cerrarModal(modalPromover);
+    cerrarModal(modalPromoverInstance);
     await cargarListaInvitados();
   } catch (error) {
     console.error("Error al promover invitado", error);
