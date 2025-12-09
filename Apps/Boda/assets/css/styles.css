@@ -245,6 +245,7 @@ img {
   background: linear-gradient(130deg, #744466, #cc8a9f);
   color: var(--color-light);
   box-shadow: 0 20px 40px rgba(116, 68, 102, 0.35);
+  
 }
 
 .btn:hover {
@@ -823,11 +824,22 @@ th {
   background: rgba(204, 138, 159, 0.3);
   color: var(--color-primary);
 }
-
 .status-pill--lado.novio {
   background: rgba(163, 188, 67, 0.25);
   color: var(--color-success);
+}
 
+.status-pill--waitlist {
+  background: rgba(163, 188, 67, 0.3);
+  color: var(--color-success);
+  border: 1px solid rgba(90, 112, 34, 0.5);
+}
+.btn--ghost:hover,
+.btn--ghost:focus {
+  background: linear-gradient(130deg, rgba(90,112,34,0.95), rgba(163,188,67,0.9));
+  color: var(--color-light);
+  border-color: rgba(90,112,34,0.6);
+}
 
 @media (max-width: 600px) {
   .input-group {
@@ -846,14 +858,4 @@ th {
   .admin main.container {
     padding: 1rem 0.5rem 2rem;
   }
-}
-.status-pill--lado.novio {
-  background: rgba(163, 188, 67, 0.25);
-  color: var(--color-success);
-}
-
-.status-pill--waitlist {
-  background: rgba(163, 188, 67, 0.3);
-  color: var(--color-success);
-  border: 1px solid rgba(90, 112, 34, 0.5);
 }
