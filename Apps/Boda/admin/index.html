@@ -27,7 +27,7 @@
           <h1>Panel de la boda</h1>
           <p id="rol-info" class="form-helper">Rol actual: --</p>
         </div>
-        <div class="header-stats">
+        <div class="header-stats hidden">
           <div class="capacity-pill">
             Invitados activos: <strong id="header-activos">--</strong>
           </div>
@@ -39,7 +39,7 @@
           </div>
           <button id="logout-btn" class="btn btn--secondary">Cerrar sesión</button>
         </div>
-        <div class="header-dates">
+        <div class="header-dates hidden">
           <div class="deadline-node">
             <div class="deadline-node__title">Confirmar asistencia</div>
             <div class="deadline-node__date" id="header-fecha-respuesta">--</div>
@@ -152,8 +152,17 @@
             <h2>Filtros rápidos</h2>
             <div class="filter-buttons">
               <button data-filter="fase1" class="btn btn--ghost">Confirmó asistencia</button>
-              <button data-filter="final" class="btn btn--ghost">Checklist completo</button> 
+              <button data-filter="final" class="btn btn--ghost">Checklist completo</button>
+              <button data-filter="lista-espera" class="btn btn--ghost">Lista de espera</button>
               <button data-filter="todos" class="btn btn--ghost">Ver todos</button>
+            </div>
+            <div class="lado-filter">
+              <label for="lado-filter-select">Filtrar por lado</label>
+              <select id="lado-filter-select">
+                <option value="todos">Todos los invitados</option>
+                <option value="novia">Solo invitados de la novia</option>
+                <option value="novio">Solo invitados del novio</option>
+              </select>
             </div>
             <div class="tag-filter">
               <p>Filtrar por etiquetas:</p>
@@ -343,6 +352,8 @@
               <label>Etiquetas (separadas por coma)
                 <input type="text" name="etiquetas" placeholder="Familia, Amigos" />
               </label>
+              <p class="form-helper" id="crear-etiquetas-sugerencia"></p>
+              <div class="tag-editor" id="crear-tag-editor" data-form="crear"></div>
               <label>Notas<textarea name="notas" rows="2"></textarea></label>
               <div class="form-actions">
                 <button type="submit" class="btn">Guardar</button>
@@ -412,6 +423,8 @@
               <label>Lista de espera<select name="esListaEspera"><option value="false">No</option><option value="true">Sí</option></select></label>
               <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" /></label>
               <label>Etiquetas (separadas por coma)<input type="text" name="etiquetas" /></label>
+              <p class="form-helper" id="editar-etiquetas-sugerencia"></p>
+              <div class="tag-editor" id="editar-tag-editor" data-form="editar"></div>
               <label>Notas<textarea name="notas" rows="3"></textarea></label>
               <div class="form-actions">
                 <button type="submit" class="btn">Actualizar</button>

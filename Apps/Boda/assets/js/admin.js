@@ -28,6 +28,7 @@ const modalEditar = document.getElementById("modal-editar");
 const addInvitadoBtn = document.getElementById("add-invitado-btn");
 const rolInfo = document.getElementById("rol-info");
 const tagFilterContainer = document.getElementById("tag-filter-container");
+const ladoFilterSelect = document.getElementById("lado-filter-select");
 const deadlinePanel = document.getElementById("deadline-panel");
 const deadlineForm = document.getElementById("deadline-form");
 const deadlineStatus = document.getElementById("deadline-sync-status");
@@ -50,9 +51,17 @@ const promoverMensaje = document.getElementById("promover-mensaje");
 const headerActivos = document.getElementById("header-activos");
 const headerEspera = document.getElementById("header-espera");
 const headerDisponibles = document.getElementById("header-disponibles");
+const headerStatsSection = document.querySelector(".header-stats");
+const headerDatesSection = document.querySelector(".header-dates");
 const panelTabs = document.getElementById("panelTabs");
 const capacidadInput = document.getElementById("capacidadMaxima");
 const guardarCapacidadBtn = document.getElementById("guardar-capacidad");
+const crearEtiquetasInput = crearInvitadoForm?.elements?.etiquetas || null;
+const editarEtiquetasInput = editarInvitadoForm?.elements?.etiquetas || null;
+const crearEtiquetasSugerencia = document.getElementById("crear-etiquetas-sugerencia");
+const editarEtiquetasSugerencia = document.getElementById("editar-etiquetas-sugerencia");
+const crearTagEditor = document.getElementById("crear-tag-editor");
+const editarTagEditor = document.getElementById("editar-tag-editor");
 
 const modalCrearInstance =
   typeof bootstrap !== "undefined" && modalCrear ? new bootstrap.Modal(modalCrear) : null;
@@ -61,7 +70,15 @@ const modalEditarInstance =
 const modalPromoverInstance =
   typeof bootstrap !== "undefined" && modalPromover ? new bootstrap.Modal(modalPromover) : null;
 
+if (crearInvitadoForm && crearTagEditor) {
+  actualizarTagEditor(crearInvitadoForm, crearTagEditor);
+}
+if (editarInvitadoForm && editarTagEditor) {
+  actualizarTagEditor(editarInvitadoForm, editarTagEditor);
+}
+
 let filtroActual = "todos";
+let filtroLado = "todos";
 let invitadosCache = [];
 let invitadoSeleccionado = null;
 let invitadoListaEsperaSeleccionado = null;
@@ -206,6 +223,25 @@ function renderTagChips(valor) {
   return `<div class="tags-cell">${chips.join("")}</div>`;
 }
 
+function normalizarEtiqueta(tag = "") {
+  return tag.trim().toLowerCase();
+}
+
+function encontrarEtiquetaSimilar(nombre = "") {
+  const objetivo = normalizarEtiqueta(nombre);
+  if (!objetivo) return null;
+  let coincidencia = null;
+  etiquetasDisponibles.forEach((tag) => {
+    const normalizada = normalizarEtiqueta(tag);
+    if (normalizada === objetivo) {
+      coincidencia = tag;
+    } else if (!coincidencia && normalizada.includes(objetivo)) {
+      coincidencia = tag;
+    }
+  });
+  return coincidencia;
+}
+
 const ESTADOS_CONFIG = {
   pendiente_primera_confirmacion: {
     label: "Invitación sin respuesta",
@@ -314,6 +350,58 @@ function renderAcciones(id, opciones = {}) {
   return botones.join("");
 }
 
+function actualizarSugerenciaEtiqueta(inputElem, helperElem) {
+  if (!inputElem || !helperElem) return;
+  const partes = inputElem.value.split(",");
+  const actual = normalizarEtiqueta(partes[partes.length - 1] || "");
+  if (!actual) {
+    helperElem.textContent = "";
+    return;
+  }
+  const sugerida = encontrarEtiquetaSimilar(actual);
+  if (!sugerida) {
+    helperElem.textContent = "";
+    return;
+  }
+  if (normalizarEtiqueta(sugerida) === actual) {
+    helperElem.textContent = `Ya existe una etiqueta con ese nombre: "${sugerida}".`;
+  } else {
+    helperElem.textContent = `¿Querías usar la etiqueta "${sugerida}"?`;
+  }
+}
+
+function actualizarTagEditor(form, editorElem) {
+  if (!form || !editorElem || !form.elements?.etiquetas) return;
+  const tags = parseEtiquetas(form.elements["etiquetas"].value);
+  if (!tags.length) {
+    editorElem.innerHTML = '<span class="tag-chip tag-chip--empty">Sin etiquetas</span>';
+    return;
+  }
+  const chips = tags
+    .map(
+      (tag) =>
+        `<span class="tag-editor__chip">${tag}<button type="button" class="tag-editor__remove" data-remove-tag="${tag}" data-editor-target="${editorElem.dataset.form}">&times;</button></span>`
+    )
+    .join("");
+  editorElem.innerHTML = chips;
+}
+
+function eliminarEtiquetaDesdeEditor(event) {
+  const tag = event.target?.dataset?.removeTag;
+  const target = event.target?.dataset?.editorTarget;
+  if (!tag || !target) return;
+  const form = target === "crear" ? crearInvitadoForm : editarInvitadoForm;
+  const editor = target === "crear" ? crearTagEditor : editarTagEditor;
+  if (!form || !form.elements?.etiquetas) return;
+  const tags = parseEtiquetas(form.elements["etiquetas"].value).filter(
+    (t) => t.toLowerCase() !== tag.toLowerCase()
+  );
+  form.elements["etiquetas"].value = tags.join(", ");
+  actualizarTagEditor(form, editor);
+  const helper = target === "crear" ? crearEtiquetasSugerencia : editarEtiquetasSugerencia;
+  actualizarSugerenciaEtiqueta(form.elements["etiquetas"], helper);
+}
+
 function actualizarEtiquetasDisponibles() {
   const set = new Set();
   invitadosCache.forEach((invitado) => {
@@ -323,6 +411,8 @@ function actualizarEtiquetasDisponibles() {
     etiquetas.forEach((tag) => set.add(tag));
   });
   etiquetasDisponibles = Array.from(set).sort((a, b) => a.localeCompare(b));
+  actualizarSugerenciaEtiqueta(crearEtiquetasInput, crearEtiquetasSugerencia);
+  actualizarSugerenciaEtiqueta(editarEtiquetasInput, editarEtiquetasSugerencia);
 }
 
 function renderFiltroEtiquetas() {
@@ -547,6 +637,12 @@ function filtrarInvitado(invitado) {
   if (filtroActual !== "lista-espera" && invitado.esListaEspera) {
     return false;
   }
+  if (filtroLado !== "todos") {
+    const ladoInv = (invitado.lado || "").toLowerCase();
+    if (ladoInv !== filtroLado) {
+      return false;
+    }
+  }
   if (filtroActual === "fase1") {
     return invitado.estadoInvitacion === "confirmado_fase1";
   }
@@ -586,6 +682,8 @@ function seleccionarInvitado(id) {
   }
   editarInvitadoForm.elements["id"].value = invitadoSeleccionado.id;
   actualizarMaximoConfirmados(editarInvitadoForm);
+  actualizarTagEditor(editarInvitadoForm, editarTagEditor);
+  actualizarSugerenciaEtiqueta(editarEtiquetasInput, editarEtiquetasSugerencia);
   abrirModal(modalEditarInstance);
 }
 
@@ -617,6 +715,8 @@ async function crearInvitado(formData) {
     crearInvitadoForm.reset();
     await actualizarCodigoSugerido();
     cerrarModal(modalCrearInstance);
+    actualizarTagEditor(crearInvitadoForm, crearTagEditor);
+    actualizarSugerenciaEtiqueta(crearEtiquetasInput, crearEtiquetasSugerencia);
     await cargarListaInvitados();
   } catch (error) {
     console.error("Error al crear invitado", error);
@@ -761,6 +861,8 @@ auth.onAuthStateChanged((user) => {
   rolActual = user ? obtenerRolPorCorreo(user.email) : "verificador";
   dashboard.classList.toggle("hidden", !isLogged);
   authSection.classList.toggle("hidden", isLogged);
+  headerStatsSection?.classList.toggle("hidden", !isLogged);
+  headerDatesSection?.classList.toggle("hidden", !isLogged);
   actualizarUIporRol();
   if (rolInfo) {
     rolInfo.textContent = `Rol actual: ${isLogged ? rolActual : "--"}`;
@@ -771,6 +873,10 @@ auth.onAuthStateChanged((user) => {
     if (rolActual === "admin") {
       cargarConfiguracionFechas();
     }
+  } else {
+    filtroActual = "todos";
+    filtroLado = "todos";
+    ladoFilterSelect && (ladoFilterSelect.value = "todos");
   }
 });
 
@@ -784,6 +890,11 @@ filterButtons.forEach((btn) =>
     pintarTabla();
   })
 );
+
+ladoFilterSelect?.addEventListener("change", (event) => {
+  filtroLado = event.target.value;
+  pintarTabla();
+});
 
 tablaBody?.addEventListener("click", (event) => {
   const button = event.target.closest("[data-action]");
@@ -817,10 +928,22 @@ addInvitadoBtn?.addEventListener("click", async () => {
     crearInvitadoForm.elements &&
     crearInvitadoForm.elements["nombreCompleto"];
   if (nombreField && nombreField.focus) nombreField.focus();
+  actualizarTagEditor(crearInvitadoForm, crearTagEditor);
+  actualizarSugerenciaEtiqueta(crearEtiquetasInput, crearEtiquetasSugerencia);
 });
 
 nombreCrearInput?.addEventListener("input", actualizarCodigoSugerido);
 ladoCrearSelect?.addEventListener("change", actualizarCodigoSugerido);
+crearEtiquetasInput?.addEventListener("input", () => {
+  actualizarSugerenciaEtiqueta(crearEtiquetasInput, crearEtiquetasSugerencia);
+  actualizarTagEditor(crearInvitadoForm, crearTagEditor);
+});
+editarEtiquetasInput?.addEventListener("input", () => {
+  actualizarSugerenciaEtiqueta(editarEtiquetasInput, editarEtiquetasSugerencia);
+  actualizarTagEditor(editarInvitadoForm, editarTagEditor);
+});
+crearTagEditor?.addEventListener("click", eliminarEtiquetaDesdeEditor);
+editarTagEditor?.addEventListener("click", eliminarEtiquetaDesdeEditor);
 if (editarInvitadoForm?.elements["numInvitadosPermitidos"]) {
   editarInvitadoForm.elements["numInvitadosPermitidos"].addEventListener("input", () =>
     actualizarMaximoConfirmados(editarInvitadoForm)

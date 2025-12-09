@@ -738,6 +738,46 @@ th {
   gap: 0.4rem;
 }
 
+.lado-filter {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.lado-filter select {
+  max-width: 260px;
+  padding: 0.4rem 0.6rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.tag-editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-top: 0.4rem;
+}
+
+.tag-editor__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(116, 68, 102, 0.15);
+  color: var(--color-primary);
+  font-size: 0.8rem;
+}
+
+.tag-editor__remove {
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
 .tag-chip {
   display: inline-flex;
   align-items: center;
