@@ -3,15 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Boda Misael &amp; Novia</title>
+    <title>Boda Dara &amp; Misael</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
-  <body>
+  <body class="landing">
     <header class="hero">
       <div class="hero__content container">
         <p class="eyebrow">¡Nos casamos!</p>
-        <h1>Misael &amp; Nombre de la Novia</h1>
-        <p class="hero__date">Sábado 12 de julio de 2025 · 5:00 PM</p>
+        <h1>Dara &amp; Misael</h1>
+        <p class="hero__date" id="hero-date">Pronto revelaremos la fecha ✨</p>
         <p class="hero__location">Hacienda Los Encinos · Ciudad, País</p>
         <a class="btn" href="#rsvp">Confirmar asistencia</a>
       </div>
@@ -114,7 +120,10 @@
               </label>
             </fieldset>
 
-            <div class="status-box" id="estadoInvitacion"></div>
+            <div class="status-box" id="estadoInvitacion">
+              <div id="estado-invitado"></div>
+              <div id="contador-tiempo"></div>
+            </div>
             <button type="submit" class="btn">Guardar respuesta</button>
           </form>
         </div>

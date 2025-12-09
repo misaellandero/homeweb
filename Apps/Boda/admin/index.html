@@ -4,16 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Panel · Boda Misael</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="../assets/css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css"
+    />
   </head>
   <body class="admin">
     <header class="admin__header">
       <div class="container">
         <div>
-          <h1>Panel de invitados</h1>
+          <h1>Panel de la boda</h1>
           <p id="rol-info" class="form-helper">Rol actual: --</p>
         </div>
-        <button id="logout-btn" class="btn btn--secondary">Cerrar sesión</button>
+        <div class="header-stats">
+          <div class="capacity-pill">
+            Invitados activos: <strong id="header-activos">--</strong>
+          </div>
+          <div class="capacity-pill capacity-pill--free">
+            Lista de espera: <strong id="header-espera">--</strong>
+          </div>
+          <div class="capacity-pill capacity-pill--free">
+            Lugares disponibles: <strong id="header-disponibles">--</strong>
+          </div>
+          <button id="logout-btn" class="btn btn--secondary">Cerrar sesión</button>
+        </div>
+        <div class="header-dates">
+          <div class="deadline-node">
+            <div class="deadline-node__title">Confirma asistencia</div>
+            <div class="deadline-node__tag">DIJO_QUE_SI</div>
+            <div class="deadline-node__date" id="summary-fecha-respuesta">--</div>
+          </div>
+          <div class="deadline-node">
+            <div class="deadline-node__title">Checklist de atuendo y viaje</div>
+            <div class="deadline-node__tag">SI_CONFIRMADO</div>
+            <div class="deadline-node__date" id="summary-fecha-detalles">--</div>
+          </div>
+          <div class="deadline-node">
+            <div class="deadline-node__title">Día de la boda</div>
+            <div class="deadline-node__tag">Portada</div>
+            <div class="deadline-node__date" id="summary-fecha-boda">--</div>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -31,119 +73,344 @@
       </section>
 
       <section id="dashboard" class="hidden">
-        <div class="card filters">
-          <h2>Filtros rápidos</h2>
-          <div class="filter-buttons">
-            <button data-filter="fase1" class="btn btn--ghost">Confirmados Fase 1</button>
-            <button data-filter="final" class="btn btn--ghost">Confirmados Final</button>
-            <button data-filter="lista-espera" class="btn btn--ghost">Lista de espera</button>
-            <button data-filter="todos" class="btn btn--ghost">Ver todos</button>
+        <ul class="nav nav-tabs" id="panelTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="tab-invitados-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab-invitados"
+              type="button"
+              role="tab"
+              aria-controls="tab-invitados"
+              aria-selected="true"
+            >
+              Invitados
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="tab-fechas-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab-fechas"
+              type="button"
+              role="tab"
+              aria-controls="tab-fechas"
+              aria-selected="false"
+            >
+              Fechas globales
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="tab-itinerario-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab-itinerario"
+              type="button"
+              role="tab"
+              aria-controls="tab-itinerario"
+              aria-selected="false"
+            >
+              Itinerario
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="panelTabsContent">
+
+        <div class="tab-pane fade show active" id="tab-invitados" role="tabpanel" aria-labelledby="tab-invitados-tab">
+          <div class="card capacity-panel">
+            <div class="table-header">
+              <h2>Capacidad general</h2>
+              <div class="table-actions capacity-pill-group">
+                <span class="capacity-pill">
+                  Capacidad: <strong id="summary-capacidad">--</strong>
+                </span>
+                <span class="capacity-pill capacity-pill--free">
+                  Disponibles: <strong id="summary-disponibles">--</strong>
+                </span>
+              </div>
+            </div>
+            <form id="capacidad-form" class="capacity-form">
+              <label for="capacidadMaxima" class="form-helper">Capacidad máxima de invitados</label>
+              <div class="input-group">
+                <input type="number" min="0" id="capacidadMaxima" name="capacidadMaxima" placeholder="Ej. 180" />
+                <button type="button" id="guardar-capacidad" class="btn btn--secondary">Guardar</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="card filters">
+            <h2>Filtros rápidos</h2>
+            <div class="filter-buttons">
+              <button data-filter="fase1" class="btn btn--ghost">Confirmó asistencia</button>
+              <button data-filter="final" class="btn btn--ghost">Checklist completo</button>
+              <button data-filter="lista-espera" class="btn btn--ghost">Lista de espera</button>
+              <button data-filter="todos" class="btn btn--ghost">Ver todos</button>
+            </div>
+            <div class="tag-filter">
+              <p>Filtrar por etiquetas:</p>
+              <div id="tag-filter-container" class="tag-filter__chips">
+                <span class="form-helper">No hay etiquetas disponibles todavía.</span>
+              </div>
+            </div>
+          </div>
+
+          <section class="card">
+            <div class="table-header">
+              <h2>Invitados</h2>
+              <div class="table-actions">
+                <button id="refresh-table" class="btn btn--secondary">Actualizar</button>
+                <button id="add-invitado-btn" class="btn hidden">Agregar invitado</button>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table id="tabla-invitados" class="display">
+                <thead>
+                  <tr>
+                    <th>Nombre completo</th>
+                    <th>Lado</th>
+                    <th>Código</th>
+                    <th># Permitidos</th>
+                    <th>Estado</th>
+                    <th># Confirmados</th>
+                    <th>Vestimenta</th>
+                    <th>Viaje</th>
+                    <th>Hospedaje</th>
+                    <th>Lista espera</th>
+                    <th>Prioridad</th>
+                    <th>Etiquetas</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tabla-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="table-header">
+              <h2>Lista de espera</h2>
+              <div class="table-actions">
+                <span class="form-helper" id="waitlist-status">Prioridad más alta al inicio</span>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table class="display" id="tabla-lista-espera">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Prioridad</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="waitlist-body">
+                  <tr>
+                    <td colspan="4">No hay invitados en lista de espera.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <div class="tab-pane fade" id="tab-fechas" role="tabpanel" aria-labelledby="tab-fechas-tab">
+          <div class="card deadline-panel" id="deadline-panel">
+            <div class="table-header">
+              <h2>Fechas límite globales</h2>
+              <div class="table-actions">
+                <span class="tag-chip tag-chip--status" id="deadline-sync-status">Sin cambios</span>
+              </div>
+            </div>
+            <form id="deadline-form" class="grid-2 form-grid deadline-form" autocomplete="off">
+              <label class="deadline-label">
+                <span class="deadline-label__title">Fecha límite para confirmar asistencia</span>
+                <span class="deadline-label__tag">Estado interno: DIJO_QUE_SI</span>
+                <input type="datetime-local" name="fechaLimiteRespuesta" />
+              </label>
+              <label class="deadline-label">
+                <span class="deadline-label__title">Fecha límite checklist (atuendo y viaje)</span>
+                <span class="deadline-label__tag">Estado interno: SI_CONFIRMADO</span>
+                <input type="datetime-local" name="fechaLimiteDetalles" />
+              </label>
+              <label class="deadline-label">
+                <span class="deadline-label__title">Fecha del evento</span>
+                <span class="deadline-label__tag">Se usa en la portada pública</span>
+                <input type="datetime-local" name="fechaBoda" />
+              </label>
+              <div class="form-actions">
+                <button type="button" id="apply-deadlines-all" class="btn btn--danger">
+                  Actualizar para todos
+                </button>
+                <button type="button" id="clear-deadlines" class="btn btn--ghost">
+                  Limpiar
+                </button>
+              </div>
+              <p class="form-helper">
+                Define aquí las fechas por defecto para nuevos invitados. También puedes aplicarlas a registros sin fechas.
+              </p>
+              <div class="deadline-timeline">
+                <div class="deadline-node">
+                  <div class="deadline-node__title">Confirma asistencia</div>
+                  <div class="deadline-node__tag">DIJO_QUE_SI</div>
+                  <div class="deadline-node__date" id="summary-fecha-respuesta">--</div>
+                </div>
+                <div class="deadline-node">
+                  <div class="deadline-node__title">Checklist de atuendo y viaje</div>
+                  <div class="deadline-node__tag">SI_CONFIRMADO</div>
+                  <div class="deadline-node__date" id="summary-fecha-detalles">--</div>
+                </div>
+                <div class="deadline-node">
+                  <div class="deadline-node__title">Día de la boda</div>
+                  <div class="deadline-node__tag">Portada</div>
+                  <div class="deadline-node__date" id="summary-fecha-boda">--</div>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
 
-        <section class="card">
-          <div class="table-header">
-            <h2>Invitados</h2>
-            <button id="refresh-table" class="btn btn--secondary">Actualizar</button>
+        <div class="tab-pane fade" id="tab-itinerario" role="tabpanel" aria-labelledby="tab-itinerario-tab">
+          <div class="card">
+            <h2>Itinerario del evento</h2>
+            <p class="form-helper">Próximamente podrás gestionar horarios y actividades aquí.</p>
           </div>
-          <div class="table-wrapper">
-            <table id="tabla-invitados">
-              <thead>
-                <tr>
-                  <th>Nombre completo</th>
-                  <th>Lado</th>
-                  <th>Código</th>
-                  <th># Permitidos</th>
-                  <th>Estado</th>
-                  <th># Confirmados</th>
-                  <th>Vestimenta</th>
-                  <th>Viaje</th>
-                  <th>Hospedaje</th>
-                  <th>Lista espera</th>
-                  <th>Prioridad</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="tabla-body">
-                <tr>
-                  <td colspan="12">Sin datos por ahora.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
+        </div>
+        </div>
 
-        <section class="grid-2">
-          <article class="card" id="crear-card">
-            <h2>Crear invitado</h2>
-            <form id="crear-invitado-form" class="form-grid">
-              <label>Nombre completo<input type="text" name="nombreCompleto" required /></label>
-              <label>Lado
-                <select name="lado">
-                  <option value="novio">Novio</option>
-                  <option value="novia">Novia</option>
-                </select>
-              </label>
-              <label>Código<input type="text" name="codigoInvitacion" required /></label>
-              <label># Permitidos<input type="number" name="numInvitadosPermitidos" min="1" value="1" /></label>
-              <label>Estado
-                <select name="estadoInvitacion">
-                  <option value="pendiente_primera_confirmacion">Pendiente Fase 1</option>
-                  <option value="confirmado_fase1">Confirmado Fase 1</option>
-                  <option value="confirmado_final">Confirmado Final</option>
-                  <option value="rechazado">Rechazado</option>
-                </select>
-              </label>
-              <label>Lista de espera
-                <select name="esListaEspera">
-                  <option value="false">No</option>
-                  <option value="true">Sí</option>
-                </select>
-              </label>
-              <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" value="0" /></label>
-              <label>Notas<textarea name="notas" rows="2"></textarea></label>
-              <button type="submit" class="btn">Guardar</button>
-              <p class="form-helper" id="crear-invitado-mensaje"></p>
-            </form>
-          </article>
-
-          <article class="card">
-            <h2>Editar invitado</h2>
-            <form id="editar-invitado-form" class="form-grid">
-              <label>ID invitado<input type="text" name="id" placeholder="Documento seleccionado" readonly /></label>
-              <label>Nombre completo<input type="text" name="nombreCompleto" /></label>
-              <label>Estado
-                <select name="estadoInvitacion">
-                  <option value="pendiente_primera_confirmacion">Pendiente Fase 1</option>
-                  <option value="confirmado_fase1">Confirmado Fase 1</option>
-                  <option value="confirmado_final">Confirmado Final</option>
-                  <option value="rechazado">Rechazado</option>
-                  <option value="cancelado_por_tiempo">Cancelado por tiempo</option>
-                </select>
-              </label>
-              <label>Acompañantes confirmados<input type="number" name="rsvpNumAsistentes" min="0" /></label>
-              <label>Vestimenta lista<select name="vestimentaConfirmada"><option value="false">No</option><option value="true">Sí</option></select></label>
-              <label>Viaje listo<select name="viajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
-              <label>Hospedaje listo<select name="hospedajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
-              <label>Lista de espera<select name="esListaEspera"><option value="false">No</option><option value="true">Sí</option></select></label>
-              <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" /></label>
-              <label>Notas<textarea name="notas" rows="3"></textarea></label>
-              <div class="form-actions">
-                <button type="submit" class="btn">Actualizar</button>
-                <button type="button" id="asignar-lugar" class="btn btn--secondary">Asignar lugar</button>
-                <button type="button" id="borrar-invitado" class="btn btn--danger">Eliminar</button>
-              </div>
-              <p class="form-helper" id="editar-invitado-mensaje"></p>
-            </form>
-          </article>
-        </section>
       </section>
     </main>
+
+    <div id="modal-overlay" class="modal-overlay hidden"></div>
+
+    <section class="modal hidden" id="modal-crear" aria-hidden="true">
+      <div class="modal__window card">
+        <header class="modal__header">
+          <h2>Crear invitado</h2>
+          <button class="modal__close" data-close-modal="modal-crear" aria-label="Cerrar">×</button>
+        </header>
+        <form id="crear-invitado-form" class="form-grid">
+          <label>Nombre completo<input type="text" name="nombreCompleto" required /></label>
+          <label>Lado
+            <select name="lado">
+              <option value="novio">Novio</option>
+              <option value="novia">Novia</option>
+            </select>
+          </label>
+          <label>Código
+            <input
+              type="text"
+              name="codigoInvitacion"
+              placeholder="Se genera automáticamente"
+              readonly
+            />
+          </label>
+          <label># Permitidos<input type="number" name="numInvitadosPermitidos" min="1" value="1" /></label>
+          <label>Estado (fase interna)
+            <select name="estadoInvitacion">
+              <option value="pendiente_primera_confirmacion">Invitación sin respuesta</option>
+              <option value="confirmado_fase1">Confirmó asistencia</option>
+              <option value="confirmado_final">Checklist completado</option>
+              <option value="rechazado">Rechazado</option>
+            </select>
+          </label>
+          <label>Lista de espera
+            <select name="esListaEspera">
+              <option value="false">No</option>
+              <option value="true">Sí</option>
+            </select>
+          </label>
+          <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" value="0" /></label>
+          <label>Etiquetas (separadas por coma)
+            <input type="text" name="etiquetas" placeholder="Familia, Amigos" />
+          </label>
+          <label>Notas<textarea name="notas" rows="2"></textarea></label>
+          <div class="form-actions">
+            <button type="submit" class="btn">Guardar</button>
+            <button type="button" class="btn btn--secondary" data-close-modal="modal-crear">Cancelar</button>
+          </div>
+          <p class="form-helper" id="crear-invitado-mensaje"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="modal hidden" id="modal-promover" aria-hidden="true">
+      <div class="modal__window card">
+        <header class="modal__header">
+          <h2>Promover desde lista de espera</h2>
+          <button class="modal__close" data-close-modal="modal-promover" aria-label="Cerrar">×</button>
+        </header>
+        <form id="promover-form" class="form-grid">
+          <p class="form-helper" id="promover-detalle">Selecciona nuevas fechas límite:</p>
+          <label>Fecha límite de respuesta
+            <input type="datetime-local" name="fechaLimiteRespuesta" required />
+          </label>
+          <label>Fecha límite checklist
+            <input type="datetime-local" name="fechaLimiteDetalles" required />
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="btn">Confirmar promoción</button>
+            <button type="button" class="btn btn--secondary" data-close-modal="modal-promover">
+              Cancelar
+            </button>
+          </div>
+          <p class="form-helper" id="promover-mensaje"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="modal hidden" id="modal-editar" aria-hidden="true">
+      <div class="modal__window card">
+        <header class="modal__header">
+          <h2>Editar invitado</h2>
+          <button class="modal__close" data-close-modal="modal-editar" aria-label="Cerrar">×</button>
+        </header>
+        <form id="editar-invitado-form" class="form-grid">
+          <label>ID invitado<input type="text" name="id" placeholder="Documento seleccionado" readonly /></label>
+          <label>Nombre completo<input type="text" name="nombreCompleto" /></label>
+          <label>Estado (fase interna)
+            <select name="estadoInvitacion">
+              <option value="pendiente_primera_confirmacion">Invitación sin respuesta</option>
+              <option value="confirmado_fase1">Confirmó asistencia</option>
+              <option value="confirmado_final">Checklist completado</option>
+              <option value="rechazado">Rechazado</option>
+              <option value="cancelado_por_tiempo">Cancelado por tiempo</option>
+            </select>
+          </label>
+          <label>Acompañantes confirmados<input type="number" name="rsvpNumAsistentes" min="0" /></label>
+          <label>Vestimenta lista<select name="vestimentaConfirmada"><option value="false">No</option><option value="true">Sí</option></select></label>
+          <label>Viaje listo<select name="viajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
+          <label>Hospedaje listo<select name="hospedajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
+          <label>Lista de espera<select name="esListaEspera"><option value="false">No</option><option value="true">Sí</option></select></label>
+          <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" /></label>
+          <label>Etiquetas (separadas por coma)<input type="text" name="etiquetas" /></label>
+          <label>Notas<textarea name="notas" rows="3"></textarea></label>
+          <div class="form-actions">
+            <button type="submit" class="btn">Actualizar</button>
+            <button type="button" id="asignar-lugar" class="btn btn--secondary">Asignar lugar</button>
+            <button type="button" id="borrar-invitado" class="btn btn--danger">Eliminar</button>
+            <button type="button" class="btn btn--secondary" data-close-modal="modal-editar">Cerrar</button>
+          </div>
+          <p class="form-helper" id="editar-invitado-mensaje"></p>
+        </form>
+      </div>
+    </section>
 
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
     <script src="../assets/js/firebase-config.js"></script>
     <script src="../assets/js/admin.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
