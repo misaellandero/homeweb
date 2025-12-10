@@ -607,6 +607,54 @@ function recalcularTotalInvitados(form) {
   }
 }
 
+function obtenerFechaRegistroMs(invitado) {
+  if (!invitado) return 0;
+  const campo = invitado.fechaRegistro;
+  if (campo && typeof campo.toMillis === "function") {
+    return campo.toMillis();
+  }
+  if (campo && typeof campo === "string") {
+    const parsed = new Date(campo);
+    if (!Number.isNaN(parsed.getTime())) return parsed.getTime();
+  }
+  if (campo instanceof Date && !Number.isNaN(campo.getTime())) {
+    return campo.getTime();
+  }
+  if (invitado.fechaEnvioInvitacion) {
+    const parsed = new Date(invitado.fechaEnvioInvitacion);
+    if (!Number.isNaN(parsed.getTime())) return parsed.getTime();
+  }
+  return 0;
+}
+
+async function asegurarFechaRegistro(snapshot) {
+  if (!snapshot) return;
+  const updates = [];
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+    if (!data || data.fechaRegistro) return;
+    let fallbackDate = new Date();
+    if (data.fechaEnvioInvitacion) {
+      const parsed = new Date(data.fechaEnvioInvitacion);
+      if (!Number.isNaN(parsed.getTime())) {
+        fallbackDate = parsed;
+      }
+    }
+    updates.push(
+      doc.ref.update({
+        fechaRegistro: firebase.firestore.Timestamp.fromDate(fallbackDate),
+      })
+    );
+  });
+  if (updates.length) {
+    try {
+      await Promise.all(updates);
+    } catch (error) {
+      console.error("No pudimos completar la normalización de fechas de registro.", error);
+    }
+  }
+}
+
 function actualizarMaximoConfirmados(form) {
   if (!form || !form.elements) return;
   const totalInput = form.elements["numInvitadosPermitidos"];
@@ -641,8 +689,11 @@ async function iniciarSesion(email, password) {
  */
 async function cargarListaInvitados() {
   try {
-    const snap = await db.collection("invitados").orderBy("nombreCompleto").get();
-    invitadosCache = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const snap = await db.collection("invitados").get();
+    await asegurarFechaRegistro(snap);
+    const docs = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    docs.sort((a, b) => obtenerFechaRegistroMs(a) - obtenerFechaRegistroMs(b));
+    invitadosCache = docs;
     actualizarEtiquetasDisponibles();
     renderFiltroEtiquetas();
     pintarTabla();
@@ -954,6 +1005,7 @@ async function crearInvitado(formData) {
   payload.etiquetas = parseEtiquetas(formData.get("etiquetas") || "");
   payload.contactoPrincipal = formData.get("contactoPrincipal")?.trim() || "";
   payload.contactosAdicionales = parseContactos(formData.get("contactosAdicionales") || "");
+  payload.fechaRegistro = firebase.firestore.FieldValue.serverTimestamp();
   if (!payload.codigoInvitacion) {
     payload.codigoInvitacion = await generarCodigoInvitacion(
       payload.nombreCompleto,
