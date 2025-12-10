@@ -739,6 +739,18 @@ th {
   flex-direction: column;
 }
 
+.guest-total-display {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.guest-total-display span {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-primary);
+}
+
 .form-actions {
   display: flex;
   gap: 0.5rem;

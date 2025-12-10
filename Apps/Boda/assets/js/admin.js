@@ -68,6 +68,8 @@ const crearEtiquetasSugerencia = document.getElementById("crear-etiquetas-sugere
 const editarEtiquetasSugerencia = document.getElementById("editar-etiquetas-sugerencia");
 const crearTagEditor = document.getElementById("crear-tag-editor");
 const editarTagEditor = document.getElementById("editar-tag-editor");
+const crearTotalInvitadosDisplay = document.getElementById("crear-total-invitados");
+const editarTotalInvitadosDisplay = document.getElementById("editar-total-invitados");
 const itinerarioForm = document.getElementById("itinerario-form");
 const itinerarioBody = document.getElementById("itinerario-body");
 const itinerarioMensaje = document.getElementById("itinerario-mensaje");
@@ -593,6 +595,12 @@ function recalcularTotalInvitados(form) {
   const total = adultos + ninos;
   if (form.elements["numInvitadosPermitidos"]) {
     form.elements["numInvitadosPermitidos"].value = total;
+  }
+  if (form === crearInvitadoForm && crearTotalInvitadosDisplay) {
+    crearTotalInvitadosDisplay.textContent = total;
+  }
+  if (form === editarInvitadoForm && editarTotalInvitadosDisplay) {
+    editarTotalInvitadosDisplay.textContent = total;
   }
   if (form === editarInvitadoForm || form === crearInvitadoForm) {
     actualizarMaximoConfirmados(form);

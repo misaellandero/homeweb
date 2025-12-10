@@ -538,7 +538,11 @@
                   readonly
                 />
               </label>
-              <label>Número de invitados<input type="number" name="numInvitadosPermitidos" min="1" value="1" readonly /></label>
+              <div class="guest-total-display">
+                <label>Total de invitados (automático)</label>
+                <span id="crear-total-invitados">0</span>
+                <input type="hidden" name="numInvitadosPermitidos" value="0" />
+              </div>
               <label>Adultos asignados<input type="number" name="numAdultosPlaneados" min="0" value="0" /></label>
               <label>Niños asignados<input type="number" name="numNinosPlaneados" min="0" value="0" /></label>
               <label>Número de contacto<input type="tel" name="contactoPrincipal" placeholder="Ej. +52 55 1234 5678" required /></label>
@@ -730,7 +734,11 @@
             <form id="editar-invitado-form" class="form-grid">
               <label>ID invitado<input type="text" name="id" placeholder="Documento seleccionado" readonly /></label>
               <label>Nombre completo<input type="text" name="nombreCompleto" /></label>
-              <label>Número de invitados<input type="number" name="numInvitadosPermitidos" min="1" readonly /></label>
+              <div class="guest-total-display">
+                <label>Total de invitados (automático)</label>
+                <span id="editar-total-invitados">0</span>
+                <input type="hidden" name="numInvitadosPermitidos" value="0" />
+              </div>
               <label>Adultos asignados<input type="number" name="numAdultosPlaneados" min="0" /></label>
               <label>Niños asignados<input type="number" name="numNinosPlaneados" min="0" /></label>
               <label>Estado (fase interna)
