@@ -55,6 +55,7 @@ const promoverMensaje = document.getElementById("promover-mensaje");
 const modalPresupuesto = document.getElementById("modal-presupuesto");
 const modalApoyo = document.getElementById("modal-apoyo");
 const modalTarea = document.getElementById("modal-tarea");
+const modalUbicacion = document.getElementById("modal-ubicacion");
 const headerActivos = document.getElementById("header-activos");
 const headerEspera = document.getElementById("header-espera");
 const headerDisponibles = document.getElementById("header-disponibles");
@@ -87,6 +88,10 @@ const presupuestoMensaje = document.getElementById("presupuesto-mensaje");
 const apoyosForm = document.getElementById("apoyos-form");
 const apoyosBody = document.getElementById("apoyos-body");
 const apoyosMensaje = document.getElementById("apoyos-mensaje");
+const ubicacionesBody = document.getElementById("ubicaciones-body");
+const ubicacionesForm = document.getElementById("ubicaciones-form");
+const ubicacionesMensaje = document.getElementById("ubicaciones-mensaje");
+const addUbicacionBtn = document.getElementById("add-ubicacion-btn");
 const budgetIngresosElem = document.getElementById("budget-ingresos");
 const budgetGastosElem = document.getElementById("budget-gastos");
 const budgetApoyosElem = document.getElementById("budget-apoyos");
@@ -121,6 +126,10 @@ const modalApoyoInstance =
   typeof bootstrap !== "undefined" && modalApoyo ? new bootstrap.Modal(modalApoyo) : null;
 const modalTareaInstance =
   typeof bootstrap !== "undefined" && modalTarea ? new bootstrap.Modal(modalTarea) : null;
+const modalUbicacionInstance =
+  typeof bootstrap !== "undefined" && modalUbicacion
+    ? new bootstrap.Modal(modalUbicacion)
+    : null;
 
 if (crearInvitadoForm && crearTagEditor) {
   actualizarTagEditor(crearInvitadoForm, crearTagEditor);
@@ -148,6 +157,7 @@ let ultimaSeleccionLadoDama = "novia";
 let ultimaSeleccionRolDama = "dama";
 let presupuestoItems = [];
 let apoyosItems = [];
+let ubicacionesEvento = [];
 let presupuestoChart = null;
 let presupuestoSeleccionado = null;
 let tareasPendientesBoard = [];
@@ -177,6 +187,7 @@ function actualizarUIporRol() {
   addPresupuestoBtn?.classList.toggle("hidden", !esAdmin);
   addApoyoBtn?.classList.toggle("hidden", !esAdmin);
   addTareaBtn?.classList.toggle("hidden", !esAdmin);
+  addUbicacionBtn?.classList.toggle("hidden", !esAdmin);
   if (borrarInvitadoBtn) {
     borrarInvitadoBtn.disabled = !esAdmin;
     borrarInvitadoBtn.title = esAdmin
@@ -1304,6 +1315,7 @@ auth.onAuthStateChanged((user) => {
       cargarConfiguracionFechas();
     }
     cargarItinerario();
+    cargarUbicaciones();
     cargarDamasCaballeros();
     cargarPresupuestoItems();
     cargarApoyos();
@@ -1316,6 +1328,8 @@ auth.onAuthStateChanged((user) => {
     renderItinerario();
     damasCaballeros = [];
     renderDamasCaballeros();
+    ubicacionesEvento = [];
+    renderUbicaciones();
     presupuestoItems = [];
     apoyosItems = [];
     renderPresupuesto();
@@ -1590,6 +1604,16 @@ tareaForm?.addEventListener("submit", (event) => {
   guardarTareaPendiente(new FormData(event.target));
 });
 
+ubicacionesForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  guardarUbicacion(new FormData(event.target));
+});
+
+addUbicacionBtn?.addEventListener("click", () => {
+  if (rolActual !== "admin") return;
+  abrirModalUbicacion();
+});
+
 document.getElementById("tab-pendientes")?.addEventListener("click", (event) => {
   const btn = event.target.closest("[data-action]");
   if (!btn) return;
@@ -1611,6 +1635,19 @@ apoyosBody?.addEventListener("click", (event) => {
   const id = btn.dataset.id;
   if (!id) return;
   borrarApoyo(id);
+});
+
+ubicacionesBody?.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-action]");
+  if (!btn) return;
+  const { action, id } = btn.dataset;
+  if (!id) return;
+  if (action === "editar-ubicacion") {
+    const ubicacion = ubicacionesEvento.find((item) => item.id === id);
+    abrirModalUbicacion(ubicacion || null);
+  } else if (action === "borrar-ubicacion") {
+    borrarUbicacion(id);
+  }
 });
 
 promoverForm?.addEventListener("submit", (event) => {
@@ -1974,6 +2011,121 @@ async function borrarEventoItinerario(id) {
     await cargarItinerario();
   } catch (error) {
     console.error("Error al borrar evento", error);
+  }
+}
+
+async function cargarUbicaciones() {
+  if (!ubicacionesBody) return;
+  try {
+    const snap = await db.collection("ubicacionesEvento").orderBy("nombre").get();
+    ubicacionesEvento = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    renderUbicaciones();
+  } catch (error) {
+    console.error("Error al cargar ubicaciones", error);
+    ubicacionesBody.innerHTML =
+      '<tr><td colspan="4">No pudimos cargar las ubicaciones.</td></tr>';
+  }
+}
+
+function renderUbicaciones() {
+  if (!ubicacionesBody) return;
+  if (!ubicacionesEvento.length) {
+    ubicacionesBody.innerHTML =
+      '<tr><td colspan="4">Todavía no agregas ubicaciones.</td></tr>';
+    return;
+  }
+  const esAdmin = rolActual === "admin";
+  ubicacionesBody.innerHTML = ubicacionesEvento
+    .map((ubicacion) => {
+      const direccion = ubicacion.direccion
+        ? escapeHTML(ubicacion.direccion)
+        : "—";
+      const enlace =
+        ubicacion.mapsUrl && typeof ubicacion.mapsUrl === "string"
+          ? `<a href="${escapeHTML(ubicacion.mapsUrl)}" target="_blank" rel="noopener noreferrer">Ver mapa</a>`
+          : "—";
+      return `
+        <tr data-id="${ubicacion.id}">
+          <td>${escapeHTML(ubicacion.nombre || "-")}</td>
+          <td>${direccion}</td>
+          <td>${enlace}</td>
+          <td>
+            <button class="btn btn--ghost" data-action="editar-ubicacion" data-id="${ubicacion.id}" ${
+              esAdmin ? "" : "disabled"
+            }>Editar</button>
+            <button class="btn btn--ghost btn--danger" data-action="borrar-ubicacion" data-id="${ubicacion.id}" ${
+              esAdmin ? "" : "disabled"
+            }>Eliminar</button>
+          </td>
+        </tr>
+      `;
+    })
+    .join("");
+}
+
+function abrirModalUbicacion(ubicacion = null) {
+  if (!ubicacionesForm) return;
+  ubicacionesForm.reset();
+  if (ubicacionesMensaje) ubicacionesMensaje.textContent = "";
+  ubicacionesForm.elements["id"].value = ubicacion?.id || "";
+  ubicacionesForm.elements["nombreUbicacion"].value = ubicacion?.nombre || "";
+  ubicacionesForm.elements["direccionUbicacion"].value = ubicacion?.direccion || "";
+  ubicacionesForm.elements["mapsUrl"].value = ubicacion?.mapsUrl || "";
+  modalUbicacionInstance?.show();
+}
+
+async function guardarUbicacion(formData) {
+  if (rolActual !== "admin") {
+    if (ubicacionesMensaje) {
+      ubicacionesMensaje.textContent = "Solo los administradores pueden editar ubicaciones.";
+    }
+    return;
+  }
+  const id = formData.get("id")?.trim();
+  const nombre = formData.get("nombreUbicacion")?.trim();
+  const direccion = formData.get("direccionUbicacion")?.trim();
+  const mapsUrl = formData.get("mapsUrl")?.trim();
+  if (!nombre || !direccion || !mapsUrl) {
+    if (ubicacionesMensaje) {
+      ubicacionesMensaje.textContent = "Completa el nombre, dirección y enlace de Google Maps.";
+    }
+    return;
+  }
+  const payload = {
+    nombre,
+    direccion,
+    mapsUrl,
+  };
+  try {
+    if (id) {
+      await db.collection("ubicacionesEvento").doc(id).update({
+        ...payload,
+        actualizadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      if (ubicacionesMensaje) ubicacionesMensaje.textContent = "Ubicación actualizada.";
+    } else {
+      await db.collection("ubicacionesEvento").add({
+        ...payload,
+        creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      if (ubicacionesMensaje) ubicacionesMensaje.textContent = "Ubicación registrada.";
+    }
+    modalUbicacionInstance?.hide();
+    await cargarUbicaciones();
+  } catch (error) {
+    console.error("Error al guardar ubicación", error);
+    if (ubicacionesMensaje) ubicacionesMensaje.textContent = "No pudimos guardar la ubicación.";
+  }
+}
+
+async function borrarUbicacion(id) {
+  if (rolActual !== "admin" || !id) return;
+  if (!confirm("¿Eliminar esta ubicación?")) return;
+  try {
+    await db.collection("ubicacionesEvento").doc(id).delete();
+    await cargarUbicaciones();
+  } catch (error) {
+    console.error("Error al borrar ubicación", error);
   }
 }
 

@@ -153,6 +153,20 @@
           <li class="nav-item" role="presentation">
             <button
               class="nav-link"
+              id="tab-ubicaciones-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab-ubicaciones"
+              type="button"
+              role="tab"
+              aria-controls="tab-ubicaciones"
+              aria-selected="false"
+            >
+              Ubicaciones
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
               id="tab-damas-tab"
               data-bs-toggle="tab"
               data-bs-target="#tab-damas"
@@ -537,6 +551,38 @@
           </section>
         </div>
 
+        <div class="tab-pane fade" id="tab-ubicaciones" role="tabpanel" aria-labelledby="tab-ubicaciones-tab">
+          <section class="card">
+            <div class="table-header">
+              <h2>Ubicaciones clave</h2>
+              <div class="table-actions">
+                <button id="add-ubicacion-btn" class="btn btn--secondary hidden">Nueva ubicación</button>
+              </div>
+            </div>
+            <p class="form-helper">
+              Registra los lugares importantes como recepción, ceremonia civil o puntos de reunión para tenerlos
+              a la mano y compartirlos fácilmente.
+            </p>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Mapa</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="ubicaciones-body">
+                  <tr>
+                    <td colspan="4">Todavía no agregas ubicaciones.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
         <div class="tab-pane fade" id="tab-damas" role="tabpanel" aria-labelledby="tab-damas-tab">
           <section class="card">
             <div class="table-header">
@@ -731,6 +777,36 @@
                 <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
               </div>
               <p class="form-helper" id="tarea-mensaje"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-ubicacion" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card">
+          <div class="modal-header">
+            <h2 class="modal-title">Registrar ubicación</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form id="ubicaciones-form" class="form-grid">
+              <input type="hidden" name="id" />
+              <label>Nombre del lugar
+                <input type="text" name="nombreUbicacion" placeholder="Recepción, Salón del Reino..." required />
+              </label>
+              <label>Dirección
+                <textarea name="direccionUbicacion" rows="2" placeholder="Calle, colonia, referencias" required></textarea>
+              </label>
+              <label>URL de Google Maps
+                <input type="url" name="mapsUrl" placeholder="https://maps.google.com/..." required />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Guardar</button>
+                <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+              <p class="form-helper" id="ubicaciones-mensaje"></p>
             </form>
           </div>
         </div>
