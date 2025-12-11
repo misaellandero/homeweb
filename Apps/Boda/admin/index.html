@@ -111,6 +111,20 @@
           <li class="nav-item" role="presentation">
             <button
               class="nav-link"
+              id="tab-pendientes-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab-pendientes"
+              type="button"
+              role="tab"
+              aria-controls="tab-pendientes"
+              aria-selected="false"
+            >
+              Pendientes
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
               id="tab-presupuesto-tab"
               data-bs-toggle="tab"
               data-bs-target="#tab-presupuesto"
@@ -343,6 +357,54 @@
               </div>
             </form>
           </div>
+        </div>
+
+        <div class="tab-pane fade" id="tab-pendientes" role="tabpanel" aria-labelledby="tab-pendientes-tab">
+          <section class="card">
+            <div class="table-header">
+              <h2>Tablero de pendientes</h2>
+              <div class="table-actions">
+                <button id="add-tarea-btn" class="btn btn--secondary hidden">Nueva tarea</button>
+              </div>
+            </div>
+            <div class="lado-filter">
+              <label for="filtro-tareas-responsable">Filtrar por responsable</label>
+              <select id="filtro-tareas-responsable">
+                <option value="todos">Todos</option>
+                <option value="novia">Solo novia</option>
+                <option value="novio">Solo novio</option>
+                <option value="ayudantes">Solo ayudantes</option>
+                <option value="ambos">Novia y novio</option>
+              </select>
+            </div>
+            <p class="form-helper">
+              Arranca cada tarea como <strong>Pendiente</strong>, pásala a <strong>En progreso</strong> cuando alguien la tome y marca
+              <strong>Completado</strong> al cerrarla. No olvides definir su fecha límite.
+            </p>
+            <div class="kanban-board">
+              <div class="kanban-column">
+                <div class="kanban-column__header">
+                  <h3>Pendiente</h3>
+                  <span class="kanban-count" id="count-pendiente">0</span>
+                </div>
+                <div class="kanban-column__body" id="kanban-pendiente"></div>
+              </div>
+              <div class="kanban-column">
+                <div class="kanban-column__header">
+                  <h3>En progreso</h3>
+                  <span class="kanban-count" id="count-progreso">0</span>
+                </div>
+                <div class="kanban-column__body" id="kanban-progreso"></div>
+              </div>
+              <div class="kanban-column">
+                <div class="kanban-column__header">
+                  <h3>Completado</h3>
+                  <span class="kanban-count" id="count-completado">0</span>
+                </div>
+                <div class="kanban-column__body" id="kanban-completado"></div>
+              </div>
+            </div>
+          </section>
         </div>
 
         <div class="tab-pane fade" id="tab-presupuesto" role="tabpanel" aria-labelledby="tab-presupuesto-tab">
@@ -624,6 +686,51 @@
                 <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
               </div>
               <p class="form-helper" id="presupuesto-mensaje"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-tarea" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card">
+          <div class="modal-header">
+            <h2 class="modal-title">Gestionar pendiente</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form id="tarea-form" class="form-grid">
+              <input type="hidden" name="id" />
+              <label>Título
+                <input type="text" name="titulo" placeholder="Confirmar salón, buscar proveedor..." required />
+              </label>
+              <label>Descripción
+                <textarea name="descripcion" rows="3" placeholder="Notas o checklist corto"></textarea>
+              </label>
+              <label>Fecha límite
+                <input type="datetime-local" name="fechaLimite" required />
+              </label>
+              <label>Estado
+                <select name="estado">
+                  <option value="pendiente">Pendiente</option>
+                  <option value="progreso">En progreso</option>
+                  <option value="completado">Completado</option>
+                </select>
+              </label>
+              <label>Responsable
+                <select name="responsable">
+                  <option value="novia">Novia</option>
+                  <option value="novio">Novio</option>
+                  <option value="ayudantes">Ayudantes</option>
+                  <option value="ambos">Novia y Novio</option>
+                </select>
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Guardar</button>
+                <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+              <p class="form-helper" id="tarea-mensaje"></p>
             </form>
           </div>
         </div>

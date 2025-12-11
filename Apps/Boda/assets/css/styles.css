@@ -757,6 +757,120 @@ th {
   flex-wrap: wrap;
 }
 
+.kanban-board {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 1.5rem;
+}
+
+.kanban-column {
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: var(--radius);
+  padding: 1rem;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.kanban-column__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.kanban-column__header h3 {
+  margin: 0;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.kanban-count {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.kanban-column__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.kanban-card {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 0.9rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.kanban-card h4 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.kanban-responsable {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+.kanban-responsable--novia {
+  color: #cc8a9f;
+}
+
+.kanban-responsable--novio {
+  color: #5a7022;
+}
+
+.kanban-responsable--ayudantes {
+  color: #a3bc43;
+}
+
+.kanban-responsable--ambos {
+  color: #744466;
+}
+
+.kanban-card--overdue {
+  border-left: 4px solid var(--color-danger);
+}
+
+.kanban-deadline {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.kanban-card--overdue .kanban-deadline {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+.kanban-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.kanban-empty {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  padding: 1.5rem 0;
+}
+
 .table-header {
   display: flex;
   align-items: center;

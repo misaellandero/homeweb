@@ -54,6 +54,7 @@ const promoverDetalle = document.getElementById("promover-detalle");
 const promoverMensaje = document.getElementById("promover-mensaje");
 const modalPresupuesto = document.getElementById("modal-presupuesto");
 const modalApoyo = document.getElementById("modal-apoyo");
+const modalTarea = document.getElementById("modal-tarea");
 const headerActivos = document.getElementById("header-activos");
 const headerEspera = document.getElementById("header-espera");
 const headerDisponibles = document.getElementById("header-disponibles");
@@ -93,6 +94,16 @@ const budgetBalanceElem = document.getElementById("budget-balance");
 const presupuestoChartCanvas = document.getElementById("presupuesto-chart");
 const addPresupuestoBtn = document.getElementById("add-presupuesto-btn");
 const addApoyoBtn = document.getElementById("add-apoyo-btn");
+const kanbanPendienteBody = document.getElementById("kanban-pendiente");
+const kanbanProgresoBody = document.getElementById("kanban-progreso");
+const kanbanCompletadoBody = document.getElementById("kanban-completado");
+const countPendiente = document.getElementById("count-pendiente");
+const countProgreso = document.getElementById("count-progreso");
+const countCompletado = document.getElementById("count-completado");
+const addTareaBtn = document.getElementById("add-tarea-btn");
+const tareaForm = document.getElementById("tarea-form");
+const tareaMensaje = document.getElementById("tarea-mensaje");
+const filtroTareasResponsableSelect = document.getElementById("filtro-tareas-responsable");
 const damasLadoSelect = damasForm?.elements?.lado || null;
 const damasRolSelect = damasForm?.elements?.rol || null;
 
@@ -108,6 +119,8 @@ const modalPresupuestoInstance =
   typeof bootstrap !== "undefined" && modalPresupuesto ? new bootstrap.Modal(modalPresupuesto) : null;
 const modalApoyoInstance =
   typeof bootstrap !== "undefined" && modalApoyo ? new bootstrap.Modal(modalApoyo) : null;
+const modalTareaInstance =
+  typeof bootstrap !== "undefined" && modalTarea ? new bootstrap.Modal(modalTarea) : null;
 
 if (crearInvitadoForm && crearTagEditor) {
   actualizarTagEditor(crearInvitadoForm, crearTagEditor);
@@ -137,6 +150,9 @@ let presupuestoItems = [];
 let apoyosItems = [];
 let presupuestoChart = null;
 let presupuestoSeleccionado = null;
+let tareasPendientesBoard = [];
+let tareaSeleccionada = null;
+let filtroResponsableTareas = "todos";
 
 // Configura los correos permitidos para cada rol.
 const ROLE_CONFIG = {
@@ -160,6 +176,7 @@ function actualizarUIporRol() {
   addDamaBtn?.classList.toggle("hidden", !esAdmin);
   addPresupuestoBtn?.classList.toggle("hidden", !esAdmin);
   addApoyoBtn?.classList.toggle("hidden", !esAdmin);
+  addTareaBtn?.classList.toggle("hidden", !esAdmin);
   if (borrarInvitadoBtn) {
     borrarInvitadoBtn.disabled = !esAdmin;
     borrarInvitadoBtn.title = esAdmin
@@ -567,10 +584,22 @@ function formatearFechaHora(fechaISO) {
   if (!fechaISO) return "--";
   const fecha = new Date(fechaISO);
   if (Number.isNaN(fecha.getTime())) return "--";
-  return new Intl.DateTimeFormat("es-MX", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(fecha);
+  return formatearFechaSimple(fecha);
+}
+
+function formatearFechaCorta(fechaISO) {
+  if (!fechaISO) return "--";
+  const fecha = new Date(fechaISO);
+  if (Number.isNaN(fecha.getTime())) return "--";
+  return formatearFechaSimple(fecha);
+}
+
+function formatearFechaSimple(fecha) {
+  if (!(fecha instanceof Date) || Number.isNaN(fecha.getTime())) return "--";
+  const dia = String(fecha.getDate()).padStart(2, "0");
+  const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+  const anio = fecha.getFullYear();
+  return `${dia}/${mes}/${anio}`;
 }
 
 function formatearMoneda(valor) {
@@ -658,6 +687,25 @@ async function asegurarFechaRegistro(snapshot) {
       console.error("No pudimos normalizar las fechas de registro", error);
     }
   }
+}
+
+function obtenerFechaTareaMs(tarea) {
+  if (!tarea) return 0;
+  if (tarea.fechaLimite) {
+    const fecha = new Date(tarea.fechaLimite);
+    if (!Number.isNaN(fecha.getTime())) return fecha.getTime();
+  }
+  if (tarea.creadoEn && typeof tarea.creadoEn.toMillis === "function") {
+    return tarea.creadoEn.toMillis();
+  }
+  return 0;
+}
+
+function obtenerResponsableLegible(valor = "novia") {
+  if (valor === "novio") return "Responsable: Novio";
+  if (valor === "ayudantes") return "Responsable: Ayudantes";
+  if (valor === "ambos") return "Responsable: Novia y Novio";
+  return "Responsable: Novia";
 }
 
 function actualizarMaximoConfirmados(form) {
@@ -1259,6 +1307,7 @@ auth.onAuthStateChanged((user) => {
     cargarDamasCaballeros();
     cargarPresupuestoItems();
     cargarApoyos();
+    cargarTareasPendientes();
   } else {
     filtroActual = "todos";
     filtroLado = "todos";
@@ -1271,6 +1320,8 @@ auth.onAuthStateChanged((user) => {
     apoyosItems = [];
     renderPresupuesto();
     renderApoyos();
+    tareasPendientesBoard = [];
+    renderTableroPendientes();
   }
 });
 
@@ -1288,6 +1339,11 @@ filterButtons.forEach((btn) =>
 ladoFilterSelect?.addEventListener("change", (event) => {
   filtroLado = event.target.value;
   pintarTabla();
+});
+
+filtroTareasResponsableSelect?.addEventListener("change", (event) => {
+  filtroResponsableTareas = event.target.value;
+  renderTableroPendientes();
 });
 
 tablaBody?.addEventListener("click", (event) => {
@@ -1522,6 +1578,31 @@ addApoyoBtn?.addEventListener("click", () => {
   apoyosForm?.reset();
   if (apoyosMensaje) apoyosMensaje.textContent = "";
   modalApoyoInstance?.show();
+});
+
+addTareaBtn?.addEventListener("click", () => {
+  if (rolActual !== "admin") return;
+  abrirModalTarea();
+});
+
+tareaForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  guardarTareaPendiente(new FormData(event.target));
+});
+
+document.getElementById("tab-pendientes")?.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-action]");
+  if (!btn) return;
+  const { action, id, target: estadoDestino } = btn.dataset;
+  if (!id) return;
+  if (action === "editar-tarea") {
+    const tarea = tareasPendientesBoard.find((item) => item.id === id);
+    abrirModalTarea(tarea || null);
+  } else if (action === "borrar-tarea") {
+    borrarTareaPendiente(id);
+  } else if (action === "mover-tarea" && estadoDestino) {
+    actualizarEstadoTarea(id, estadoDestino);
+  }
 });
 
 apoyosBody?.addEventListener("click", (event) => {
@@ -2074,6 +2155,191 @@ function renderApoyos() {
       .join("");
   }
   actualizarResumenFinanciero();
+}
+
+async function cargarTareasPendientes() {
+  if (!kanbanPendienteBody) return;
+  try {
+    const snap = await db.collection("pendientesTareas").get();
+    tareasPendientesBoard = snap.docs
+      .map((doc) => ({ id: doc.id, ...doc.data() }))
+      .sort((a, b) => obtenerFechaTareaMs(a) - obtenerFechaTareaMs(b));
+    renderTableroPendientes();
+  } catch (error) {
+    console.error("Error al cargar pendientes", error);
+    if (kanbanPendienteBody) {
+      kanbanPendienteBody.innerHTML =
+        '<p class="kanban-empty">No pudimos cargar las tareas.</p>';
+    }
+  }
+}
+
+function renderTableroPendientes() {
+  if (!kanbanPendienteBody || !kanbanProgresoBody || !kanbanCompletadoBody) return;
+  const estados = {
+    pendiente: [],
+    progreso: [],
+    completado: [],
+  };
+  tareasPendientesBoard.forEach((tarea) => {
+    if (
+      filtroResponsableTareas !== "todos" &&
+      (tarea.responsable || "novia") !== filtroResponsableTareas
+    ) {
+      return;
+    }
+    const estado = tarea.estado || "pendiente";
+    if (estados[estado]) {
+      estados[estado].push(tarea);
+    } else {
+      estados.pendiente.push(tarea);
+    }
+  });
+  kanbanPendienteBody.innerHTML = estados.pendiente.length
+    ? estados.pendiente.map((t) => renderTarjetaTarea(t)).join("")
+    : '<p class="kanban-empty">Sin pendientes.</p>';
+  kanbanProgresoBody.innerHTML = estados.progreso.length
+    ? estados.progreso.map((t) => renderTarjetaTarea(t)).join("")
+    : '<p class="kanban-empty">Aquí aparecerán las tareas en progreso.</p>';
+  kanbanCompletadoBody.innerHTML = estados.completado.length
+    ? estados.completado.map((t) => renderTarjetaTarea(t)).join("")
+    : '<p class="kanban-empty">Aún no completas ninguna tarea.</p>';
+  if (countPendiente) countPendiente.textContent = estados.pendiente.length;
+  if (countProgreso) countProgreso.textContent = estados.progreso.length;
+  if (countCompletado) countCompletado.textContent = estados.completado.length;
+}
+
+function renderTarjetaTarea(tarea) {
+  const limite = tarea.fechaLimite ? formatearFechaCorta(tarea.fechaLimite) : "Sin fecha";
+  const vencida =
+    tarea.estado !== "completado" &&
+    tarea.fechaLimite &&
+    new Date(tarea.fechaLimite) < new Date();
+  const clase = `kanban-card${vencida ? " kanban-card--overdue" : ""}`;
+  const puedeEditar = rolActual === "admin";
+  const descripcion = tarea.descripcion ? escapeHTML(tarea.descripcion) : "";
+  const responsableValor = tarea.responsable || "novia";
+  const responsable = obtenerResponsableLegible(responsableValor);
+  const acciones = [];
+  if (puedeEditar) {
+    if (tarea.estado === "pendiente") {
+      acciones.push(
+        `<button class="btn btn--ghost" data-action="mover-tarea" data-target="progreso" data-id="${tarea.id}">Iniciar</button>`
+      );
+    } else if (tarea.estado === "progreso") {
+      acciones.push(
+        `<button class="btn btn--ghost" data-action="mover-tarea" data-target="pendiente" data-id="${tarea.id}">Pendiente</button>`
+      );
+      acciones.push(
+        `<button class="btn btn--ghost" data-action="mover-tarea" data-target="completado" data-id="${tarea.id}">Completar</button>`
+      );
+    } else if (tarea.estado === "completado") {
+      acciones.push(
+        `<button class="btn btn--ghost" data-action="mover-tarea" data-target="pendiente" data-id="${tarea.id}">Reabrir</button>`
+      );
+    }
+    acciones.push(
+      `<button class="btn btn--ghost" data-action="editar-tarea" data-id="${tarea.id}">Editar</button>`
+    );
+    acciones.push(
+      `<button class="btn btn--ghost btn--danger" data-action="borrar-tarea" data-id="${tarea.id}">Eliminar</button>`
+    );
+  }
+  return `
+    <div class="${clase}" data-id="${tarea.id}">
+      <h4>${escapeHTML(tarea.titulo || "Tarea sin título")}</h4>
+      <span class="kanban-responsable kanban-responsable--${responsableValor}">${responsable}</span>
+      ${
+        descripcion
+          ? `<p>${descripcion}</p>`
+          : ""
+      }
+      <span class="kanban-deadline">Fecha límite: ${limite}</span>
+      ${
+        acciones.length
+          ? `<div class="kanban-actions">${acciones.join("")}</div>`
+          : ""
+      }
+    </div>
+  `;
+}
+
+function abrirModalTarea(tarea = null) {
+  if (!tareaForm) return;
+  tareaSeleccionada = tarea;
+  tareaForm.reset();
+  if (tareaMensaje) tareaMensaje.textContent = "";
+  tareaForm.elements["id"].value = tarea?.id || "";
+  tareaForm.elements["titulo"].value = tarea?.titulo || "";
+  tareaForm.elements["descripcion"].value = tarea?.descripcion || "";
+  tareaForm.elements["fechaLimite"].value = tarea?.fechaLimite
+    ? isoToLocalInputValue(tarea.fechaLimite)
+    : "";
+  tareaForm.elements["estado"].value = tarea?.estado || "pendiente";
+  tareaForm.elements["responsable"].value = tarea?.responsable || "novia";
+  modalTareaInstance?.show();
+}
+
+async function guardarTareaPendiente(formData) {
+  if (rolActual !== "admin") {
+    if (tareaMensaje) tareaMensaje.textContent = "Solo los administradores pueden editar tareas.";
+    return;
+  }
+  const id = formData.get("id")?.trim();
+  const titulo = formData.get("titulo")?.trim();
+  const descripcion = formData.get("descripcion")?.trim() || "";
+  const fechaLimite = formData.get("fechaLimite");
+  const estado = formData.get("estado") || "pendiente";
+  const responsable = formData.get("responsable") || "novia";
+  if (!titulo || !fechaLimite) {
+    if (tareaMensaje) tareaMensaje.textContent = "Completa el título y la fecha límite.";
+    return;
+  }
+  const payload = { titulo, descripcion, fechaLimite, estado, responsable };
+  try {
+    if (id) {
+      await db.collection("pendientesTareas").doc(id).update({
+        ...payload,
+        actualizadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      if (tareaMensaje) tareaMensaje.textContent = "Tarea actualizada.";
+    } else {
+      await db.collection("pendientesTareas").add({
+        ...payload,
+        creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      if (tareaMensaje) tareaMensaje.textContent = "Tarea registrada.";
+    }
+    modalTareaInstance?.hide();
+    await cargarTareasPendientes();
+  } catch (error) {
+    console.error("Error al guardar tarea", error);
+    if (tareaMensaje) tareaMensaje.textContent = "No pudimos guardar la tarea.";
+  }
+}
+
+async function actualizarEstadoTarea(id, nuevoEstado) {
+  if (rolActual !== "admin" || !id || !nuevoEstado) return;
+  try {
+    await db
+      .collection("pendientesTareas")
+      .doc(id)
+      .update({ estado: nuevoEstado, actualizadoEn: firebase.firestore.FieldValue.serverTimestamp() });
+    await cargarTareasPendientes();
+  } catch (error) {
+    console.error("Error al cambiar estado de tarea", error);
+  }
+}
+
+async function borrarTareaPendiente(id) {
+  if (rolActual !== "admin" || !id) return;
+  if (!confirm("¿Eliminar esta tarea?")) return;
+  try {
+    await db.collection("pendientesTareas").doc(id).delete();
+    await cargarTareasPendientes();
+  } catch (error) {
+    console.error("Error al borrar tarea", error);
+  }
 }
 
 async function guardarPresupuestoItem(formData) {
