@@ -2181,6 +2181,8 @@ function renderTableroPendientes() {
     progreso: [],
     completado: [],
   };
+  const ordenarPorFecha = (lista) =>
+    lista.sort((a, b) => obtenerFechaTareaMs(a) - obtenerFechaTareaMs(b));
   tareasPendientesBoard.forEach((tarea) => {
     if (
       filtroResponsableTareas !== "todos" &&
@@ -2195,6 +2197,7 @@ function renderTableroPendientes() {
       estados.pendiente.push(tarea);
     }
   });
+  ordenarPorFecha(estados.pendiente);
   kanbanPendienteBody.innerHTML = estados.pendiente.length
     ? estados.pendiente.map((t) => renderTarjetaTarea(t)).join("")
     : '<p class="kanban-empty">Sin pendientes.</p>';
