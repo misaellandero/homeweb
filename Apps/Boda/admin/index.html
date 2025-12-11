@@ -168,7 +168,7 @@
               </div>
               <div class="table-actions capacity-pill-group">
                 <span class="capacity-pill capacity-pill--neutral">
-                  Lugares ocupados (Dara): <strong id="summary-novia">--</strong>
+                  Lugares ocupados (Novia): <strong id="summary-novia">--</strong>
                 </span>
                 <span class="capacity-pill capacity-pill--neutral">
                   Lugares ocupados (Novio): <strong id="summary-novio">--</strong>
@@ -390,13 +390,14 @@
                     <th>Monto fijo</th>
                     <th>Costo adultos</th>
                     <th>Costo niños</th>
+                    <th>Notas</th>
                     <th>Total</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="presupuesto-body">
                   <tr>
-                    <td colspan="8">Todavía no registras movimientos.</td>
+                    <td colspan="9">Todavía no registras movimientos.</td>
                   </tr>
                 </tbody>
               </table>
@@ -416,12 +417,13 @@
                   <tr>
                     <th>Descripción</th>
                     <th>Monto</th>
+                    <th>Notas</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="apoyos-body">
                   <tr>
-                    <td colspan="3">Aún no registras apoyos.</td>
+                    <td colspan="4">Aún no registras apoyos.</td>
                   </tr>
                 </tbody>
               </table>
@@ -589,6 +591,7 @@
           </div>
           <div class="modal-body">
             <form id="presupuesto-form" class="form-grid" autocomplete="off">
+              <input type="hidden" name="id" />
               <label>Concepto
                 <input type="text" name="concepto" placeholder="Pastel de boda, DJ, etc." required />
               </label>
@@ -612,6 +615,9 @@
               </label>
               <label>Costo por niño (opcional)
                 <input type="number" name="costoNino" step="0.01" min="0" placeholder="Ej. 250" />
+              </label>
+              <label>Notas
+                <textarea name="notasMovimiento" rows="2" placeholder="Detalles adicionales"></textarea>
               </label>
               <div class="form-actions">
                 <button type="submit" class="btn">Guardar</button>
@@ -638,6 +644,9 @@
               </label>
               <label>Monto
                 <input type="number" name="monto" step="0.01" min="0" placeholder="Ej. 20000" required />
+              </label>
+              <label>Notas
+                <textarea name="notasApoyo" rows="2" placeholder="Quién aporta, condiciones, etc."></textarea>
               </label>
               <div class="form-actions">
                 <button type="submit" class="btn">Guardar</button>

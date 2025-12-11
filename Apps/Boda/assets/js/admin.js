@@ -136,6 +136,7 @@ let ultimaSeleccionRolDama = "dama";
 let presupuestoItems = [];
 let apoyosItems = [];
 let presupuestoChart = null;
+let presupuestoSeleccionado = null;
 
 // Configura los correos permitidos para cada rol.
 const ROLE_CONFIG = {
@@ -607,6 +608,58 @@ function recalcularTotalInvitados(form) {
   }
 }
 
+function obtenerFechaRegistroMs(invitado) {
+  if (!invitado) return 0;
+  const campo = invitado.fechaRegistro;
+  if (campo && typeof campo.toMillis === "function") {
+    return campo.toMillis();
+  }
+  if (campo instanceof Date && !Number.isNaN(campo.getTime())) {
+    return campo.getTime();
+  }
+  if (typeof campo === "string") {
+    const parsed = new Date(campo);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed.getTime();
+    }
+  }
+  if (invitado.fechaEnvioInvitacion) {
+    const parsed = new Date(invitado.fechaEnvioInvitacion);
+    if (!Number.isNaN(parsed.getTime())) {
+      return parsed.getTime();
+    }
+  }
+  return 0;
+}
+
+async function asegurarFechaRegistro(snapshot) {
+  if (!snapshot) return;
+  const pendientes = [];
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+    if (!data || data.fechaRegistro) return;
+    let fechaBase = new Date();
+    if (data.fechaEnvioInvitacion) {
+      const parsed = new Date(data.fechaEnvioInvitacion);
+      if (!Number.isNaN(parsed.getTime())) {
+        fechaBase = parsed;
+      }
+    }
+    pendientes.push(
+      doc.ref.update({
+        fechaRegistro: firebase.firestore.Timestamp.fromDate(fechaBase),
+      })
+    );
+  });
+  if (pendientes.length) {
+    try {
+      await Promise.all(pendientes);
+    } catch (error) {
+      console.error("No pudimos normalizar las fechas de registro", error);
+    }
+  }
+}
+
 function actualizarMaximoConfirmados(form) {
   if (!form || !form.elements) return;
   const totalInput = form.elements["numInvitadosPermitidos"];
@@ -641,11 +694,11 @@ async function iniciarSesion(email, password) {
  */
 async function cargarListaInvitados() {
   try {
-    const snap = await db
-      .collection("invitados")
-      .orderBy("fechaEnvioInvitacion", "desc")
-      .get();
-    invitadosCache = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const snap = await db.collection("invitados").get();
+    await asegurarFechaRegistro(snap);
+    const docs = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    docs.sort((a, b) => obtenerFechaRegistroMs(a) - obtenerFechaRegistroMs(b));
+    invitadosCache = docs;
     actualizarEtiquetasDisponibles();
     renderFiltroEtiquetas();
     pintarTabla();
@@ -954,6 +1007,7 @@ async function crearInvitado(formData) {
     payload.fechaLimiteDetalles || deadlineForm?.fechaLimiteDetalles?.value || null;
   payload.esListaEspera = payload.esListaEspera === "true";
   payload.fechaEnvioInvitacion = payload.fechaEnvioInvitacion || new Date().toISOString();
+  payload.fechaRegistro = firebase.firestore.FieldValue.serverTimestamp();
   payload.etiquetas = parseEtiquetas(formData.get("etiquetas") || "");
   payload.contactoPrincipal = formData.get("contactoPrincipal")?.trim() || "";
   payload.contactosAdicionales = parseContactos(formData.get("contactosAdicionales") || "");
@@ -1441,11 +1495,16 @@ presupuestoForm?.addEventListener("submit", (event) => {
 });
 
 presupuestoBody?.addEventListener("click", (event) => {
-  const btn = event.target.closest("[data-action='borrar-presupuesto']");
+  const btn = event.target.closest("[data-action]");
   if (!btn) return;
-  const id = btn.dataset.id;
+  const { action, id } = btn.dataset;
   if (!id) return;
-  borrarPresupuestoItem(id);
+  if (action === "borrar-presupuesto") {
+    borrarPresupuestoItem(id);
+  } else if (action === "editar-presupuesto") {
+    const movimiento = presupuestoItems.find((item) => item.id === id);
+    abrirModalPresupuesto(movimiento || null);
+  }
 });
 
 apoyosForm?.addEventListener("submit", (event) => {
@@ -1455,9 +1514,7 @@ apoyosForm?.addEventListener("submit", (event) => {
 
 addPresupuestoBtn?.addEventListener("click", () => {
   if (rolActual !== "admin") return;
-  presupuestoForm?.reset();
-  if (presupuestoMensaje) presupuestoMensaje.textContent = "";
-  modalPresupuestoInstance?.show();
+  abrirModalPresupuesto();
 });
 
 addApoyoBtn?.addEventListener("click", () => {
@@ -1953,6 +2010,10 @@ function renderPresupuesto() {
           item.modalidad === "por_persona" ? item.totalAdultosAplicados || 0 : "-";
         const ninosAplicados =
           item.modalidad === "por_persona" ? item.totalNinosAplicados || 0 : "-";
+        const notasMovimiento =
+          typeof item.notasMovimiento === "string" && item.notasMovimiento.trim()
+            ? escapeHTML(item.notasMovimiento.trim())
+            : "—";
         return `
           <tr data-id="${item.id}">
             <td>${item.concepto || "-"}</td>
@@ -1967,8 +2028,12 @@ function renderPresupuesto() {
                 ? "—"
                 : "—"
             }</td>
+            <td>${notasMovimiento}</td>
             <td>${formatearMoneda(total)}</td>
             <td>
+              <button class="btn btn--ghost" data-action="editar-presupuesto" data-id="${item.id}" ${
+                puedeBorrar ? "" : "disabled"
+              }>Editar</button>
               <button class="btn btn--ghost btn--danger" data-action="borrar-presupuesto" data-id="${item.id}" ${
                 puedeBorrar ? "" : "disabled"
               }>Eliminar</button>
@@ -1993,6 +2058,11 @@ function renderApoyos() {
         <tr data-id="${item.id}">
           <td>${item.descripcion || "-"}</td>
           <td>${formatearMoneda(item.monto)}</td>
+          <td>${
+            item.notasApoyo && item.notasApoyo.trim()
+              ? escapeHTML(item.notasApoyo.trim())
+              : "—"
+          }</td>
           <td>
             <button class="btn btn--ghost btn--danger" data-action="borrar-apoyo" data-id="${item.id}" ${
               puedeBorrar ? "" : "disabled"
@@ -2011,12 +2081,14 @@ async function guardarPresupuestoItem(formData) {
     if (presupuestoMensaje) presupuestoMensaje.textContent = "Solo los administradores pueden agregar.";
     return;
   }
+  const id = formData.get("id")?.trim();
   const concepto = formData.get("concepto")?.trim();
   const tipo = formData.get("tipo") || "gasto";
   const modalidad = formData.get("modalidad") || "fijo";
   const montoBase = Number(formData.get("montoBase"));
   const costoAdulto = Number(formData.get("costoAdulto"));
   const costoNino = Number(formData.get("costoNino"));
+  const notasMovimiento = formData.get("notasMovimiento")?.trim() || "";
   if (!concepto) {
     if (presupuestoMensaje) presupuestoMensaje.textContent = "Completa el concepto.";
     return;
@@ -2046,21 +2118,40 @@ async function guardarPresupuestoItem(formData) {
     totalCalculado = montoBase;
   }
   try {
-    await db.collection("presupuesto").add({
-      concepto,
-      tipo,
-      modalidad,
-      montoBase,
-      numPersonas,
-      totalCalculado,
-      costoAdulto: Number.isNaN(costoAdulto) ? 0 : costoAdulto,
-      costoNino: Number.isNaN(costoNino) ? 0 : costoNino,
-      totalAdultosAplicados,
-      totalNinosAplicados,
-      creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    presupuestoForm?.reset();
-    if (presupuestoMensaje) presupuestoMensaje.textContent = "Movimiento agregado.";
+    if (id) {
+      await db.collection("presupuesto").doc(id).update({
+        concepto,
+        tipo,
+        modalidad,
+        montoBase,
+        numPersonas,
+        totalCalculado,
+        costoAdulto: Number.isNaN(costoAdulto) ? 0 : costoAdulto,
+        costoNino: Number.isNaN(costoNino) ? 0 : costoNino,
+        totalAdultosAplicados,
+        totalNinosAplicados,
+        notasMovimiento,
+        actualizadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      if (presupuestoMensaje) presupuestoMensaje.textContent = "Movimiento actualizado.";
+    } else {
+      await db.collection("presupuesto").add({
+        concepto,
+        tipo,
+        modalidad,
+        montoBase,
+        numPersonas,
+        totalCalculado,
+        costoAdulto: Number.isNaN(costoAdulto) ? 0 : costoAdulto,
+        costoNino: Number.isNaN(costoNino) ? 0 : costoNino,
+        totalAdultosAplicados,
+        totalNinosAplicados,
+        notasMovimiento,
+        creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      presupuestoForm?.reset();
+      if (presupuestoMensaje) presupuestoMensaje.textContent = "Movimiento agregado.";
+    }
     modalPresupuestoInstance?.hide();
     await cargarPresupuestoItems();
   } catch (error) {
@@ -2088,6 +2179,7 @@ async function guardarApoyo(formData) {
   }
   const descripcion = formData.get("descripcion")?.trim();
   const monto = Number(formData.get("monto"));
+  const notasApoyo = formData.get("notasApoyo")?.trim() || "";
   if (!descripcion || Number.isNaN(monto)) {
     if (apoyosMensaje) apoyosMensaje.textContent = "Completa la descripción y el monto.";
     return;
@@ -2096,6 +2188,7 @@ async function guardarApoyo(formData) {
     await db.collection("presupuestoApoyos").add({
       descripcion,
       monto,
+      notasApoyo,
       creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
     });
     apoyosForm?.reset();
@@ -2452,4 +2545,22 @@ async function promoverInvitadoListaEspera(fechas) {
     console.error("Error al promover invitado", error);
     if (promoverMensaje) promoverMensaje.textContent = "Error al promover invitado.";
   }
+}
+function abrirModalPresupuesto(movimiento = null) {
+  if (!presupuestoForm) return;
+  presupuestoSeleccionado = movimiento;
+  presupuestoForm.reset();
+  if (presupuestoMensaje) presupuestoMensaje.textContent = "";
+  presupuestoForm.elements["id"].value = movimiento?.id || "";
+  presupuestoForm.elements["concepto"].value = movimiento?.concepto || "";
+  presupuestoForm.elements["tipo"].value = movimiento?.tipo || "gasto";
+  presupuestoForm.elements["modalidad"].value = movimiento?.modalidad || "fijo";
+  presupuestoForm.elements["montoBase"].value =
+    movimiento?.modalidad === "fijo" ? movimiento?.montoBase || "" : "";
+  presupuestoForm.elements["costoAdulto"].value =
+    movimiento?.modalidad === "por_persona" ? movimiento?.costoAdulto || "" : "";
+  presupuestoForm.elements["costoNino"].value =
+    movimiento?.modalidad === "por_persona" ? movimiento?.costoNino || "" : "";
+  presupuestoForm.elements["notasMovimiento"].value = movimiento?.notasMovimiento || "";
+  modalPresupuestoInstance?.show();
 }
