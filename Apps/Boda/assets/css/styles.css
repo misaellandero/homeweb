@@ -378,6 +378,79 @@ textarea:focus {
   border: 1px solid rgba(116, 68, 102, 0.2);
 }
 
+.rsvp-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.rsvp-step {
+  border: 1px solid rgba(116, 68, 102, 0.25);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.rsvp-step__number {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.rsvp-step.is-active {
+  background: rgba(116, 68, 102, 0.08);
+  color: var(--color-primary);
+  border-color: rgba(116, 68, 102, 0.4);
+}
+
+.form-step {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.form-step.is-active {
+  display: block;
+}
+
+.options.single {
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.step-actions .btn {
+  flex: 1 1 160px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .timeline-note {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -406,6 +479,11 @@ textarea:focus {
   color: var(--color-muted);
   font-size: 0.9rem;
   margin-top: 0.5rem;
+}
+
+.form-helper--error {
+  color: var(--color-danger);
+  font-weight: 600;
 }
 
 .hidden {
@@ -539,6 +617,68 @@ body.admin .deadline-node--secondary {
   margin-top: 0.4rem;
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.8);
+}
+
+body.admin .header-countdown {
+  margin-top: 1.5rem;
+}
+
+body.admin .countdown-card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+body.admin .countdown-card__label {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+body.admin .countdown-card__date {
+  margin: 0.2rem 0 0;
+  font-weight: 600;
+}
+
+body.admin .countdown-card__helper {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+body.admin .countdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+body.admin .countdown__item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+body.admin .countdown__item span {
+  display: block;
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+body.admin .countdown__item small {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 @media (min-width: 992px) {

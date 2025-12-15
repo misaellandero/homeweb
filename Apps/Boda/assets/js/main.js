@@ -4,12 +4,146 @@ const rsvpForm = document.getElementById("rsvp-form");
 const codigoMensaje = document.getElementById("codigo-mensaje");
 const estadoDetalle = document.getElementById("estado-invitado");
 const contadorTiempo = document.getElementById("contador-tiempo");
-const fase2Fieldset = document.getElementById("fase2");
 const acompanantesHelp = document.getElementById("acompanantes-help");
 const heroDateEl = document.getElementById("hero-date");
+const pasoMensaje = document.getElementById("paso-mensaje");
+const stepSections = document.querySelectorAll(".form-step");
+const stepIndicators = document.querySelectorAll(".rsvp-step");
+const stepPrevBtn = document.getElementById("step-prev");
+const stepNextBtn = document.getElementById("step-next");
+const stepSubmitBtn = document.getElementById("step-submit");
+const asistenciaViajeField = document.getElementById("asistencia-viaje-field");
 
 let invitadoActual = null;
 let detenerCuentaRegresiva = null;
+let pasoActual = 1;
+const TOTAL_PASOS = 3;
+
+function obtenerOpcionesRadio(nombre) {
+  if (!rsvpForm || !nombre) return [];
+  const campos = rsvpForm.elements[nombre];
+  if (!campos) return [];
+  if (campos.length !== undefined) {
+    return Array.from(campos);
+  }
+  return [campos];
+}
+
+function obtenerValorRadio(nombre) {
+  const opciones = obtenerOpcionesRadio(nombre);
+  const seleccionada = opciones.find((input) => input.checked);
+  return seleccionada ? seleccionada.value : "";
+}
+
+function establecerValorRadio(nombre, valor) {
+  const opciones = obtenerOpcionesRadio(nombre);
+  if (!opciones.length) return;
+  opciones.forEach((input) => {
+    input.checked = valor ? input.value === valor : false;
+  });
+}
+
+function mostrarMensajePaso(texto = "") {
+  if (pasoMensaje) pasoMensaje.textContent = texto;
+}
+
+function sincronizarCampoViaje() {
+  if (!asistenciaViajeField) return;
+  const planeaViajar = obtenerValorRadio("planeaViajar");
+  const mostrar = planeaViajar === "si";
+  asistenciaViajeField.classList.toggle("hidden", !mostrar);
+  if (!mostrar) {
+    establecerValorRadio("requiereAsistencia", "");
+  }
+}
+
+function sincronizarCampoAsistencia() {
+  const asistencia = obtenerValorRadio("asistencia");
+  const acompanantesInput = document.getElementById("numAcompanantes");
+  if (acompanantesInput) {
+    const habilitado = asistencia === "si";
+    acompanantesInput.disabled = !habilitado;
+    if (!habilitado) {
+      acompanantesInput.value = 0;
+    }
+  }
+  if (asistencia !== "si") {
+    establecerValorRadio("planeaViajar", "no");
+    sincronizarCampoViaje();
+  }
+}
+
+function actualizarPasoUI() {
+  stepSections.forEach((section) => {
+    const stepValue = Number(section.dataset.step);
+    section.classList.toggle("is-active", stepValue === pasoActual);
+  });
+  stepIndicators.forEach((indicator) => {
+    const stepValue = Number(indicator.dataset.step);
+    indicator.classList.toggle("is-active", stepValue === pasoActual);
+  });
+  stepPrevBtn?.classList.toggle("hidden", pasoActual === 1);
+  stepNextBtn?.classList.toggle("hidden", pasoActual === TOTAL_PASOS);
+  stepSubmitBtn?.classList.toggle("hidden", pasoActual !== TOTAL_PASOS);
+}
+
+function cambiarPaso(nuevoPaso) {
+  const clamped = Math.min(Math.max(1, nuevoPaso), TOTAL_PASOS);
+  pasoActual = clamped;
+  mostrarMensajePaso("");
+  actualizarPasoUI();
+}
+
+function validarPaso(step) {
+  if (!rsvpForm) return true;
+  const asistencia = obtenerValorRadio("asistencia");
+  const acompanantesInput = document.getElementById("numAcompanantes");
+  switch (step) {
+    case 1: {
+      if (!asistencia) {
+        mostrarMensajePaso("Selecciona si asistirás para continuar.");
+        return false;
+      }
+      if (asistencia === "si" && acompanantesInput) {
+        const max = Number(acompanantesInput.max || 0);
+        const valor = Number(acompanantesInput.value || 0);
+        if (Number.isNaN(valor) || valor < 0) {
+          mostrarMensajePaso("Indica un número válido de acompañantes.");
+          return false;
+        }
+        if (max >= 0 && valor > max) {
+          mostrarMensajePaso(`Tu invitación permite máximo ${max} acompañantes.`);
+          return false;
+        }
+      }
+      break;
+    }
+    case 2: {
+      if (asistencia !== "si") break;
+      const planeaViajar = obtenerValorRadio("planeaViajar");
+      if (!planeaViajar) {
+        mostrarMensajePaso("Cuéntanos si viajarás para poder apoyarte.");
+        return false;
+      }
+      if (planeaViajar === "si" && !obtenerValorRadio("requiereAsistencia")) {
+        mostrarMensajePaso("Indica si necesitas asistencia con el viaje.");
+        return false;
+      }
+      break;
+    }
+    case 3: {
+      if (asistencia === "si" && !document.getElementById("vestimentaConfirmada").checked) {
+        mostrarMensajePaso("Confirma que revisaste el código de vestimenta.");
+        return false;
+      }
+      break;
+    }
+    default:
+      break;
+  }
+  mostrarMensajePaso("");
+  return true;
+}
 
 /**
  * Busca el invitado en Firestore usando el código proporcionado.
@@ -27,6 +161,8 @@ async function cargarInvitadoPorCodigo(codigo) {
     if (snap.empty) {
       codigoMensaje.textContent = "No encontramos ese código. Verifica tu invitación.";
       rsvpForm.classList.add("hidden");
+      cambiarPaso(1);
+      mostrarMensajePaso("");
       invitadoActual = null;
       return;
     }
@@ -46,30 +182,39 @@ async function cargarInvitadoPorCodigo(codigo) {
 function prepararFormularioSegunEstado() {
   if (!invitadoActual) return;
   rsvpForm.classList.remove("hidden");
-  acompanantesHelp.textContent = `Máximo permitido: ${
-    invitadoActual.numInvitadosPermitidos ?? 0
-  }`;
+  const maxPermitidos = Math.max((invitadoActual.numInvitadosPermitidos || 1) - 1, 0);
+  const acompanantesRegistrados =
+    invitadoActual.rsvpNumAsistentes && invitadoActual.rsvpNumAsistentes > 0
+      ? Math.max(invitadoActual.rsvpNumAsistentes - 1, 0)
+      : 0;
+  acompanantesHelp.textContent = `Máximo permitido: ${maxPermitidos}`;
   const campoAcompanantes = document.getElementById("numAcompanantes");
-  campoAcompanantes.max = invitadoActual.numInvitadosPermitidos || 0;
-  campoAcompanantes.value = invitadoActual.rsvpNumAsistentes || 0;
+  campoAcompanantes.max = maxPermitidos;
+  campoAcompanantes.value = Math.min(acompanantesRegistrados, maxPermitidos);
 
   inicializarEstadoInvitado(construirEstadoPublico(invitadoActual));
-  const requiereFase2 =
-    invitadoActual.estadoInvitacion === "confirmado_fase1" ||
-    invitadoActual.estadoInvitacion === "confirmado_final";
-  fase2Fieldset.classList.toggle("hidden", !requiereFase2);
-
-  const radioObjetivo = document.querySelector(
-    `input[name="asistencia"][value="${
-      invitadoActual.estadoInvitacion === "rechazado" ? "no" : "si"
-    }"]`
-  );
-  if (radioObjetivo) radioObjetivo.checked = true;
-
-  document.getElementById("comentarios").value = invitadoActual.notas || "";
+  const asistenciaValor =
+    invitadoActual.estadoInvitacion === "rechazado" ? "no" : "si";
+  establecerValorRadio("asistencia", asistenciaValor);
+  const planeaValor =
+    invitadoActual.planeaViajar === true
+      ? "si"
+      : invitadoActual.planeaViajar === false
+      ? "no"
+      : "";
+  establecerValorRadio("planeaViajar", planeaValor);
+  const requiereAsistenciaValor =
+    invitadoActual.requiereAsistenciaViaje === true
+      ? "si"
+      : invitadoActual.requiereAsistenciaViaje === false
+      ? "no"
+      : "";
+  establecerValorRadio("requiereAsistencia", requiereAsistenciaValor);
   document.getElementById("vestimentaConfirmada").checked = !!invitadoActual.vestimentaConfirmada;
-  document.getElementById("viajeConfirmado").checked = !!invitadoActual.viajeConfirmado;
-  document.getElementById("hospedajeConfirmado").checked = !!invitadoActual.hospedajeConfirmado;
+  sincronizarCampoViaje();
+  sincronizarCampoAsistencia();
+  cambiarPaso(1);
+  document.getElementById("comentarios").value = invitadoActual.notas || "";
 }
 
 /**
@@ -78,29 +223,46 @@ function prepararFormularioSegunEstado() {
 async function guardarRSVP(event) {
   event.preventDefault();
   if (!invitadoActual) return;
+  if (!validarPaso(TOTAL_PASOS)) return;
 
-  const asistencia = rsvpForm.elements["asistencia"].value;
-  const numAcompanantes = parseInt(
-    rsvpForm.elements["numAcompanantes"].value,
-    10
+  const asistencia = obtenerValorRadio("asistencia");
+  if (!asistencia) {
+    mostrarMensajePaso("Selecciona si asistirás antes de guardar.");
+    return;
+  }
+  const acompanantesInput = document.getElementById("numAcompanantes");
+  const maxAcompanantes = Number(acompanantesInput?.max || 0);
+  const acompanantesValor = Number(acompanantesInput?.value || 0);
+  const numAcompanantes = Math.min(
+    Math.max(Number.isNaN(acompanantesValor) ? 0 : acompanantesValor, 0),
+    maxAcompanantes
   );
   const comentarios = rsvpForm.elements["comentarios"].value;
   const vestimenta = document.getElementById("vestimentaConfirmada").checked;
-  const viaje = document.getElementById("viajeConfirmado").checked;
-  const hospedaje = document.getElementById("hospedajeConfirmado").checked;
+  const planeaViajarValor = obtenerValorRadio("planeaViajar");
+  const planeaViajar = planeaViajarValor === "si";
+  const requiereAsistenciaValor = obtenerValorRadio("requiereAsistencia");
+  const requiereAsistenciaViaje =
+    planeaViajar && requiereAsistenciaValor === "si";
+  const flujoViajeCompleto =
+    asistencia !== "si"
+      ? true
+      : planeaViajarValor !== "" &&
+        (planeaViajarValor === "no" || requiereAsistenciaValor !== "");
 
   const nuevoEstado = determinarEstado(asistencia, {
     vestimenta,
-    viaje,
-    hospedaje,
+    viajeCompletado: flujoViajeCompleto,
   });
 
   const payload = {
     rsvpNumAsistentes: asistencia === "si" ? numAcompanantes + 1 : 0,
     notas: comentarios,
     vestimentaConfirmada: vestimenta,
-    viajeConfirmado: viaje,
-    hospedajeConfirmado: hospedaje,
+    viajeConfirmado: planeaViajar,
+    hospedajeConfirmado: planeaViajar ? !requiereAsistenciaViaje : true,
+    planeaViajar,
+    requiereAsistenciaViaje: planeaViajar ? requiereAsistenciaViaje : false,
     estadoInvitacion: nuevoEstado,
     fechaConfirmacionFase1:
       nuevoEstado !== "pendiente_primera_confirmacion"
@@ -111,6 +273,16 @@ async function guardarRSVP(event) {
   try {
     await db.collection("invitados").doc(invitadoActual.id).update(payload);
     invitadoActual.estadoInvitacion = nuevoEstado;
+    invitadoActual.rsvpNumAsistentes = payload.rsvpNumAsistentes;
+    invitadoActual.notas = comentarios;
+    invitadoActual.vestimentaConfirmada = vestimenta;
+    invitadoActual.planeaViajar = planeaViajar;
+    invitadoActual.requiereAsistenciaViaje = planeaViajar
+      ? requiereAsistenciaViaje
+      : false;
+    invitadoActual.viajeConfirmado = planeaViajar;
+    invitadoActual.hospedajeConfirmado = planeaViajar ? !requiereAsistenciaViaje : true;
+    mostrarMensajePaso("¡Tu respuesta ha sido guardada!");
     if (estadoDetalle) {
       estadoDetalle.textContent = "¡Respuesta guardada!";
     }
@@ -127,10 +299,10 @@ async function guardarRSVP(event) {
 /**
  * Determina el estado de la invitación basado en las respuestas.
  */
-function determinarEstado(asistencia, extras) {
+function determinarEstado(asistencia, extras = {}) {
   if (asistencia === "no") return "rechazado";
-  if (extras.vestimenta && extras.viaje && extras.hospedaje) {
-    return "confirmado_final";
+  if (extras.vestimenta && extras.viajeCompletado) {
+    return "en_espera_codigo";
   }
   return "confirmado_fase1";
 }
@@ -151,6 +323,7 @@ function mapearEstadoPublico(estadoOriginal = "") {
     "SI_CONFIRMADO",
     "NO_VA",
     "CANCELADO_TIEMPO",
+    "EN_ESPERA_CODIGO",
   ]);
   const upper = (estadoOriginal || "").toUpperCase();
   if (conocidos.has(upper)) return upper;
@@ -161,6 +334,8 @@ function mapearEstadoPublico(estadoOriginal = "") {
       return "DIJO_QUE_SI";
     case "confirmado_final":
       return "SI_CONFIRMADO";
+    case "en_espera_codigo":
+      return "EN_ESPERA_CODIGO";
     case "rechazado":
       return "NO_VA";
     case "cancelado_por_tiempo":
@@ -234,6 +409,11 @@ function inicializarEstadoInvitado(invitado) {
     }
     case "SI_CONFIRMADO": {
       estadoDetalle.textContent = "Todo listo 🎉 Has confirmado asistencia, traje y viaje.";
+      break;
+    }
+    case "EN_ESPERA_CODIGO": {
+      estadoDetalle.innerHTML =
+        "<p>Gracias por completar los tres pasos.</p><p>Tu código de acceso será generado y te avisaremos en cuanto esté listo.</p>";
       break;
     }
     case "NO_VA":
@@ -342,6 +522,25 @@ function capitalizar(texto) {
   if (!texto) return "";
   return texto.charAt(0).toUpperCase() + texto.slice(1);
 }
+
+actualizarPasoUI();
+sincronizarCampoViaje();
+sincronizarCampoAsistencia();
+
+stepNextBtn?.addEventListener("click", () => {
+  if (validarPaso(pasoActual)) cambiarPaso(pasoActual + 1);
+});
+
+stepPrevBtn?.addEventListener("click", () => cambiarPaso(pasoActual - 1));
+
+rsvpForm?.addEventListener("change", (event) => {
+  if (event.target.name === "planeaViajar") {
+    sincronizarCampoViaje();
+  }
+  if (event.target.name === "asistencia") {
+    sincronizarCampoAsistencia();
+  }
+});
 
 codigoForm?.addEventListener("submit", (event) => {
   event.preventDefault();

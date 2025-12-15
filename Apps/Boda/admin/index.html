@@ -62,6 +62,33 @@
             </small>
           </div>
         </div>
+        <div id="header-countdown" class="header-countdown hidden">
+          <div class="countdown-card">
+            <p class="countdown-card__label">Cuenta regresiva</p>
+            <div class="countdown" id="wedding-countdown">
+              <div class="countdown__item">
+                <span id="countdown-days">--</span>
+                <small>Días</small>
+              </div>
+              <div class="countdown__item">
+                <span id="countdown-hours">--</span>
+                <small>Horas</small>
+              </div>
+              <div class="countdown__item">
+                <span id="countdown-minutes">--</span>
+                <small>Minutos</small>
+              </div>
+              <div class="countdown__item">
+                <span id="countdown-seconds">--</span>
+                <small>Segundos</small>
+              </div>
+            </div>
+            <p class="countdown-card__date" id="countdown-target-label">--</p>
+            <p class="countdown-card__helper" id="countdown-message">
+              Define la fecha del evento para activar la cuenta regresiva.
+            </p>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -269,6 +296,7 @@
                     <th>Adultos</th>
                     <th>Niños</th>
                     <th>Contacto</th>
+                    <th>WhatsApp</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                     <th>N° confirmados</th>
@@ -305,6 +333,7 @@
                     <th>Adultos</th>
                     <th>Niños</th>
                     <th>Contacto</th>
+                    <th>WhatsApp</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                     <th>N° confirmados</th>
@@ -896,6 +925,42 @@
               </div>
               <p class="form-helper" id="mensajes-mensaje"></p>
             </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-whatsapp" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card">
+          <div class="modal-header">
+            <h2 class="modal-title">Enviar mensaje por WhatsApp</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-grid whatsapp-form">
+              <div class="whatsapp-summary">
+                <p class="form-helper"><strong>Invitado:</strong> <span id="whatsapp-nombre">--</span></p>
+                <p class="form-helper"><strong>Contacto:</strong> <span id="whatsapp-contacto">--</span></p>
+              </div>
+              <label>Selecciona un mensaje
+                <select id="whatsapp-template">
+                  <option value="">No hay mensajes guardados todavía.</option>
+                </select>
+              </label>
+              <label>Texto para enviar
+                <textarea
+                  id="whatsapp-preview"
+                  rows="6"
+                  placeholder="Selecciona una plantilla para generar el mensaje. Luego puedes ajustar el texto antes de enviarlo."
+                ></textarea>
+              </label>
+              <div class="form-actions">
+                <button type="button" class="btn btn--secondary" id="whatsapp-copy">Copiar mensaje</button>
+                <button type="button" class="btn" id="whatsapp-send">Abrir WhatsApp</button>
+              </div>
+              <p class="form-helper" id="whatsapp-mensaje"></p>
+            </div>
           </div>
         </div>
       </div>

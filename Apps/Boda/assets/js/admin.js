@@ -57,11 +57,19 @@ const modalApoyo = document.getElementById("modal-apoyo");
 const modalTarea = document.getElementById("modal-tarea");
 const modalUbicacion = document.getElementById("modal-ubicacion");
 const modalMensaje = document.getElementById("modal-mensaje");
+const modalWhatsapp = document.getElementById("modal-whatsapp");
 const headerActivos = document.getElementById("header-activos");
 const headerEspera = document.getElementById("header-espera");
 const headerDisponibles = document.getElementById("header-disponibles");
 const headerStatsSection = document.querySelector(".header-stats");
 const headerDatesSection = document.querySelector(".header-dates");
+const headerCountdownSection = document.getElementById("header-countdown");
+const countdownDaysElem = document.getElementById("countdown-days");
+const countdownHoursElem = document.getElementById("countdown-hours");
+const countdownMinutesElem = document.getElementById("countdown-minutes");
+const countdownSecondsElem = document.getElementById("countdown-seconds");
+const countdownTargetLabel = document.getElementById("countdown-target-label");
+const countdownMessageElem = document.getElementById("countdown-message");
 const panelTabs = document.getElementById("panelTabs");
 const capacidadInput = document.getElementById("capacidadMaxima");
 const guardarCapacidadBtn = document.getElementById("guardar-capacidad");
@@ -97,6 +105,13 @@ const mensajesBody = document.getElementById("mensajes-body");
 const mensajesForm = document.getElementById("mensajes-form");
 const mensajesMensaje = document.getElementById("mensajes-mensaje");
 const addMensajeBtn = document.getElementById("add-mensaje-btn");
+const whatsappTemplateSelect = document.getElementById("whatsapp-template");
+const whatsappPreviewInput = document.getElementById("whatsapp-preview");
+const whatsappCopyBtn = document.getElementById("whatsapp-copy");
+const whatsappSendBtn = document.getElementById("whatsapp-send");
+const whatsappMensajeElem = document.getElementById("whatsapp-mensaje");
+const whatsappNombreElem = document.getElementById("whatsapp-nombre");
+const whatsappContactoElem = document.getElementById("whatsapp-contacto");
 const budgetIngresosElem = document.getElementById("budget-ingresos");
 const budgetGastosElem = document.getElementById("budget-gastos");
 const budgetApoyosElem = document.getElementById("budget-apoyos");
@@ -116,6 +131,7 @@ const tareaMensaje = document.getElementById("tarea-mensaje");
 const filtroTareasResponsableSelect = document.getElementById("filtro-tareas-responsable");
 const damasLadoSelect = damasForm?.elements?.lado || null;
 const damasRolSelect = damasForm?.elements?.rol || null;
+const COUNTDOWN_DEFAULT_MESSAGE = "Define la fecha del evento para activar la cuenta regresiva.";
 
 const modalCrearInstance =
   typeof bootstrap !== "undefined" && modalCrear ? new bootstrap.Modal(modalCrear) : null;
@@ -138,6 +154,10 @@ const modalUbicacionInstance =
 const modalMensajeInstance =
   typeof bootstrap !== "undefined" && modalMensaje
     ? new bootstrap.Modal(modalMensaje)
+    : null;
+const modalWhatsappInstance =
+  typeof bootstrap !== "undefined" && modalWhatsapp
+    ? new bootstrap.Modal(modalWhatsapp)
     : null;
 
 if (crearInvitadoForm && crearTagEditor) {
@@ -173,6 +193,9 @@ let presupuestoSeleccionado = null;
 let tareasPendientesBoard = [];
 let tareaSeleccionada = null;
 let filtroResponsableTareas = "todos";
+let countdownIntervalId = null;
+let invitadoWhatsappSeleccionado = null;
+let ultimaPlantillaWhatsapp = null;
 
 // Configura los correos permitidos para cada rol.
 const ROLE_CONFIG = {
@@ -349,6 +372,100 @@ function aplicarValoresEjemplo(texto = "") {
   });
 }
 
+function obtenerTextoInvitadosMensaje(invitado) {
+  if (!invitado) return "";
+  const total = Number(invitado.numInvitadosPermitidos);
+  let invitados = Number.isFinite(total) && total > 0 ? total : 0;
+  if (!invitados) {
+    const adultos = Number(invitado.numAdultosPlaneados) || 0;
+    const ninos = Number(invitado.numNinosPlaneados) || 0;
+    invitados = adultos + ninos;
+  }
+  if (!invitados) return "";
+  return invitados === 1 ? "1 persona" : `${invitados} personas`;
+}
+
+function normalizarFechaISO(valor) {
+  if (!valor) return null;
+  if (typeof valor === "string") return valor;
+  if (valor instanceof Date) return valor.toISOString();
+  if (typeof valor.toDate === "function") {
+    const fecha = valor.toDate();
+    return fecha instanceof Date ? fecha.toISOString() : null;
+  }
+  return null;
+}
+
+function formatearFechaHumanaLarga(isoString) {
+  if (!isoString) return "";
+  const fecha = new Date(isoString);
+  if (Number.isNaN(fecha.getTime())) return "";
+  return fecha.toLocaleDateString("es-MX", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function obtenerFechaPreferida(invitado, campoInvitado, campoConfiguracion) {
+  return (
+    normalizarFechaISO(invitado?.[campoInvitado]) ||
+    normalizarFechaISO(configuracionFechas?.[campoConfiguracion])
+  );
+}
+
+function obtenerLinkMapaPrincipal() {
+  if (!Array.isArray(ubicacionesEvento) || !ubicacionesEvento.length) return "";
+  const ubicacionConLink = ubicacionesEvento.find(
+    (ubicacion) => typeof ubicacion.mapsUrl === "string" && ubicacion.mapsUrl.trim()
+  );
+  return ubicacionConLink?.mapsUrl?.trim() || "";
+}
+
+function obtenerValorVariableMensaje(clave, invitado) {
+  switch (clave) {
+    case "nombre":
+      return invitado?.nombreCompleto || "";
+    case "numero_invitados":
+      return obtenerTextoInvitadosMensaje(invitado);
+    case "fecha_boda":
+      return formatearFechaHumanaLarga(normalizarFechaISO(configuracionFechas?.fechaBoda));
+    case "fecha_limite_confirmar_asistencia":
+      return formatearFechaHumanaLarga(
+        obtenerFechaPreferida(invitado, "fechaLimiteRespuesta", "fechaLimiteRespuesta")
+      );
+    case "fecha_limite_detalles":
+      return formatearFechaHumanaLarga(
+        obtenerFechaPreferida(invitado, "fechaLimiteDetalles", "fechaLimiteDetalles")
+      );
+    case "codigo_invitado":
+      return invitado?.codigoInvitacion || "";
+    case "link_mapa":
+      return obtenerLinkMapaPrincipal();
+    default:
+      return "";
+  }
+}
+
+function generarMensajePersonalizado(contenido = "", invitado = null) {
+  if (!contenido || !invitado) return contenido || "";
+  return contenido.replace(MENSAJE_VARIABLE_REGEX, (_, doble, simple) => {
+    const clave = (doble || simple || "").trim();
+    if (!clave) return "";
+    const valor = obtenerValorVariableMensaje(clave, invitado);
+    return valor || "";
+  });
+}
+
+function obtenerVariablesSinDatos(contenido = "", invitado = null) {
+  if (!contenido || !invitado) return [];
+  const variables = detectarVariablesMensaje(contenido);
+  return variables.filter((variable) => {
+    const valor = obtenerValorVariableMensaje(variable, invitado);
+    return valor === null || valor === undefined || valor === "";
+  });
+}
+
 function parseContactos(valor = "") {
   if (!valor) return [];
   return valor
@@ -404,6 +521,11 @@ const ESTADOS_CONFIG = {
     label: "Checklist completado",
     description: "Completo; asistirá y cerró todos los pendientes.",
     className: "status-pill--final",
+  },
+  en_espera_codigo: {
+    label: "En espera de código",
+    description: "Completó el formulario público y espera su acceso.",
+    className: "status-pill--fase1",
   },
   rechazado: {
     label: "Declinó asistencia",
@@ -513,6 +635,20 @@ function renderGestionCupo(id) {
       }>Bajar a lista de espera</button>
     </div>
   `;
+}
+
+function normalizarTelefonoWhatsapp(valor = "") {
+  if (typeof valor !== "string") return "";
+  const digitos = valor.replace(/\D/g, "");
+  return digitos;
+}
+
+function renderWhatsappAction(row) {
+  const telefono = normalizarTelefonoWhatsapp(row?.contactoPrincipal || "");
+  if (!telefono) {
+    return '<span class="form-helper">Sin teléfono</span>';
+  }
+  return `<button class="btn btn--ghost" data-action="whatsapp" data-id="${row.id}">Mensaje</button>`;
 }
 
 function renderPrioridadControls(row) {
@@ -877,6 +1013,14 @@ function construirColumnasDataTable(opciones = {}) {
     { data: "numNinosPlaneados", title: "Niños" },
     { data: "contactoPrincipal", title: "Contacto" },
     {
+      data: "id",
+      title: "WhatsApp",
+      orderable: false,
+      searchable: false,
+      render: (data, type, row) =>
+        type === "display" ? renderWhatsappAction(row) : data,
+    },
+    {
       data: "estadoLegible",
       title: "Estado",
       render: (data, type, row) => (type === "display" ? row.estadoRender : data),
@@ -1027,7 +1171,10 @@ function filtrarInvitado(invitado) {
     return invitado.estadoInvitacion === "confirmado_fase1";
   }
   if (filtroActual === "final") {
-    return invitado.estadoInvitacion === "confirmado_final";
+    return (
+      invitado.estadoInvitacion === "confirmado_final" ||
+      invitado.estadoInvitacion === "en_espera_codigo"
+    );
   }
   if (filtroActual === "lista-espera") {
     return invitado.esListaEspera;
@@ -1335,6 +1482,7 @@ auth.onAuthStateChanged((user) => {
   authSection.classList.toggle("hidden", isLogged);
   headerStatsSection?.classList.toggle("hidden", !isLogged);
   headerDatesSection?.classList.toggle("hidden", !isLogged);
+  headerCountdownSection?.classList.toggle("hidden", !isLogged);
   actualizarUIporRol();
   if (rolInfo) {
     rolInfo.textContent = `Rol actual: ${isLogged ? rolActual : "--"}`;
@@ -1358,6 +1506,7 @@ auth.onAuthStateChanged((user) => {
     ladoFilterSelect && (ladoFilterSelect.value = "todos");
     eventosItinerario = [];
     renderItinerario();
+    actualizarCuentaRegresiva(null);
     damasCaballeros = [];
     renderDamasCaballeros();
     ubicacionesEvento = [];
@@ -1417,6 +1566,11 @@ tablaBody?.addEventListener("click", (event) => {
     cancelarInvitacion(id);
   } else if (action === "bajar-espera") {
     moverInvitadoAListaEspera(id);
+  } else if (action === "whatsapp") {
+    const invitado = invitadosCache.find((inv) => inv.id === id);
+    if (invitado) {
+      abrirModalWhatsapp(invitado);
+    }
   }
 });
 
@@ -1590,6 +1744,8 @@ waitlistBody?.addEventListener("click", (event) => {
     ajustarPrioridadListaEspera(id, -1);
   } else if (action === "prioridad-down") {
     ajustarPrioridadListaEspera(id, 1);
+  } else if (action === "whatsapp") {
+    abrirModalWhatsapp(invitado);
   }
 });
 
@@ -1656,6 +1812,19 @@ mensajesForm?.addEventListener("submit", (event) => {
 addMensajeBtn?.addEventListener("click", () => {
   if (rolActual !== "admin") return;
   abrirModalMensaje();
+});
+
+whatsappTemplateSelect?.addEventListener("change", () => {
+  ultimaPlantillaWhatsapp = whatsappTemplateSelect.value || null;
+  actualizarPreviewWhatsapp();
+});
+
+whatsappCopyBtn?.addEventListener("click", () => {
+  copiarMensajeWhatsapp();
+});
+
+whatsappSendBtn?.addEventListener("click", () => {
+  enviarMensajeWhatsapp();
 });
 
 document.getElementById("tab-pendientes")?.addEventListener("click", (event) => {
@@ -1970,6 +2139,71 @@ function renderResumenFechas(fechas = {}) {
         : "";
   }
   actualizarResumenCapacidad();
+  actualizarCuentaRegresiva(fechas.fechaBoda);
+}
+
+function setCountdownValues(days = "--", hours = "--", minutes = "--", seconds = "--") {
+  if (countdownDaysElem) countdownDaysElem.textContent = days;
+  if (countdownHoursElem) countdownHoursElem.textContent = hours;
+  if (countdownMinutesElem) countdownMinutesElem.textContent = minutes;
+  if (countdownSecondsElem) countdownSecondsElem.textContent = seconds;
+}
+
+function actualizarMensajeCountdown(texto = COUNTDOWN_DEFAULT_MESSAGE) {
+  if (countdownMessageElem) countdownMessageElem.textContent = texto;
+}
+
+function detenerCuentaRegresiva() {
+  if (countdownIntervalId) {
+    clearInterval(countdownIntervalId);
+    countdownIntervalId = null;
+  }
+}
+
+function actualizarCuentaRegresiva(fechaISO) {
+  if (!countdownDaysElem) return;
+  detenerCuentaRegresiva();
+  if (!fechaISO) {
+    setCountdownValues();
+    if (countdownTargetLabel) countdownTargetLabel.textContent = "--";
+    actualizarMensajeCountdown();
+    return;
+  }
+  const targetDate = new Date(fechaISO);
+  if (Number.isNaN(targetDate.getTime())) {
+    setCountdownValues();
+    if (countdownTargetLabel) countdownTargetLabel.textContent = "--";
+    actualizarMensajeCountdown("No pudimos interpretar la fecha del evento. Vuelve a guardarla.");
+    return;
+  }
+  if (countdownTargetLabel) {
+    countdownTargetLabel.textContent = formatearFechaResumen(fechaISO);
+  }
+
+  const tick = () => {
+    const diff = targetDate.getTime() - Date.now();
+    if (diff <= 0) {
+      setCountdownValues("00", "00", "00", "00");
+      actualizarMensajeCountdown("¡Hoy es el gran día!");
+      detenerCuentaRegresiva();
+      return;
+    }
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    setCountdownValues(
+      String(days).padStart(2, "0"),
+      String(hours).padStart(2, "0"),
+      String(minutes).padStart(2, "0"),
+      String(seconds).padStart(2, "0")
+    );
+    actualizarMensajeCountdown("El reloj corre rumbo al gran día.");
+  };
+
+  tick();
+  countdownIntervalId = setInterval(tick, 1000);
 }
 
 function formatearFechaResumen(iso) {
@@ -2220,6 +2454,7 @@ function crearPreviewMensaje(contenido = "") {
 }
 
 function renderMensajes() {
+  actualizarOpcionesWhatsapp();
   if (!mensajesBody) return;
   if (!mensajesPredefinidos.length) {
     mensajesBody.innerHTML = '<tr><td colspan="4">Todavía no registras mensajes.</td></tr>';
@@ -2310,6 +2545,147 @@ async function borrarMensaje(id) {
   } catch (error) {
     console.error("Error al borrar mensaje", error);
   }
+}
+
+function actualizarOpcionesWhatsapp() {
+  if (!whatsappTemplateSelect) return;
+  if (!mensajesPredefinidos.length) {
+    whatsappTemplateSelect.innerHTML =
+      '<option value="">No hay mensajes guardados todavía.</option>';
+    whatsappTemplateSelect.disabled = true;
+    whatsappTemplateSelect.value = "";
+    return;
+  }
+  whatsappTemplateSelect.disabled = false;
+  const preferida =
+    (ultimaPlantillaWhatsapp &&
+      mensajesPredefinidos.some((mensaje) => mensaje.id === ultimaPlantillaWhatsapp) &&
+      ultimaPlantillaWhatsapp) ||
+    mensajesPredefinidos[0].id;
+  whatsappTemplateSelect.innerHTML = mensajesPredefinidos
+    .map(
+      (mensaje) =>
+        `<option value="${mensaje.id}">${escapeHTML(mensaje.titulo || "Sin título")}</option>`
+    )
+    .join("");
+  whatsappTemplateSelect.value = preferida;
+}
+
+function abrirModalWhatsapp(invitado) {
+  if (!invitado || !modalWhatsappInstance) return;
+  invitadoWhatsappSeleccionado = invitado;
+  if (whatsappNombreElem) {
+    whatsappNombreElem.textContent = invitado.nombreCompleto || "--";
+  }
+  const contacto = invitado.contactoPrincipal || "";
+  if (whatsappContactoElem) {
+    whatsappContactoElem.textContent = contacto || "Sin teléfono registrado";
+  }
+  if (whatsappPreviewInput) {
+    whatsappPreviewInput.value = "";
+  }
+  actualizarOpcionesWhatsapp();
+  if (whatsappTemplateSelect && whatsappTemplateSelect.value) {
+    ultimaPlantillaWhatsapp = whatsappTemplateSelect.value;
+  }
+  actualizarPreviewWhatsapp();
+  modalWhatsappInstance.show();
+}
+
+function actualizarPreviewWhatsapp() {
+  if (!whatsappPreviewInput) return;
+  if (!invitadoWhatsappSeleccionado) return;
+  const telefonoDisponible = normalizarTelefonoWhatsapp(
+    invitadoWhatsappSeleccionado.contactoPrincipal || ""
+  );
+  if (!telefonoDisponible) {
+    mostrarMensajeWhatsapp("Agrega un número de contacto al invitado para usar WhatsApp.");
+    whatsappSendBtn && (whatsappSendBtn.disabled = true);
+    whatsappPreviewInput.value = "";
+    return;
+  }
+  whatsappSendBtn && (whatsappSendBtn.disabled = false);
+  if (!mensajesPredefinidos.length || !whatsappTemplateSelect || !whatsappTemplateSelect.value) {
+    mostrarMensajeWhatsapp(
+      mensajesPredefinidos.length
+        ? "Selecciona una plantilla para generar el texto."
+        : "Crea al menos un mensaje predefinido para habilitar esta opción."
+    );
+    whatsappPreviewInput.value = "";
+    return;
+  }
+  const plantilla = mensajesPredefinidos.find(
+    (mensaje) => mensaje.id === whatsappTemplateSelect.value
+  );
+  if (!plantilla) {
+    mostrarMensajeWhatsapp("Selecciona una plantilla válida.");
+    whatsappPreviewInput.value = "";
+    return;
+  }
+  const texto = generarMensajePersonalizado(plantilla.contenido || "", invitadoWhatsappSeleccionado);
+  whatsappPreviewInput.value = texto;
+  const pendientes = obtenerVariablesSinDatos(plantilla.contenido || "", invitadoWhatsappSeleccionado);
+  if (pendientes.length) {
+    mostrarMensajeWhatsapp(
+      `Falta información para: ${pendientes.join(
+        ", "
+      )}. Completa esos datos o ajusta el mensaje antes de enviarlo.`
+    );
+  } else {
+    mostrarMensajeWhatsapp(
+      "Revisa el texto y ajusta cualquier detalle antes de abrir WhatsApp."
+    );
+  }
+}
+
+async function copiarMensajeWhatsapp() {
+  if (!whatsappPreviewInput) return;
+  const texto = whatsappPreviewInput.value.trim();
+  if (!texto) {
+    mostrarMensajeWhatsapp("Genera o escribe un mensaje antes de copiarlo.");
+    return;
+  }
+  try {
+    await navigator.clipboard.writeText(texto);
+    mostrarMensajeWhatsapp("Mensaje copiado al portapapeles.");
+  } catch (error) {
+    try {
+      const auxiliar = document.createElement("textarea");
+      auxiliar.value = texto;
+      document.body.appendChild(auxiliar);
+      auxiliar.select();
+      document.execCommand("copy");
+      document.body.removeChild(auxiliar);
+      mostrarMensajeWhatsapp("Mensaje copiado al portapapeles.");
+    } catch (fallbackError) {
+      mostrarMensajeWhatsapp("No pudimos copiar el mensaje automáticamente.");
+      console.error("Error al copiar mensaje", fallbackError);
+    }
+  }
+}
+
+function enviarMensajeWhatsapp() {
+  if (!whatsappPreviewInput || !invitadoWhatsappSeleccionado) return;
+  const texto = whatsappPreviewInput.value.trim();
+  if (!texto) {
+    mostrarMensajeWhatsapp("Genera o escribe un mensaje antes de enviarlo.");
+    return;
+  }
+  const telefono = normalizarTelefonoWhatsapp(
+    invitadoWhatsappSeleccionado.contactoPrincipal || ""
+  );
+  if (!telefono) {
+    mostrarMensajeWhatsapp("Este invitado no tiene un número válido.");
+    return;
+  }
+  const url = `https://wa.me/${telefono}?text=${encodeURIComponent(texto)}`;
+  window.open(url, "_blank", "noopener");
+  mostrarMensajeWhatsapp("Abriendo WhatsApp en una pestaña nueva...");
+}
+
+function mostrarMensajeWhatsapp(texto = "") {
+  if (!whatsappMensajeElem) return;
+  whatsappMensajeElem.textContent = texto;
 }
 
 async function cargarDamasCaballeros() {

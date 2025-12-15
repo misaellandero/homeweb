@@ -81,50 +81,98 @@
           </form>
 
           <form id="rsvp-form" class="card hidden" aria-live="polite">
-            <h3>Confirma tu asistencia</h3>
-            <div class="form-field">
-              <label>¿Podrás asistir?</label>
-              <div class="options">
-                <label><input type="radio" name="asistencia" value="si" /> Sí</label>
-                <label><input type="radio" name="asistencia" value="no" /> No</label>
+            <div class="rsvp-steps" aria-label="Progreso de confirmación">
+              <div class="rsvp-step is-active" data-step="1">
+                <span class="rsvp-step__number">1</span>
+                <span class="rsvp-step__label">Confirmación</span>
+              </div>
+              <div class="rsvp-step" data-step="2">
+                <span class="rsvp-step__number">2</span>
+                <span class="rsvp-step__label">Viaje</span>
+              </div>
+              <div class="rsvp-step" data-step="3">
+                <span class="rsvp-step__number">3</span>
+                <span class="rsvp-step__label">Vestimenta</span>
               </div>
             </div>
 
-            <div class="form-field">
-              <label for="numAcompanantes">Número de acompañantes</label>
-              <input
-                type="number"
-                id="numAcompanantes"
-                name="numAcompanantes"
-                min="0"
-                value="0"
-              />
-              <small id="acompanantes-help">Máximo permitido: --</small>
-            </div>
+            <section class="form-step is-active" data-step="1">
+              <h3>Paso 1 · Confirmación inicial</h3>
+              <div class="form-field">
+                <label>¿Podrás asistir?</label>
+                <div class="options">
+                  <label><input type="radio" name="asistencia" value="si" /> Sí</label>
+                  <label><input type="radio" name="asistencia" value="no" /> No</label>
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="numAcompanantes">Número de acompañantes</label>
+                <input
+                  type="number"
+                  id="numAcompanantes"
+                  name="numAcompanantes"
+                  min="0"
+                  value="0"
+                />
+                <small id="acompanantes-help">Máximo permitido: --</small>
+              </div>
+              <div class="form-field">
+                <label for="comentarios">Comentarios o restricciones alimenticias</label>
+                <textarea id="comentarios" name="comentarios" rows="3"></textarea>
+              </div>
+            </section>
 
-            <div class="form-field">
-              <label for="comentarios">Comentarios o restricciones alimenticias</label>
-              <textarea id="comentarios" name="comentarios" rows="3"></textarea>
-            </div>
+            <section class="form-step" data-step="2">
+              <h3>Paso 2 · Viaje y asistencia</h3>
+              <div class="form-field">
+                <label>¿Viajarás para acompañarnos?</label>
+                <div class="options">
+                  <label
+                    ><input type="radio" name="planeaViajar" value="si" /> Sí, viajaré desde otra
+                    ciudad</label
+                  >
+                  <label><input type="radio" name="planeaViajar" value="no" /> No, estaré en la ciudad</label>
+                </div>
+              </div>
+              <div class="form-field hidden" id="asistencia-viaje-field">
+                <label>¿Necesitas asistencia con hospedaje o traslados?</label>
+                <div class="options">
+                  <label
+                    ><input type="radio" name="requiereAsistencia" value="si" /> Sí, agradecería
+                    su apoyo</label
+                  >
+                  <label><input type="radio" name="requiereAsistencia" value="no" /> No, me encargo por mi cuenta</label>
+                </div>
+              </div>
+            </section>
 
-            <fieldset id="fase2" class="form-field hidden">
-              <legend>Confirmación final</legend>
-              <label>
-                <input type="checkbox" id="vestimentaConfirmada" /> Vestimenta lista
+            <section class="form-step" data-step="3">
+              <h3>Paso 3 · Código de vestimenta</h3>
+              <p>
+                Nuestro código de vestimenta es semi-formal con tonos neutros o pastel. Evitemos blanco
+                y rojo para dejar que los novios destaquen.
+              </p>
+              <label class="options single">
+                <input type="checkbox" id="vestimentaConfirmada" />
+                Confirmo que revisé el código de vestimenta y estoy de acuerdo.
               </label>
-              <label>
-                <input type="checkbox" id="viajeConfirmado" /> Viaje confirmado
-              </label>
-              <label>
-                <input type="checkbox" id="hospedajeConfirmado" /> Hospedaje confirmado
-              </label>
-            </fieldset>
+              <p class="form-helper">
+                Después de completar estos pasos, tu invitación quedará en espera mientras generamos tu
+                código de acceso.
+              </p>
+            </section>
 
             <div class="status-box" id="estadoInvitacion">
               <div id="estado-invitado"></div>
               <div id="contador-tiempo"></div>
             </div>
-            <button type="submit" class="btn">Guardar respuesta</button>
+            <p id="paso-mensaje" class="form-helper form-helper--error"></p>
+
+            <div class="step-actions">
+              <button type="button" class="btn btn--ghost" id="step-prev">Anterior</button>
+              <button type="button" class="btn" id="step-next">Siguiente</button>
+              <button type="submit" class="btn hidden" id="step-submit">Enviar respuestas</button>
+            </div>
           </form>
         </div>
       </section>
