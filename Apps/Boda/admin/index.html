@@ -208,6 +208,20 @@
           <li class="nav-item" role="presentation">
             <button
               class="nav-link"
+              id="tab-landing-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab-landing"
+              type="button"
+              role="tab"
+              aria-controls="tab-landing"
+              aria-selected="false"
+            >
+              Landing público
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
               id="tab-damas-tab"
               data-bs-toggle="tab"
               data-bs-target="#tab-damas"
@@ -660,6 +674,39 @@
                 </tbody>
               </table>
             </div>
+          </section>
+        </div>
+
+        <div class="tab-pane fade" id="tab-landing" role="tabpanel" aria-labelledby="tab-landing-tab">
+          <section class="card">
+            <div class="table-header">
+              <h2>Widget de Pinterest</h2>
+            </div>
+            <p class="form-helper">
+              Controla el tablero de Pinterest que mostramos en la página pública. Copia el enlace directo al tablero
+              (por ejemplo: <code>https://www.pinterest.com/usuario/board-name/</code>) y ajusta las dimensiones del embed.
+            </p>
+            <form id="pinterest-form" class="form-grid">
+              <label>Mostrar widget
+                <select name="pinterestActivo">
+                  <option value="true">Sí</option>
+                  <option value="false">No</option>
+                </select>
+              </label>
+              <label>URL del Pin o tablero
+                <input type="url" name="pinterestPinUrl" placeholder="https://www.pinterest.com/usuario/mi-tablero/" />
+              </label>
+              <label>Ancho del pin (small, medium o large)
+                <input type="text" name="pinterestPinWidth" placeholder="Ej. medium" />
+              </label>
+              <label>Descripción visible
+                <textarea name="pinterestDescripcion" rows="2" placeholder="Texto que acompañará al widget."></textarea>
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Guardar widget</button>
+              </div>
+              <p class="form-helper" id="pinterest-mensaje"></p>
+            </form>
           </section>
         </div>
 

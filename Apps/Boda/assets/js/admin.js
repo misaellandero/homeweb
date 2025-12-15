@@ -105,6 +105,8 @@ const mensajesBody = document.getElementById("mensajes-body");
 const mensajesForm = document.getElementById("mensajes-form");
 const mensajesMensaje = document.getElementById("mensajes-mensaje");
 const addMensajeBtn = document.getElementById("add-mensaje-btn");
+const pinterestForm = document.getElementById("pinterest-form");
+const pinterestMensaje = document.getElementById("pinterest-mensaje");
 const whatsappTemplateSelect = document.getElementById("whatsapp-template");
 const whatsappPreviewInput = document.getElementById("whatsapp-preview");
 const whatsappCopyBtn = document.getElementById("whatsapp-copy");
@@ -196,6 +198,8 @@ let filtroResponsableTareas = "todos";
 let countdownIntervalId = null;
 let invitadoWhatsappSeleccionado = null;
 let ultimaPlantillaWhatsapp = null;
+let pinterestWidgetConfig = null;
+const PINTEREST_SHORT_HOSTS = ["pin.it", "pin.st"];
 
 // Configura los correos permitidos para cada rol.
 const ROLE_CONFIG = {
@@ -228,6 +232,60 @@ function actualizarUIporRol() {
       ? ""
       : "Solo administradores pueden borrar invitados.";
   }
+  if (pinterestForm) {
+    const elementos = pinterestForm.querySelectorAll("input, select, textarea, button");
+    elementos.forEach((elemento) => {
+      if (elemento.name === "pinterestDescripcion" || elemento.tagName === "TEXTAREA") {
+        elemento.disabled = !esAdmin;
+      } else if (elemento.tagName === "BUTTON") {
+        elemento.disabled = !esAdmin;
+      } else {
+        elemento.disabled = !esAdmin;
+      }
+    });
+    if (!esAdmin && pinterestMensaje) {
+      pinterestMensaje.textContent = "Solo los administradores pueden editar este widget.";
+    } else if (pinterestMensaje && pinterestMensaje.textContent.includes("administradores")) {
+      pinterestMensaje.textContent = "";
+    }
+  }
+}
+
+function esLinkPinterestAcortado(url = "") {
+  if (!url) return false;
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.toLowerCase();
+    return PINTEREST_SHORT_HOSTS.some((shortHost) => host.endsWith(shortHost));
+  } catch (error) {
+    return false;
+  }
+}
+
+function normalizarPinterestUrlPanel(url = "") {
+  if (!url) return "";
+  let limpio = url.trim();
+  if (!limpio) return "";
+  if (limpio.startsWith("//")) {
+    limpio = `https:${limpio}`;
+  } else if (!/^https?:\/\//i.test(limpio)) {
+    limpio = `https://${limpio}`;
+  }
+  try {
+    const parsed = new URL(limpio);
+    const host = parsed.hostname.toLowerCase();
+    const esPinterest =
+      host.includes("pinterest.") && !host.includes("pinimg") && !host.endsWith("pin.it");
+    if (esPinterest && host !== "www.pinterest.com") {
+      parsed.hostname = "www.pinterest.com";
+      limpio = parsed.toString();
+    } else {
+      limpio = parsed.toString();
+    }
+  } catch (error) {
+    // ignore parse errors
+  }
+  return limpio;
 }
 
 function limpiarSeleccionInvitado() {
@@ -1496,6 +1554,7 @@ auth.onAuthStateChanged((user) => {
     cargarItinerario();
     cargarUbicaciones();
     cargarMensajes();
+    cargarPinterestWidgetConfig();
     cargarDamasCaballeros();
     cargarPresupuestoItems();
     cargarApoyos();
@@ -1519,6 +1578,11 @@ auth.onAuthStateChanged((user) => {
     renderApoyos();
     tareasPendientesBoard = [];
     renderTableroPendientes();
+    pinterestWidgetConfig = null;
+    if (pinterestForm) {
+      pinterestForm.reset();
+    }
+    if (pinterestMensaje) pinterestMensaje.textContent = "";
   }
 });
 
@@ -1807,6 +1871,11 @@ addUbicacionBtn?.addEventListener("click", () => {
 mensajesForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   guardarMensaje(new FormData(event.target));
+});
+
+pinterestForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  guardarPinterestWidgetConfig(new FormData(event.target));
 });
 
 addMensajeBtn?.addEventListener("click", () => {
@@ -2417,6 +2486,86 @@ async function borrarUbicacion(id) {
     await cargarUbicaciones();
   } catch (error) {
     console.error("Error al borrar ubicación", error);
+  }
+}
+
+function llenarPinterestForm(config = {}) {
+  if (!pinterestForm) return;
+  const form = pinterestForm.elements;
+  if (form["pinterestActivo"]) {
+    form["pinterestActivo"].value = config.activo ? "true" : "false";
+  }
+  if (form["pinterestPinUrl"]) {
+    form["pinterestPinUrl"].value = config.pinUrl || config.boardUrl || "";
+  }
+  if (form["pinterestPinWidth"]) {
+    form["pinterestPinWidth"].value = config.pinWidth || config.boardWidth || "medium";
+  }
+  if (form["pinterestDescripcion"]) {
+    form["pinterestDescripcion"].value = config.descripcion || "";
+  }
+}
+
+async function cargarPinterestWidgetConfig() {
+  if (!pinterestForm) return;
+  if (pinterestMensaje) pinterestMensaje.textContent = "";
+  try {
+    const doc = await db.collection("configuracion").doc("pinterestWidget").get();
+    pinterestWidgetConfig = doc.exists ? doc.data() : {};
+    llenarPinterestForm(pinterestWidgetConfig || {});
+  } catch (error) {
+    console.error("Error al cargar widget de Pinterest", error);
+    if (pinterestMensaje) {
+      pinterestMensaje.textContent = "No pudimos cargar la configuración del widget.";
+    }
+    pinterestWidgetConfig = null;
+  }
+}
+
+async function guardarPinterestWidgetConfig(formData) {
+  if (rolActual !== "admin") {
+    if (pinterestMensaje) {
+      pinterestMensaje.textContent = "Solo los administradores pueden editar este widget.";
+    }
+    return;
+  }
+  const widthValue = (formData.get("pinterestPinWidth") || "")
+    .toString()
+    .trim()
+    .toLowerCase();
+  const widthPermitido = ["small", "medium", "large"].includes(widthValue) ? widthValue : "medium";
+  let pinUrl = formData.get("pinterestPinUrl")?.trim() || "";
+  pinUrl = normalizarPinterestUrlPanel(pinUrl);
+  const payload = {
+    activo: formData.get("pinterestActivo") === "true",
+    pinUrl,
+    pinWidth: widthPermitido,
+    descripcion: formData.get("pinterestDescripcion")?.trim() || "",
+  };
+  if (!payload.pinUrl && payload.activo) {
+    if (pinterestMensaje) {
+      pinterestMensaje.textContent = "Agrega la URL del tablero de Pinterest para mostrar el widget.";
+    }
+    return;
+  }
+  if (payload.pinUrl && esLinkPinterestAcortado(payload.pinUrl)) {
+    if (pinterestMensaje) {
+      pinterestMensaje.textContent =
+        "Pinterest no permite links acortados (pin.it). Copia la URL completa del tablero o pin.";
+    }
+    return;
+  }
+  try {
+    await db.collection("configuracion").doc("pinterestWidget").set(payload, { merge: true });
+    pinterestWidgetConfig = { ...pinterestWidgetConfig, ...payload };
+    if (pinterestMensaje) {
+      pinterestMensaje.textContent = "Widget actualizado correctamente.";
+    }
+  } catch (error) {
+    console.error("Error al guardar el widget de Pinterest", error);
+    if (pinterestMensaje) {
+      pinterestMensaje.textContent = "No pudimos guardar el widget, intenta más tarde.";
+    }
   }
 }
 

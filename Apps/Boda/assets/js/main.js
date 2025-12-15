@@ -36,6 +36,13 @@ const ubicacionesMapaFrame = document.getElementById("ubicaciones-mapa");
 const ubicacionesMapaNombre = document.getElementById("ubicaciones-mapa-nombre");
 const ubicacionesMapaDireccion = document.getElementById("ubicaciones-mapa-direccion");
 const ubicacionesMapaLink = document.getElementById("ubicaciones-mapa-link");
+const pinterestSectionElem = document.getElementById("pinterest-section");
+const pinterestWidgetContainer = document.getElementById("pinterest-widget");
+const pinterestDescripcionElem = document.getElementById("pinterest-description");
+const pinterestPlaceholderElem = document.getElementById("pinterest-placeholder");
+const pinterestEmbedElem = document.getElementById("pinterest-embed");
+const pinterestDefaultHref =
+  pinterestEmbedElem?.dataset?.defaultHref || "https://www.pinterest.com/anapinskywalker/style/";
 const resumenAsistentesElem = document.getElementById("resumen-asistentes");
 const resumenNinosElem = document.getElementById("resumen-ninos");
 const resumenNombresElem = document.getElementById("resumen-nombres");
@@ -63,11 +70,77 @@ let ubicacionesPublicas = [];
 let ubicacionSeleccionadaIndex = 0;
 const HERO_LOCATION_DEFAULT = "Ubicación por confirmar";
 let itinerarioPublico = [];
+let pinterestWidgetPublico = null;
+let pinterestWidgetUnsubscribe = null;
+const PINTEREST_SHORT_HOSTS = ["pin.it", "pin.st"];
+const PINTEREST_BOARD_SIZES = {
+  small: { boardWidth: 320, scaleWidth: 60, scaleHeight: 360 },
+  medium: { boardWidth: 420, scaleWidth: 80, scaleHeight: 480 },
+  large: { boardWidth: 520, scaleWidth: 100, scaleHeight: 640 },
+};
 
 function escapeHTML(texto = "") {
   const div = document.createElement("div");
   div.textContent = texto;
   return div.innerHTML;
+}
+
+function normalizarPinterestUrl(url = "") {
+  if (!url) return "";
+  let limpio = url.trim();
+  if (!limpio) return "";
+  if (limpio.startsWith("//")) {
+    limpio = `https:${limpio}`;
+  } else if (!/^https?:\/\//i.test(limpio)) {
+    limpio = `https://${limpio}`;
+  }
+  try {
+    const parsed = new URL(limpio);
+    const host = parsed.hostname.toLowerCase();
+    const esPinterest =
+      host.includes("pinterest.") && !host.includes("pinimg") && !host.endsWith("pin.it");
+    if (esPinterest && host !== "www.pinterest.com") {
+      parsed.hostname = "www.pinterest.com";
+      limpio = parsed.toString();
+    } else {
+      limpio = parsed.toString();
+    }
+  } catch (error) {
+    // Ignoramos errores de parsing y regresamos la cadena original normalizada.
+  }
+  return limpio;
+}
+
+function detectarTipoPinterest(url = "") {
+  if (!url) return "pin";
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.toLowerCase();
+    if (PINTEREST_SHORT_HOSTS.some((shortHost) => host.endsWith(shortHost))) {
+      return "short";
+    }
+    if (host.includes("pin.it")) return "pin";
+    const segmentos = parsed.pathname.split("/").filter(Boolean);
+    if (!segmentos.length) return "pin";
+    if (segmentos[0] === "pin" || segmentos.includes("pin")) return "pin";
+    return "board";
+  } catch (error) {
+    return url.includes("/pin/") ? "pin" : "board";
+  }
+}
+
+function esPinterestShortUrl(url = "", config = {}) {
+  const tipo = detectarTipoPinterest(url);
+  if (tipo === "short") return true;
+  const existeMetaBoard = config.scaleHeight || config.scaleWidth || config.boardWidth;
+  if (!existeMetaBoard) return false;
+  if (!url) return false;
+  try {
+    const parsed = new URL(url);
+    return PINTEREST_SHORT_HOSTS.some((host) => parsed.hostname.toLowerCase().endsWith(host));
+  } catch (error) {
+    return false;
+  }
 }
 
 function obtenerOpcionesRadio(nombre) {
@@ -813,19 +886,15 @@ async function cargarDatosEvento() {
 function formatearFechaBoda(isoString) {
   const fecha = new Date(isoString);
   if (Number.isNaN(fecha.getTime())) return "Fecha por confirmar";
-  const opcionesFecha = {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
+  const fechaTexto = new Intl.DateTimeFormat("es-MX", {
+    day: "2-digit",
+    month: "short",
     year: "numeric",
-  };
-  const opcionesHora = {
-    hour: "numeric",
-    minute: "2-digit",
-  };
-  const fechaTexto = new Intl.DateTimeFormat("es-MX", opcionesFecha).format(fecha);
-  const horaTexto = new Intl.DateTimeFormat("es-MX", opcionesHora).format(fecha);
-  return `${capitalizar(fechaTexto)} · ${horaTexto}`;
+  })
+    .format(fecha)
+    .replace(/\.$/, "")
+    .toUpperCase();
+  return fechaTexto;
 }
 
 function formatearFechaCorta(isoString) {
@@ -887,7 +956,7 @@ function iniciarCountdownHero(fechaISO) {
     if (heroCountdownElems.seconds)
       heroCountdownElems.seconds.textContent = formatearDosDigitos(partes.segundos);
     if (heroCountdownHelper) {
-      heroCountdownHelper.textContent = "Falta muy poco para celebrar contigo.";
+      heroCountdownHelper.textContent = "Ya casi celebramos contigo.";
     }
   };
   actualizar();
@@ -983,11 +1052,33 @@ function mostrarUbicacionEnMapa(index) {
 function actualizarHeroLocation(ubicacion) {
   if (!heroLocationElem) return;
   if (ubicacion) {
-    const partes = [ubicacion.nombre, ubicacion.direccion].filter((texto) => texto && texto.trim());
-    heroLocationElem.textContent = partes.length ? partes.join(" · ") : HERO_LOCATION_DEFAULT;
+    const localidadEstado = obtenerLocalidadEstado(ubicacion.direccion);
+    heroLocationElem.textContent = localidadEstado || HERO_LOCATION_DEFAULT;
   } else {
     heroLocationElem.textContent = HERO_LOCATION_DEFAULT;
   }
+}
+
+function obtenerLocalidadEstado(direccion = "") {
+  if (!direccion) return "";
+  const segmentos = direccion
+    .split(",")
+    .map((parte) => parte.trim())
+    .filter(Boolean);
+  if (!segmentos.length) return direccion.trim();
+  const esPaisMexico = (valor = "") => /méxico/i.test(valor);
+  let estado = segmentos.pop() || "";
+  if (esPaisMexico(estado) && segmentos.length) {
+    estado = segmentos.pop() || estado;
+  }
+  const localidad = limpiarCodigoPostal(segmentos.pop() || "");
+  const resultado = [localidad, estado].filter(Boolean);
+  return resultado.join(", ");
+}
+
+function limpiarCodigoPostal(texto = "") {
+  if (!texto) return "";
+  return texto.replace(/^[0-9]+[\s-]*/, "").trim();
 }
 
 function actualizarDetalleUbicacion(ubicacion) {
@@ -1081,6 +1172,136 @@ async function cargarItinerarioPublico() {
   }
 }
 
+function extraerReferenciaPinterest(url = "") {
+  if (!url) return null;
+  try {
+    const parsed = new URL(url);
+    const segmentos = parsed.pathname.split("/").filter(Boolean);
+    if (!segmentos.length) return null;
+    if (segmentos[0] === "pin" && segmentos[1]) {
+      return { tipo: "pin", pinId: segmentos[1].replace(/[^0-9]/g, "") };
+    }
+    if (segmentos.length >= 2) {
+      return { tipo: "board", user: segmentos[0], board: segmentos[1] };
+    }
+    return null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function mostrarPinterestMensaje(texto = "") {
+  const placeholder = document.getElementById("pinterest-placeholder");
+  const embed = document.getElementById("pinterest-embed");
+  if (placeholder) {
+    placeholder.textContent = texto;
+    placeholder.classList.remove("hidden");
+  }
+  if (embed) {
+    embed.classList.add("hidden");
+  }
+}
+
+function actualizarPinterestEmbed(url, sizeKey = "medium") {
+  if (!url) return;
+  const size = PINTEREST_BOARD_SIZES[sizeKey] || PINTEREST_BOARD_SIZES.medium;
+  const widgetContainer = document.getElementById("pinterest-widget");
+  if (!widgetContainer) return;
+  const previousPlaceholder = document.getElementById("pinterest-placeholder");
+  const placeholderText =
+    previousPlaceholder?.textContent || "Pronto verás nuestras ideas favoritas aquí.";
+  widgetContainer.innerHTML = "";
+  const embed = document.createElement("a");
+  embed.id = "pinterest-embed";
+  embed.className = "pinterest-embed";
+  embed.setAttribute("data-pin-do", "embedBoard");
+  embed.setAttribute("data-pin-board-width", size.boardWidth);
+  embed.setAttribute("data-pin-scale-width", size.scaleWidth);
+  embed.setAttribute("data-pin-scale-height", size.scaleHeight);
+  embed.setAttribute("data-default-href", pinterestDefaultHref);
+  embed.href = url;
+  const placeholder = document.createElement("p");
+  placeholder.id = "pinterest-placeholder";
+  placeholder.textContent = placeholderText;
+  placeholder.classList.add("hidden");
+  widgetContainer.appendChild(embed);
+  widgetContainer.appendChild(placeholder);
+  reconstruirPinterestEmbed();
+}
+
+function reconstruirPinterestEmbed(intentos = 0) {
+  if (window.PinUtils && typeof window.PinUtils.build === "function") {
+    try {
+      window.PinUtils.build();
+    } catch (error) {
+      console.error("No se pudo regenerar el widget de Pinterest", error);
+    }
+    return;
+  }
+  if (intentos < 10) {
+    setTimeout(() => reconstruirPinterestEmbed(intentos + 1), 400);
+  }
+}
+
+function renderPinterestWidget(config = {}) {
+  if (!pinterestSectionElem || !pinterestWidgetContainer) return;
+  const pinPanelUrl = config?.pinUrl || config?.boardUrl || "";
+  const pinUrl = normalizarPinterestUrl(pinPanelUrl);
+  const widgetActivo = config?.activo !== false;
+  if (!widgetActivo) {
+    pinterestSectionElem.classList.add("hidden");
+    mostrarPinterestMensaje("Pronto compartiremos nuestras ideas favoritas.");
+    return;
+  }
+  pinterestSectionElem.classList.remove("hidden");
+  if (pinterestDescripcionElem) {
+    pinterestDescripcionElem.textContent =
+      config.descripcion || "Sigue el tablero para inspirarte con nuestros looks.";
+  }
+  let boardUrl = pinUrl;
+  let usandoFallback = false;
+  if (!boardUrl) {
+    boardUrl = pinterestDefaultHref;
+    usandoFallback = true;
+  }
+  if (esPinterestShortUrl(boardUrl)) {
+    mostrarPinterestMensaje(
+      "Utiliza la URL completa del tablero (https://www.pinterest.com/usuario/tablero/)."
+    );
+    return;
+  }
+  const referencia = boardUrl ? extraerReferenciaPinterest(boardUrl) : null;
+  if (!referencia || referencia.tipo !== "board") {
+    mostrarPinterestMensaje(
+      usandoFallback
+        ? "Configura un tablero público en el panel para mostrarlo aquí."
+        : "No pudimos interpretar la URL del tablero. Revisa el enlace en el panel."
+    );
+    return;
+  }
+  actualizarPinterestEmbed(boardUrl, config.pinWidth || "medium");
+}
+
+function cargarPinterestWidgetPublico() {
+  if (!pinterestWidgetContainer || typeof db === "undefined") return;
+  pinterestWidgetUnsubscribe?.();
+  pinterestWidgetUnsubscribe = db
+    .collection("configuracion")
+    .doc("pinterestWidget")
+    .onSnapshot(
+      (doc) => {
+        pinterestWidgetPublico = doc.exists ? doc.data() : null;
+        console.log("[PinterestWidget] Config recibida:", pinterestWidgetPublico);
+        renderPinterestWidget(pinterestWidgetPublico || {});
+      },
+      (error) => {
+        console.error("Error al cargar el widget de Pinterest", error);
+        mostrarPinterestMensaje("No pudimos cargar el tablero. Intenta más tarde.");
+        pinterestSectionElem?.classList.remove("hidden");
+      }
+    );
+}
+
 acompanantesInput?.addEventListener("input", () => {
   actualizarLimiteNinos();
 });
@@ -1130,3 +1351,5 @@ rsvpForm?.addEventListener("submit", guardarRSVP);
 
 cargarDatosEvento();
 cargarUbicacionesPublicas();
+cargarItinerarioPublico();
+cargarPinterestWidgetPublico();
