@@ -705,6 +705,12 @@ textarea:focus {
   margin-top: 1rem;
 }
 
+.detail-helper {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin-top: 0.5rem;
+}
+
 .rsvp-summary__status {
   margin-bottom: 1rem;
 }

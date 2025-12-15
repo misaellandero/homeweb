@@ -25,6 +25,12 @@ const heroCountdownElems = {
   seconds: document.getElementById("hero-countdown-seconds"),
 };
 const heroLocationElem = document.querySelector(".hero__location");
+const detalleUbicacionNombre = document.getElementById("detalle-ubicacion-nombre");
+const detalleUbicacionDireccion = document.getElementById("detalle-ubicacion-direccion");
+const detalleUbicacionLink = document.getElementById("detalle-ubicacion-link");
+const detalleUbicacionMensaje = document.getElementById("detalle-ubicacion-mensaje");
+const detalleProgramaLista = document.getElementById("detalle-programa-lista");
+const detalleProgramaMensaje = document.getElementById("detalle-programa-mensaje");
 const ubicacionesPublicList = document.getElementById("ubicaciones-lista");
 const ubicacionesMapaFrame = document.getElementById("ubicaciones-mapa");
 const ubicacionesMapaNombre = document.getElementById("ubicaciones-mapa-nombre");
@@ -56,6 +62,7 @@ let detenerHeroCountdown = null;
 let ubicacionesPublicas = [];
 let ubicacionSeleccionadaIndex = 0;
 const HERO_LOCATION_DEFAULT = "Ubicación por confirmar";
+let itinerarioPublico = [];
 
 function escapeHTML(texto = "") {
   const div = document.createElement("div");
@@ -821,6 +828,26 @@ function formatearFechaBoda(isoString) {
   return `${capitalizar(fechaTexto)} · ${horaTexto}`;
 }
 
+function formatearFechaCorta(isoString) {
+  if (!isoString) return "--/--/----";
+  const fecha = new Date(isoString);
+  if (Number.isNaN(fecha.getTime())) return "--/--/----";
+  const dia = String(fecha.getDate()).padStart(2, "0");
+  const mes = String(fecha.getMonth() + 1).padStart(2, "0");
+  const anio = fecha.getFullYear();
+  return `${dia}/${mes}/${anio}`;
+}
+
+function formatearHoraEvento(valor) {
+  if (!valor) return "--:--";
+  const fecha = new Date(valor);
+  if (Number.isNaN(fecha.getTime())) return "--:--";
+  return fecha.toLocaleTimeString("es-MX", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 function capitalizar(texto) {
   if (!texto) return "";
   return texto.charAt(0).toUpperCase() + texto.slice(1);
@@ -887,6 +914,7 @@ function renderUbicacionesPublicas() {
     ubicacionesMapaDireccion && (ubicacionesMapaDireccion.textContent = "");
     ubicacionesMapaLink && (ubicacionesMapaLink.hidden = true);
     actualizarHeroLocation(null);
+    actualizarDetalleUbicacion(null);
     return;
   }
   ubicacionesPublicList.innerHTML = ubicacionesPublicas
@@ -942,6 +970,7 @@ function mostrarUbicacionEnMapa(index) {
     }
   }
   actualizarHeroLocation(ubicacion);
+  actualizarDetalleUbicacion(ubicacion);
   if (ubicacionesPublicList) {
     ubicacionesPublicList
       .querySelectorAll(".ubicacion-item")
@@ -961,6 +990,42 @@ function actualizarHeroLocation(ubicacion) {
   }
 }
 
+function actualizarDetalleUbicacion(ubicacion) {
+  if (!detalleUbicacionNombre || !detalleUbicacionDireccion) return;
+  if (!ubicacion) {
+    detalleUbicacionNombre.textContent = HERO_LOCATION_DEFAULT;
+    detalleUbicacionDireccion.textContent =
+      "Agrega una ubicación desde el panel para mostrarla aquí.";
+    if (detalleUbicacionLink) {
+      detalleUbicacionLink.hidden = true;
+      detalleUbicacionLink.removeAttribute("href");
+    }
+    detalleUbicacionMensaje?.classList.add("hidden");
+    return;
+  }
+  detalleUbicacionNombre.textContent = ubicacion.nombre || HERO_LOCATION_DEFAULT;
+  detalleUbicacionDireccion.textContent =
+    ubicacion.direccion || "Estamos preparando la dirección completa.";
+  if (detalleUbicacionLink) {
+    if (ubicacion.mapsUrl) {
+      detalleUbicacionLink.hidden = false;
+      detalleUbicacionLink.href = ubicacion.mapsUrl;
+    } else {
+      detalleUbicacionLink.hidden = true;
+      detalleUbicacionLink.removeAttribute("href");
+    }
+  }
+  if (detalleUbicacionMensaje) {
+    if (ubicacion.notaPublica && ubicacion.notaPublica.trim()) {
+      detalleUbicacionMensaje.textContent = ubicacion.notaPublica;
+      detalleUbicacionMensaje.classList.remove("hidden");
+    } else {
+      detalleUbicacionMensaje.classList.add("hidden");
+      detalleUbicacionMensaje.textContent = "";
+    }
+  }
+}
+
 async function cargarUbicacionesPublicas() {
   if (!ubicacionesPublicList) return;
   try {
@@ -972,6 +1037,47 @@ async function cargarUbicacionesPublicas() {
     console.error("Error al cargar ubicaciones públicas", error);
     ubicacionesPublicList.innerHTML =
       "<p>No pudimos cargar las ubicaciones en este momento, intenta más tarde.</p>";
+    actualizarDetalleUbicacion(null);
+    actualizarHeroLocation(null);
+  }
+}
+
+function renderItinerarioPublico() {
+  if (!detalleProgramaLista) return;
+  if (!itinerarioPublico.length) {
+    detalleProgramaLista.innerHTML = "";
+    if (detalleProgramaMensaje) {
+      detalleProgramaMensaje.textContent =
+        "Aún no publicamos el itinerario. Cuando lo registres en el panel aparecerá aquí.";
+      detalleProgramaMensaje.classList.remove("hidden");
+    }
+    return;
+  }
+  detalleProgramaLista.innerHTML = itinerarioPublico
+    .map((evento) => {
+      const hora = formatearHoraEvento(evento.hora);
+      const fecha = formatearFechaCorta(evento.hora);
+      const lugar = evento.lugarEvento ? ` · ${escapeHTML(evento.lugarEvento)}` : "";
+      return `<li><span>${hora}</span> ${escapeHTML(evento.nombreEvento || "Evento")}
+        <small>${fecha}${lugar}</small></li>`;
+    })
+    .join("");
+  detalleProgramaMensaje?.classList.add("hidden");
+}
+
+async function cargarItinerarioPublico() {
+  if (!detalleProgramaLista && !detalleProgramaMensaje) return;
+  try {
+    const snap = await db.collection("itinerario").orderBy("hora").get();
+    itinerarioPublico = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    renderItinerarioPublico();
+  } catch (error) {
+    console.error("Error al cargar el itinerario público", error);
+    if (detalleProgramaMensaje) {
+      detalleProgramaMensaje.textContent =
+        "No pudimos cargar el programa por ahora. Intenta nuevamente más tarde.";
+      detalleProgramaMensaje.classList.remove("hidden");
+    }
   }
 }
 

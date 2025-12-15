@@ -51,30 +51,45 @@
         <div class="container">
           <h2>Detalles de la Celebración</h2>
           <div class="details-grid">
-            <article>
-              <h3>Lugar</h3>
-              <p class="place-name">Hacienda Los Encinos</p>
-              <p>Av. Principal 123, Ciudad, País</p>
+            <article id="detalle-card-ubicacion">
+              <h3>Ubicación principal</h3>
+              <p class="place-name" id="detalle-ubicacion-nombre">Ubicación por confirmar</p>
+              <p id="detalle-ubicacion-direccion">Agrega una ubicación desde el panel para mostrarla aquí.</p>
               <a
                 class="btn-link"
-                href="https://maps.google.com/?q=Hacienda+Los+Encinos"
+                id="detalle-ubicacion-link"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
+                hidden
                 >Cómo llegar</a
               >
+              <p class="detail-helper hidden" id="detalle-ubicacion-mensaje"></p>
             </article>
-            <article>
+            <article id="detalle-card-vestimenta">
               <h3>Código de Vestimenta</h3>
-              <p>Semi-formal • Colores neutros o pastel • Evitar blanco y rojo.</p>
-            </article>
-            <article>
-              <h3>Programa</h3>
-              <ul class="timeline">
-                <li><span>17:00</span> Ceremonia civil</li>
-                <li><span>18:00</span> Cóctel de bienvenida</li>
-                <li><span>19:30</span> Cena</li>
-                <li><span>22:00</span> Fiesta</li>
+              <p>Etiqueta moderna con inspiración mexicana.</p>
+              <ul class="dresscode-list">
+                <li>Vestido largo formal en tonos neutros u oscuros.</li>
+                <li>Traje charro o de etiqueta con corbata/moño.</li>
+                <li>Zapatos formales. Sin tenis ni mezclilla.</li>
+                <li>Evita colores del cortejo: blanco, verde olivo y lila.</li>
               </ul>
+              <a
+                class="btn-link"
+                href="assets/docs/Codigo de vestimenta Boda.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                >Descargar guía completa</a
+              >
+            </article>
+            <article id="detalle-card-programa">
+              <h3>Programa</h3>
+              <ul class="timeline" id="detalle-programa-lista"></ul>
+              <p class="detail-helper" id="detalle-programa-mensaje">
+                Aún no publicamos el itinerario. Cuando lo registres en el panel aparecerá aquí.
+              </p>
             </article>
           </div>
         </div>
