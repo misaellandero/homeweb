@@ -56,6 +56,7 @@ const modalPresupuesto = document.getElementById("modal-presupuesto");
 const modalApoyo = document.getElementById("modal-apoyo");
 const modalTarea = document.getElementById("modal-tarea");
 const modalUbicacion = document.getElementById("modal-ubicacion");
+const modalMensaje = document.getElementById("modal-mensaje");
 const headerActivos = document.getElementById("header-activos");
 const headerEspera = document.getElementById("header-espera");
 const headerDisponibles = document.getElementById("header-disponibles");
@@ -92,6 +93,10 @@ const ubicacionesBody = document.getElementById("ubicaciones-body");
 const ubicacionesForm = document.getElementById("ubicaciones-form");
 const ubicacionesMensaje = document.getElementById("ubicaciones-mensaje");
 const addUbicacionBtn = document.getElementById("add-ubicacion-btn");
+const mensajesBody = document.getElementById("mensajes-body");
+const mensajesForm = document.getElementById("mensajes-form");
+const mensajesMensaje = document.getElementById("mensajes-mensaje");
+const addMensajeBtn = document.getElementById("add-mensaje-btn");
 const budgetIngresosElem = document.getElementById("budget-ingresos");
 const budgetGastosElem = document.getElementById("budget-gastos");
 const budgetApoyosElem = document.getElementById("budget-apoyos");
@@ -130,6 +135,10 @@ const modalUbicacionInstance =
   typeof bootstrap !== "undefined" && modalUbicacion
     ? new bootstrap.Modal(modalUbicacion)
     : null;
+const modalMensajeInstance =
+  typeof bootstrap !== "undefined" && modalMensaje
+    ? new bootstrap.Modal(modalMensaje)
+    : null;
 
 if (crearInvitadoForm && crearTagEditor) {
   actualizarTagEditor(crearInvitadoForm, crearTagEditor);
@@ -158,6 +167,7 @@ let ultimaSeleccionRolDama = "dama";
 let presupuestoItems = [];
 let apoyosItems = [];
 let ubicacionesEvento = [];
+let mensajesPredefinidos = [];
 let presupuestoChart = null;
 let presupuestoSeleccionado = null;
 let tareasPendientesBoard = [];
@@ -188,6 +198,7 @@ function actualizarUIporRol() {
   addApoyoBtn?.classList.toggle("hidden", !esAdmin);
   addTareaBtn?.classList.toggle("hidden", !esAdmin);
   addUbicacionBtn?.classList.toggle("hidden", !esAdmin);
+  addMensajeBtn?.classList.toggle("hidden", !esAdmin);
   if (borrarInvitadoBtn) {
     borrarInvitadoBtn.disabled = !esAdmin;
     borrarInvitadoBtn.title = esAdmin
@@ -316,6 +327,26 @@ function escapeHTML(str = "") {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+const MENSAJE_VARIABLE_REGEX = /{{\s*([\w.]+)\s*}}|{\s*([\w.]+)\s*}/g;
+const MENSAJE_PREVIEW_VALORES = {
+  nombre: "Invitado especial",
+  numero_invitados: "2 personas",
+  fecha_boda: "5 de julio de 2025",
+  fecha_limite_confirmar_asistencia: "15 de mayo de 2025",
+  fecha_limite_detalles: "20 de junio de 2025",
+  codigo_invitado: "AB123",
+  link_mapa: "https://maps.google.com/ejemplo",
+};
+
+function aplicarValoresEjemplo(texto = "") {
+  if (typeof texto !== "string") return "";
+  return texto.replace(MENSAJE_VARIABLE_REGEX, (_, doble, simple) => {
+    const clave = (doble || simple || "").trim();
+    if (!clave) return "";
+    return MENSAJE_PREVIEW_VALORES[clave] || `{${clave}}`;
+  });
 }
 
 function parseContactos(valor = "") {
@@ -1316,6 +1347,7 @@ auth.onAuthStateChanged((user) => {
     }
     cargarItinerario();
     cargarUbicaciones();
+    cargarMensajes();
     cargarDamasCaballeros();
     cargarPresupuestoItems();
     cargarApoyos();
@@ -1330,6 +1362,8 @@ auth.onAuthStateChanged((user) => {
     renderDamasCaballeros();
     ubicacionesEvento = [];
     renderUbicaciones();
+    mensajesPredefinidos = [];
+    renderMensajes();
     presupuestoItems = [];
     apoyosItems = [];
     renderPresupuesto();
@@ -1614,6 +1648,16 @@ addUbicacionBtn?.addEventListener("click", () => {
   abrirModalUbicacion();
 });
 
+mensajesForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  guardarMensaje(new FormData(event.target));
+});
+
+addMensajeBtn?.addEventListener("click", () => {
+  if (rolActual !== "admin") return;
+  abrirModalMensaje();
+});
+
 document.getElementById("tab-pendientes")?.addEventListener("click", (event) => {
   const btn = event.target.closest("[data-action]");
   if (!btn) return;
@@ -1647,6 +1691,19 @@ ubicacionesBody?.addEventListener("click", (event) => {
     abrirModalUbicacion(ubicacion || null);
   } else if (action === "borrar-ubicacion") {
     borrarUbicacion(id);
+  }
+});
+
+mensajesBody?.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-action]");
+  if (!btn) return;
+  const { action, id } = btn.dataset;
+  if (!id) return;
+  if (action === "editar-mensaje") {
+    const mensaje = mensajesPredefinidos.find((item) => item.id === id);
+    abrirModalMensaje(mensaje || null);
+  } else if (action === "borrar-mensaje") {
+    borrarMensaje(id);
   }
 });
 
@@ -2126,6 +2183,132 @@ async function borrarUbicacion(id) {
     await cargarUbicaciones();
   } catch (error) {
     console.error("Error al borrar ubicación", error);
+  }
+}
+
+async function cargarMensajes() {
+  if (!mensajesBody) return;
+  try {
+    const snap = await db.collection("mensajesPredefinidos").orderBy("titulo").get();
+    mensajesPredefinidos = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    renderMensajes();
+  } catch (error) {
+    console.error("Error al cargar mensajes", error);
+    mensajesBody.innerHTML =
+      '<tr><td colspan="4">No pudimos cargar los mensajes.</td></tr>';
+  }
+}
+
+function detectarVariablesMensaje(texto = "") {
+  if (typeof texto !== "string") return [];
+  const vars = new Set();
+  texto.replace(MENSAJE_VARIABLE_REGEX, (_, doble, simple) => {
+    const clave = (doble || simple || "").trim();
+    if (clave) vars.add(clave);
+    return "";
+  });
+  return Array.from(vars);
+}
+
+function crearPreviewMensaje(contenido = "") {
+  if (!contenido || typeof contenido !== "string") return "—";
+  const reemplazado = aplicarValoresEjemplo(contenido);
+  const limpio = reemplazado.trim();
+  if (!limpio) return "—";
+  const recortado = limpio.length > 180 ? `${limpio.slice(0, 177)}...` : limpio;
+  return escapeHTML(recortado);
+}
+
+function renderMensajes() {
+  if (!mensajesBody) return;
+  if (!mensajesPredefinidos.length) {
+    mensajesBody.innerHTML = '<tr><td colspan="4">Todavía no registras mensajes.</td></tr>';
+    return;
+  }
+  const esAdmin = rolActual === "admin";
+  mensajesBody.innerHTML = mensajesPredefinidos
+    .map((mensaje) => {
+      const variables = detectarVariablesMensaje(mensaje.contenido || "");
+      const chips = variables.length
+        ? variables
+            .map((variable) => `<span class="tag-chip">${escapeHTML(`{{${variable}}}`)}</span>`)
+            .join("")
+        : '<span class="tag-chip tag-chip--empty">Sin variables</span>';
+      return `
+        <tr data-id="${mensaje.id}">
+          <td>${escapeHTML(mensaje.titulo || "-")}</td>
+          <td>${crearPreviewMensaje(mensaje.contenido)}</td>
+          <td>${chips}</td>
+          <td>
+            <button class="btn btn--ghost" data-action="editar-mensaje" data-id="${mensaje.id}" ${
+              esAdmin ? "" : "disabled"
+            }>Editar</button>
+            <button class="btn btn--ghost btn--danger" data-action="borrar-mensaje" data-id="${mensaje.id}" ${
+              esAdmin ? "" : "disabled"
+            }>Eliminar</button>
+          </td>
+        </tr>
+      `;
+    })
+    .join("");
+}
+
+function abrirModalMensaje(mensaje = null) {
+  if (!mensajesForm) return;
+  mensajesForm.reset();
+  if (mensajesMensaje) mensajesMensaje.textContent = "";
+  mensajesForm.elements["id"].value = mensaje?.id || "";
+  mensajesForm.elements["tituloMensaje"].value = mensaje?.titulo || "";
+  mensajesForm.elements["contenidoMensaje"].value = mensaje?.contenido || "";
+  modalMensajeInstance?.show();
+}
+
+async function guardarMensaje(formData) {
+  if (rolActual !== "admin") {
+    if (mensajesMensaje) mensajesMensaje.textContent = "Solo los administradores pueden editar mensajes.";
+    return;
+  }
+  const id = formData.get("id")?.trim();
+  const titulo = formData.get("tituloMensaje")?.trim();
+  const contenido = formData.get("contenidoMensaje")?.trim();
+  if (!titulo || !contenido) {
+    if (mensajesMensaje) mensajesMensaje.textContent = "Completa el nombre del mensaje y el contenido.";
+    return;
+  }
+  const payload = {
+    titulo,
+    contenido,
+  };
+  try {
+    if (id) {
+      await db.collection("mensajesPredefinidos").doc(id).update({
+        ...payload,
+        actualizadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      if (mensajesMensaje) mensajesMensaje.textContent = "Mensaje actualizado.";
+    } else {
+      await db.collection("mensajesPredefinidos").add({
+        ...payload,
+        creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      if (mensajesMensaje) mensajesMensaje.textContent = "Mensaje agregado.";
+    }
+    modalMensajeInstance?.hide();
+    await cargarMensajes();
+  } catch (error) {
+    console.error("Error al guardar mensaje", error);
+    if (mensajesMensaje) mensajesMensaje.textContent = "No pudimos guardar el mensaje.";
+  }
+}
+
+async function borrarMensaje(id) {
+  if (rolActual !== "admin" || !id) return;
+  if (!confirm("¿Eliminar este mensaje?")) return;
+  try {
+    await db.collection("mensajesPredefinidos").doc(id).delete();
+    await cargarMensajes();
+  } catch (error) {
+    console.error("Error al borrar mensaje", error);
   }
 }
 

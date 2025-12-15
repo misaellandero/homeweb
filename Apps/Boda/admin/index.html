@@ -167,6 +167,20 @@
           <li class="nav-item" role="presentation">
             <button
               class="nav-link"
+              id="tab-mensajes-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab-mensajes"
+              type="button"
+              role="tab"
+              aria-controls="tab-mensajes"
+              aria-selected="false"
+            >
+              Mensajes
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
               id="tab-damas-tab"
               data-bs-toggle="tab"
               data-bs-target="#tab-damas"
@@ -583,6 +597,43 @@
           </section>
         </div>
 
+        <div class="tab-pane fade" id="tab-mensajes" role="tabpanel" aria-labelledby="tab-mensajes-tab">
+          <section class="card">
+            <div class="table-header">
+              <h2>Mensajes preescritos</h2>
+              <div class="table-actions">
+                <button id="add-mensaje-btn" class="btn btn--secondary hidden">Nuevo mensaje</button>
+              </div>
+            </div>
+            <p class="form-helper">
+              Usa variables como <code>{nombre}</code>, <code>{numero_invitados}</code>, <code>{fecha_boda}</code>,
+              <code>{fecha_limite_confirmar_asistencia}</code>, <code>{fecha_limite_detalles}</code>,
+              <code>{codigo_invitado}</code> o <code>{link_mapa}</code> para personalizar cada mensaje.
+            </p>
+            <div class="form-helper example-message">
+              <strong>Ejemplo rápido:</strong> Hola {nombre}, esta es tu invitación para {numero_invitados}. Por favor confirma
+              antes del {fecha_limite_confirmar_asistencia}. El código de la invitación es {codigo_invitado}.
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Vista previa</th>
+                    <th>Variables detectadas</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="mensajes-body">
+                  <tr>
+                    <td colspan="4">Todavía no registras mensajes.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
         <div class="tab-pane fade" id="tab-damas" role="tabpanel" aria-labelledby="tab-damas-tab">
           <section class="card">
             <div class="table-header">
@@ -807,6 +858,43 @@
                 <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
               </div>
               <p class="form-helper" id="ubicaciones-mensaje"></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-mensaje" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card">
+          <div class="modal-header">
+            <h2 class="modal-title">Guardar mensaje</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <form id="mensajes-form" class="form-grid">
+              <input type="hidden" name="id" />
+              <label>Nombre del mensaje
+                <input type="text" name="tituloMensaje" placeholder="Recordatorio RSVP, Seguimiento viaje..." required />
+              </label>
+              <label>Contenido
+                <textarea
+                  name="contenidoMensaje"
+                  rows="5"
+                  placeholder="Hola {nombre}, recuerda confirmar antes del {fecha_limite_confirmar_asistencia}..."
+                  required
+                ></textarea>
+              </label>
+              <p class="form-helper">
+                Variables disponibles: <code>{nombre}</code>, <code>{numero_invitados}</code>, <code>{fecha_boda}</code>,
+                <code>{fecha_limite_confirmar_asistencia}</code>, <code>{fecha_limite_detalles}</code>,
+                <code>{codigo_invitado}</code>, <code>{link_mapa}</code>. Escribe las llaves tal como en el ejemplo.
+              </p>
+              <div class="form-actions">
+                <button type="submit" class="btn">Guardar</button>
+                <button type="button" class="btn btn--secondary" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+              <p class="form-helper" id="mensajes-mensaje"></p>
             </form>
           </div>
         </div>
