@@ -19,6 +19,29 @@
         <h1>Dara &amp; Misael</h1>
         <p class="hero__date" id="hero-date">Pronto revelaremos la fecha ✨</p>
         <p class="hero__location">Hacienda Los Encinos · Ciudad, País</p>
+        <div class="hero__countdown hidden" id="hero-countdown">
+          <div class="countdown-grid">
+            <div class="countdown-item">
+              <span id="hero-countdown-days">--</span>
+              <small>Días</small>
+            </div>
+            <div class="countdown-item">
+              <span id="hero-countdown-hours">--</span>
+              <small>Horas</small>
+            </div>
+            <div class="countdown-item">
+              <span id="hero-countdown-minutes">--</span>
+              <small>Min</small>
+            </div>
+            <div class="countdown-item">
+              <span id="hero-countdown-seconds">--</span>
+              <small>Seg</small>
+            </div>
+          </div>
+          <p class="countdown-helper" id="hero-countdown-helper">
+            Estamos preparando todo para el gran día ✨
+          </p>
+        </div>
         <a class="btn" href="#rsvp">Confirmar asistencia</a>
       </div>
     </header>
@@ -53,6 +76,37 @@
                 <li><span>22:00</span> Fiesta</li>
               </ul>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--light" id="ubicaciones">
+        <div class="container ubicaciones-wrapper">
+          <div class="ubicaciones-map-card">
+            <div class="ubicaciones-map">
+              <iframe
+                id="ubicaciones-mapa"
+                title="Mapa del evento"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+            <div class="ubicaciones-map__info">
+              <p class="ubicaciones-map__title" id="ubicaciones-mapa-nombre">Pronto compartiremos los detalles</p>
+              <p class="ubicaciones-map__address" id="ubicaciones-mapa-direccion"></p>
+              <a
+                id="ubicaciones-mapa-link"
+                class="btn btn--ghost"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                hidden
+                >Ver en Google Maps</a
+              >
+            </div>
+          </div>
+          <div class="ubicaciones-list" id="ubicaciones-lista">
+            <p>Estamos cargando las ubicaciones del evento...</p>
           </div>
         </div>
       </section>
@@ -248,7 +302,7 @@
               <p class="rsvp-summary__headline" id="resumen-estado-detalle">--</p>
               <p class="rsvp-summary__time" id="resumen-tiempo"></p>
             </div>
-            <div class="rsvp-summary__grid">
+            <div class="rsvp-summary__grid" id="resumen-detalles">
               <dl class="rsvp-summary__item">
                 <dt>Estado</dt>
                 <dd id="resumen-estado">--</dd>
@@ -282,7 +336,7 @@
                 <dd id="resumen-comentarios">--</dd>
               </dl>
             </div>
-            <div class="rsvp-summary__actions">
+            <div class="rsvp-summary__actions" id="resumen-acciones">
               <button type="button" class="btn btn--ghost" id="resumen-editar">Editar mis respuestas</button>
             </div>
           </div>

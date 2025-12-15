@@ -14,6 +14,8 @@ const resumenEditarBtn = document.getElementById("resumen-editar");
 const resumenEstadoElem = document.getElementById("resumen-estado");
 const resumenEstadoDetalleElem = document.getElementById("resumen-estado-detalle");
 const resumenTiempoElem = document.getElementById("resumen-tiempo");
+const resumenDetallesContainer = document.getElementById("resumen-detalles");
+const resumenAccionesContainer = document.getElementById("resumen-acciones");
 const resumenAsistentesElem = document.getElementById("resumen-asistentes");
 const resumenNinosElem = document.getElementById("resumen-ninos");
 const resumenNombresElem = document.getElementById("resumen-nombres");
@@ -193,18 +195,23 @@ function actualizarResumenRSVP() {
   resumenVestimentaElem && (resumenVestimentaElem.textContent = vestimenta);
   resumenComentariosElem &&
     (resumenComentariosElem.textContent = invitadoActual.notas?.trim() || "Sin comentarios adicionales.");
+  const cancelada =
+    (invitadoActual.estadoInvitacion || invitadoActual.estado) === "rechazado" ||
+    (invitadoActual.estadoInvitacion || invitadoActual.estado) === "cancelado_por_tiempo";
+  resumenDetallesContainer?.classList.toggle("hidden", cancelada);
+  resumenAccionesContainer?.classList.toggle("hidden", cancelada);
 }
 
 function aplicarModoRSVP() {
-  const completado = estaRSVPCompleto(invitadoActual);
+  const mostrarResumen = invitadoActual && !rsvpModoEdicion;
   if (invitadoActual) {
     actualizarResumenRSVP();
-    resumenCard?.classList.remove("hidden");
+    resumenCard?.classList.toggle("hidden", !mostrarResumen);
   } else {
     resumenCard?.classList.add("hidden");
   }
   if (rsvpForm) {
-    rsvpForm.classList.toggle("hidden", completado && !rsvpModoEdicion);
+    rsvpForm.classList.toggle("hidden", !!mostrarResumen);
   }
 }
 
@@ -394,11 +401,14 @@ function prepararFormularioSegunEstado() {
   sincronizarCampoAsistencia();
   cambiarPaso(1);
   document.getElementById("comentarios").value = invitadoActual.notas || "";
+  rsvpNoAsiste = asistenciaValor === "no";
   const completado = estaRSVPCompleto(invitadoActual);
-  if (completado && rsvpModoEdicion) {
+  const invitacionCancelada =
+    (invitadoActual.estadoInvitacion || invitadoActual.estado) === "rechazado";
+  if ((completado || invitacionCancelada) && rsvpModoEdicion) {
     rsvpModoEdicion = false;
   }
-  if (!completado) {
+  if (!completado && !invitacionCancelada) {
     rsvpModoEdicion = true;
   }
   actualizarResumenRSVP();
@@ -426,6 +436,7 @@ async function guardarRSVP(event) {
       mostrarMensajePaso("Tu invitación sigue activa. Si cambias de opinión, selecciona 'Sí'.");
       return;
     }
+    rsvpModoEdicion = false;
   }
   const maxAsistentes = Math.max(Number(acompanantesInput?.max || 0), 0);
   const asistentesValor = Number(acompanantesInput?.value || 0);
@@ -654,9 +665,16 @@ function inicializarEstadoInvitado(invitado) {
     }
     case "NO_VA":
     case "CANCELADO_TIEMPO": {
-      estadoDetalle.textContent = "Esta invitación ya no está activa.";
-      establecerResumenEstado("Invitación cancelada", "Esta invitación ya no está activa.");
+      estadoDetalle.innerHTML =
+        "<p>Gracias por avisar con tiempo.</p><p>Hemos liberado tu invitación para que otra persona pueda utilizarla.</p>";
+      establecerResumenEstado(
+        "Invitación cancelada",
+        "Gracias por avisar con tiempo. Tu lugar ha quedado disponible."
+      );
       actualizarResumenTiempo("");
+      rsvpModoEdicion = false;
+      resumenDetallesContainer?.classList.add("hidden");
+      resumenAccionesContainer?.classList.add("hidden");
       break;
     }
     default: {

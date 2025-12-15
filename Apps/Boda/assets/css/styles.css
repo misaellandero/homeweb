@@ -380,7 +380,7 @@ textarea:focus {
 
 .rsvp-steps {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
@@ -407,6 +407,22 @@ textarea:focus {
   align-items: center;
   justify-content: center;
   font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .rsvp-step {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.6rem;
+  }
+  .rsvp-step__number {
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 0.9rem;
+  }
+  .rsvp-step__label {
+    font-size: 0.85rem;
+  }
 }
 
 .rsvp-step.is-active {
