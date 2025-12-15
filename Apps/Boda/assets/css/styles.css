@@ -495,6 +495,28 @@ textarea:focus {
   display: none !important;
 }
 
+.alert {
+  padding: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.alert--warning {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: rgba(255, 183, 0, 0.6);
+  color: #5b4200;
+}
+
+.form-step.hidden-no-asiste {
+  display: none !important;
+}
+
+.rsvp-step.is-disabled {
+  opacity: 0.4;
+}
+
 .dresscode-card {
   background: rgba(255, 255, 255, 0.9);
   border-radius: var(--radius);

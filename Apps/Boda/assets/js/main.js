@@ -8,6 +8,7 @@ const acompanantesHelp = document.getElementById("acompanantes-help");
 const acompanantesInput = document.getElementById("numAcompanantes");
 const numNinosConfirmadosInput = document.getElementById("numNinosConfirmados");
 const nombresAsistentesInput = document.getElementById("nombresAsistentes");
+const alertaNoAsistira = document.getElementById("alerta-no-asistira");
 const resumenCard = document.getElementById("rsvp-resumen");
 const resumenEditarBtn = document.getElementById("resumen-editar");
 const resumenEstadoElem = document.getElementById("resumen-estado");
@@ -34,6 +35,7 @@ let detenerCuentaRegresiva = null;
 let pasoActual = 1;
 const TOTAL_PASOS = 3;
 let rsvpModoEdicion = true;
+let rsvpNoAsiste = false;
 
 function obtenerOpcionesRadio(nombre) {
   if (!rsvpForm || !nombre) return [];
@@ -148,22 +150,16 @@ function estaRSVPCompleto(invitado) {
   return estado === "en_espera_codigo";
 }
 
-function obtenerDescripcionEstadoResumen(invitado) {
-  if (!invitado) return "--";
-  const estadoPublico = mapearEstadoPublico(invitado.estadoInvitacion || invitado.estado);
-  switch (estadoPublico) {
-    case "EN_ESPERA_CODIGO":
-      return "Confirmación completa";
-    case "DIJO_QUE_SI":
-      return "Pendiente de detalles";
-    case "SI_CONFIRMADO":
-      return "Checklist finalizado";
-    case "NO_VA":
-      return "No asistirá";
-    case "CANCELADO_TIEMPO":
-      return "Invitación cancelada";
-    default:
-      return "Sin respuesta";
+function establecerResumenEstado(titulo = "--", detalle = "") {
+  if (resumenEstadoElem) resumenEstadoElem.textContent = titulo || "--";
+  if (resumenEstadoDetalleElem) resumenEstadoDetalleElem.textContent = detalle || "";
+}
+
+function actualizarResumenTiempo(texto = "") {
+  if (!resumenTiempoElem) return;
+  resumenTiempoElem.textContent = texto;
+  if (!texto) {
+    delete resumenTiempoElem.dataset.countdownLabel;
   }
 }
 
@@ -195,14 +191,15 @@ function actualizarResumenRSVP() {
 
 function aplicarModoRSVP() {
   const completado = estaRSVPCompleto(invitadoActual);
-  if (completado) {
+  if (invitadoActual) {
     actualizarResumenRSVP();
+    resumenCard?.classList.remove("hidden");
+  } else {
+    resumenCard?.classList.add("hidden");
   }
-  const mostrarResumen = completado && !rsvpModoEdicion;
   if (rsvpForm) {
-    rsvpForm.classList.toggle("hidden", mostrarResumen);
+    rsvpForm.classList.toggle("hidden", completado && !rsvpModoEdicion);
   }
-  resumenCard?.classList.toggle("hidden", !mostrarResumen);
 }
 
 function actualizarPasoUI() {
@@ -542,101 +539,141 @@ function inicializarEstadoInvitado(invitado) {
     contadorTiempo.textContent = "";
     delete contadorTiempo.dataset.countdownLabel;
   }
+  actualizarResumenTiempo("");
 
   if (!invitado) {
     estadoDetalle.textContent = "No encontramos información de tu invitación.";
+    establecerResumenEstado("Sin datos", "Ingresa tu código para consultar el estado de tu invitación.");
     return;
   }
+  establecerResumenEstado("Procesando invitación", "Actualizamos tu información...");
 
   switch (invitado.estado) {
     case "SIN_RESPUESTA": {
       estadoDetalle.textContent = "Aún no has respondido si vas a asistir.";
+      establecerResumenEstado(
+        "Pendiente de confirmación",
+        "Completa los tres pasos antes de que tu invitación expire."
+      );
       if (!contadorTiempo) break;
       if (!invitado.fechaLimiteRespuesta) {
         contadorTiempo.textContent = "No tenemos una fecha límite configurada.";
+        actualizarResumenTiempo("No tenemos una fecha límite configurada.");
         break;
       }
       contadorTiempo.dataset.countdownLabel = "Tu invitación se cancelará en:";
-      detenerCuentaRegresiva = iniciarCuentaRegresiva(
-        invitado.fechaLimiteRespuesta,
-        contadorTiempo,
-        () => {
-          if (contadorTiempo) {
-            contadorTiempo.textContent =
-              "Tu invitación ha sido cancelada por no responder a tiempo.";
-          }
-          // TODO: Actualizar el estado en Firebase cuando expire la primera respuesta.
-          notificarExpiracionRespuesta();
+      if (resumenTiempoElem) {
+        resumenTiempoElem.dataset.countdownLabel = "Tiempo restante:";
+      }
+      detenerCuentaRegresiva = iniciarCuentaRegresiva(invitado.fechaLimiteRespuesta, [contadorTiempo, resumenTiempoElem], () => {
+        if (contadorTiempo) {
+          contadorTiempo.textContent = "Tu invitación ha sido cancelada por no responder a tiempo.";
         }
-      );
+        actualizarResumenTiempo("Tu invitación ha sido cancelada por no responder a tiempo.");
+        // TODO: Actualizar el estado en Firebase cuando expire la primera respuesta.
+        notificarExpiracionRespuesta();
+      });
       break;
     }
     case "DIJO_QUE_SI": {
       estadoDetalle.innerHTML =
         "<p>Gracias por confirmar que vas a asistir.</p><p>Debes confirmar tu traje y viaje antes de:</p>";
+      establecerResumenEstado(
+        "Confirmación inicial registrada",
+        "Falta completar el checklist de viaje y vestimenta antes de la fecha límite."
+      );
       if (!contadorTiempo) break;
       if (!invitado.fechaLimiteDetalles) {
         contadorTiempo.textContent = "No tenemos una fecha límite configurada.";
+        actualizarResumenTiempo("No tenemos una fecha límite para los detalles.");
         break;
       }
       contadorTiempo.dataset.countdownLabel = "Tiempo restante:";
-      detenerCuentaRegresiva = iniciarCuentaRegresiva(
-        invitado.fechaLimiteDetalles,
-        contadorTiempo,
-        () => {
-          estadoDetalle.textContent =
-            "Tu lugar ha sido liberado porque no confirmaste tus detalles a tiempo.";
-          if (contadorTiempo) contadorTiempo.textContent = "";
-          // TODO: Actualizar el estado en Firebase cuando expire la confirmación de detalles.
-          notificarExpiracionDetalles();
-        }
-      );
+      if (resumenTiempoElem) {
+        resumenTiempoElem.dataset.countdownLabel = "Tiempo restante para checklist:";
+      }
+      detenerCuentaRegresiva = iniciarCuentaRegresiva(invitado.fechaLimiteDetalles, [contadorTiempo, resumenTiempoElem], () => {
+        estadoDetalle.textContent =
+          "Tu lugar ha sido liberado porque no confirmaste tus detalles a tiempo.";
+        if (contadorTiempo) contadorTiempo.textContent = "";
+        actualizarResumenTiempo("Se liberó tu lugar por no completar los detalles.");
+        // TODO: Actualizar el estado en Firebase cuando expire la confirmación de detalles.
+        notificarExpiracionDetalles();
+      });
       break;
     }
     case "SI_CONFIRMADO": {
       estadoDetalle.textContent = "Todo listo 🎉 Has confirmado asistencia, traje y viaje.";
+      establecerResumenEstado(
+        "Checklist finalizado",
+        "Gracias por tener listo tu atuendo, viaje y hospedaje."
+      );
+      actualizarResumenTiempo("Sin pendientes.");
       break;
     }
     case "EN_ESPERA_CODIGO": {
       estadoDetalle.innerHTML =
-        "<p>Gracias por completar los tres pasos.</p><p>Tu código de acceso será generado y te avisaremos en cuanto esté listo.</p>";
+        "<p>Invitación confirmada.</p><p>En espera de tu pase, te contactaremos más adelante.</p>";
+      establecerResumenEstado(
+        "Invitación confirmada",
+        "En espera de tu pase, te contactaremos más adelante."
+      );
+      actualizarResumenTiempo("Esperando tu pase de acceso.");
       break;
     }
     case "NO_VA":
     case "CANCELADO_TIEMPO": {
       estadoDetalle.textContent = "Esta invitación ya no está activa.";
+      establecerResumenEstado("Invitación cancelada", "Esta invitación ya no está activa.");
+      actualizarResumenTiempo("");
       break;
     }
     default: {
       estadoDetalle.textContent = "Seguimos procesando tu invitación.";
+      establecerResumenEstado("Procesando invitación", "Estamos revisando tu información.");
+      actualizarResumenTiempo("");
     }
   }
 }
 
-function iniciarCuentaRegresiva(fechaLimite, elementoDestino, onExpire) {
-  if (!elementoDestino || !fechaLimite) return null;
+function iniciarCuentaRegresiva(fechaLimite, elementosDestino, onExpire) {
+  const destinos = (Array.isArray(elementosDestino) ? elementosDestino : [elementosDestino]).filter(Boolean);
+  if (!destinos.length || !fechaLimite) return null;
   const fechaObjetivo =
     fechaLimite instanceof Date ? fechaLimite : new Date(fechaLimite);
   if (Number.isNaN(fechaObjetivo.getTime())) {
-    elementoDestino.textContent = "Fecha no disponible.";
+    destinos.forEach((elementoDestino) => {
+      if (elementoDestino) elementoDestino.textContent = "Fecha no disponible.";
+    });
     return null;
   }
-
-  const prefijo = elementoDestino.dataset?.countdownLabel
-    ? `${elementoDestino.dataset.countdownLabel.trim()} `
-    : "";
 
   const renderTiempo = () => {
     const restante = fechaObjetivo.getTime() - Date.now();
     if (restante <= 0) {
-      elementoDestino.textContent = `${prefijo}0 días 00:00:00`;
+      destinos.forEach((elementoDestino) => {
+        if (!elementoDestino) return;
+        const prefijo =
+          elementoDestino.dataset?.countdownLabel && elementoDestino.dataset.countdownLabel.trim().length
+            ? `${elementoDestino.dataset.countdownLabel.trim()} `
+            : "";
+        elementoDestino.textContent = `${prefijo}0 días 00:00:00`;
+      });
       if (typeof onExpire === "function") onExpire();
       return false;
     }
     const partes = convertirMilisegundosADHMS(restante);
-    elementoDestino.textContent = `${prefijo}${partes.dias} días ${formatearDosDigitos(
-      partes.horas
-    )}:${formatearDosDigitos(partes.minutos)}:${formatearDosDigitos(partes.segundos)}`;
+    const tiempoTexto = `${partes.dias} días ${formatearDosDigitos(partes.horas)}:${formatearDosDigitos(
+      partes.minutos
+    )}:${formatearDosDigitos(partes.segundos)}`;
+    destinos.forEach((elementoDestino) => {
+      if (!elementoDestino) return;
+      const prefijo =
+        elementoDestino.dataset?.countdownLabel && elementoDestino.dataset.countdownLabel.trim().length
+          ? `${elementoDestino.dataset.countdownLabel.trim()} `
+          : "";
+      elementoDestino.textContent = `${prefijo}${tiempoTexto}`;
+    });
     return true;
   };
 
