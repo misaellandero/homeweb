@@ -117,6 +117,12 @@ function sincronizarCampoAsistencia() {
     establecerValorRadio("planeaViajar", "no");
     sincronizarCampoViaje();
   }
+  rsvpNoAsiste = asistencia === "no";
+  if (rsvpNoAsiste) {
+    pasoActual = 1;
+  }
+  alertaNoAsistira?.classList.toggle("hidden", !rsvpNoAsiste);
+  actualizarPasoUI();
 }
 
 function actualizarLimiteNinos(maxPermitidos = null) {
@@ -206,14 +212,30 @@ function actualizarPasoUI() {
   stepSections.forEach((section) => {
     const stepValue = Number(section.dataset.step);
     section.classList.toggle("is-active", stepValue === pasoActual);
+    if (rsvpNoAsiste && stepValue !== 1) {
+      section.classList.add("hidden-no-asiste");
+    } else {
+      section.classList.remove("hidden-no-asiste");
+    }
   });
   stepIndicators.forEach((indicator) => {
     const stepValue = Number(indicator.dataset.step);
     indicator.classList.toggle("is-active", stepValue === pasoActual);
+    indicator.classList.toggle("is-disabled", rsvpNoAsiste && stepValue !== 1);
   });
   stepPrevBtn?.classList.toggle("hidden", pasoActual === 1);
   stepNextBtn?.classList.toggle("hidden", pasoActual === TOTAL_PASOS);
   stepSubmitBtn?.classList.toggle("hidden", pasoActual !== TOTAL_PASOS);
+  if (rsvpNoAsiste) {
+    stepPrevBtn?.classList.add("hidden");
+    stepNextBtn?.classList.add("hidden");
+    if (stepSubmitBtn) {
+      stepSubmitBtn.classList.remove("hidden");
+      stepSubmitBtn.textContent = "Confirmar que libero mi invitación";
+    }
+  } else if (stepSubmitBtn) {
+    stepSubmitBtn.textContent = "Enviar respuestas";
+  }
 }
 
 function cambiarPaso(nuevoPaso) {
@@ -395,6 +417,15 @@ async function guardarRSVP(event) {
   if (!asistencia) {
     mostrarMensajePaso("Selecciona si asistirás antes de guardar.");
     return;
+  }
+  if (asistencia === "no") {
+    const confirmaLiberacion = window.confirm(
+      "Al confirmar que no asistirás liberaremos tu invitación y este paso no se puede deshacer. ¿Deseas continuar?"
+    );
+    if (!confirmaLiberacion) {
+      mostrarMensajePaso("Tu invitación sigue activa. Si cambias de opinión, selecciona 'Sí'.");
+      return;
+    }
   }
   const maxAsistentes = Math.max(Number(acompanantesInput?.max || 0), 0);
   const asistentesValor = Number(acompanantesInput?.value || 0);
