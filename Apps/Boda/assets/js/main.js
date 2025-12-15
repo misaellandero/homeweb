@@ -16,6 +16,20 @@ const resumenEstadoDetalleElem = document.getElementById("resumen-estado-detalle
 const resumenTiempoElem = document.getElementById("resumen-tiempo");
 const resumenDetallesContainer = document.getElementById("resumen-detalles");
 const resumenAccionesContainer = document.getElementById("resumen-acciones");
+const heroCountdownContainer = document.getElementById("hero-countdown");
+const heroCountdownHelper = document.getElementById("hero-countdown-helper");
+const heroCountdownElems = {
+  days: document.getElementById("hero-countdown-days"),
+  hours: document.getElementById("hero-countdown-hours"),
+  minutes: document.getElementById("hero-countdown-minutes"),
+  seconds: document.getElementById("hero-countdown-seconds"),
+};
+const heroLocationElem = document.querySelector(".hero__location");
+const ubicacionesPublicList = document.getElementById("ubicaciones-lista");
+const ubicacionesMapaFrame = document.getElementById("ubicaciones-mapa");
+const ubicacionesMapaNombre = document.getElementById("ubicaciones-mapa-nombre");
+const ubicacionesMapaDireccion = document.getElementById("ubicaciones-mapa-direccion");
+const ubicacionesMapaLink = document.getElementById("ubicaciones-mapa-link");
 const resumenAsistentesElem = document.getElementById("resumen-asistentes");
 const resumenNinosElem = document.getElementById("resumen-ninos");
 const resumenNombresElem = document.getElementById("resumen-nombres");
@@ -38,6 +52,16 @@ let pasoActual = 1;
 const TOTAL_PASOS = 3;
 let rsvpModoEdicion = true;
 let rsvpNoAsiste = false;
+let detenerHeroCountdown = null;
+let ubicacionesPublicas = [];
+let ubicacionSeleccionadaIndex = 0;
+const HERO_LOCATION_DEFAULT = "Ubicación por confirmar";
+
+function escapeHTML(texto = "") {
+  const div = document.createElement("div");
+  div.textContent = texto;
+  return div.innerHTML;
+}
 
 function obtenerOpcionesRadio(nombre) {
   if (!rsvpForm || !nombre) return [];
@@ -761,11 +785,18 @@ function notificarExpiracionDetalles() {
 }
 
 async function cargarDatosEvento() {
-  if (!heroDateEl) return;
   try {
     const doc = await db.collection("configuracion").doc("fechasLimite").get();
     if (doc.exists && doc.data().fechaBoda) {
-      heroDateEl.textContent = formatearFechaBoda(doc.data().fechaBoda);
+      const fecha = doc.data().fechaBoda;
+      if (heroDateEl) {
+        heroDateEl.textContent = formatearFechaBoda(fecha);
+      }
+      iniciarCountdownHero(fecha);
+    } else {
+      if (heroDateEl) heroDateEl.textContent = "Pronto revelaremos la fecha ✨";
+      if (heroCountdownContainer) heroCountdownContainer.classList.add("hidden");
+      if (heroCountdownHelper) heroCountdownHelper.textContent = "Pronto revelaremos la fecha ✨";
     }
   } catch (error) {
     console.error("Error al cargar fecha del evento", error);
@@ -793,6 +824,155 @@ function formatearFechaBoda(isoString) {
 function capitalizar(texto) {
   if (!texto) return "";
   return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
+function iniciarCountdownHero(fechaISO) {
+  if (!heroCountdownContainer || !fechaISO) return;
+  if (detenerHeroCountdown) {
+    window.clearInterval(detenerHeroCountdown);
+    detenerHeroCountdown = null;
+  }
+  const fechaObjetivo = new Date(fechaISO);
+  if (Number.isNaN(fechaObjetivo.getTime())) {
+    heroCountdownContainer.classList.add("hidden");
+    if (heroCountdownHelper) {
+      heroCountdownHelper.textContent = "Pronto revelaremos la fecha ✨";
+    }
+    return;
+  }
+  heroCountdownContainer.classList.remove("hidden");
+  const actualizar = () => {
+    const restante = fechaObjetivo.getTime() - Date.now();
+    if (restante <= 0) {
+      Object.values(heroCountdownElems).forEach((el) => el && (el.textContent = "0"));
+      if (heroCountdownHelper) heroCountdownHelper.textContent = "¡El gran día ha llegado!";
+      if (detenerHeroCountdown) {
+        window.clearInterval(detenerHeroCountdown);
+        detenerHeroCountdown = null;
+      }
+      return;
+    }
+    const partes = convertirMilisegundosADHMS(restante);
+    if (heroCountdownElems.days) heroCountdownElems.days.textContent = String(partes.dias);
+    if (heroCountdownElems.hours) heroCountdownElems.hours.textContent = formatearDosDigitos(partes.horas);
+    if (heroCountdownElems.minutes)
+      heroCountdownElems.minutes.textContent = formatearDosDigitos(partes.minutos);
+    if (heroCountdownElems.seconds)
+      heroCountdownElems.seconds.textContent = formatearDosDigitos(partes.segundos);
+    if (heroCountdownHelper) {
+      heroCountdownHelper.textContent = "Falta muy poco para celebrar contigo.";
+    }
+  };
+  actualizar();
+  detenerHeroCountdown = window.setInterval(actualizar, 1000);
+}
+
+function generarMapaEmbed(ubicacion) {
+  if (!ubicacion) return "";
+  const direccionBase = [ubicacion.nombre, ubicacion.direccion]
+    .filter((parte) => parte && parte.trim())
+    .join(" ");
+  const query = direccionBase || ubicacion.mapsUrl || "";
+  if (!query) return "";
+  return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
+}
+
+function renderUbicacionesPublicas() {
+  if (!ubicacionesPublicList) return;
+  if (!ubicacionesPublicas.length) {
+    ubicacionesPublicList.innerHTML =
+      "<p>Muy pronto compartiremos las ubicaciones del evento.</p>";
+    if (ubicacionesMapaFrame) ubicacionesMapaFrame.src = "";
+    ubicacionesMapaNombre && (ubicacionesMapaNombre.textContent = "Pronto compartiremos los detalles");
+    ubicacionesMapaDireccion && (ubicacionesMapaDireccion.textContent = "");
+    ubicacionesMapaLink && (ubicacionesMapaLink.hidden = true);
+    actualizarHeroLocation(null);
+    return;
+  }
+  ubicacionesPublicList.innerHTML = ubicacionesPublicas
+    .map((ubicacion, index) => {
+      const direccion = ubicacion.direccion
+        ? `<p>${escapeHTML(ubicacion.direccion)}</p>`
+        : "<p>Dirección por confirmar.</p>";
+      const linkBoton = ubicacion.mapsUrl
+        ? `<a class="btn btn--ghost" href="${escapeHTML(ubicacion.mapsUrl)}" target="_blank" rel="noopener noreferrer">Abrir en Maps</a>`
+        : "";
+      return `
+        <div class="ubicacion-item" data-index="${index}">
+          <h4>${escapeHTML(ubicacion.nombre || "Ubicación por confirmar")}</h4>
+          ${direccion}
+          <div class="ubicacion-actions">
+            <button class="btn btn--secondary" data-action="mostrar-ubicacion" data-index="${index}">
+              Ver en esta página
+            </button>
+            ${linkBoton}
+          </div>
+        </div>
+      `;
+    })
+    .join("");
+  mostrarUbicacionEnMapa(ubicacionSeleccionadaIndex < ubicacionesPublicas.length ? ubicacionSeleccionadaIndex : 0);
+}
+
+function mostrarUbicacionEnMapa(index) {
+  if (!ubicacionesPublicas.length) return;
+  const ubicacion = ubicacionesPublicas[index];
+  if (!ubicacion) return;
+  ubicacionSeleccionadaIndex = index;
+  const embed = generarMapaEmbed(ubicacion);
+  if (ubicacionesMapaFrame) {
+    if (embed) {
+      ubicacionesMapaFrame.src = embed;
+    } else {
+      ubicacionesMapaFrame.removeAttribute("src");
+    }
+  }
+  if (ubicacionesMapaNombre) {
+    ubicacionesMapaNombre.textContent = ubicacion.nombre || "Ubicación del evento";
+  }
+  if (ubicacionesMapaDireccion) {
+    ubicacionesMapaDireccion.textContent = ubicacion.direccion || "";
+  }
+  if (ubicacionesMapaLink) {
+    if (ubicacion.mapsUrl) {
+      ubicacionesMapaLink.href = ubicacion.mapsUrl;
+      ubicacionesMapaLink.hidden = false;
+    } else {
+      ubicacionesMapaLink.hidden = true;
+    }
+  }
+  actualizarHeroLocation(ubicacion);
+  if (ubicacionesPublicList) {
+    ubicacionesPublicList
+      .querySelectorAll(".ubicacion-item")
+      .forEach((item) => item.classList.remove("is-active"));
+    const active = ubicacionesPublicList.querySelector(`.ubicacion-item[data-index="${index}"]`);
+    active?.classList.add("is-active");
+  }
+}
+
+function actualizarHeroLocation(ubicacion) {
+  if (!heroLocationElem) return;
+  if (ubicacion) {
+    const partes = [ubicacion.nombre, ubicacion.direccion].filter((texto) => texto && texto.trim());
+    heroLocationElem.textContent = partes.length ? partes.join(" · ") : HERO_LOCATION_DEFAULT;
+  } else {
+    heroLocationElem.textContent = HERO_LOCATION_DEFAULT;
+  }
+}
+
+async function cargarUbicacionesPublicas() {
+  if (!ubicacionesPublicList) return;
+  try {
+    const snap = await db.collection("ubicacionesEvento").orderBy("nombre").get();
+    ubicacionesPublicas = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    ubicacionSeleccionadaIndex = 0;
+    renderUbicacionesPublicas();
+  } catch (error) {
+    console.error("Error al cargar ubicaciones públicas", error);
+    ubicacionesPublicList.innerHTML =
+      "<p>No pudimos cargar las ubicaciones en este momento, intenta más tarde.</p>";
+  }
 }
 
 acompanantesInput?.addEventListener("input", () => {
@@ -824,6 +1004,15 @@ resumenEditarBtn?.addEventListener("click", () => {
   rsvpForm?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
+ubicacionesPublicList?.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-action='mostrar-ubicacion']");
+  if (!btn) return;
+  const index = Number(btn.dataset.index);
+  if (!Number.isNaN(index)) {
+    mostrarUbicacionEnMapa(index);
+  }
+});
+
 codigoForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   const codigo = codigoForm.codigoInvitacion.value;
@@ -834,3 +1023,4 @@ codigoForm?.addEventListener("submit", (event) => {
 rsvpForm?.addEventListener("submit", guardarRSVP);
 
 cargarDatosEvento();
+cargarUbicacionesPublicas();
