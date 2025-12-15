@@ -106,7 +106,7 @@
                 </div>
               </div>
               <div class="form-field">
-                <label for="numAcompanantes">Número de acompañantes</label>
+                <label for="numAcompanantes">Número total de asistentes confirmados</label>
                 <input
                   type="number"
                   id="numAcompanantes"
@@ -114,7 +114,28 @@
                   min="0"
                   value="0"
                 />
-                <small id="acompanantes-help">Máximo permitido: --</small>
+                <small id="acompanantes-help">Máximo permitido según tu invitación: --</small>
+              </div>
+              <div class="form-field">
+                <label for="numNinosConfirmados">¿Cuántos son niños?</label>
+                <input
+                  type="number"
+                  id="numNinosConfirmados"
+                  name="numNinosConfirmados"
+                  min="0"
+                  value="0"
+                />
+                <small>Usaremos esta información para considerar platos especiales.</small>
+              </div>
+              <div class="form-field">
+                <label for="nombresAsistentes">Nombres de quienes asistirán</label>
+                <textarea
+                  id="nombresAsistentes"
+                  name="nombresAsistentes"
+                  rows="3"
+                  placeholder="Ej. Ana Pérez (adulto), Luis Pérez (niño)"
+                ></textarea>
+                <small>Separar por coma o salto de línea, indicando si alguno es niño.</small>
               </div>
               <div class="form-field">
                 <label for="comentarios">Comentarios o restricciones alimenticias</label>

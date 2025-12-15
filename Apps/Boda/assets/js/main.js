@@ -5,6 +5,9 @@ const codigoMensaje = document.getElementById("codigo-mensaje");
 const estadoDetalle = document.getElementById("estado-invitado");
 const contadorTiempo = document.getElementById("contador-tiempo");
 const acompanantesHelp = document.getElementById("acompanantes-help");
+const acompanantesInput = document.getElementById("numAcompanantes");
+const numNinosConfirmadosInput = document.getElementById("numNinosConfirmados");
+const nombresAsistentesInput = document.getElementById("nombresAsistentes");
 const heroDateEl = document.getElementById("hero-date");
 const pasoMensaje = document.getElementById("paso-mensaje");
 const stepSections = document.querySelectorAll(".form-step");
@@ -59,18 +62,71 @@ function sincronizarCampoViaje() {
 
 function sincronizarCampoAsistencia() {
   const asistencia = obtenerValorRadio("asistencia");
-  const acompanantesInput = document.getElementById("numAcompanantes");
   if (acompanantesInput) {
     const habilitado = asistencia === "si";
     acompanantesInput.disabled = !habilitado;
     if (!habilitado) {
       acompanantesInput.value = 0;
+    } else {
+      const maxPermitido = Math.max(Number(acompanantesInput.max || 0), 0);
+      const valorActual = Number(acompanantesInput.value);
+      if (Number.isNaN(valorActual) || valorActual < 1) {
+        acompanantesInput.value = maxPermitido > 0 ? 1 : 0;
+      } else if (maxPermitido > 0 && valorActual > maxPermitido) {
+        acompanantesInput.value = maxPermitido;
+      }
     }
   }
+  if (numNinosConfirmadosInput) {
+    numNinosConfirmadosInput.disabled = asistencia !== "si";
+    if (asistencia !== "si") {
+      numNinosConfirmadosInput.value = 0;
+    } else {
+      const maxPermitido = Math.max(Number(numNinosConfirmadosInput.max || 0), 0);
+      const valorActual = Number(numNinosConfirmadosInput.value);
+      if (Number.isNaN(valorActual) || valorActual < 0) {
+        numNinosConfirmadosInput.value = 0;
+      } else if (maxPermitido > 0 && valorActual > maxPermitido) {
+        numNinosConfirmadosInput.value = maxPermitido;
+      }
+    }
+  }
+  if (nombresAsistentesInput) {
+    nombresAsistentesInput.disabled = asistencia !== "si";
+    if (asistencia !== "si") {
+      nombresAsistentesInput.value = "";
+    }
+  }
+  actualizarLimiteNinos();
   if (asistencia !== "si") {
     establecerValorRadio("planeaViajar", "no");
     sincronizarCampoViaje();
   }
+}
+
+function actualizarLimiteNinos(maxPermitidos = null) {
+  if (!numNinosConfirmadosInput) return;
+  const referencia =
+    maxPermitidos !== null
+      ? maxPermitidos
+      : Math.max(Number(acompanantesInput?.value || 0), 0);
+  if (referencia >= 0) {
+    numNinosConfirmadosInput.max = referencia;
+  }
+  const valorActual = Number(numNinosConfirmadosInput.value);
+  if (Number.isNaN(valorActual) || valorActual < 0) {
+    numNinosConfirmadosInput.value = 0;
+  } else if (valorActual > referencia) {
+    numNinosConfirmadosInput.value = referencia;
+  }
+}
+
+function normalizarListaNombres(texto = "") {
+  if (!texto) return [];
+  return texto
+    .split(/[\n,]/)
+    .map((entry) => entry.trim())
+    .filter((entry) => entry.length > 0);
 }
 
 function actualizarPasoUI() {
@@ -97,7 +153,6 @@ function cambiarPaso(nuevoPaso) {
 function validarPaso(step) {
   if (!rsvpForm) return true;
   const asistencia = obtenerValorRadio("asistencia");
-  const acompanantesInput = document.getElementById("numAcompanantes");
   switch (step) {
     case 1: {
       if (!asistencia) {
@@ -108,12 +163,23 @@ function validarPaso(step) {
         const max = Number(acompanantesInput.max || 0);
         const valor = Number(acompanantesInput.value || 0);
         if (Number.isNaN(valor) || valor < 0) {
-          mostrarMensajePaso("Indica un número válido de acompañantes.");
+          mostrarMensajePaso("Indica un número válido de asistentes.");
           return false;
         }
         if (max >= 0 && valor > max) {
-          mostrarMensajePaso(`Tu invitación permite máximo ${max} acompañantes.`);
+          mostrarMensajePaso(`Tu invitación permite máximo ${max} asistentes.`);
           return false;
+        }
+        if (numNinosConfirmadosInput) {
+          const valorNinos = Number(numNinosConfirmadosInput.value || 0);
+          if (Number.isNaN(valorNinos) || valorNinos < 0) {
+            mostrarMensajePaso("Indica cuántos niños asistirán o deja 0 si no aplica.");
+            return false;
+          }
+          if (valorNinos > valor) {
+            mostrarMensajePaso("El número de niños no puede ser mayor al total de asistentes.");
+            return false;
+          }
         }
       }
       break;
@@ -182,15 +248,33 @@ async function cargarInvitadoPorCodigo(codigo) {
 function prepararFormularioSegunEstado() {
   if (!invitadoActual) return;
   rsvpForm.classList.remove("hidden");
-  const maxPermitidos = Math.max((invitadoActual.numInvitadosPermitidos || 1) - 1, 0);
-  const acompanantesRegistrados =
+  const totalPermitidosRaw = Number(invitadoActual.numInvitadosPermitidos);
+  const maxPermitidos =
+    Number.isFinite(totalPermitidosRaw) && totalPermitidosRaw >= 0 ? totalPermitidosRaw : 1;
+  const asistentesRegistrados =
     invitadoActual.rsvpNumAsistentes && invitadoActual.rsvpNumAsistentes > 0
-      ? Math.max(invitadoActual.rsvpNumAsistentes - 1, 0)
+      ? invitadoActual.rsvpNumAsistentes
       : 0;
-  acompanantesHelp.textContent = `Máximo permitido: ${maxPermitidos}`;
-  const campoAcompanantes = document.getElementById("numAcompanantes");
-  campoAcompanantes.max = maxPermitidos;
-  campoAcompanantes.value = Math.min(acompanantesRegistrados, maxPermitidos);
+  acompanantesHelp.textContent = `Máximo permitido según tu invitación: ${maxPermitidos}`;
+  if (acompanantesInput) {
+    acompanantesInput.max = maxPermitidos;
+    acompanantesInput.value = Math.min(asistentesRegistrados, maxPermitidos);
+  }
+  if (numNinosConfirmadosInput) {
+    numNinosConfirmadosInput.max = maxPermitidos;
+    const valorNinos = Number(invitadoActual.rsvpNumNinos) || 0;
+    numNinosConfirmadosInput.value = Math.min(Math.max(valorNinos, 0), maxPermitidos);
+  }
+  if (nombresAsistentesInput) {
+    if (Array.isArray(invitadoActual.rsvpNombresAsistentes)) {
+      nombresAsistentesInput.value = invitadoActual.rsvpNombresAsistentes.join("\n");
+    } else if (typeof invitadoActual.rsvpNombresAsistentes === "string") {
+      nombresAsistentesInput.value = invitadoActual.rsvpNombresAsistentes;
+    } else {
+      nombresAsistentesInput.value = "";
+    }
+  }
+  actualizarLimiteNinos(maxPermitidos);
 
   inicializarEstadoInvitado(construirEstadoPublico(invitadoActual));
   const asistenciaValor =
@@ -230,14 +314,22 @@ async function guardarRSVP(event) {
     mostrarMensajePaso("Selecciona si asistirás antes de guardar.");
     return;
   }
-  const acompanantesInput = document.getElementById("numAcompanantes");
-  const maxAcompanantes = Number(acompanantesInput?.max || 0);
-  const acompanantesValor = Number(acompanantesInput?.value || 0);
-  const numAcompanantes = Math.min(
-    Math.max(Number.isNaN(acompanantesValor) ? 0 : acompanantesValor, 0),
-    maxAcompanantes
-  );
+  const maxAsistentes = Math.max(Number(acompanantesInput?.max || 0), 0);
+  const asistentesValor = Number(acompanantesInput?.value || 0);
+  const totalSolicitado = Math.max(Number.isNaN(asistentesValor) ? 0 : asistentesValor, 0);
+  const totalAutorizado =
+    maxAsistentes > 0 ? Math.min(totalSolicitado, maxAsistentes) : totalSolicitado;
+  const minimoAsistentes = maxAsistentes > 0 ? 1 : 0;
+  const asistentesConfirmados =
+    asistencia === "si" ? Math.max(totalAutorizado, minimoAsistentes) : 0;
+  const ninosValor = Number(numNinosConfirmadosInput?.value || 0);
+  const ninosConfirmados =
+    asistencia === "si"
+      ? Math.min(Math.max(Number.isNaN(ninosValor) ? 0 : ninosValor, 0), asistentesConfirmados)
+      : 0;
   const comentarios = rsvpForm.elements["comentarios"].value;
+  const nombresTexto = nombresAsistentesInput?.value || "";
+  const nombresConfirmados = asistencia === "si" ? normalizarListaNombres(nombresTexto) : [];
   const vestimenta = document.getElementById("vestimentaConfirmada").checked;
   const planeaViajarValor = obtenerValorRadio("planeaViajar");
   const planeaViajar = planeaViajarValor === "si";
@@ -256,7 +348,9 @@ async function guardarRSVP(event) {
   });
 
   const payload = {
-    rsvpNumAsistentes: asistencia === "si" ? numAcompanantes + 1 : 0,
+    rsvpNumAsistentes: asistentesConfirmados,
+    rsvpNumNinos: ninosConfirmados,
+    rsvpNombresAsistentes: nombresConfirmados,
     notas: comentarios,
     vestimentaConfirmada: vestimenta,
     viajeConfirmado: planeaViajar,
@@ -274,6 +368,8 @@ async function guardarRSVP(event) {
     await db.collection("invitados").doc(invitadoActual.id).update(payload);
     invitadoActual.estadoInvitacion = nuevoEstado;
     invitadoActual.rsvpNumAsistentes = payload.rsvpNumAsistentes;
+    invitadoActual.rsvpNumNinos = payload.rsvpNumNinos;
+    invitadoActual.rsvpNombresAsistentes = payload.rsvpNombresAsistentes;
     invitadoActual.notas = comentarios;
     invitadoActual.vestimentaConfirmada = vestimenta;
     invitadoActual.planeaViajar = planeaViajar;
@@ -522,6 +618,10 @@ function capitalizar(texto) {
   if (!texto) return "";
   return texto.charAt(0).toUpperCase() + texto.slice(1);
 }
+
+acompanantesInput?.addEventListener("input", () => {
+  actualizarLimiteNinos();
+});
 
 actualizarPasoUI();
 sincronizarCampoViaje();
