@@ -425,8 +425,13 @@ textarea:focus {
 }
 
 .options.single {
-  gap: 0.5rem;
-  flex-wrap: nowrap;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.options.single input[type="checkbox"] {
+  flex: 0 0 auto;
 }
 
 .step-actions {
@@ -488,6 +493,100 @@ textarea:focus {
 
 .hidden {
   display: none !important;
+}
+
+.dresscode-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  border: 1px solid rgba(116, 68, 102, 0.15);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.dresscode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin: 1rem 0;
+}
+
+.dresscode-card h4 {
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+
+.dresscode-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--color-dark);
+}
+
+.dresscode-list li {
+  margin-bottom: 0.35rem;
+}
+
+.dresscode-note {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+.dresscode-download {
+  margin-top: 1rem;
+}
+
+.rsvp-summary__status {
+  margin-bottom: 1rem;
+}
+
+.rsvp-summary__headline {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin: 0 0 0.35rem;
+}
+
+.rsvp-summary__time {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+}
+
+.rsvp-summary {
+  margin-top: 1.5rem;
+}
+
+.rsvp-summary__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.rsvp-summary__item {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius);
+  border: 1px solid rgba(116, 68, 102, 0.1);
+  padding: 1rem;
+}
+
+.rsvp-summary__item dt {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+  color: var(--color-primary);
+}
+
+.rsvp-summary__item dd {
+  margin: 0;
+  color: var(--color-dark);
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.rsvp-summary__actions {
+  margin-top: 1.25rem;
+  text-align: right;
 }
 
 .footer {

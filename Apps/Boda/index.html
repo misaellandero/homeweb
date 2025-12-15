@@ -169,10 +169,54 @@
 
             <section class="form-step" data-step="3">
               <h3>Paso 3 · Código de vestimenta</h3>
-              <p>
-                Nuestro código de vestimenta es semi-formal con tonos neutros o pastel. Evitemos blanco
-                y rojo para dejar que los novios destaquen.
-              </p>
+              <div class="dresscode-card">
+                <p>
+                  Nuestro evento es de etiqueta con inspiración mexicana. Sigue estas indicaciones para mantener la armonía del cortejo
+                  y asegurar tu acceso al restaurante.
+                </p>
+                <div class="dresscode-grid">
+                  <div>
+                    <h4>Cortejo nupcial</h4>
+                    <ul class="dresscode-list">
+                      <li>Damas exclusivas: <strong>Verde olivo</strong></li>
+                      <li>Hermanas de los novios: <strong>Lila / lavanda</strong></li>
+                      <li>Novia: <strong>Blanco gala mexicana</strong></li>
+                    </ul>
+                    <p class="dresscode-note">
+                      Estos colores están reservados. Evitemos repetirlos para que cada rol destaque.
+                    </p>
+                  </div>
+                  <div>
+                    <h4>Invitadas e invitados</h4>
+                    <ul class="dresscode-list">
+                      <li>Vestido largo formal en tonos neutros u oscuros que combinen con el verde olivo.</li>
+                      <li>Invitados: traje charro formal o traje de etiqueta (corbata o moño).</li>
+                      <li>Zapatos formales obligatorios.</li>
+                      <li>No se permite mezclilla ni atuendos casuales.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div>
+                  <h4>Reglas clave</h4>
+                  <ul class="dresscode-list">
+                    <li>Sin escotes pronunciados ni aberturas altas.</li>
+                    <li>Sin vestidos cortos.</li>
+                    <li>Evita tonos reservados para el cortejo: blanco, verde olivo, lila o lavanda.</li>
+                    <li>Sin tenis, sin ropa casual y sin mezclilla.</li>
+                    <li>La administración del restaurante podrá negar el acceso si no se respeta el código.</li>
+                  </ul>
+                  <div class="dresscode-download">
+                    <a
+                      class="btn btn--ghost"
+                      href="assets/docs/Codigo de vestimenta Boda.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      download
+                      >Descargar PDF con el código completo</a
+                    >
+                  </div>
+                </div>
+              </div>
               <label class="options single">
                 <input type="checkbox" id="vestimentaConfirmada" />
                 Confirmo que revisé el código de vestimenta y estoy de acuerdo.
@@ -195,6 +239,50 @@
               <button type="submit" class="btn hidden" id="step-submit">Enviar respuestas</button>
             </div>
           </form>
+          <div id="rsvp-resumen" class="card rsvp-summary hidden">
+            <h3>Tu confirmación</h3>
+            <div class="rsvp-summary__status">
+              <p class="rsvp-summary__headline" id="resumen-estado-detalle">--</p>
+              <p class="rsvp-summary__time" id="resumen-tiempo"></p>
+            </div>
+            <div class="rsvp-summary__grid">
+              <dl class="rsvp-summary__item">
+                <dt>Estado</dt>
+                <dd id="resumen-estado">--</dd>
+              </dl>
+              <dl class="rsvp-summary__item">
+                <dt>Asistentes confirmados</dt>
+                <dd id="resumen-asistentes">--</dd>
+              </dl>
+              <dl class="rsvp-summary__item">
+                <dt>Niños considerados</dt>
+                <dd id="resumen-ninos">--</dd>
+              </dl>
+              <dl class="rsvp-summary__item">
+                <dt>Nombres registrados</dt>
+                <dd id="resumen-nombres">--</dd>
+              </dl>
+              <dl class="rsvp-summary__item">
+                <dt>Plan de viaje</dt>
+                <dd id="resumen-viaje">--</dd>
+              </dl>
+              <dl class="rsvp-summary__item">
+                <dt>Asistencia requerida</dt>
+                <dd id="resumen-asistencia">--</dd>
+              </dl>
+              <dl class="rsvp-summary__item">
+                <dt>Código de vestimenta</dt>
+                <dd id="resumen-vestimenta">--</dd>
+              </dl>
+              <dl class="rsvp-summary__item">
+                <dt>Comentarios</dt>
+                <dd id="resumen-comentarios">--</dd>
+              </dl>
+            </div>
+            <div class="rsvp-summary__actions">
+              <button type="button" class="btn btn--ghost" id="resumen-editar">Editar mis respuestas</button>
+            </div>
+          </div>
         </div>
       </section>
     </main>

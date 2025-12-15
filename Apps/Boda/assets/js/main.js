@@ -8,6 +8,18 @@ const acompanantesHelp = document.getElementById("acompanantes-help");
 const acompanantesInput = document.getElementById("numAcompanantes");
 const numNinosConfirmadosInput = document.getElementById("numNinosConfirmados");
 const nombresAsistentesInput = document.getElementById("nombresAsistentes");
+const resumenCard = document.getElementById("rsvp-resumen");
+const resumenEditarBtn = document.getElementById("resumen-editar");
+const resumenEstadoElem = document.getElementById("resumen-estado");
+const resumenEstadoDetalleElem = document.getElementById("resumen-estado-detalle");
+const resumenTiempoElem = document.getElementById("resumen-tiempo");
+const resumenAsistentesElem = document.getElementById("resumen-asistentes");
+const resumenNinosElem = document.getElementById("resumen-ninos");
+const resumenNombresElem = document.getElementById("resumen-nombres");
+const resumenViajeElem = document.getElementById("resumen-viaje");
+const resumenAsistenciaElem = document.getElementById("resumen-asistencia");
+const resumenVestimentaElem = document.getElementById("resumen-vestimenta");
+const resumenComentariosElem = document.getElementById("resumen-comentarios");
 const heroDateEl = document.getElementById("hero-date");
 const pasoMensaje = document.getElementById("paso-mensaje");
 const stepSections = document.querySelectorAll(".form-step");
@@ -21,6 +33,7 @@ let invitadoActual = null;
 let detenerCuentaRegresiva = null;
 let pasoActual = 1;
 const TOTAL_PASOS = 3;
+let rsvpModoEdicion = true;
 
 function obtenerOpcionesRadio(nombre) {
   if (!rsvpForm || !nombre) return [];
@@ -127,6 +140,69 @@ function normalizarListaNombres(texto = "") {
     .split(/[\n,]/)
     .map((entry) => entry.trim())
     .filter((entry) => entry.length > 0);
+}
+
+function estaRSVPCompleto(invitado) {
+  if (!invitado) return false;
+  const estado = (invitado.estadoInvitacion || invitado.estado || "").toLowerCase();
+  return estado === "en_espera_codigo";
+}
+
+function obtenerDescripcionEstadoResumen(invitado) {
+  if (!invitado) return "--";
+  const estadoPublico = mapearEstadoPublico(invitado.estadoInvitacion || invitado.estado);
+  switch (estadoPublico) {
+    case "EN_ESPERA_CODIGO":
+      return "Confirmación completa";
+    case "DIJO_QUE_SI":
+      return "Pendiente de detalles";
+    case "SI_CONFIRMADO":
+      return "Checklist finalizado";
+    case "NO_VA":
+      return "No asistirá";
+    case "CANCELADO_TIEMPO":
+      return "Invitación cancelada";
+    default:
+      return "Sin respuesta";
+  }
+}
+
+function actualizarResumenRSVP() {
+  if (!invitadoActual || !resumenCard) return;
+  const asistentesTotal = Number(invitadoActual.rsvpNumAsistentes) || 0;
+  const ninosTotal = Number(invitadoActual.rsvpNumNinos) || 0;
+  const nombres = Array.isArray(invitadoActual.rsvpNombresAsistentes)
+    ? invitadoActual.rsvpNombresAsistentes
+    : typeof invitadoActual.rsvpNombresAsistentes === "string"
+    ? normalizarListaNombres(invitadoActual.rsvpNombresAsistentes)
+    : [];
+  const planeaViajar = invitadoActual.planeaViajar === true ? "Sí" : "No";
+  const requiereAsistencia = invitadoActual.requiereAsistenciaViaje ? "Sí" : "No";
+  const vestimenta = invitadoActual.vestimentaConfirmada ? "Confirmada" : "Pendiente";
+  resumenAsistentesElem &&
+    (resumenAsistentesElem.textContent =
+      asistentesTotal > 0 ? `${asistentesTotal} persona${asistentesTotal === 1 ? "" : "s"}` : "Sin confirmar");
+  resumenNinosElem &&
+    (resumenNinosElem.textContent = ninosTotal > 0 ? `${ninosTotal} niño${ninosTotal === 1 ? "" : "s"}` : "Sin niños registrados");
+  resumenNombresElem &&
+    (resumenNombresElem.textContent = nombres.length ? nombres.join("\n") : "Aún no registras nombres.");
+  resumenViajeElem && (resumenViajeElem.textContent = planeaViajar);
+  resumenAsistenciaElem && (resumenAsistenciaElem.textContent = planeaViajar === "Sí" ? requiereAsistencia : "No aplica");
+  resumenVestimentaElem && (resumenVestimentaElem.textContent = vestimenta);
+  resumenComentariosElem &&
+    (resumenComentariosElem.textContent = invitadoActual.notas?.trim() || "Sin comentarios adicionales.");
+}
+
+function aplicarModoRSVP() {
+  const completado = estaRSVPCompleto(invitadoActual);
+  if (completado) {
+    actualizarResumenRSVP();
+  }
+  const mostrarResumen = completado && !rsvpModoEdicion;
+  if (rsvpForm) {
+    rsvpForm.classList.toggle("hidden", mostrarResumen);
+  }
+  resumenCard?.classList.toggle("hidden", !mostrarResumen);
 }
 
 function actualizarPasoUI() {
@@ -299,6 +375,15 @@ function prepararFormularioSegunEstado() {
   sincronizarCampoAsistencia();
   cambiarPaso(1);
   document.getElementById("comentarios").value = invitadoActual.notas || "";
+  const completado = estaRSVPCompleto(invitadoActual);
+  if (completado && rsvpModoEdicion) {
+    rsvpModoEdicion = false;
+  }
+  if (!completado) {
+    rsvpModoEdicion = true;
+  }
+  actualizarResumenRSVP();
+  aplicarModoRSVP();
 }
 
 /**
@@ -384,6 +469,11 @@ async function guardarRSVP(event) {
     }
     if (contadorTiempo) contadorTiempo.textContent = "";
     inicializarEstadoInvitado(construirEstadoPublico(invitadoActual));
+    if (estaRSVPCompleto(invitadoActual)) {
+      rsvpModoEdicion = false;
+    }
+    actualizarResumenRSVP();
+    aplicarModoRSVP();
   } catch (error) {
     console.error("Error al guardar RSVP", error);
     if (estadoDetalle) {
@@ -640,6 +730,12 @@ rsvpForm?.addEventListener("change", (event) => {
   if (event.target.name === "asistencia") {
     sincronizarCampoAsistencia();
   }
+});
+
+resumenEditarBtn?.addEventListener("click", () => {
+  rsvpModoEdicion = true;
+  aplicarModoRSVP();
+  rsvpForm?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 codigoForm?.addEventListener("submit", (event) => {
