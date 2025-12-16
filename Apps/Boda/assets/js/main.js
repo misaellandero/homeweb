@@ -73,11 +73,7 @@ let itinerarioPublico = [];
 let pinterestWidgetPublico = null;
 let pinterestWidgetUnsubscribe = null;
 const PINTEREST_SHORT_HOSTS = ["pin.it", "pin.st"];
-const PINTEREST_BOARD_SIZES = {
-  small: { boardWidth: 320, scaleWidth: 60, scaleHeight: 360 },
-  medium: { boardWidth: 420, scaleWidth: 80, scaleHeight: 480 },
-  large: { boardWidth: 520, scaleWidth: 100, scaleHeight: 640 },
-};
+
 
 function escapeHTML(texto = "") {
   const div = document.createElement("div");
@@ -956,7 +952,7 @@ function iniciarCountdownHero(fechaISO) {
     if (heroCountdownElems.seconds)
       heroCountdownElems.seconds.textContent = formatearDosDigitos(partes.segundos);
     if (heroCountdownHelper) {
-      heroCountdownHelper.textContent = "Ya casi celebramos contigo.";
+      heroCountdownHelper.textContent = "Para que tiempo y espacio converjan en nuestro amor";
     }
   };
   actualizar();
@@ -1202,9 +1198,8 @@ function mostrarPinterestMensaje(texto = "") {
   }
 }
 
-function actualizarPinterestEmbed(url, sizeKey = "medium") {
+function actualizarPinterestEmbed(url) {
   if (!url) return;
-  const size = PINTEREST_BOARD_SIZES[sizeKey] || PINTEREST_BOARD_SIZES.medium;
   const widgetContainer = document.getElementById("pinterest-widget");
   if (!widgetContainer) return;
   const previousPlaceholder = document.getElementById("pinterest-placeholder");
@@ -1215,9 +1210,6 @@ function actualizarPinterestEmbed(url, sizeKey = "medium") {
   embed.id = "pinterest-embed";
   embed.className = "pinterest-embed";
   embed.setAttribute("data-pin-do", "embedBoard");
-  embed.setAttribute("data-pin-board-width", size.boardWidth);
-  embed.setAttribute("data-pin-scale-width", size.scaleWidth);
-  embed.setAttribute("data-pin-scale-height", size.scaleHeight);
   embed.setAttribute("data-default-href", pinterestDefaultHref);
   embed.href = url;
   const placeholder = document.createElement("p");
@@ -1279,7 +1271,7 @@ function renderPinterestWidget(config = {}) {
     );
     return;
   }
-  actualizarPinterestEmbed(boardUrl, config.pinWidth || "medium");
+  actualizarPinterestEmbed(boardUrl);
 }
 
 function cargarPinterestWidgetPublico() {
