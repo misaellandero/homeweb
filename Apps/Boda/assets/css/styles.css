@@ -385,8 +385,9 @@ img {
 
 .dresscode-gallery__item img {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 230px;
+  object-fit: cover;
+  border-radius: var(--radius);
 }
 
 .dresscode-board-wrapper {
@@ -399,6 +400,7 @@ img {
 .dresscode-board {
   display: block;
   width: 100%;
+  min-height: clamp(520px, 80vh, 720px);
 }
 
 .dresscode-board-overlay {
@@ -423,6 +425,17 @@ img {
 .overlay-right-bottom {
   bottom: -25px;
   right: -12%;
+}
+
+@media (max-width: 840px) {
+  .pinterest-showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .dresscode-board-wrapper {
+    max-width: 520px;
+    margin-inline: auto;
+  }
 }
 
 .details-grid {
