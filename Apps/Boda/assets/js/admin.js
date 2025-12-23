@@ -133,7 +133,18 @@ const tareaMensaje = document.getElementById("tarea-mensaje");
 const filtroTareasResponsableSelect = document.getElementById("filtro-tareas-responsable");
 const damasLadoSelect = damasForm?.elements?.lado || null;
 const damasRolSelect = damasForm?.elements?.rol || null;
+const mesasTotalInput = document.getElementById("mesas-total");
+const mesasCapacidadInput = document.getElementById("mesas-capacidad");
+const mesasAplicarBtn = document.getElementById("mesas-aplicar");
+const mesasPlano = document.getElementById("mesas-plano");
+const mesaSeleccionTexto = document.getElementById("mesa-invitado-seleccion");
+const mesaHintElem = document.getElementById("mesa-hint");
+const mesaCancelarSeleccionBtn = document.getElementById("mesa-cancelar-seleccion");
+const mesasInvitadosList = document.getElementById("mesas-invitados-list");
+const mesasUnassignedCount = document.getElementById("mesas-unassigned-count");
+const mesasRefreshBtn = document.getElementById("mesas-refresh");
 const COUNTDOWN_DEFAULT_MESSAGE = "Define la fecha del evento para activar la cuenta regresiva.";
+const ESTADOS_PERMITIDOS_MESA = new Set(["en_espera_codigo", "confirmado_final", "si_confirmado"]);
 
 const modalCrearInstance =
   typeof bootstrap !== "undefined" && modalCrear ? new bootstrap.Modal(modalCrear) : null;
@@ -200,6 +211,12 @@ let invitadoWhatsappSeleccionado = null;
 let ultimaPlantillaWhatsapp = null;
 let pinterestWidgetConfig = null;
 const PINTEREST_SHORT_HOSTS = ["pin.it", "pin.st"];
+let mesasLayout = [];
+let mesasCapacidadValor = 8;
+let mesasTotalValor = 6;
+let mesaInvitadoSeleccionadoId = null;
+let mesaInvitadoSeleccionadoNombre = "";
+let mesaDragState = null;
 
 // Configura los correos permitidos para cada rol.
 const ROLE_CONFIG = {
@@ -249,6 +266,12 @@ function actualizarUIporRol() {
       pinterestMensaje.textContent = "";
     }
   }
+  if (mesasTotalInput) mesasTotalInput.disabled = !esAdmin;
+  if (mesasCapacidadInput) mesasCapacidadInput.disabled = !esAdmin;
+  if (mesasAplicarBtn) mesasAplicarBtn.disabled = !esAdmin;
+  if (mesaCancelarSeleccionBtn) mesaCancelarSeleccionBtn.disabled = !esAdmin;
+  renderMesasPlano();
+  renderInvitadosSinMesa();
 }
 
 function esLinkPinterestAcortado(url = "") {
@@ -728,6 +751,389 @@ function renderPrioridadControls(row) {
   `;
 }
 
+function obtenerMesaInvitado(invitado = {}) {
+  if (!invitado) return "";
+  return (
+    invitado.mesaAsignada ||
+    invitado.mesa ||
+    invitado.mesaNumero ||
+    invitado.mesaNombre ||
+    invitado.mesaInvitado ||
+    invitado.asiento ||
+    ""
+  );
+}
+
+function obtenerTotalPaxInvitado(invitado = {}) {
+  if (!invitado) return 0;
+  const confirmados = Number(invitado.rsvpNumAsistentes);
+  if (Number.isFinite(confirmados) && confirmados > 0) return confirmados;
+  const permitidos = Number(invitado.numInvitadosPermitidos);
+  if (Number.isFinite(permitidos) && permitidos > 0) return permitidos;
+  return 1;
+}
+
+function invitadoDisponibleParaMesa(invitado = {}) {
+  if (!invitado || invitado.esListaEspera) return false;
+  const estado = (invitado.estadoInvitacion || invitado.estado || "").toLowerCase();
+  if (!estado) return false;
+  if (ESTADOS_PERMITIDOS_MESA.has(estado)) return true;
+  if (estado === "confirmado_fase1") {
+    return invitado.vestimentaConfirmada && invitado.viajeConfirmado;
+  }
+  return false;
+}
+
+function obtenerInvitadosConfirmados() {
+  return invitadosCache.filter((invitado) => invitadoDisponibleParaMesa(invitado));
+}
+
+function obtenerInvitadosSinMesa() {
+  return obtenerInvitadosConfirmados().filter((invitado) => !obtenerMesaInvitado(invitado));
+}
+
+function obtenerMesasDesdeDatos() {
+  const set = new Set();
+  obtenerInvitadosConfirmados().forEach((invitado) => {
+    const mesa = obtenerMesaInvitado(invitado);
+    if (mesa) set.add(mesa);
+  });
+  return Array.from(set);
+}
+
+function generarNombreMesa(nombresUsados, indice = 1) {
+  let contador = Math.max(indice, 1);
+  let nombre = `Mesa ${contador}`;
+  while (nombresUsados.has(nombre)) {
+    contador += 1;
+    nombre = `Mesa ${contador}`;
+  }
+  return nombre;
+}
+
+function generarPosicionMesa(index = 0) {
+  const columnas = 3;
+  const spacingX = 260;
+  const spacingY = 240;
+  const columna = index % columnas;
+  const fila = Math.floor(index / columnas);
+  return {
+    x: 40 + columna * spacingX,
+    y: 40 + fila * spacingY,
+  };
+}
+
+function construirMesasLayout() {
+  const mesasDatos = obtenerMesasDesdeDatos();
+  const minMesas = mesasDatos.length || 1;
+  const totalDeseado = Math.max(Number(mesasTotalInput?.value) || mesasTotalValor || minMesas, minMesas);
+  mesasTotalValor = totalDeseado;
+  mesasCapacidadValor = Math.max(Number(mesasCapacidadInput?.value) || mesasCapacidadValor || 8, 1);
+  const nombresUsados = new Set();
+  const layoutPrev = new Map(mesasLayout.map((mesa) => [mesa.nombre, mesa]));
+  const nuevoLayout = [];
+
+  mesasDatos.forEach((nombre, index) => {
+    if (!nombre) return;
+    const anterior = layoutPrev.get(nombre);
+    const posicion = anterior || generarPosicionMesa(index);
+    nuevoLayout.push({
+      id: anterior?.id || `mesa-${nombre.replace(/\s+/g, "-")}-${index}`,
+      nombre,
+      x: posicion.x,
+      y: posicion.y,
+    });
+    nombresUsados.add(nombre);
+  });
+
+  let indice = 1;
+  while (nuevoLayout.length < totalDeseado) {
+    const nombre = generarNombreMesa(nombresUsados, indice);
+    const anterior = layoutPrev.get(nombre);
+    const posicion = anterior || generarPosicionMesa(nuevoLayout.length);
+    nuevoLayout.push({
+      id: anterior?.id || `mesa-${nombre.replace(/\s+/g, "-")}-${nuevoLayout.length}`,
+      nombre,
+      x: posicion.x,
+      y: posicion.y,
+    });
+    nombresUsados.add(nombre);
+    indice += 1;
+  }
+  mesasLayout = nuevoLayout;
+}
+
+function agruparInvitadosPorMesa() {
+  const mapa = new Map();
+  obtenerInvitadosConfirmados().forEach((invitado) => {
+    const mesa = obtenerMesaInvitado(invitado);
+    if (!mesa) return;
+    if (!mapa.has(mesa)) mapa.set(mesa, []);
+    mapa.get(mesa).push(invitado);
+  });
+  mapa.forEach((lista) => {
+    lista.sort((a, b) =>
+      (a.nombreCompleto || a.codigoInvitacion || "").localeCompare(
+        b.nombreCompleto || b.codigoInvitacion || "",
+        "es",
+        { sensitivity: "base" }
+      )
+    );
+  });
+  return mapa;
+}
+
+function crearMesaNode(mesa, ocupantes = []) {
+  const node = document.createElement("div");
+  node.className = "mesa-node";
+  node.dataset.mesaId = mesa.id;
+  node.dataset.mesaNombre = mesa.nombre;
+  node.style.left = `${mesa.x}px`;
+  node.style.top = `${mesa.y}px`;
+
+  if (rolActual === "admin") {
+    node.addEventListener("pointerdown", iniciarArrastreMesa);
+  }
+
+  const mesaRect = document.createElement("div");
+  mesaRect.className = "mesa-node__table";
+  mesaRect.innerHTML = `<span>${escapeHTML(mesa.nombre)}</span>`;
+  node.appendChild(mesaRect);
+
+  const centro = 110;
+  const radio = 90;
+  const ocupantesLimitados = ocupantes.slice(0, mesasCapacidadValor);
+  for (let i = 0; i < mesasCapacidadValor; i += 1) {
+    const seat = document.createElement("button");
+    seat.type = "button";
+    seat.className = "mesa-seat";
+    seat.dataset.mesaId = mesa.id;
+    seat.dataset.mesaNombre = mesa.nombre;
+    seat.dataset.seatIndex = String(i);
+    const angulo = (i / mesasCapacidadValor) * Math.PI * 2;
+    const left = Math.cos(angulo) * radio + centro - 23;
+    const top = Math.sin(angulo) * radio + centro - 23;
+    seat.style.left = `${left}px`;
+    seat.style.top = `${top}px`;
+    const invitado = ocupantesLimitados[i];
+    if (invitado) {
+      seat.dataset.occupied = "true";
+      seat.dataset.invitadoId = invitado.id;
+      seat.dataset.invitadoNombre = invitado.nombreCompleto || invitado.codigoInvitacion || "Invitado";
+      const avatar = document.createElement("span");
+      avatar.className = "mesa-seat__avatar";
+      avatar.textContent = obtenerInicialesInvitado(invitado);
+      seat.appendChild(avatar);
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "mesa-seat__remove";
+      removeBtn.textContent = "×";
+      removeBtn.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (rolActual !== "admin") return;
+        liberarInvitadoMesa(invitado.id);
+      });
+      seat.appendChild(removeBtn);
+    } else {
+      seat.textContent = "•";
+    }
+    if (rolActual === "admin") {
+      seat.addEventListener("click", manejarClickSeat);
+    }
+    node.appendChild(seat);
+  }
+  return node;
+}
+
+function obtenerInicialesInvitado(invitado = {}) {
+  const nombre = invitado.nombreCompleto || invitado.codigoInvitacion || "";
+  const partes = nombre.trim().split(/\s+/).filter(Boolean);
+  if (!partes.length) return "★";
+  if (partes.length === 1) return partes[0].charAt(0).toUpperCase();
+  return `${partes[0].charAt(0)}${partes[1].charAt(0)}`.toUpperCase();
+}
+
+function renderMesasPlano() {
+  if (!mesasPlano) return;
+  construirMesasLayout();
+  const ocupantesMapa = agruparInvitadosPorMesa();
+  mesasPlano.innerHTML = "";
+  if (!mesasLayout.length) {
+    mesasPlano.innerHTML = '<p class="form-helper">Agrega al menos una mesa para comenzar.</p>';
+    return;
+  }
+  mesasPlano.classList.toggle("is-readonly", rolActual !== "admin");
+  mesasLayout.forEach((mesa, index) => {
+    const node = crearMesaNode(mesa, ocupantesMapa.get(mesa.nombre) || []);
+    if (!mesa.x && !mesa.y) {
+      const posicion = generarPosicionMesa(index);
+      node.style.left = `${posicion.x}px`;
+      node.style.top = `${posicion.y}px`;
+    }
+    mesasPlano.appendChild(node);
+  });
+}
+
+function renderInvitadosSinMesa() {
+  if (!mesasInvitadosList) return;
+  const sinMesa = obtenerInvitadosSinMesa();
+  mesasUnassignedCount && (mesasUnassignedCount.textContent = sinMesa.length);
+  if (!sinMesa.length) {
+    mesasInvitadosList.innerHTML =
+      '<p class="form-helper">Todos tus invitados confirmados tienen una mesa asignada.</p>';
+    return;
+  }
+  mesasInvitadosList.innerHTML = sinMesa
+    .map((invitado) => {
+      const nombre = invitado.nombreCompleto || invitado.codigoInvitacion || "Invitado";
+      const pax = obtenerTotalPaxInvitado(invitado);
+      return `
+        <button type="button" class="mesa-guest" data-id="${invitado.id}">
+          <div>
+            <span class="mesa-guest__name">${escapeHTML(nombre)}</span>
+            <span class="mesa-guest__meta">${pax} pax${invitado.codigoInvitacion ? ` · ${escapeHTML(invitado.codigoInvitacion)}` : ""}</span>
+          </div>
+          <span>Asignar</span>
+        </button>
+      `;
+    })
+    .join("");
+}
+
+async function asignarInvitadoAMesa(invitadoId, mesaNombre) {
+  if (!invitadoId || !mesaNombre || rolActual !== "admin") return;
+  try {
+    await db.collection("invitados").doc(invitadoId).update({ mesaAsignada: mesaNombre });
+    limpiarSeleccionInvitadoMesa(false);
+    await cargarListaInvitados();
+  } catch (error) {
+    console.error("Error al asignar invitado a mesa", error);
+  }
+}
+
+async function liberarInvitadoMesa(invitadoId) {
+  if (!invitadoId || rolActual !== "admin") return;
+  try {
+    await db
+      .collection("invitados")
+      .doc(invitadoId)
+      .update({ mesaAsignada: firebase.firestore.FieldValue.delete() });
+    if (mesaInvitadoSeleccionadoId === invitadoId) {
+      limpiarSeleccionInvitadoMesa(false);
+    }
+    await cargarListaInvitados();
+  } catch (error) {
+    console.error("Error al liberar invitado", error);
+  }
+}
+
+function actualizarSeleccionInvitadoMesa() {
+  if (!mesaSeleccionTexto) return;
+  if (mesaInvitadoSeleccionadoId) {
+    mesaSeleccionTexto.textContent = mesaInvitadoSeleccionadoNombre || "Invitado seleccionado";
+    mesaHintElem &&
+      (mesaHintElem.textContent = "Da clic en un asiento libre para asignar este invitado.");
+  } else {
+    mesaSeleccionTexto.textContent = "Nadie seleccionado";
+    mesaHintElem && (mesaHintElem.textContent = "Elige un invitado sin mesa para asignarlo.");
+  }
+}
+
+function limpiarSeleccionInvitadoMesa(actualizarUI = true) {
+  mesaInvitadoSeleccionadoId = null;
+  mesaInvitadoSeleccionadoNombre = "";
+  if (actualizarUI) {
+    actualizarSeleccionInvitadoMesa();
+    const activos = mesasInvitadosList?.querySelectorAll(".mesa-guest.is-active") || [];
+    activos.forEach((btn) => btn.classList.remove("is-active"));
+  }
+}
+
+function manejarClickSeat(event) {
+  event.preventDefault();
+  if (rolActual !== "admin") return;
+  const seat = event.currentTarget;
+  const invitadoSeatId = seat.dataset.invitadoId;
+  if (mesaInvitadoSeleccionadoId) {
+    asignarInvitadoAMesa(mesaInvitadoSeleccionadoId, seat.dataset.mesaNombre);
+    return;
+  }
+  if (invitadoSeatId) {
+    mesaInvitadoSeleccionadoId = invitadoSeatId;
+    mesaInvitadoSeleccionadoNombre = seat.dataset.invitadoNombre || "Invitado";
+    actualizarSeleccionInvitadoMesa();
+    return;
+  }
+  if (mesaHintElem) {
+    mesaHintElem.textContent = "Primero selecciona un invitado sin mesa para asignarlo.";
+  }
+}
+
+function iniciarArrastreMesa(event) {
+  if (rolActual !== "admin") return;
+  const mesaId = event.currentTarget.dataset.mesaId;
+  mesaDragState = {
+    id: mesaId,
+    offsetX: event.clientX - event.currentTarget.offsetLeft,
+    offsetY: event.clientY - event.currentTarget.offsetTop,
+  };
+  document.addEventListener("pointermove", manejarArrastreMesa);
+  document.addEventListener("pointerup", finalizarArrastreMesa);
+}
+
+function manejarArrastreMesa(event) {
+  if (!mesaDragState || !mesasPlano) return;
+  event.preventDefault();
+  const nodo = mesasPlano.querySelector(`.mesa-node[data-mesa-id="${mesaDragState.id}"]`);
+  if (!nodo) return;
+  const nuevoX = event.clientX - mesaDragState.offsetX;
+  const nuevoY = event.clientY - mesaDragState.offsetY;
+  nodo.style.left = `${nuevoX}px`;
+  nodo.style.top = `${nuevoY}px`;
+}
+
+function finalizarArrastreMesa(event) {
+  if (!mesaDragState || !mesasPlano) {
+    limpiarArrastreEventos();
+    return;
+  }
+  const nodo = mesasPlano.querySelector(`.mesa-node[data-mesa-id="${mesaDragState.id}"]`);
+  if (nodo) {
+    const mesa = mesasLayout.find((item) => item.id === mesaDragState.id);
+    if (mesa) {
+      mesa.x = parseFloat(nodo.style.left);
+      mesa.y = parseFloat(nodo.style.top);
+    }
+  }
+  limpiarArrastreEventos();
+}
+
+function limpiarArrastreEventos() {
+  mesaDragState = null;
+  document.removeEventListener("pointermove", manejarArrastreMesa);
+  document.removeEventListener("pointerup", finalizarArrastreMesa);
+}
+
+function manejarSeleccionInvitadoLista(event) {
+  const btn = event.target.closest(".mesa-guest");
+  if (!btn || rolActual !== "admin") return;
+  const id = btn.dataset.id;
+  const invitado = invitadosCache.find((inv) => inv.id === id);
+  if (!invitado) return;
+  mesaInvitadoSeleccionadoId = id;
+  mesaInvitadoSeleccionadoNombre = invitado.nombreCompleto || invitado.codigoInvitacion || "Invitado";
+  actualizarSeleccionInvitadoMesa();
+  mesasInvitadosList
+    ?.querySelectorAll(".mesa-guest")
+    .forEach((item) => item.classList.toggle("is-active", item === btn));
+}
+
+function aplicarConfiguracionMesas() {
+  if (rolActual !== "admin") return;
+  construirMesasLayout();
+  renderMesasPlano();
+}
+
 function actualizarSugerenciaEtiqueta(inputElem, helperElem) {
   if (!inputElem || !helperElem) return;
   const partes = inputElem.value.split(",");
@@ -983,9 +1389,18 @@ async function cargarListaInvitados() {
     const docs = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     docs.sort((a, b) => obtenerFechaRegistroMs(a) - obtenerFechaRegistroMs(b));
     invitadosCache = docs;
+    const mesasDatos = obtenerMesasDesdeDatos();
+    if (mesasTotalInput && !mesasTotalInput.dataset.userEdited) {
+      mesasTotalInput.value = Math.max(mesasDatos.length || 1, mesasTotalValor || mesasDatos.length || 1);
+    }
+    if (mesasCapacidadInput && !mesasCapacidadInput.dataset.userEdited) {
+      mesasCapacidadInput.value = mesasCapacidadValor;
+    }
     actualizarEtiquetasDisponibles();
     renderFiltroEtiquetas();
     pintarTabla();
+    renderMesasPlano();
+    renderInvitadosSinMesa();
     await actualizarCodigoSugerido();
   } catch (error) {
     console.error("Error al cargar invitados", error);
@@ -1583,6 +1998,15 @@ auth.onAuthStateChanged((user) => {
       pinterestForm.reset();
     }
     if (pinterestMensaje) pinterestMensaje.textContent = "";
+    if (mesasPlano) {
+      mesasPlano.innerHTML = '<p class="form-helper">Inicia sesión para organizar las mesas.</p>';
+    }
+    if (mesasInvitadosList) {
+      mesasInvitadosList.innerHTML = '<p class="form-helper">Sin datos disponibles.</p>';
+    }
+    mesasUnassignedCount && (mesasUnassignedCount.textContent = "--");
+    mesasLayout = [];
+    limpiarSeleccionInvitadoMesa(false);
   }
 });
 
@@ -1681,6 +2105,25 @@ damasRolSelect?.addEventListener("change", () => {
   if (damasRolSelect.value) {
     ultimaSeleccionRolDama = damasRolSelect.value;
   }
+});
+
+mesasInvitadosList?.addEventListener("click", manejarSeleccionInvitadoLista);
+mesaCancelarSeleccionBtn?.addEventListener("click", () => limpiarSeleccionInvitadoMesa());
+mesasAplicarBtn?.addEventListener("click", aplicarConfiguracionMesas);
+mesasTotalInput?.addEventListener("input", () => {
+  mesasTotalInput.dataset.userEdited = "true";
+});
+mesasCapacidadInput?.addEventListener("input", () => {
+  mesasCapacidadInput.dataset.userEdited = "true";
+});
+mesasRefreshBtn?.addEventListener("click", () => {
+  if (!mesasRefreshBtn || mesasRefreshBtn.dataset.loading === "true") return;
+  mesasRefreshBtn.dataset.loading = "true";
+  mesasRefreshBtn.disabled = true;
+  cargarListaInvitados().finally(() => {
+    mesasRefreshBtn.disabled = false;
+    delete mesasRefreshBtn.dataset.loading;
+  });
 });
 crearEtiquetasInput?.addEventListener("input", () => {
   actualizarSugerenciaEtiqueta(crearEtiquetasInput, crearEtiquetasSugerencia);

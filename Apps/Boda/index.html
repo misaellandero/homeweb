@@ -43,12 +43,19 @@
           </div>
           <p class="countdown-helper" id="hero-countdown-helper">Para que tú, tiempo y espacio converjan en nuestro amor.</p>
         </div>
-        <a class="btn" href="#rsvp">Confirmar asistencia</a>
+        <div class="hero__cta">
+          <a class="btn btn--hero btn--hero-rosa" href="#rsvp">Confirmar asistencia</a>
+          <a class="btn btn--hero btn--hero-lila" href="#inspiracion">Código de vestimenta</a>
+          <a class="btn btn--hero btn--hero-olivo" href="#regalos">Regalos</a>
+        </div>
+        <p class="hero__lock-note" id="section-lock-note">
+          La ubicación y el itinerario se mostrarán al ingresar tu código de invitación.
+        </p>
       </div>
     </header>
 
     <main>
-      <section class="section" id="detalles">
+      <section class="section section--locked" id="detalles">
         <div class="container">
           <h2>Detalles de la Celebración</h2>
           <div class="details-grid">
@@ -69,7 +76,7 @@
             </article>
             <article id="detalle-card-vestimenta">
               <h3>Código de Vestimenta</h3>
-              <p>Etiqueta moderna con inspiración mexicana.</p>
+              <p>Etiqueta Rigurosa / Charro Gran Gala</p>
               <ul class="dresscode-list">
                 <li>Vestido largo formal en tonos neutros u oscuros.</li>
                 <li>Traje charro o de etiqueta con corbata/moño.</li>
@@ -96,7 +103,7 @@
         </div>
       </section>
 
-      <section class="section section--light" id="ubicaciones">
+      <section class="section section--light section--locked" id="ubicaciones">
         <div class="container ubicaciones-wrapper">
           <div class="ubicaciones-map-card">
             <div class="ubicaciones-map">
@@ -128,14 +135,22 @@
       </section>
 
       <section class="section" id="inspiracion">
+          <h2>Dress code</h2>
+          <h3 class="center">Etiqueta rigurosa (black tie) / Charro Gran Gala (etiqueta)</h3>
+            <h4 class="center pinterest-subtitle">Ayúdanos a que nuestra boda sea como la imaginamos. Busca “Charro Gran Gala“ y “Black Tie” Dress code para inspirarte en tu outfit o revisa nuestro tablero de Pinterest.</h4>
+           
         <div class="container pinterest-showcase" id="pinterest-section">
+          
           <div class="dresscode-board-column">
             <div class="dresscode-board-wrapper">
+              
               <div class="pinterest-widget dresscode-board" id="pinterest-widget">
                 <a
                   id="pinterest-embed"
                   class="hidden"
                   data-pin-do="embedBoard"
+                  data-pin-scale-height="650"
+                  data-pin-scale-width="400"
                   data-default-href="https://www.pinterest.com/anapinskywalker/style/"
                   href="https://www.pinterest.com/anapinskywalker/style/"
                 ></a>
@@ -147,45 +162,103 @@
             </div>
           </div>
           <div class="pinterest-text">
-            <h2>Dress code</h2>
-            <h4 class="pinterest-subtitle">Ayúdanos a que nuestra boda sea como la imaginamos.</h4>
-            <div class="dresscode-gallery">
-              <article class="dresscode-gallery__item">
-                <img src="assets/images/segeridos_mujeres.png" alt="Vestidos sugeridos para invitadas" />
+           <div class="dresscode-gallery">
+               <article class="dresscode-gallery__item">
+                <img height="150" src="assets/images/segeridos_mujeres.png" alt="Vestidos sugeridos para invitadas" />
                 <div>
                   <h3>Para invitadas</h3>
-                  <p>Vestidos largos y fluidos en tonos neutros u oscuros que armonicen con el verde olivo.</p>
+                  <p>Vestidos largos de gala en tonos neutros u oscuros que armonicen con el verde olivo.</p>
                 </div>
               </article>
+              
               <article class="dresscode-gallery__item">
-                <img src="assets/images/segeridos_hombres.png" alt="Trajes sugeridos para invitados" />
+                <img height="150" src="assets/images/segeridos_hombres.png" alt="Trajes sugeridos para invitados" />
                 <div>
                   <h3>Para invitados</h3>
-                  <p>Traje charro o de etiqueta con corbata o moño. Zapato formal obligatorio.</p>
+                  <p>Preferentemente traje charro de gala o smoking con corbata o moño. Camisa blanca y zapato formal obligatorios.</p>
                 </div>
               </article>
-              <article class="dresscode-gallery__item">
-                <img src="assets/images/cortejo_damas_caballero.png" alt="Colores reservados para el cortejo" />
+
+               <article class="dresscode-gallery__item">
+                <img height="150" src="assets/images/cortejo_damas_caballero.png" alt="Colores reservados para el cortejo" />
                 <div>
                   <h3>Colores reservados</h3>
-                  <p>Damas exclusivas: verde olivo. Hermanas: lila/lavanda. Novia: blanco gala mexicana.</p>
+                  <ul class="color-roles">
+                    <li>
+                      <span class="color-dot color-dot--lavanda" aria-hidden="true"></span>
+                      <strong>Hermas de los novios</strong>  
+                    </li>
+                    <li>
+                      <span class="color-dot color-dot--olivo" aria-hidden="true"></span>
+                      <strong>Damas</strong>  
+                    </li> 
+                    <li>
+                      <span class="color-dot color-dot--blanco" aria-hidden="true"></span>
+                      <strong>Novia</strong>
+                    </li>
+                  </ul>
                 </div>
               </article>
-              <article class="dresscode-gallery__item">
-                <img src="assets/images/prohibido_vestimenta.png" alt="Ejemplos de vestimenta no permitida" />
+                <article class="dresscode-gallery__item">
+                <img height="150" src="assets/images/prohibido_vestimenta.png" alt="Ejemplos de vestimenta no permitida" />
                 <div>
-                  <h3>Evita</h3>
-                  <p>Atuendos casuales, mezclilla, tenis o colores reservados para el cortejo.</p>
+                  <h3>Prohibido</h3>
+                  <p>No se permiten atuendos casuales o informales, mezclilla, cortes o escotes muy pronunciados, tenis ni colores reservados para el cortejo.</p>
                 </div>
               </article>
+           
+           
+            
               <article class="dresscode-gallery__item">
-                <img src="assets/images/segeridos_familia.png" alt="Coordinados familiares sugeridos" />
+                <img height="150" src="assets/images/segeridos_familia.png" alt="Coordinados familiares sugeridos" />
                 <div>
                   <h3>Coordinados familiares</h3>
-                  <p>Combina textiles ricos y accesorios discretos para mantener una línea elegante.</p>
+                  <p>Opcional: Sugerencias para la familia de los novios</p>
+                   <ul class="color-roles">
+                   <li>
+                      <span class="color-dot color-dot--vino" aria-hidden="true"></span>
+                      <strong>Familia de Misael</strong>  
+                    </li> 
+                    <li>
+                      <span class="color-dot color-dot--azul-marino" aria-hidden="true"></span>
+                      <strong>Familia de Dara</strong>
+                    </li>
+                  </ul>
                 </div>
               </article>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--light" id="regalos">
+        <div class="container regalos">
+          <div class="regalos__intro">
+            <h2>Regalos</h2>
+            <p>Tu presencia es el mejor regalo, pero si deseas apoyarnos con algún detalle aquí te compartimos nuestras opciones.</p>
+          </div>
+          <div class="regalos-grid">
+            <article class="regalo-card">
+              <p class="regalo-card__eyebrow">Mesa Liverpool</p>
+              <h3>Clave boda: <span>51373926</span></h3>
+              <p>Ingresa nuestro código en el sitio de Liverpool o escanea el QR para elegir el regalo.</p>
+              <div class="regalo-card__actions">
+                <a class="btn btn--ghost" target="_blank" rel="noopener noreferrer" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51373926">Ver mesa de regalos</a>
+              </div>
+            </article>
+            <article class="regalo-card">
+              <p class="regalo-card__eyebrow">Transferencia</p>
+              <h3>Apóyanos con nuestro viaje</h3>
+              <ul class="regalo-lista">
+                <li><strong>Banco:</strong> BBVA</li>
+                <li><strong>Beneficiaria:</strong> Dara Duarte</li>
+                <li><strong>CLABE:</strong> 012180015954882596</li>
+              </ul>
+              <p>Comparte tu comprobante en WhatsApp para confirmar que lo recibimos.</p>
+              <div class="regalo-card__actions">
+                <a class="btn btn--ghost" href="https://wa.me/5210000000000" target="_blank" rel="noopener noreferrer">Enviar comprobante</a>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -419,6 +492,41 @@
               <button type="button" class="btn btn--ghost" id="resumen-editar">Editar mis respuestas</button>
             </div>
           </div>
+          <div id="pase-digital" class="card pase-card hidden" aria-live="polite">
+            <div class="pase-card__header">
+              <p class="pase-card__eyebrow">Pase digital</p>
+              <h3>Tu pase para la boda</h3>
+              <p id="pase-mensaje">Confirma tu asistencia para activar tu pase.</p>
+            </div>
+            <div class="pase-card__content">
+              <div class="pase-card__info">
+                <dl>
+                  <dt>Invitado</dt>
+                  <dd id="pase-nombre">--</dd>
+                </dl>
+                <dl>
+                  <dt>Código</dt>
+                  <dd id="pase-codigo">--</dd>
+                </dl>
+                <dl>
+                  <dt>Mesa asignada</dt>
+                  <dd id="pase-mesa">--</dd>
+                </dl>
+                <p class="pase-card__helper" id="pase-mesa-helper">Te avisaremos cuando tengamos tu mesa asignada.</p>
+              </div>
+              <div class="pase-card__qr">
+                <div class="pase-card__qr-frame">
+                  <canvas id="pase-qr" width="240" height="240" aria-hidden="true"></canvas>
+                  <p id="pase-qr-placeholder">Tu QR aparecerá aquí</p>
+                </div>
+                <small>Escanéalo en la entrada o guárdalo en tu teléfono.</small>
+              </div>
+            </div>
+            <div class="pase-card__actions">
+              <button type="button" class="btn" id="pase-generar">Generar pase digital</button>
+              <button type="button" class="btn btn--ghost hidden" id="pase-descargar">Descargar QR</button>
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -440,6 +548,7 @@
       defer
       src="https://assets.pinterest.com/js/pinit.js"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
     <script src="assets/js/firebase-config.js"></script>
     <script src="assets/js/main.js"></script>
   </body>

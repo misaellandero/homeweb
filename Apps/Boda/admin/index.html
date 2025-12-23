@@ -127,6 +127,20 @@
           <li class="nav-item" role="presentation">
             <button
               class="nav-link"
+              id="tab-mesas-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#tab-mesas"
+              type="button"
+              role="tab"
+              aria-controls="tab-mesas"
+              aria-selected="false"
+            >
+              Mesas
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
               id="tab-fechas-tab"
               data-bs-toggle="tab"
               data-bs-target="#tab-fechas"
@@ -367,8 +381,70 @@
                 <tbody id="waitlist-body"></tbody>
               </table>
             </div>
-          </section>
+        </section>
 
+        </div>
+
+        <div class="tab-pane fade" id="tab-mesas" role="tabpanel" aria-labelledby="tab-mesas-tab">
+          <section class="card card--mesas">
+            <div class="table-header">
+              <h2>Plano de mesas</h2>
+              <div class="table-actions">
+                <button type="button" class="btn btn--secondary" id="mesas-refresh">Actualizar listado</button>
+              </div>
+            </div>
+            <div class="mesas-config">
+              <div class="mesas-config__field">
+                <label for="mesas-total">Mesas totales</label>
+                <input type="number" id="mesas-total" min="1" value="6" />
+              </div>
+              <div class="mesas-config__field">
+                <label for="mesas-capacidad">Invitados por mesa</label>
+                <input type="number" id="mesas-capacidad" min="1" value="8" />
+              </div>
+              <div class="mesas-config__actions">
+                <button type="button" class="btn btn--secondary" id="mesas-aplicar">
+                  Aplicar cambios
+                </button>
+              </div>
+            </div>
+            <p class="form-helper">
+              Arrastra las mesas para acomodarlas en el plano y asigna invitados dando clic en los “monitos” que rodean cada mesa.
+              Cada vez que asignes a alguien, su pase digital se actualiza automáticamente.
+            </p>
+            <div class="mesas-builder">
+              <div class="mesas-plano-wrapper">
+                <div id="mesas-plano" class="mesas-plano">
+                  <p class="form-helper">Configura la cantidad de mesas para comenzar.</p>
+                </div>
+              </div>
+              <div class="mesas-sidepanel">
+                <div class="mesas-selection">
+                  <p class="form-helper">Invitado seleccionado</p>
+                  <strong id="mesa-invitado-seleccion">Nadie seleccionado</strong>
+                  <div class="mesas-selection__actions">
+                    <button type="button" class="btn btn--ghost" id="mesa-cancelar-seleccion">
+                      Cancelar selección
+                    </button>
+                  </div>
+                  <p class="form-helper mesas-selection__hint" id="mesa-hint">
+                    Elige un invitado sin mesa para asignarlo.
+                  </p>
+                </div>
+                <div class="mesas-sidepanel__section">
+                  <div class="table-header">
+                    <h4>Invitados sin mesa</h4>
+                    <div class="table-actions">
+                      <span class="tag-chip" id="mesas-unassigned-count">--</span>
+                    </div>
+                  </div>
+                  <div id="mesas-invitados-list" class="mesas-invitados-list">
+                    <p class="form-helper">Todos tus invitados confirmados ya tienen mesa.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
 
         <div class="tab-pane fade" id="tab-fechas" role="tabpanel" aria-labelledby="tab-fechas-tab">

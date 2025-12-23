@@ -16,6 +16,16 @@ const resumenEstadoDetalleElem = document.getElementById("resumen-estado-detalle
 const resumenTiempoElem = document.getElementById("resumen-tiempo");
 const resumenDetallesContainer = document.getElementById("resumen-detalles");
 const resumenAccionesContainer = document.getElementById("resumen-acciones");
+const paseCard = document.getElementById("pase-digital");
+const paseMensajeElem = document.getElementById("pase-mensaje");
+const paseNombreElem = document.getElementById("pase-nombre");
+const paseCodigoElem = document.getElementById("pase-codigo");
+const paseMesaElem = document.getElementById("pase-mesa");
+const paseMesaHelperElem = document.getElementById("pase-mesa-helper");
+const paseQRCanvas = document.getElementById("pase-qr");
+const paseQRPlaceholder = document.getElementById("pase-qr-placeholder");
+const paseGenerarBtn = document.getElementById("pase-generar");
+const paseDescargarBtn = document.getElementById("pase-descargar");
 const heroCountdownContainer = document.getElementById("hero-countdown");
 const heroCountdownHelper = document.getElementById("hero-countdown-helper");
 const heroCountdownElems = {
@@ -25,6 +35,7 @@ const heroCountdownElems = {
   seconds: document.getElementById("hero-countdown-seconds"),
 };
 const heroLocationElem = document.querySelector(".hero__location");
+const sectionLockNote = document.getElementById("section-lock-note");
 const detalleUbicacionNombre = document.getElementById("detalle-ubicacion-nombre");
 const detalleUbicacionDireccion = document.getElementById("detalle-ubicacion-direccion");
 const detalleUbicacionLink = document.getElementById("detalle-ubicacion-link");
@@ -36,6 +47,9 @@ const ubicacionesMapaFrame = document.getElementById("ubicaciones-mapa");
 const ubicacionesMapaNombre = document.getElementById("ubicaciones-mapa-nombre");
 const ubicacionesMapaDireccion = document.getElementById("ubicaciones-mapa-direccion");
 const ubicacionesMapaLink = document.getElementById("ubicaciones-mapa-link");
+const HERO_LOCATION_LOCKED_TEXT = "Muy pronto revelaremos el lugar del evento ✨";
+const UBICACIONES_LOCK_MESSAGE =
+  "Muy pronto revelaremos los detalles de la ubicación. Ingresa tu código para verlos aquí.";
 const pinterestSectionElem = document.getElementById("pinterest-section");
 const pinterestWidgetContainer = document.getElementById("pinterest-widget");
 const pinterestDescripcionElem = document.getElementById("pinterest-description");
@@ -43,6 +57,8 @@ const pinterestPlaceholderElem = document.getElementById("pinterest-placeholder"
 const pinterestEmbedElem = document.getElementById("pinterest-embed");
 const pinterestDefaultHref =
   pinterestEmbedElem?.dataset?.defaultHref || "https://www.pinterest.com/anapinskywalker/style/";
+const PINTEREST_SCALE_HEIGHT = Number(pinterestEmbedElem?.dataset?.pinScaleHeight) || 360;
+const PINTEREST_SCALE_WIDTH = Number(pinterestEmbedElem?.dataset?.pinScaleWidth) || 280;
 const resumenAsistentesElem = document.getElementById("resumen-asistentes");
 const resumenNinosElem = document.getElementById("resumen-ninos");
 const resumenNombresElem = document.getElementById("resumen-nombres");
@@ -58,6 +74,7 @@ const stepPrevBtn = document.getElementById("step-prev");
 const stepNextBtn = document.getElementById("step-next");
 const stepSubmitBtn = document.getElementById("step-submit");
 const asistenciaViajeField = document.getElementById("asistencia-viaje-field");
+const seccionesBloqueadasElems = document.querySelectorAll(".section--locked");
 
 let invitadoActual = null;
 let detenerCuentaRegresiva = null;
@@ -67,12 +84,16 @@ let rsvpModoEdicion = true;
 let rsvpNoAsiste = false;
 let detenerHeroCountdown = null;
 let ubicacionesPublicas = [];
+let ubicacionesDesbloqueadas = false;
 let ubicacionSeleccionadaIndex = 0;
 const HERO_LOCATION_DEFAULT = "Ubicación por confirmar";
 let itinerarioPublico = [];
+let seccionesBloqueadas = true;
 let pinterestWidgetPublico = null;
 let pinterestWidgetUnsubscribe = null;
 const PINTEREST_SHORT_HOSTS = ["pin.it", "pin.st"];
+let paseQRInstance = null;
+let paseQRValue = "";
 
 
 function escapeHTML(texto = "") {
@@ -302,6 +323,110 @@ function actualizarResumenRSVP() {
   resumenAccionesContainer?.classList.toggle("hidden", cancelada);
 }
 
+function obtenerMesaInvitado(invitado = {}) {
+  if (!invitado) return null;
+  return (
+    invitado.mesaAsignada ||
+    invitado.mesa ||
+    invitado.mesaNumero ||
+    invitado.mesaNombre ||
+    invitado.mesaInvitado ||
+    invitado.asiento ||
+    null
+  );
+}
+
+function puedeGenerarPase(invitado) {
+  if (!invitado) return false;
+  const estado = (invitado.estadoInvitacion || invitado.estado || "").toLowerCase();
+  return ["en_espera_codigo", "confirmado_final", "si_confirmado"].includes(estado);
+}
+
+function limpiarQRDelPase() {
+  if (paseQRCanvas) {
+    const ctx = paseQRCanvas.getContext("2d");
+    if (ctx) {
+      ctx.clearRect(0, 0, paseQRCanvas.width, paseQRCanvas.height);
+    }
+  }
+  paseDescargarBtn?.classList.add("hidden");
+  paseQRPlaceholder?.classList.remove("hidden");
+  paseQRValue = "";
+}
+
+function actualizarModuloPase() {
+  if (!paseCard) return;
+  const mostrarModulo = invitadoActual && !rsvpModoEdicion;
+  paseCard.classList.toggle("hidden", !mostrarModulo);
+  if (!mostrarModulo) {
+    limpiarQRDelPase();
+    return;
+  }
+  const nombre = invitadoActual.nombreCompleto || invitadoActual.nombre || "Invitado especial";
+  const codigo = invitadoActual.codigoInvitacion || "SIN-CODIGO";
+  const mesaAsignada = obtenerMesaInvitado(invitadoActual);
+  if (paseNombreElem) paseNombreElem.textContent = nombre;
+  if (paseCodigoElem) paseCodigoElem.textContent = codigo;
+  if (paseMesaElem) paseMesaElem.textContent = mesaAsignada ? `Mesa ${mesaAsignada}` : "Por confirmar";
+  if (paseMesaHelperElem) {
+    paseMesaHelperElem.textContent = mesaAsignada
+      ? "Si tu mesa cambia te avisaremos por este mismo medio."
+      : "Asignaremos tu mesa muy pronto. Te avisaremos cuando esté lista.";
+  }
+  const listoParaPase = puedeGenerarPase(invitadoActual);
+  if (paseGenerarBtn) {
+    paseGenerarBtn.disabled = !listoParaPase;
+    paseGenerarBtn.textContent = listoParaPase ? "Generar pase digital" : "Completa tu confirmación";
+  }
+  if (paseMensajeElem) {
+    paseMensajeElem.textContent = listoParaPase
+      ? "Tu pase está listo. Genera el QR para conocer tu mesa y mostrarlo el día del evento."
+      : "Completa tu confirmación (viaje y vestimenta) para activar tu pase digital.";
+  }
+  if (!listoParaPase) {
+    limpiarQRDelPase();
+  }
+}
+
+function generarPaseDigital() {
+  if (!invitadoActual || !puedeGenerarPase(invitadoActual) || !paseQRCanvas) return;
+  if (typeof QRious === "undefined") {
+    paseMensajeElem &&
+      (paseMensajeElem.textContent =
+        "No pudimos cargar el generador de QR. Actualiza la página e inténtalo de nuevo.");
+    return;
+  }
+  const codigo = invitadoActual.codigoInvitacion || invitadoActual.id || "INVITADO";
+  const mesaAsignada = obtenerMesaInvitado(invitadoActual) || "PENDIENTE";
+  const asistentes = Number(invitadoActual.rsvpNumAsistentes) || 0;
+  const payload = `BODA|${codigo}|MESA:${mesaAsignada}|PAX:${Math.max(asistentes, 1)}`;
+  if (!paseQRInstance) {
+    paseQRInstance = new QRious({
+      element: paseQRCanvas,
+      size: 240,
+      value: payload,
+      level: "H",
+    });
+  } else {
+    paseQRInstance.value = payload;
+  }
+  paseQRValue = payload;
+  paseQRPlaceholder?.classList.add("hidden");
+  paseDescargarBtn?.classList.remove("hidden");
+  paseMensajeElem &&
+    (paseMensajeElem.textContent =
+      "Pase listo ✅ Puedes guardar este QR o descargarlo para llevarlo en tu teléfono.");
+}
+
+function descargarPaseQR() {
+  if (!paseQRCanvas || !paseDescargarBtn || !paseQRValue) return;
+  const enlaceDescarga = document.createElement("a");
+  enlaceDescarga.href = paseQRCanvas.toDataURL("image/png");
+  const codigo = invitadoActual?.codigoInvitacion || "boda";
+  enlaceDescarga.download = `pase-${codigo}.png`;
+  enlaceDescarga.click();
+}
+
 function aplicarModoRSVP() {
   const mostrarResumen = invitadoActual && !rsvpModoEdicion;
   if (invitadoActual) {
@@ -313,6 +438,7 @@ function aplicarModoRSVP() {
   if (rsvpForm) {
     rsvpForm.classList.toggle("hidden", !!mostrarResumen);
   }
+  actualizarModuloPase();
 }
 
 function actualizarPasoUI() {
@@ -432,15 +558,21 @@ async function cargarInvitadoPorCodigo(codigo) {
       cambiarPaso(1);
       mostrarMensajePaso("");
       invitadoActual = null;
+      actualizarModuloPase();
+      cambiarVisibilidadSecciones(true);
       return;
     }
 
     invitadoActual = { id: snap.docs[0].id, ...snap.docs[0].data() };
     codigoMensaje.textContent = `Hola ${invitadoActual.nombreCompleto || "invitado"}.`;
+    cambiarVisibilidadSecciones(false);
+    desbloquearUbicacionesPublicas();
     prepararFormularioSegunEstado();
+    actualizarModuloPase();
   } catch (error) {
     console.error("Error al cargar invitado", error);
     codigoMensaje.textContent = "Ocurrió un error al validar. Intenta más tarde.";
+    cambiarVisibilidadSecciones(true);
   }
 }
 
@@ -750,17 +882,17 @@ function inicializarEstadoInvitado(invitado) {
         "Checklist finalizado",
         "Gracias por tener listo tu atuendo, viaje y hospedaje."
       );
-      actualizarResumenTiempo("Sin pendientes.");
+      actualizarResumenTiempo("Tu pase digital está activo.");
       break;
     }
     case "EN_ESPERA_CODIGO": {
       estadoDetalle.innerHTML =
-        "<p>Invitación confirmada.</p><p>En espera de tu pase, te contactaremos más adelante.</p>";
+        "<p>Invitación confirmada ✅</p><p>Genera tu pase digital para conocer tu mesa y mostrar tu QR en la entrada.</p>";
       establecerResumenEstado(
         "Invitación confirmada",
-        "En espera de tu pase, te contactaremos más adelante."
+        "Genera tu pase digital y muéstralo el día del evento."
       );
-      actualizarResumenTiempo("Esperando tu pase de acceso.");
+      actualizarResumenTiempo("Tu pase está disponible en esta página.");
       break;
     }
     case "NO_VA":
@@ -969,8 +1101,61 @@ function generarMapaEmbed(ubicacion) {
   return `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
 }
 
+function cambiarVisibilidadSecciones(bloqueadas) {
+  seccionesBloqueadas = bloqueadas;
+  seccionesBloqueadasElems.forEach((section) => {
+    if (!section) return;
+    section.classList.toggle("is-locked", bloqueadas);
+  });
+  if (sectionLockNote) {
+    sectionLockNote.textContent = bloqueadas
+      ? "La ubicación y el itinerario se mostrarán al ingresar tu código de invitación."
+      : "¡Listo! Ya puedes ver la ubicación y el itinerario completos.";
+  }
+}
+
+function mostrarEstadoUbicacionesBloqueado() {
+  if (ubicacionesMapaFrame) {
+    ubicacionesMapaFrame.removeAttribute("src");
+  }
+  if (ubicacionesMapaNombre) {
+    ubicacionesMapaNombre.textContent = "Ubicaciones privadas";
+  }
+  if (ubicacionesMapaDireccion) {
+    ubicacionesMapaDireccion.textContent =
+      "Muy pronto revelaremos el mapa completo. Ingresa tu código para conocerlo antes.";
+  }
+  if (ubicacionesMapaLink) {
+    ubicacionesMapaLink.hidden = true;
+    ubicacionesMapaLink.removeAttribute("href");
+  }
+  if (ubicacionesPublicList) {
+    ubicacionesPublicList.innerHTML = `<p>${UBICACIONES_LOCK_MESSAGE}</p>`;
+  }
+  actualizarHeroLocation(null);
+  actualizarDetalleUbicacion(null);
+}
+
+function actualizarEstadoSeccionUbicaciones() {
+  if (ubicacionesDesbloqueadas) {
+    renderUbicacionesPublicas();
+  } else {
+    mostrarEstadoUbicacionesBloqueado();
+  }
+}
+
+function desbloquearUbicacionesPublicas() {
+  if (ubicacionesDesbloqueadas) return;
+  ubicacionesDesbloqueadas = true;
+  actualizarEstadoSeccionUbicaciones();
+}
+
 function renderUbicacionesPublicas() {
   if (!ubicacionesPublicList) return;
+  if (!ubicacionesDesbloqueadas) {
+    mostrarEstadoUbicacionesBloqueado();
+    return;
+  }
   if (!ubicacionesPublicas.length) {
     ubicacionesPublicList.innerHTML =
       "<p>Muy pronto compartiremos las ubicaciones del evento.</p>";
@@ -1008,6 +1193,7 @@ function renderUbicacionesPublicas() {
 }
 
 function mostrarUbicacionEnMapa(index) {
+  if (!ubicacionesDesbloqueadas) return;
   if (!ubicacionesPublicas.length) return;
   const ubicacion = ubicacionesPublicas[index];
   if (!ubicacion) return;
@@ -1047,6 +1233,10 @@ function mostrarUbicacionEnMapa(index) {
 
 function actualizarHeroLocation(ubicacion) {
   if (!heroLocationElem) return;
+  if (!ubicacionesDesbloqueadas) {
+    heroLocationElem.textContent = HERO_LOCATION_LOCKED_TEXT;
+    return;
+  }
   if (ubicacion) {
     const localidadEstado = obtenerLocalidadEstado(ubicacion.direccion);
     heroLocationElem.textContent = localidadEstado || HERO_LOCATION_DEFAULT;
@@ -1079,6 +1269,20 @@ function limpiarCodigoPostal(texto = "") {
 
 function actualizarDetalleUbicacion(ubicacion) {
   if (!detalleUbicacionNombre || !detalleUbicacionDireccion) return;
+  if (!ubicacionesDesbloqueadas) {
+    detalleUbicacionNombre.textContent = "Ubicación privada";
+    detalleUbicacionDireccion.textContent =
+      "Muy pronto revelaremos la dirección. Ingresa tu código para conocerla completa.";
+    if (detalleUbicacionLink) {
+      detalleUbicacionLink.hidden = true;
+      detalleUbicacionLink.removeAttribute("href");
+    }
+    if (detalleUbicacionMensaje) {
+      detalleUbicacionMensaje.classList.add("hidden");
+      detalleUbicacionMensaje.textContent = "";
+    }
+    return;
+  }
   if (!ubicacion) {
     detalleUbicacionNombre.textContent = HERO_LOCATION_DEFAULT;
     detalleUbicacionDireccion.textContent =
@@ -1119,7 +1323,7 @@ async function cargarUbicacionesPublicas() {
     const snap = await db.collection("ubicacionesEvento").orderBy("nombre").get();
     ubicacionesPublicas = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     ubicacionSeleccionadaIndex = 0;
-    renderUbicacionesPublicas();
+    actualizarEstadoSeccionUbicaciones();
   } catch (error) {
     console.error("Error al cargar ubicaciones públicas", error);
     ubicacionesPublicList.innerHTML =
@@ -1210,6 +1414,8 @@ function actualizarPinterestEmbed(url) {
   embed.id = "pinterest-embed";
   embed.className = "pinterest-embed";
   embed.setAttribute("data-pin-do", "embedBoard");
+  embed.setAttribute("data-pin-scale-height", String(PINTEREST_SCALE_HEIGHT));
+  embed.setAttribute("data-pin-scale-width", String(PINTEREST_SCALE_WIDTH));
   embed.setAttribute("data-default-href", pinterestDefaultHref);
   embed.href = url;
   const placeholder = document.createElement("p");
@@ -1317,6 +1523,9 @@ rsvpForm?.addEventListener("change", (event) => {
   }
 });
 
+paseGenerarBtn?.addEventListener("click", generarPaseDigital);
+paseDescargarBtn?.addEventListener("click", descargarPaseQR);
+
 resumenEditarBtn?.addEventListener("click", () => {
   rsvpModoEdicion = true;
   aplicarModoRSVP();
@@ -1341,6 +1550,8 @@ codigoForm?.addEventListener("submit", (event) => {
 
 rsvpForm?.addEventListener("submit", guardarRSVP);
 
+actualizarEstadoSeccionUbicaciones();
+cambiarVisibilidadSecciones(true);
 cargarDatosEvento();
 cargarUbicacionesPublicas();
 cargarItinerarioPublico();
