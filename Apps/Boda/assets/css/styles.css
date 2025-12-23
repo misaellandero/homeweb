@@ -240,7 +240,7 @@ img {
 }
 
 .section--accent {
-  background: linear-gradient(180deg, #fef5ec, #fffdf8);
+  background: linear-gradient(180deg, #f4ae76, #fffdf8);
   overflow: hidden;
 }
 
@@ -1193,7 +1193,7 @@ textarea:focus {
 }
 
 .footer {
-  background: linear-gradient(135deg, #2c1f2e, #3b2b3d);
+  background: linear-gradient(135deg, #2c1f2e, #744466);
   color: var(--color-light);
   padding: 2.5rem 1rem;
   text-align: center;
