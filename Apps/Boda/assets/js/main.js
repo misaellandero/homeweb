@@ -94,6 +94,9 @@ let pinterestWidgetUnsubscribe = null;
 const PINTEREST_SHORT_HOSTS = ["pin.it", "pin.st"];
 let paseQRInstance = null;
 let paseQRValue = "";
+const paseQRBaseCanvas = document.createElement("canvas");
+paseQRBaseCanvas.width = 320;
+paseQRBaseCanvas.height = 320;
 
 
 function escapeHTML(texto = "") {
@@ -354,6 +357,100 @@ function limpiarQRDelPase() {
   paseQRValue = "";
 }
 
+function obtenerDatosParaPase() {
+  const nombre = invitadoActual?.nombreCompleto?.trim() || "Invitado especial";
+  const codigo = invitadoActual?.codigoInvitacion || invitadoActual?.id || "BODA";
+  const asistentes = Math.max(Number(invitadoActual?.rsvpNumAsistentes) || 0, 1);
+  const mesaTexto = obtenerMesaInvitado(invitadoActual);
+  return {
+    nombre,
+    codigo,
+    asistentes,
+    mesa: mesaTexto || "Mesa por confirmar",
+  };
+}
+
+function dibujarPaseDecorado(datos = {}) {
+  if (!paseQRCanvas || !paseQRInstance) return;
+  const ctx = paseQRCanvas.getContext("2d");
+  if (!ctx) return;
+  const width = paseQRCanvas.width;
+  const height = paseQRCanvas.height;
+  ctx.clearRect(0, 0, width, height);
+  const gradient = ctx.createLinearGradient(0, 0, width, height);
+  gradient.addColorStop(0, "#fff8f2");
+  gradient.addColorStop(1, "#f3e6ff");
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, width, height);
+  ctx.strokeStyle = "rgba(116, 68, 102, 0.25)";
+  ctx.lineWidth = 4;
+  ctx.strokeRect(12, 12, width - 24, height - 24);
+  const headerHeight = 150;
+  const noviosImg = new Image();
+  noviosImg.onload = () => {
+    ctx.save();
+    ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+    ctx.fillRect(24, 24, width - 48, headerHeight);
+    ctx.shadowColor = "rgba(116, 68, 102, 0.2)";
+    ctx.shadowBlur = 20;
+    const imgWidth = 220;
+    const imgHeight = headerHeight - 30;
+    ctx.drawImage(noviosImg, width / 2 - imgWidth / 2, 30, imgWidth, imgHeight);
+    ctx.restore();
+    dibujarContenidoPase(ctx, width, height, datos, headerHeight);
+  };
+  noviosImg.onerror = () => dibujarContenidoPase(ctx, width, height, datos, headerHeight);
+  noviosImg.src = "assets/images/novios.png";
+}
+
+function dibujarContenidoPase(ctx, width, height, datos, headerHeight = 140) {
+  ctx.save();
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#744466";
+  ctx.font = "600 26px 'Poppins', 'Segoe UI', sans-serif";
+  const tituloY = 24 + headerHeight + 40;
+  ctx.fillText("PASE BODA DARA Y MISAEL", width / 2, tituloY);
+
+  ctx.fillStyle = "#2f2f2f";
+  ctx.font = "600 22px 'Poppins', 'Segoe UI', sans-serif";
+  ctx.fillText(datos.nombre || "Invitado especial", width / 2, tituloY + 40);
+
+  ctx.fillStyle = "#5a7022";
+  ctx.font = "16px 'Poppins', 'Segoe UI', sans-serif";
+  ctx.fillText(
+    `Código: ${datos.codigo || "BODA"} · Pases: ${datos.asistentes ?? 1}`,
+    width / 2,
+    tituloY + 70
+  );
+
+  const qrImage = new Image();
+  qrImage.onload = () => {
+    const qrMargin = 70;
+    const qrMaxHeight = height - (tituloY + 220);
+    const qrSize = Math.min(width - qrMargin * 2, qrMaxHeight);
+    const qrX = (width - qrSize) / 2;
+    const qrY = tituloY + 90;
+    ctx.fillStyle = "rgba(255,255,255,0.95)";
+    ctx.fillRect(qrX - 10, qrY - 10, qrSize + 20, qrSize + 20);
+    ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
+
+    ctx.fillStyle = "#744466";
+    ctx.font = "600 18px 'Poppins', 'Segoe UI', sans-serif";
+    ctx.fillText(datos.mesa || "Mesa por confirmar", width / 2, height - 60);
+    ctx.fillStyle = "#444";
+    ctx.font = "14px 'Poppins', 'Segoe UI', sans-serif";
+    ctx.fillText("Presenta este pase en la entrada", width / 2, height - 30);
+
+    paseQRPlaceholder?.classList.add("hidden");
+    paseDescargarBtn?.classList.remove("hidden");
+  };
+  qrImage.onerror = () => {
+    paseQRPlaceholder?.classList.remove("hidden");
+  };
+  qrImage.src = paseQRInstance.toDataURL("image/png");
+  ctx.restore();
+}
+
 function actualizarModuloPase() {
   if (!paseCard) return;
   const mostrarModulo = invitadoActual && !rsvpModoEdicion;
@@ -367,7 +464,7 @@ function actualizarModuloPase() {
   const mesaAsignada = obtenerMesaInvitado(invitadoActual);
   if (paseNombreElem) paseNombreElem.textContent = nombre;
   if (paseCodigoElem) paseCodigoElem.textContent = codigo;
-  if (paseMesaElem) paseMesaElem.textContent = mesaAsignada ? `Mesa ${mesaAsignada}` : "Por confirmar";
+  if (paseMesaElem) paseMesaElem.textContent = mesaAsignada || "Por confirmar";
   if (paseMesaHelperElem) {
     paseMesaHelperElem.textContent = mesaAsignada
       ? "Si tu mesa cambia te avisaremos por este mismo medio."
@@ -402,8 +499,8 @@ function generarPaseDigital() {
   const payload = `BODA|${codigo}|MESA:${mesaAsignada}|PAX:${Math.max(asistentes, 1)}`;
   if (!paseQRInstance) {
     paseQRInstance = new QRious({
-      element: paseQRCanvas,
-      size: 240,
+      element: paseQRBaseCanvas,
+      size: paseQRBaseCanvas.width,
       value: payload,
       level: "H",
     });
@@ -411,11 +508,12 @@ function generarPaseDigital() {
     paseQRInstance.value = payload;
   }
   paseQRValue = payload;
-  paseQRPlaceholder?.classList.add("hidden");
-  paseDescargarBtn?.classList.remove("hidden");
+  paseDescargarBtn?.classList.add("hidden");
+  paseQRPlaceholder?.classList.remove("hidden");
+  dibujarPaseDecorado(obtenerDatosParaPase());
   paseMensajeElem &&
     (paseMensajeElem.textContent =
-      "Pase listo ✅ Puedes guardar este QR o descargarlo para llevarlo en tu teléfono.");
+      "¡Listo! Descarga tu pase y muéstralo el día del evento. Si lo pierdes puedes generarlo de nuevo.");
 }
 
 function descargarPaseQR() {

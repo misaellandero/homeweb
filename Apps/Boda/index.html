@@ -55,85 +55,6 @@
     </header>
 
     <main>
-      <section class="section section--locked" id="detalles">
-        <div class="container">
-          <h2>Detalles de la Celebración</h2>
-          <div class="details-grid">
-            <article id="detalle-card-ubicacion">
-              <h3>Ubicación principal</h3>
-              <p class="place-name" id="detalle-ubicacion-nombre">Ubicación por confirmar</p>
-              <p id="detalle-ubicacion-direccion">Agrega una ubicación desde el panel para mostrarla aquí.</p>
-              <a
-                class="btn-link"
-                id="detalle-ubicacion-link"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                hidden
-                >Cómo llegar</a
-              >
-              <p class="detail-helper hidden" id="detalle-ubicacion-mensaje"></p>
-            </article>
-            <article id="detalle-card-vestimenta">
-              <h3>Código de Vestimenta</h3>
-              <p>Etiqueta Rigurosa / Charro Gran Gala</p>
-              <ul class="dresscode-list">
-                <li>Vestido largo formal en tonos neutros u oscuros.</li>
-                <li>Traje charro o de etiqueta con corbata/moño.</li>
-                <li>Zapatos formales. Sin tenis ni mezclilla.</li>
-                <li>Evita colores del cortejo: blanco, verde olivo y lila.</li>
-              </ul>
-              <a
-                class="btn-link"
-                href="assets/docs/Codigo de vestimenta Boda.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                download
-                >Descargar guía completa</a
-              >
-            </article>
-            <article id="detalle-card-programa">
-              <h3>Programa</h3>
-              <ul class="timeline" id="detalle-programa-lista"></ul>
-              <p class="detail-helper" id="detalle-programa-mensaje">
-                Aún no publicamos el itinerario. Cuando lo registres en el panel aparecerá aquí.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section--light section--locked" id="ubicaciones">
-        <div class="container ubicaciones-wrapper">
-          <div class="ubicaciones-map-card">
-            <div class="ubicaciones-map">
-              <iframe
-                id="ubicaciones-mapa"
-                title="Mapa del evento"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-              ></iframe>
-            </div>
-            <div class="ubicaciones-map__info">
-              <p class="ubicaciones-map__title" id="ubicaciones-mapa-nombre">Pronto compartiremos los detalles</p>
-              <p class="ubicaciones-map__address" id="ubicaciones-mapa-direccion"></p>
-              <a
-                id="ubicaciones-mapa-link"
-                class="btn btn--ghost"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                hidden
-                >Ver en Google Maps</a
-              >
-            </div>
-          </div>
-          <div class="ubicaciones-list" id="ubicaciones-lista">
-            <p>Estamos cargando las ubicaciones del evento...</p>
-          </div>
-        </div>
-      </section>
-
       <section class="section" id="inspiracion">
           <h2>Dress code</h2>
           <h3 class="center">Etiqueta rigurosa (black tie) / Charro Gran Gala (etiqueta)</h3>
@@ -508,6 +429,83 @@
               <button type="button" class="btn btn--ghost" id="resumen-editar">Editar mis respuestas</button>
             </div>
           </div>
+          <section class="section section--locked" id="detalles">
+            <div class="container">
+              <h2>Detalles de la Celebración</h2>
+              <div class="details-grid">
+                <article id="detalle-card-ubicacion">
+                  <h3>Ubicación principal</h3>
+                  <p class="place-name" id="detalle-ubicacion-nombre">Ubicación por confirmar</p>
+                  <p id="detalle-ubicacion-direccion">Agrega una ubicación desde el panel para mostrarla aquí.</p>
+                  <a
+                    class="btn-link"
+                    id="detalle-ubicacion-link"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    hidden
+                    >Cómo llegar</a
+                  >
+                  <p class="detail-helper hidden" id="detalle-ubicacion-mensaje"></p>
+                </article>
+                <article id="detalle-card-vestimenta">
+                  <h3>Código de Vestimenta</h3>
+                  <p>Etiqueta Rigurosa / Charro Gran Gala</p>
+                  <ul class="dresscode-list">
+                    <li>Vestido largo formal en tonos neutros u oscuros.</li>
+                    <li>Traje charro o de etiqueta con corbata/moño.</li>
+                    <li>Zapatos formales. Sin tenis ni mezclilla.</li>
+                    <li>Evita colores del cortejo: blanco, verde olivo y lila.</li>
+                  </ul>
+                  <a
+                    class="btn-link"
+                    href="assets/docs/Codigo de vestimenta Boda.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    >Descargar guía completa</a
+                  >
+                </article>
+                <article id="detalle-card-programa">
+                  <h3>Programa</h3>
+                  <ul class="timeline" id="detalle-programa-lista"></ul>
+                  <p class="detail-helper" id="detalle-programa-mensaje">
+                    Aún no publicamos el itinerario. Cuando lo registres en el panel aparecerá aquí.
+                  </p>
+                </article>
+              </div>
+            </div>
+          </section>
+          <section class="section section--light section--locked" id="ubicaciones">
+            <div class="container ubicaciones-wrapper">
+              <div class="ubicaciones-map-card">
+                <div class="ubicaciones-map">
+                  <iframe
+                    id="ubicaciones-mapa"
+                    title="Mapa del evento"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                  ></iframe>
+                </div>
+                <div class="ubicaciones-map__info">
+                  <p class="ubicaciones-map__title" id="ubicaciones-mapa-nombre">Pronto compartiremos los detalles</p>
+                  <p class="ubicaciones-map__address" id="ubicaciones-mapa-direccion"></p>
+                  <a
+                    id="ubicaciones-mapa-link"
+                    class="btn btn--ghost"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    hidden
+                    >Ver en Google Maps</a
+                  >
+                </div>
+              </div>
+              <div class="ubicaciones-list" id="ubicaciones-lista">
+                <p>Estamos cargando las ubicaciones del evento...</p>
+              </div>
+            </div>
+          </section>
           <div id="pase-digital" class="card pase-card hidden" aria-live="polite">
             <div class="pase-card__header">
               <p class="pase-card__eyebrow">Pase digital</p>
@@ -532,15 +530,33 @@
               </div>
               <div class="pase-card__qr">
                 <div class="pase-card__qr-frame">
-                  <canvas id="pase-qr" width="240" height="240" aria-hidden="true"></canvas>
+                  <img
+                    src="assets/images/novios.png"
+                    alt="Ilustración romántica"
+                    class="pase-qr-decor pase-qr-decor--left"
+                    loading="lazy"
+                  />
+                  <img
+                    src="assets/images/lavanda.png"
+                    alt="Detalle floral"
+                    class="pase-qr-decor pase-qr-decor--top"
+                    loading="lazy"
+                  />
+                  <img
+                    src="assets/images/ramo.png"
+                    alt="Ramo decorativo"
+                    class="pase-qr-decor pase-qr-decor--right"
+                    loading="lazy"
+                  />
+                  <canvas id="pase-qr" width="420" height="520" aria-hidden="true"></canvas>
                   <p id="pase-qr-placeholder">Tu QR aparecerá aquí</p>
                 </div>
-                <small>Escanéalo en la entrada o guárdalo en tu teléfono.</small>
+                <small>Genera tu pase digital y muéstralo el día del evento.</small>
               </div>
             </div>
             <div class="pase-card__actions">
               <button type="button" class="btn" id="pase-generar">Generar pase digital</button>
-              <button type="button" class="btn btn--ghost hidden" id="pase-descargar">Descargar QR</button>
+              <button type="button" class="btn btn--ghost hidden" id="pase-descargar">Descargar pase</button>
             </div>
           </div>
         </div>
