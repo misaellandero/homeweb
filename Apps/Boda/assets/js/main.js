@@ -75,6 +75,22 @@ const stepNextBtn = document.getElementById("step-next");
 const stepSubmitBtn = document.getElementById("step-submit");
 const asistenciaViajeField = document.getElementById("asistencia-viaje-field");
 const seccionesBloqueadasElems = document.querySelectorAll(".section--locked");
+const albumCanvas = document.getElementById("album-qr");
+const albumPlaceholder = document.getElementById("album-qr-placeholder");
+const albumLinkElem = document.getElementById("album-link");
+const albumCardElem = document.getElementById("album-card");
+const regaloLiverpoolNombreElem = document.getElementById("regalo-liverpool-nombre");
+const regaloLiverpoolCodigoElem = document.getElementById("regalo-liverpool-codigo");
+const regaloLiverpoolLinkElem = document.getElementById("regalo-liverpool-link");
+const regaloAmazonNombreElem = document.getElementById("regalo-amazon-nombre");
+const regaloAmazonTextoElem = document.getElementById("regalo-amazon-texto");
+const regaloAmazonLinkElem = document.getElementById("regalo-amazon-link");
+const regaloAmazonSubtituloElem = document.getElementById("regalo-amazon-subtitulo");
+const regaloTransferBancoElem = document.getElementById("regalo-transfer-banco");
+const regaloTransferBeneficiarioElem = document.getElementById("regalo-transfer-beneficiario");
+const regaloTransferCuentaElem = document.getElementById("regalo-transfer-cuenta");
+const regaloLiverpoolTextoElem = document.getElementById("regalo-liverpool-texto");
+let albumFotosUrl = albumCardElem?.dataset?.albumUrl?.trim() || "";
 
 let invitadoActual = null;
 let detenerCuentaRegresiva = null;
@@ -97,6 +113,9 @@ let paseQRValue = "";
 const paseQRBaseCanvas = document.createElement("canvas");
 paseQRBaseCanvas.width = 320;
 paseQRBaseCanvas.height = 320;
+let albumQRInstance = null;
+let albumQRGenerado = false;
+let linksPublicosConfig = null;
 
 
 function escapeHTML(texto = "") {
@@ -449,6 +468,43 @@ function dibujarContenidoPase(ctx, width, height, datos, headerHeight = 140) {
   };
   qrImage.src = paseQRInstance.toDataURL("image/png");
   ctx.restore();
+}
+
+function generarAlbumQR() {
+  if (!albumCanvas || !albumFotosUrl) {
+    if (albumPlaceholder && !albumFotosUrl) {
+      albumPlaceholder.textContent = "Aún no tenemos listo el enlace al álbum.";
+    }
+    return;
+  }
+  if (typeof QRious === "undefined") return;
+  if (!albumQRInstance) {
+    albumQRInstance = new QRious({
+      element: albumCanvas,
+      size: albumCanvas.width,
+      value: albumFotosUrl,
+      level: "H",
+    });
+  } else {
+    albumQRInstance.value = albumFotosUrl;
+  }
+  albumPlaceholder?.classList.add("hidden");
+  if (albumLinkElem) {
+    albumLinkElem.href = albumFotosUrl;
+    albumLinkElem.classList.remove("hidden");
+  }
+  albumQRGenerado = true;
+}
+
+function resetAlbumCompartido() {
+  if (albumPlaceholder) {
+    albumPlaceholder.textContent = albumFotosUrl
+      ? "Generaremos el QR del álbum cuando valides tu invitación."
+      : "Aún no tenemos listo el enlace al álbum.";
+    albumPlaceholder.classList.remove("hidden");
+  }
+  albumLinkElem?.classList.add("hidden");
+  albumQRGenerado = false;
 }
 
 function actualizarModuloPase() {
@@ -1210,6 +1266,11 @@ function cambiarVisibilidadSecciones(bloqueadas) {
       ? "La ubicación y el itinerario se mostrarán al ingresar tu código de invitación."
       : "¡Listo! Ya puedes ver la ubicación y el itinerario completos.";
   }
+  if (!bloqueadas) {
+    if (!albumQRGenerado) generarAlbumQR();
+  } else {
+    resetAlbumCompartido();
+  }
 }
 
 function mostrarEstadoUbicacionesBloqueado() {
@@ -1598,6 +1659,78 @@ function cargarPinterestWidgetPublico() {
     );
 }
 
+function aplicarLinksPublicos(config = {}) {
+  linksPublicosConfig = config;
+  const albumUrl = config.albumUrl?.trim() || "";
+  albumFotosUrl = albumUrl;
+  if (albumCardElem) albumCardElem.dataset.albumUrl = albumUrl;
+  if (!seccionesBloqueadas) {
+    albumUrl ? generarAlbumQR() : resetAlbumCompartido();
+  } else {
+    resetAlbumCompartido();
+  }
+  if (regaloLiverpoolNombreElem) {
+    regaloLiverpoolNombreElem.textContent = config.liverpoolNombre || "Mesa Liverpool";
+  }
+  if (regaloLiverpoolCodigoElem) {
+    regaloLiverpoolCodigoElem.textContent = config.liverpoolCodigo || "51753295";
+  }
+  if (regaloLiverpoolTextoElem) {
+    regaloLiverpoolTextoElem.textContent =
+      config.liverpoolDescripcion ||
+      "Ingresa nuestro código en el sitio de Liverpool.";
+  }
+  if (regaloLiverpoolLinkElem) {
+    const url = config.liverpoolUrl?.trim();
+    if (url) {
+      regaloLiverpoolLinkElem.href = url;
+      regaloLiverpoolLinkElem.classList.remove("hidden");
+    } else {
+      regaloLiverpoolLinkElem.classList.add("hidden");
+    }
+  }
+  if (regaloAmazonNombreElem) {
+    regaloAmazonNombreElem.textContent = config.amazonNombre || "Mesa Amazon";
+  }
+  if (regaloAmazonSubtituloElem) {
+    regaloAmazonSubtituloElem.textContent = "En línea";
+  }
+  if (regaloAmazonTextoElem) {
+    regaloAmazonTextoElem.textContent =
+      config.amazonDescripcion || "Si prefieres Amazon, consulta nuestra mesa de regalos.";
+  }
+  if (regaloAmazonLinkElem) {
+    const url = config.amazonUrl?.trim();
+    if (url) {
+      regaloAmazonLinkElem.href = url;
+      regaloAmazonLinkElem.classList.remove("hidden");
+    } else {
+      regaloAmazonLinkElem.classList.add("hidden");
+    }
+  }
+  if (regaloTransferBancoElem) {
+    regaloTransferBancoElem.textContent = config.transferBanco || "BBVA";
+  }
+  if (regaloTransferBeneficiarioElem) {
+    regaloTransferBeneficiarioElem.textContent =
+      config.transferBeneficiario || "Francisco Misael Landero Ychante";
+  }
+  if (regaloTransferCuentaElem) {
+    regaloTransferCuentaElem.textContent = config.transferCuenta || "4152313778026117";
+  }
+}
+
+async function cargarLinksPublicos() {
+  if (typeof db === "undefined") return;
+  try {
+    const snap = await db.collection("configuracion").doc("linksPublicos").get();
+    aplicarLinksPublicos(snap.exists ? snap.data() : {});
+  } catch (error) {
+    console.error("Error al cargar links públicos", error);
+    aplicarLinksPublicos({});
+  }
+}
+
 acompanantesInput?.addEventListener("input", () => {
   actualizarLimiteNinos();
 });
@@ -1654,3 +1787,4 @@ cargarDatosEvento();
 cargarUbicacionesPublicas();
 cargarItinerarioPublico();
 cargarPinterestWidgetPublico();
+cargarLinksPublicos();

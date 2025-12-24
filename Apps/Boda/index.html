@@ -171,32 +171,65 @@
           </div>
           <div class="regalos-grid">
             <article class="regalo-card">
-              <p class="regalo-card__eyebrow">Mesa Liverpool</p>
-              <h3>Clave mesa: <span>51753295</span></h3>
-              <p>Ingresa nuestro código en el sitio de Liverpool.</p>
+              <p class="regalo-card__eyebrow" id="regalo-liverpool-nombre">Mesa Liverpool</p>
+              <h3>Clave mesa: <span id="regalo-liverpool-codigo">51753295</span></h3>
+              <p id="regalo-liverpool-texto">Ingresa nuestro código en el sitio de Liverpool.</p>
               <div class="regalo-card__actions">
-                <a class="btn btn--ghost" target="_blank" rel="noopener noreferrer" href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51753295">Ver mesa de regalos</a>
+                <a
+                  class="btn btn--ghost"
+                  id="regalo-liverpool-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51753295"
+                  >Ver mesa de regalos</a
+                >
               </div>
             </article>
             <article class="regalo-card">
-              <p class="regalo-card__eyebrow">Mesa Amazon</p>
-              <h3>Clave mesa: daraymisael</h3>
-              <p>Si prefieres Amazon, consulta nuestra Mesa de regalos.</p>
+              <p class="regalo-card__eyebrow" id="regalo-amazon-nombre">Mesa Amazon</p>
+              <h3 id="regalo-amazon-subtitulo">En línea</h3>
+              <p id="regalo-amazon-texto">Si prefieres Amazon, consulta nuestra Mesa de regalos.</p>
               <div class="regalo-card__actions">
-                <a class="btn btn--ghost" target="_blank" rel="noopener noreferrer" href="https://www.amazon.com.mx/wedding/share/daraymisael">Ver lista Amazon</a>
+                <a
+                  class="btn btn--ghost"
+                  id="regalo-amazon-link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://www.amazon.com.mx/wedding/share/daraymisael"
+                  >Ver lista Amazon</a
+                >
               </div>
             </article>
             <article class="regalo-card">
               <p class="regalo-card__eyebrow">Transferencia bancaria</p>
               <h3></h3>
               <ul class="regalo-lista">
-                <li><strong>Banco:</strong> BBVA</li>
-                <li><strong>Beneficiario:</strong> Francisco Misael Landero Ychante</li>
-                <li><strong>Cuenta:</strong> 4152313778026117</li>
+                <li><strong>Banco:</strong> <span id="regalo-transfer-banco">BBVA</span></li>
+                <li>
+                  <strong>Beneficiario:</strong>
+                  <span id="regalo-transfer-beneficiario">Francisco Misael Landero Ychante</span>
+                </li>
+                <li><strong>Cuenta:</strong> <span id="regalo-transfer-cuenta">4152313778026117</span></li>
               </ul>
              </article>
           </div>
           <p>Nuestro hogar ya cuenta con algunos electrodomésticos básicos: lavadora, aspiradora, licuadora, microondas y plancha. </p>
+        </div>
+      </section>
+
+      <section class="section section--light section--locked" id="album-fotos">
+        <div class="container">
+          <h2>Álbum compartido</h2>
+          <div class="album-card" id="album-card" data-album-url="">
+            <p>Comparte tus fotos del evento y descarga nuestras favoritas. El acceso se libera con tu código de invitación.</p>
+            <div class="album-qr-wrapper">
+              <canvas id="album-qr" width="260" height="260" aria-hidden="true"></canvas>
+              <p id="album-qr-placeholder">Generaremos el QR del álbum cuando valides tu invitación.</p>
+            </div>
+            <div class="album-actions">
+              <a id="album-link" class="btn btn--ghost hidden" href="#" target="_blank" rel="noopener noreferrer">Abrir álbum en Google Fotos</a>
+            </div>
+          </div>
         </div>
       </section>
 

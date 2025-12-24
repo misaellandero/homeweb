@@ -787,6 +787,48 @@
               <p class="form-helper" id="pinterest-mensaje"></p>
             </form>
           </section>
+          <section class="card">
+            <div class="table-header">
+              <h2>Links visibles para invitados</h2>
+            </div>
+            <p class="form-helper">
+              Configura las mesas de regalos, el enlace al álbum compartido y los datos bancarios que mostramos en la
+              página pública. Se actualizarán en cuanto guardes los cambios.
+            </p>
+            <form id="links-form" class="form-grid">
+              <label>Álbum compartido (Google Fotos)
+                <input type="url" name="albumUrl" placeholder="https://photos.app.goo.gl/..." />
+              </label>
+              <label>Nombre Mesa Liverpool
+                <input type="text" name="liverpoolNombre" placeholder="Mesa Liverpool" />
+              </label>
+              <label>Código Liverpool
+                <input type="text" name="liverpoolCodigo" placeholder="Ej. 51753295" />
+              </label>
+              <label>URL Liverpool
+                <input type="url" name="liverpoolUrl" placeholder="https://mesaderegalos.liverpool.com.mx/..." />
+              </label>
+              <label>Nombre Mesa Amazon
+                <input type="text" name="amazonNombre" placeholder="Mesa Amazon" />
+              </label>
+              <label>URL Amazon
+                <input type="url" name="amazonUrl" placeholder="https://www.amazon.com.mx/wedding/share/..." />
+              </label>
+              <label>Banco (transferencia)
+                <input type="text" name="transferBanco" placeholder="BBVA" />
+              </label>
+              <label>Beneficiario
+                <input type="text" name="transferBeneficiario" placeholder="Nombre del titular" />
+              </label>
+              <label>Número de cuenta / CLABE
+                <input type="text" name="transferCuenta" placeholder="4152..." />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Guardar enlaces</button>
+              </div>
+              <p class="form-helper" id="links-mensaje"></p>
+            </form>
+          </section>
         </div>
 
         <div class="tab-pane fade" id="tab-damas" role="tabpanel" aria-labelledby="tab-damas-tab">

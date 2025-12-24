@@ -107,6 +107,8 @@ const mensajesMensaje = document.getElementById("mensajes-mensaje");
 const addMensajeBtn = document.getElementById("add-mensaje-btn");
 const pinterestForm = document.getElementById("pinterest-form");
 const pinterestMensaje = document.getElementById("pinterest-mensaje");
+const linksForm = document.getElementById("links-form");
+const linksMensaje = document.getElementById("links-mensaje");
 const whatsappTemplateSelect = document.getElementById("whatsapp-template");
 const whatsappPreviewInput = document.getElementById("whatsapp-preview");
 const whatsappCopyBtn = document.getElementById("whatsapp-copy");
@@ -210,6 +212,7 @@ let countdownIntervalId = null;
 let invitadoWhatsappSeleccionado = null;
 let ultimaPlantillaWhatsapp = null;
 let pinterestWidgetConfig = null;
+let linksPublicosConfig = null;
 const PINTEREST_SHORT_HOSTS = ["pin.it", "pin.st"];
 let mesasLayout = [];
 let mesasCapacidadValor = 8;
@@ -1970,6 +1973,7 @@ auth.onAuthStateChanged((user) => {
     cargarUbicaciones();
     cargarMensajes();
     cargarPinterestWidgetConfig();
+    cargarLinksPublicosConfig();
     cargarDamasCaballeros();
     cargarPresupuestoItems();
     cargarApoyos();
@@ -1998,6 +2002,9 @@ auth.onAuthStateChanged((user) => {
       pinterestForm.reset();
     }
     if (pinterestMensaje) pinterestMensaje.textContent = "";
+    if (linksForm) linksForm.reset();
+    if (linksMensaje) linksMensaje.textContent = "";
+    linksPublicosConfig = null;
     if (mesasPlano) {
       mesasPlano.innerHTML = '<p class="form-helper">Inicia sesión para organizar las mesas.</p>';
     }
@@ -2319,6 +2326,11 @@ mensajesForm?.addEventListener("submit", (event) => {
 pinterestForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   guardarPinterestWidgetConfig(new FormData(event.target));
+});
+
+linksForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  guardarLinksPublicos(new FormData(event.target));
 });
 
 addMensajeBtn?.addEventListener("click", () => {
@@ -3009,6 +3021,61 @@ async function guardarPinterestWidgetConfig(formData) {
     if (pinterestMensaje) {
       pinterestMensaje.textContent = "No pudimos guardar el widget, intenta más tarde.";
     }
+  }
+}
+
+function llenarLinksForm(config = {}) {
+  if (!linksForm) return;
+  const form = linksForm.elements;
+  if (form["albumUrl"]) form["albumUrl"].value = config.albumUrl || "";
+  if (form["liverpoolNombre"]) form["liverpoolNombre"].value = config.liverpoolNombre || "";
+  if (form["liverpoolCodigo"]) form["liverpoolCodigo"].value = config.liverpoolCodigo || "";
+  if (form["liverpoolUrl"]) form["liverpoolUrl"].value = config.liverpoolUrl || "";
+  if (form["amazonNombre"]) form["amazonNombre"].value = config.amazonNombre || "";
+  if (form["amazonUrl"]) form["amazonUrl"].value = config.amazonUrl || "";
+  if (form["transferBanco"]) form["transferBanco"].value = config.transferBanco || "";
+  if (form["transferBeneficiario"])
+    form["transferBeneficiario"].value = config.transferBeneficiario || "";
+  if (form["transferCuenta"]) form["transferCuenta"].value = config.transferCuenta || "";
+}
+
+async function cargarLinksPublicosConfig() {
+  if (!linksForm) return;
+  linksMensaje && (linksMensaje.textContent = "");
+  try {
+    const snap = await db.collection("configuracion").doc("linksPublicos").get();
+    linksPublicosConfig = snap.exists ? snap.data() : {};
+    llenarLinksForm(linksPublicosConfig || {});
+  } catch (error) {
+    console.error("Error al cargar links públicos", error);
+    linksPublicosConfig = null;
+    if (linksMensaje) linksMensaje.textContent = "No pudimos cargar los enlaces.";
+  }
+}
+
+async function guardarLinksPublicos(formData) {
+  if (rolActual !== "admin") {
+    if (linksMensaje) linksMensaje.textContent = "Solo los administradores pueden editar esta sección.";
+    return;
+  }
+  const payload = {
+    albumUrl: formData.get("albumUrl")?.trim() || "",
+    liverpoolNombre: formData.get("liverpoolNombre")?.trim() || "",
+    liverpoolCodigo: formData.get("liverpoolCodigo")?.trim() || "",
+    liverpoolUrl: formData.get("liverpoolUrl")?.trim() || "",
+    amazonNombre: formData.get("amazonNombre")?.trim() || "",
+    amazonUrl: formData.get("amazonUrl")?.trim() || "",
+    transferBanco: formData.get("transferBanco")?.trim() || "",
+    transferBeneficiario: formData.get("transferBeneficiario")?.trim() || "",
+    transferCuenta: formData.get("transferCuenta")?.trim() || "",
+  };
+  try {
+    await db.collection("configuracion").doc("linksPublicos").set(payload, { merge: true });
+    linksPublicosConfig = { ...linksPublicosConfig, ...payload };
+    if (linksMensaje) linksMensaje.textContent = "Enlaces actualizados correctamente.";
+  } catch (error) {
+    console.error("Error al guardar links públicos", error);
+    if (linksMensaje) linksMensaje.textContent = "No pudimos guardar los enlaces.";
   }
 }
 

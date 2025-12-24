@@ -635,6 +635,45 @@ img {
   margin-top: 1.25rem;
 }
 
+.album-card {
+  background: var(--color-light);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(107, 92, 123, 0.12);
+  text-align: center;
+}
+
+.album-qr-wrapper {
+  margin: 1.5rem auto;
+  max-width: 320px;
+  padding: 1.25rem;
+  border: 1px dashed rgba(116, 68, 102, 0.3);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+#album-qr {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+#album-qr-placeholder {
+  margin: 0.5rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.album-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.album-actions .btn {
+  min-width: 220px;
+}
+
 .card {
   background: var(--color-light);
   padding: 2rem;
