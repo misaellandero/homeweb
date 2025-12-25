@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /sistema
-Disallow: /watch
-Sitemap: wwww.micel.store/sitemap.xml

@@ -1,6 +1,0 @@
-{
-    "require": {
-        "facturapi/facturapi-php": "^1.2",
-        "vlucas/phpdotenv": "^3.6"
-    }
-}
