@@ -104,7 +104,7 @@ nav a:hover {
   padding: 28px;
   box-shadow: 0 10px 45px rgba(0, 0, 0, 0.35);
   width: 100%;
-  max-width: 780px;
+  max-width: 1120px;
 }
 h1, h2, h3, h4, h5 {
   margin: 0;
@@ -121,6 +121,19 @@ h1 { font-size: 30px; line-height: 1.2; }
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+}
+.store-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+.store-badge img {
+  height: 50px;
+  width: auto;
+  display: block;
 }
 .btn {
   display: inline-flex;
@@ -168,6 +181,16 @@ h1 { font-size: 30px; line-height: 1.2; }
   box-shadow: none;
   width: 100%;
   max-width: 1280px;
+}
+.hero-badge-image {
+  position: absolute;
+  top: 18px; 
+  transform: translateX(-50%);
+  width: 60px;
+  max-width: 36%;
+  height: auto;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.3));
+  pointer-events: none;
 }
 .hero-image img {
   width: 100%;
