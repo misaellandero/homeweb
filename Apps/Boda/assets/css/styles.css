@@ -1447,7 +1447,7 @@ textarea:focus {
   width: min(115vw, 900px);
   max-height: 95vh;
   object-fit: contain;
-  top: 55%;
+  top: 66%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -1459,7 +1459,7 @@ textarea:focus {
   z-index: 4;
   width: min(140px, 28vw);
   height: auto;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -1520,6 +1520,24 @@ textarea:focus {
   gap: 0.35rem;
   padding: 1.5rem;
   background: rgba(255, 255, 255, 0.08);
+}
+
+.invitation-crest {
+  position: absolute;
+  width: 240px;
+  height: auto;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  pointer-events: none;
+  opacity: 0.9;
+  z-index: 5;
+}
+
+.invitation-crest--left,
+.invitation-crest--right {
+  z-index: 5;
 }
 
 .invitation-panel__eyebrow {
@@ -1585,10 +1603,15 @@ textarea:focus {
   .invitation-seal {
     width: min(105vw, 720px);
     max-height: 80vh;
-    top: 52%;
+    top: 62%;
   }
   .invitation-seal-wax {
     width: min(120px, 26vw);
+    top: 58%;
+  }
+  .invitation-crest {
+    width: 190px;
+    top: 44%;
   }
   .invitation-panel__names {
     font-size: 1.6rem;
