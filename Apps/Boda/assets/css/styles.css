@@ -1441,6 +1441,31 @@ textarea:focus {
   transform-style: preserve-3d;
 }
 
+.invitation-seal {
+  position: absolute;
+  z-index: 3;
+  width: min(115vw, 900px);
+  max-height: 95vh;
+  object-fit: contain;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: transform 0.8s ease, opacity 0.6s ease;
+}
+
+.invitation-seal-wax {
+  position: absolute;
+  z-index: 4;
+  width: min(140px, 28vw);
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  transition: transform 0.8s ease, opacity 0.6s ease;
+}
+
 .invitation-card__content {
   position: absolute;
   inset: 0;
@@ -1462,22 +1487,28 @@ textarea:focus {
   width: 50%;
   height: 100%;
   background: #fffdf8;
-  border-radius: var(--radius);
+  border-radius: 0;
   border: 1px solid rgba(116, 68, 102, 0.15);
   overflow: hidden;
   transform-style: preserve-3d;
   transition: transform 0.9s ease, box-shadow 0.9s ease;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  background-image: url("../images/bgescudos.png");
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: left center;
 }
 
 .invitation-panel--left {
   left: 0;
   transform-origin: left center;
+  background-position: left center;
 }
 
 .invitation-panel--right {
   right: 0;
   transform-origin: right center;
+  background-position: right center;
 }
 
 .invitation-panel__inner {
@@ -1488,7 +1519,7 @@ textarea:focus {
   text-align: center;
   gap: 0.35rem;
   padding: 1.5rem;
-  background: linear-gradient(180deg, rgba(255, 248, 242, 0.95), rgba(243, 230, 255, 0.92));
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .invitation-panel__eyebrow {
@@ -1530,6 +1561,16 @@ textarea:focus {
   box-shadow: -8px 12px 25px rgba(0, 0, 0, 0.15);
 }
 
+.invitation-card.is-open .invitation-seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(12deg) translateY(160%);
+}
+
+.invitation-card.is-open .invitation-seal-wax {
+  opacity: 0;
+  transform: translate(-50%, -20%) rotate(-8deg) scale(0.6);
+}
+
 .invitation-card:not(.is-open) .invitation-panel {
   cursor: pointer;
 }
@@ -1540,6 +1581,14 @@ textarea:focus {
   }
   .invitation-card {
     height: 100%;
+  }
+  .invitation-seal {
+    width: min(105vw, 720px);
+    max-height: 80vh;
+    top: 52%;
+  }
+  .invitation-seal-wax {
+    width: min(120px, 26vw);
   }
   .invitation-panel__names {
     font-size: 1.6rem;
