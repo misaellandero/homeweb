@@ -1652,6 +1652,10 @@ textarea:focus {
   .invitation-panel__date {
     letter-spacing: 0.08em;
   }
+
+  .hero__novios {
+    width: 140px;
+  }
 }
 
 /* Admin */
