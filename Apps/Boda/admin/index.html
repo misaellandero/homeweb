@@ -333,16 +333,17 @@
                     <th>N° confirmados</th>
                     <th>Vestimenta</th>
                     <th>Viaje</th>
-                    <th>Hospedaje</th>
-                    <th>Lista espera</th>
-                    <th>Prioridad</th>
-                    <th>Etiquetas</th>
-                    <th>Contactos adicionales</th>
-                    <th>Gestión de cupo</th>
-                  </tr>
-                </thead>
-                <tbody id="tabla-body"></tbody>
-              </table>
+                  <th>Hospedaje</th>
+                  <th>Lista espera</th>
+                  <th>Solo baile</th>
+                  <th>Prioridad</th>
+                  <th>Etiquetas</th>
+                  <th>Contactos adicionales</th>
+                  <th>Convertir a solo baile</th>
+                </tr>
+              </thead>
+              <tbody id="tabla-body"></tbody>
+            </table>
             </div>
           </section>
 
@@ -372,15 +373,44 @@
                     <th>Viaje</th>
                     <th>Hospedaje</th>
                     <th>Lista espera</th>
+                    <th>Solo baile</th>
                     <th>Prioridad</th>
                     <th>Etiquetas</th>
                     <th>Contactos adicionales</th>
-                    <th>Gestión de cupo</th>
                   </tr>
                 </thead>
                 <tbody id="waitlist-body"></tbody>
               </table>
             </div>
+        </section>
+
+        <section class="card">
+          <div class="table-header">
+            <h2>Invitados solo Baile</h2>
+            <div class="table-actions">
+              <span class="form-helper">Solo los que ingresan después de la hora de baile.</span>
+            </div>
+          </div>
+          <div class="table-wrapper">
+            <table class="display" id="tabla-baile">
+              <thead>
+                <tr>
+                  <th>Nombre completo</th>
+                  <th>Lado</th>
+                  <th>Código</th>
+                  <th>Contacto</th>
+                  <th>Estado</th>
+                  <th>Solo baile</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="baile-body">
+                <tr>
+                  <td colspan="7">No hay invitados solo de baile.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         </div>
@@ -644,6 +674,22 @@
         </div>
 
         <div class="tab-pane fade" id="tab-itinerario" role="tabpanel" aria-labelledby="tab-itinerario-tab">
+          <div class="card itinerary-form-card">
+            <h2>Configuración de pase de baile</h2>
+            <form id="config-baile-form" class="form-grid">
+              <label>Hora en la que inicia el pase de baile
+                <input type="datetime-local" name="horaInicioBaile" />
+              </label>
+              <div class="form-actions">
+                <button type="submit" class="btn">Guardar hora</button>
+                <button type="button" id="config-baile-clear" class="btn btn--ghost">Limpiar</button>
+              </div>
+              <p class="form-helper" id="config-baile-mensaje">
+                Define a partir de qué hora podrán ingresar los invitados marcados como "Solo baile".
+              </p>
+            </form>
+          </div>
+
           <div class="card itinerary-form-card">
             <h2>Itinerario del evento</h2>
             <form id="itinerario-form" class="form-grid">
@@ -916,6 +962,12 @@
               </label>
               <label>Lista de espera
                 <select name="esListaEspera">
+                  <option value="false">No</option>
+                  <option value="true">Sí</option>
+                </select>
+              </label>
+              <label>Solo pase de baile
+                <select name="soloBaile">
                   <option value="false">No</option>
                   <option value="true">Sí</option>
                 </select>
@@ -1275,6 +1327,7 @@
               <label>Viaje listo<select name="viajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
               <label>Hospedaje listo<select name="hospedajeConfirmado"><option value="false">No</option><option value="true">Sí</option></select></label>
               <label>Lista de espera<select name="esListaEspera"><option value="false">No</option><option value="true">Sí</option></select></label>
+              <label>Solo pase de baile<select name="soloBaile"><option value="false">No</option><option value="true">Sí</option></select></label>
               <label>Prioridad lista de espera<input type="number" name="prioridadListaEspera" min="0" /></label>
               <label>Etiquetas (separadas por coma)<input type="text" name="etiquetas" /></label>
               <p class="form-helper" id="editar-etiquetas-sugerencia"></p>

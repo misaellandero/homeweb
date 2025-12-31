@@ -116,6 +116,7 @@ paseQRBaseCanvas.height = 320;
 let albumQRInstance = null;
 let albumQRGenerado = false;
 let linksPublicosConfig = null;
+let configuracionBailePublica = null;
 
 
 function escapeHTML(texto = "") {
@@ -396,69 +397,104 @@ function dibujarPaseDecorado(datos = {}) {
   const width = paseQRCanvas.width;
   const height = paseQRCanvas.height;
   ctx.clearRect(0, 0, width, height);
-  const gradient = ctx.createLinearGradient(0, 0, width, height);
-  gradient.addColorStop(0, "#fff8f2");
-  gradient.addColorStop(1, "#f3e6ff");
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, width, height);
-  ctx.strokeStyle = "rgba(116, 68, 102, 0.25)";
-  ctx.lineWidth = 4;
-  ctx.strokeRect(12, 12, width - 24, height - 24);
-  const headerHeight = 150;
+
+  const marcoImg = new Image();
+  marcoImg.onload = () => {
+    ctx.drawImage(marcoImg, 0, 0, width, height);
+    dibujarContenidoSobreMarco(ctx, width, height, datos);
+  };
+  marcoImg.onerror = () => {
+    // Fallback a gradiente suave si no carga el marco.
+    const gradient = ctx.createLinearGradient(0, 0, width, height);
+    gradient.addColorStop(0, "#fff8f2");
+    gradient.addColorStop(1, "#efe4ff");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+    ctx.strokeStyle = "rgba(116, 68, 102, 0.25)";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(12, 12, width - 24, height - 24);
+    dibujarContenidoSobreMarco(ctx, width, height, datos);
+  };
+  marcoImg.src = "assets/images/marcoOlivo.png";
+}
+
+function dibujarContenidoSobreMarco(ctx, width, height, datos) {
+  const padding = 28;
+  const headerAlturaMax = 130;
+  let cursorY = padding;
+
   const noviosImg = new Image();
   noviosImg.onload = () => {
     ctx.save();
-    ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
-    ctx.fillRect(24, 24, width - 48, headerHeight);
     ctx.shadowColor = "rgba(116, 68, 102, 0.2)";
-    ctx.shadowBlur = 20;
-    const imgWidth = 220;
-    const imgHeight = headerHeight - 30;
-    ctx.drawImage(noviosImg, width / 2 - imgWidth / 2, 30, imgWidth, imgHeight);
+    ctx.shadowBlur = 18;
+    const maxWidth = width - 140;
+    const maxHeight = headerAlturaMax;
+    const naturalWidth = noviosImg.naturalWidth || maxWidth;
+    const naturalHeight = noviosImg.naturalHeight || maxHeight;
+    const escala = Math.min(maxWidth / naturalWidth, maxHeight / naturalHeight, 1);
+    const imgWidth = naturalWidth * escala;
+    const imgHeight = naturalHeight * escala;
+    const imgX = (width - imgWidth) / 2;
+    const imgY = cursorY + (headerAlturaMax - imgHeight) / 2;
+    ctx.drawImage(noviosImg, imgX, imgY, imgWidth, imgHeight);
     ctx.restore();
-    dibujarContenidoPase(ctx, width, height, datos, headerHeight);
+    cursorY += headerAlturaMax + 20;
+    dibujarContenidoPase(ctx, width, height, datos, cursorY);
   };
-  noviosImg.onerror = () => dibujarContenidoPase(ctx, width, height, datos, headerHeight);
+  noviosImg.onerror = () => {
+    cursorY += headerAlturaMax + 20;
+    dibujarContenidoPase(ctx, width, height, datos, cursorY);
+  };
   noviosImg.src = "assets/images/novios.png";
 }
 
-function dibujarContenidoPase(ctx, width, height, datos, headerHeight = 140) {
+function dibujarContenidoPase(ctx, width, height, datos, cursorY) {
   ctx.save();
   ctx.textAlign = "center";
   ctx.fillStyle = "#744466";
-  ctx.font = "600 26px 'Poppins', 'Segoe UI', sans-serif";
-  const tituloY = 24 + headerHeight + 40;
-  ctx.fillText("PASE BODA DARA Y MISAEL", width / 2, tituloY);
+  ctx.font = "600 24px 'Poppins', 'Segoe UI', sans-serif";
+  ctx.fillText("PASE BODA DARA Y MISAEL", width / 2, cursorY);
 
   ctx.fillStyle = "#2f2f2f";
-  ctx.font = "600 22px 'Poppins', 'Segoe UI', sans-serif";
-  ctx.fillText(datos.nombre || "Invitado especial", width / 2, tituloY + 40);
+  ctx.font = "600 21px 'Poppins', 'Segoe UI', sans-serif";
+  cursorY += 36;
+  ctx.fillText(datos.nombre || "Invitado especial", width / 2, cursorY);
 
   ctx.fillStyle = "#5a7022";
   ctx.font = "16px 'Poppins', 'Segoe UI', sans-serif";
+  cursorY += 30;
   ctx.fillText(
     `Código: ${datos.codigo || "BODA"} · Pases: ${datos.asistentes ?? 1}`,
     width / 2,
-    tituloY + 70
+    cursorY
   );
 
   const qrImage = new Image();
   qrImage.onload = () => {
-    const qrMargin = 70;
-    const qrMaxHeight = height - (tituloY + 220);
-    const qrSize = Math.min(width - qrMargin * 2, qrMaxHeight);
+    const qrPadding = 28;
+    const footerReserve = 90;
+    const qrMaxWidth = width - qrPadding * 2;
+    const espacioDisponible = height - footerReserve - (cursorY + 30);
+    const qrSize = Math.max(
+      150,
+      Math.min(qrMaxWidth, espacioDisponible > 0 ? espacioDisponible : 0)
+    );
     const qrX = (width - qrSize) / 2;
-    const qrY = tituloY + 90;
+    const qrY = cursorY + 30;
     ctx.fillStyle = "rgba(255,255,255,0.95)";
     ctx.fillRect(qrX - 10, qrY - 10, qrSize + 20, qrSize + 20);
     ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
 
+    const footerBaseY = qrY + qrSize + 34;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "alphabetic";
     ctx.fillStyle = "#744466";
     ctx.font = "600 18px 'Poppins', 'Segoe UI', sans-serif";
-    ctx.fillText(datos.mesa || "Mesa por confirmar", width / 2, height - 60);
+    ctx.fillText(datos.mesa || "Mesa por confirmar", width / 2, footerBaseY);
     ctx.fillStyle = "#444";
-    ctx.font = "14px 'Poppins', 'Segoe UI', sans-serif";
-    ctx.fillText("Presenta este pase en la entrada", width / 2, height - 30);
+    ctx.font = "13px 'Poppins', 'Segoe UI', sans-serif";
+    ctx.fillText("Presenta este pase en la entrada", width / 2, footerBaseY + 26);
 
     paseQRPlaceholder?.classList.add("hidden");
     paseDescargarBtn?.classList.remove("hidden");
@@ -714,6 +750,7 @@ async function cargarInvitadoPorCodigo(codigo) {
       invitadoActual = null;
       actualizarModuloPase();
       cambiarVisibilidadSecciones(true);
+      renderItinerarioPublico();
       return;
     }
 
@@ -723,10 +760,13 @@ async function cargarInvitadoPorCodigo(codigo) {
     desbloquearUbicacionesPublicas();
     prepararFormularioSegunEstado();
     actualizarModuloPase();
+    renderItinerarioPublico();
   } catch (error) {
     console.error("Error al cargar invitado", error);
     codigoMensaje.textContent = "Ocurrió un error al validar. Intenta más tarde.";
     cambiarVisibilidadSecciones(true);
+    invitadoActual = null;
+    renderItinerarioPublico();
   }
 }
 
@@ -1492,18 +1532,53 @@ async function cargarUbicacionesPublicas() {
   }
 }
 
+function esInvitadoSoloBaile() {
+  return !!invitadoActual?.soloBaile;
+}
+
+function normalizarFecha(valor) {
+  if (!valor) return null;
+  if (valor.toDate && typeof valor.toDate === "function") {
+    const fecha = valor.toDate();
+    return Number.isNaN(fecha.getTime()) ? null : fecha;
+  }
+  const fecha = new Date(valor);
+  return Number.isNaN(fecha.getTime()) ? null : fecha;
+}
+
+function obtenerItinerarioVisible() {
+  if (!itinerarioPublico.length) return [];
+  const horaInicioBaile = configuracionBailePublica?.horaInicioBaile;
+  if (!esInvitadoSoloBaile() || !horaInicioBaile) {
+    return itinerarioPublico;
+  }
+  const limite = normalizarFecha(horaInicioBaile);
+  if (!limite) return itinerarioPublico;
+  return itinerarioPublico.filter((evento) => {
+    const fechaEvento = normalizarFecha(evento.hora);
+    if (!fechaEvento) return true;
+    return fechaEvento.getTime() >= limite.getTime();
+  });
+}
+
 function renderItinerarioPublico() {
   if (!detalleProgramaLista) return;
-  if (!itinerarioPublico.length) {
+  const eventosVisibles = obtenerItinerarioVisible();
+  if (!eventosVisibles.length) {
     detalleProgramaLista.innerHTML = "";
     if (detalleProgramaMensaje) {
-      detalleProgramaMensaje.textContent =
-        "Aún no publicamos el itinerario. Cuando lo registres en el panel aparecerá aquí.";
+      if (esInvitadoSoloBaile() && configuracionBailePublica?.horaInicioBaile && itinerarioPublico.length) {
+        detalleProgramaMensaje.textContent =
+          "Tu pase de baile comienza más tarde. Aún no hay eventos disponibles después de la hora indicada.";
+      } else {
+        detalleProgramaMensaje.textContent =
+          "Aún no publicamos el itinerario. Cuando lo registres en el panel aparecerá aquí.";
+      }
       detalleProgramaMensaje.classList.remove("hidden");
     }
     return;
   }
-  detalleProgramaLista.innerHTML = itinerarioPublico
+  detalleProgramaLista.innerHTML = eventosVisibles
     .map((evento) => {
       const hora = formatearHoraEvento(evento.hora);
       const fecha = formatearFechaCorta(evento.hora);
@@ -1512,7 +1587,18 @@ function renderItinerarioPublico() {
         <small>${fecha}${lugar}</small></li>`;
     })
     .join("");
-  detalleProgramaMensaje?.classList.add("hidden");
+  if (detalleProgramaMensaje) {
+    if (esInvitadoSoloBaile() && configuracionBailePublica?.horaInicioBaile) {
+      const fechaBaile = normalizarFecha(configuracionBailePublica.horaInicioBaile);
+      const horaTexto = fechaBaile
+        ? formatearHoraEvento(fechaBaile.toISOString())
+        : formatearHoraEvento(configuracionBailePublica.horaInicioBaile);
+      detalleProgramaMensaje.textContent = `Tu pase de baile aplica a partir de ${horaTexto}. Solo verás los eventos posteriores a esa hora.`;
+      detalleProgramaMensaje.classList.remove("hidden");
+    } else {
+      detalleProgramaMensaje.classList.add("hidden");
+    }
+  }
 }
 
 async function cargarItinerarioPublico() {
@@ -1528,6 +1614,17 @@ async function cargarItinerarioPublico() {
         "No pudimos cargar el programa por ahora. Intenta nuevamente más tarde.";
       detalleProgramaMensaje.classList.remove("hidden");
     }
+  }
+}
+
+async function cargarConfiguracionBailePublica() {
+  if (typeof db === "undefined") return;
+  try {
+    const doc = await db.collection("configuracion").doc("baile").get();
+    configuracionBailePublica = doc.exists ? doc.data() : {};
+    renderItinerarioPublico();
+  } catch (error) {
+    console.error("Error al cargar la configuración de baile pública", error);
   }
 }
 
@@ -1786,5 +1883,6 @@ cambiarVisibilidadSecciones(true);
 cargarDatosEvento();
 cargarUbicacionesPublicas();
 cargarItinerarioPublico();
+cargarConfiguracionBailePublica();
 cargarPinterestWidgetPublico();
 cargarLinksPublicos();

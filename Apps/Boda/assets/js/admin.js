@@ -47,6 +47,7 @@ const headerFechaRespuesta = document.getElementById("header-fecha-respuesta");
 const headerFechaDetalles = document.getElementById("header-fecha-detalles");
 const headerFechaBoda = document.getElementById("header-fecha-boda");
 const waitlistBody = document.getElementById("waitlist-body");
+const baileBody = document.getElementById("baile-body");
 const waitlistStatus = document.getElementById("waitlist-status");
 const modalPromover = document.getElementById("modal-promover");
 const promoverForm = document.getElementById("promover-form");
@@ -84,6 +85,9 @@ const editarTotalInvitadosDisplay = document.getElementById("editar-total-invita
 const itinerarioForm = document.getElementById("itinerario-form");
 const itinerarioBody = document.getElementById("itinerario-body");
 const itinerarioMensaje = document.getElementById("itinerario-mensaje");
+const configBaileForm = document.getElementById("config-baile-form");
+const configBaileMensaje = document.getElementById("config-baile-mensaje");
+const configBaileClearBtn = document.getElementById("config-baile-clear");
 const damasForm = document.getElementById("damas-form");
 const damasBody = document.getElementById("damas-body");
 const damasMensaje = document.getElementById("damas-mensaje");
@@ -192,7 +196,9 @@ let filtrosEtiquetas = new Set();
 let etiquetasDisponibles = [];
 let dataTable = null;
 let waitlistDataTable = null;
+let baileDataTable = null;
 let configuracionFechas = null;
+let configuracionBaile = null;
 let eventosItinerario = [];
 let damasCaballeros = [];
 let damaSeleccionada = null;
@@ -685,6 +691,7 @@ function renderAcciones(id, opciones = {}) {
   const puedePromover = opciones.puedePromover !== false;
   const puedeEditar = true;
   const puedeBorrar = rolActual === "admin";
+  const incluirGestionCupo = !!opciones.incluirGestionCupo;
   const botones = [
     `<button class="btn btn--ghost" data-action="seleccionar" data-id="${id}" ${
       puedeEditar ? "" : "disabled"
@@ -702,9 +709,13 @@ function renderAcciones(id, opciones = {}) {
       </button>`
     );
   }
+  let gestion = "";
+  if (incluirGestionCupo) {
+    gestion = renderGestionCupo(id);
+  }
   return `<div class="table-actions table-actions--stacked table-actions--compact">${botones.join(
     ""
-  )}</div>`;
+  )}${gestion}</div>`;
 }
 
 function renderGestionCupo(id) {
@@ -1462,13 +1473,15 @@ function mapInvitadoToRow(invitado) {
     etiquetasTexto: etiquetas.join(", "),
     etiquetasRender: renderTagChips(etiquetas),
     esListaEsperaFlag: !!invitado.esListaEspera,
+    soloBaile: invitado.soloBaile ? "Sí" : "No",
+    soloBaileFlag: !!invitado.soloBaile,
   };
 }
 
 function construirColumnasDataTable(opciones = {}) {
   const incluirPromover = !!opciones.incluirPromover;
-  const incluirGestionCupo = !!opciones.incluirGestionCupo;
   const controlPrioridad = !!opciones.controlPrioridad;
+  const mostrarSoloBaile = !!opciones.mostrarSoloBaile;
   const columnas = [
     {
       data: "nombreCompleto",
@@ -1511,6 +1524,7 @@ function construirColumnasDataTable(opciones = {}) {
           ? renderAcciones(data, {
               incluirPromover,
               puedePromover: row?.puedePromover !== false,
+              incluirGestionCupo: opciones.incluirGestionCupo,
             })
           : data,
     },
@@ -1531,6 +1545,14 @@ function construirColumnasDataTable(opciones = {}) {
       render: (data, type) => (type === "display" ? (data === "Sí" ? "✔" : "—") : data),
     },
     { data: "listaEspera", title: "Lista espera" },
+    ...(mostrarSoloBaile
+      ? [
+          {
+            data: "soloBaile",
+            title: "Solo baile",
+          },
+        ]
+      : []),
     {
       data: "prioridad",
       title: "Prioridad",
@@ -1556,27 +1578,24 @@ function construirColumnasDataTable(opciones = {}) {
     },
   ];
 
-  if (incluirGestionCupo) {
-    columnas.push({
-      data: "id",
-      title: "Gestión de cupo",
-      orderable: false,
-      searchable: false,
-      render: (data, type) => (type === "display" ? renderGestionCupo(data) : data),
-    });
-  }
-
   return columnas;
 }
 
 function pintarTabla() {
-  const filtrados = invitadosCache.filter((invitado) => filtrarInvitado(invitado));
+  const filtrados = invitadosCache
+    .filter((invitado) => filtrarInvitado(invitado))
+    .sort((a, b) => {
+      const soloA = a.soloBaile ? 1 : 0;
+      const soloB = b.soloBaile ? 1 : 0;
+      if (soloA !== soloB) return soloA - soloB; // normales primero
+      return 0;
+    });
   const data = filtrados.map(mapInvitadoToRow);
 
   if (!dataTable) {
     dataTable = $("#tabla-invitados").DataTable({
       data,
-      columns: construirColumnasDataTable({ incluirGestionCupo: true }),
+      columns: construirColumnasDataTable({ incluirGestionCupo: true, mostrarSoloBaile: true }),
       responsive: true,
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.13.8/i18n/es-MX.json",
@@ -1599,6 +1618,12 @@ function pintarTablaListaEspera() {
   const disponibles = calcularDisponibles();
   const waitlistData = invitadosCache
     .filter((inv) => inv.esListaEspera)
+    .sort((a, b) => {
+      const soloA = a.soloBaile ? 1 : 0;
+      const soloB = b.soloBaile ? 1 : 0;
+      if (soloA !== soloB) return soloA - soloB;
+      return 0;
+    })
     .map((inv) => {
       const row = mapInvitadoToRow(inv);
       row.puedePromover =
@@ -1614,6 +1639,7 @@ function pintarTablaListaEspera() {
         incluirPromover: true,
         incluirGestionCupo: true,
         controlPrioridad: true,
+        mostrarSoloBaile: true,
       }),
       responsive: true,
       language: {
@@ -1627,6 +1653,70 @@ function pintarTablaListaEspera() {
     waitlistDataTable.clear();
     waitlistDataTable.rows.add(waitlistData);
     waitlistDataTable.draw();
+  }
+
+  pintarTablaBaile();
+}
+
+function pintarTablaBaile() {
+  if (!baileBody) return;
+  const baileData = invitadosCache
+    .filter((inv) => inv.soloBaile)
+    .map((inv) => mapInvitadoToRow(inv));
+
+  if (!baileData.length) {
+    baileBody.innerHTML = '<tr><td colspan="7">No hay invitados solo de baile.</td></tr>';
+  }
+
+  if (!baileDataTable) {
+    const columnasFiltradas = [
+      {
+        data: "nombreCompleto",
+        title: "Nombre completo",
+        render: (data, type, row) =>
+          type === "display"
+            ? `<div class="name-cell"><strong>${escapeHTML(data || "-")}</strong>${row.notasRender || ""}</div>`
+            : data,
+      },
+      {
+        data: "lado",
+        title: "Lado",
+        render: (data, type, row) => (type === "display" ? row.ladoRender : data),
+      },
+      { data: "codigoInvitacion", title: "Código" },
+      { data: "contactoPrincipal", title: "Contacto" },
+      {
+        data: "estadoLegible",
+        title: "Estado",
+        render: (data, type, row) => (type === "display" ? row.estadoRender : data),
+      },
+      { data: "soloBaile", title: "Solo baile" },
+      {
+        data: "id",
+        title: "Acciones",
+        orderable: false,
+        searchable: false,
+        render: (data, type) =>
+          type === "display"
+            ? renderAcciones(data, { incluirGestionCupo: true })
+            : data,
+      },
+    ];
+    baileDataTable = $("#tabla-baile").DataTable({
+      data: baileData,
+      columns: columnasFiltradas,
+      responsive: true,
+      language: {
+        url: "https://cdn.datatables.net/plug-ins/1.13.8/i18n/es-MX.json",
+      },
+      createdRow: (row, rowData) => {
+        row.dataset.id = rowData.id;
+      },
+    });
+  } else {
+    baileDataTable.clear();
+    baileDataTable.rows.add(baileData);
+    baileDataTable.draw();
   }
 }
 
@@ -1724,6 +1814,7 @@ async function crearInvitado(formData) {
   payload.etiquetas = parseEtiquetas(formData.get("etiquetas") || "");
   payload.contactoPrincipal = formData.get("contactoPrincipal")?.trim() || "";
   payload.contactosAdicionales = parseContactos(formData.get("contactosAdicionales") || "");
+  payload.soloBaile = formData.get("soloBaile") === "true";
   if (!payload.codigoInvitacion) {
     payload.codigoInvitacion = await generarCodigoInvitacion(
       payload.nombreCompleto,
@@ -1769,6 +1860,9 @@ async function actualizarInvitado(formData) {
       if (key in payload) payload[key] = payload[key] === "true";
     }
   );
+  if ("soloBaile" in payload) {
+    payload.soloBaile = payload.soloBaile === "true";
+  }
   payload.etiquetas = parseEtiquetas(formData.get("etiquetas") || "");
   payload.contactoPrincipal =
     formData.get("contactoPrincipal")?.trim() || invitadoSeleccionado.contactoPrincipal || "";
@@ -1970,6 +2064,7 @@ auth.onAuthStateChanged((user) => {
       cargarConfiguracionFechas();
     }
     cargarItinerario();
+    cargarConfiguracionBaile();
     cargarUbicaciones();
     cargarMensajes();
     cargarPinterestWidgetConfig();
@@ -1984,6 +2079,8 @@ auth.onAuthStateChanged((user) => {
     ladoFilterSelect && (ladoFilterSelect.value = "todos");
     eventosItinerario = [];
     renderItinerario();
+    configuracionBaile = null;
+    renderConfiguracionBaile();
     actualizarCuentaRegresiva(null);
     damasCaballeros = [];
     renderDamasCaballeros();
@@ -2052,6 +2149,28 @@ tablaBody?.addEventListener("click", (event) => {
     button.textContent = panel.classList.contains("hidden") ? "Ver más" : "Ocultar";
     return;
   }
+  if (!id) return;
+  if (action === "seleccionar") {
+    seleccionarInvitado(id);
+  } else if (action === "borrar") {
+    borrarInvitadoPorId(id);
+  } else if (action === "cancelar") {
+    cancelarInvitacion(id);
+  } else if (action === "bajar-espera") {
+    moverInvitadoAListaEspera(id);
+  } else if (action === "whatsapp") {
+    const invitado = invitadosCache.find((inv) => inv.id === id);
+    if (invitado) {
+      abrirModalWhatsapp(invitado);
+    }
+  }
+});
+
+baileBody?.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-action]");
+  if (!button || !baileBody.contains(button)) return;
+  const action = button.dataset.action;
+  const id = button.dataset.id || button.closest("tr")?.dataset.id;
   if (!id) return;
   if (action === "seleccionar") {
     seleccionarInvitado(id);
@@ -2192,6 +2311,17 @@ itinerarioBody?.addEventListener("click", (event) => {
   const id = btn.closest("tr")?.dataset?.id;
   if (!id) return;
   borrarEventoItinerario(id);
+});
+
+configBaileForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  guardarConfiguracionBaile(new FormData(event.target));
+});
+
+configBaileClearBtn?.addEventListener("click", () => {
+  if (!configBaileForm) return;
+  configBaileForm.reset();
+  guardarConfiguracionBaile(new FormData(configBaileForm));
 });
 
 damasForm?.addEventListener("submit", (event) => {
@@ -2826,6 +2956,51 @@ async function borrarEventoItinerario(id) {
     await cargarItinerario();
   } catch (error) {
     console.error("Error al borrar evento", error);
+  }
+}
+
+function renderConfiguracionBaile() {
+  if (!configBaileForm) return;
+  const hora = configuracionBaile?.horaInicioBaile || "";
+  if (configBaileForm.horaInicioBaile) {
+    configBaileForm.horaInicioBaile.value = isoToLocalInputValue(hora);
+  }
+}
+
+async function cargarConfiguracionBaile() {
+  if (!configBaileForm) return;
+  try {
+    const doc = await db.collection("configuracion").doc("baile").get();
+    configuracionBaile = doc.exists ? doc.data() : {};
+    renderConfiguracionBaile();
+    if (configBaileMensaje) {
+      configBaileMensaje.textContent =
+        configuracionBaile?.horaInicioBaile
+          ? "Hora de pase de baile guardada."
+          : "Define la hora para los invitados solo de baile.";
+    }
+  } catch (error) {
+    console.error("Error al cargar configuración de baile", error);
+    if (configBaileMensaje) configBaileMensaje.textContent = "No se pudo cargar la configuración.";
+  }
+}
+
+async function guardarConfiguracionBaile(formData) {
+  if (rolActual !== "admin" || !configBaileForm) return;
+  const horaInicioBaile = localInputValueToISO(formData.get("horaInicioBaile"));
+  const payload = {
+    horaInicioBaile: horaInicioBaile || null,
+    actualizadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+  };
+  try {
+    if (configBaileMensaje) configBaileMensaje.textContent = "Guardando...";
+    await db.collection("configuracion").doc("baile").set(payload, { merge: true });
+    configuracionBaile = { ...configuracionBaile, ...payload };
+    renderConfiguracionBaile();
+    if (configBaileMensaje) configBaileMensaje.textContent = "Hora de baile guardada.";
+  } catch (error) {
+    console.error("Error al guardar hora de baile", error);
+    if (configBaileMensaje) configBaileMensaje.textContent = "No se pudo guardar la hora.";
   }
 }
 
