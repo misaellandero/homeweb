@@ -57,7 +57,7 @@ img {
   background: linear-gradient(120deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)),
     url("../images/hero.jpeg") center/cover;
   color: #5a7022;
-  padding: clamp(4rem, 8vw, 7rem) 1rem 5rem;
+  padding: clamp(2rem, 6vw, 5rem) 1rem 4rem;
   min-height: 85vh;
   display: flex;
   align-items: center;
