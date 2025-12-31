@@ -117,6 +117,10 @@ let albumQRInstance = null;
 let albumQRGenerado = false;
 let linksPublicosConfig = null;
 let configuracionBailePublica = null;
+const invitationCard = document.getElementById("invitation-card");
+const invitationOpenBtn = document.getElementById("invitation-open");
+const invitationCloseBtn = document.getElementById("invitation-close");
+const invitationOverlay = document.getElementById("invitacion");
 
 
 function escapeHTML(texto = "") {
@@ -1889,3 +1893,34 @@ cargarItinerarioPublico();
 cargarConfiguracionBailePublica();
 cargarPinterestWidgetPublico();
 cargarLinksPublicos();
+
+function mostrarOverlayInvitacion() {
+  if (!invitationOverlay) return;
+  invitationOverlay.classList.remove("is-hidden");
+  document.body.classList.add("overlay-active");
+}
+
+function ocultarOverlayInvitacion() {
+  if (!invitationOverlay) return;
+  invitationOverlay.classList.add("is-hidden");
+  document.body.classList.remove("overlay-active");
+}
+
+function abrirInvitacion() {
+  if (!invitationCard) return;
+  invitationCard.classList.add("is-open");
+  // Ocultamos el overlay tras la animación para permitir interacción con el sitio.
+  setTimeout(ocultarOverlayInvitacion, 900);
+}
+
+invitationOpenBtn?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  abrirInvitacion();
+});
+
+invitationCard?.addEventListener("click", () => {
+  abrirInvitacion();
+});
+
+// Mostrar overlay al cargar
+mostrarOverlayInvitacion();
