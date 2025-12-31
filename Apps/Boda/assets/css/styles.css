@@ -1672,6 +1672,34 @@ body.overlay-active {
   overflow: hidden;
 }
 
+/* Botones en panel admin: fondo blanco, variantes olivo/lila legibles */
+body.admin .btn,
+body.admin .btn--secondary,
+body.admin .btn--danger,
+body.admin .btn--ghost {
+  background: #fff !important;
+  box-shadow: none;
+}
+
+body.admin .btn,
+body.admin .btn--secondary,
+body.admin .btn--ghost {
+  color: #5a7022;
+  border-color: #5a7022;
+}
+
+body.admin .btn--danger,
+body.admin .btn--lila,
+body.admin .btn.btn--danger {
+  color: #8c6fbf;
+  border-color: #8c6fbf;
+}
+
+body.admin .btn--ghost.btn--danger {
+  color: #8c6fbf;
+  border-color: #8c6fbf;
+}
+
 body.admin fieldset {
   border: 1px solid rgba(0, 0, 0, 0.08);
   padding: 1.5rem;

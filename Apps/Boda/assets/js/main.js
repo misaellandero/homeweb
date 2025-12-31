@@ -1924,3 +1924,13 @@ invitationCard?.addEventListener("click", () => {
 
 // Mostrar overlay al cargar
 mostrarOverlayInvitacion();
+
+function prellenarCodigoDesdeURL() {
+  if (!codigoForm || !codigoForm.codigoInvitacion) return;
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get("codigo") || params.get("code");
+  if (!code) return;
+  codigoForm.codigoInvitacion.value = code;
+}
+
+prellenarCodigoDesdeURL();

@@ -450,6 +450,7 @@ const MENSAJE_PREVIEW_VALORES = {
   fecha_limite_confirmar_asistencia: "15 de mayo de 2025",
   fecha_limite_detalles: "20 de junio de 2025",
   codigo_invitado: "AB123",
+  link_codigo_invitado: "https://tusitio.com/?codigo=AB123#rsvp",
   link_mapa: "https://maps.google.com/ejemplo",
 };
 
@@ -512,6 +513,19 @@ function obtenerLinkMapaPrincipal() {
   return ubicacionConLink?.mapsUrl?.trim() || "";
 }
 
+function obtenerBasePublica() {
+  if (typeof window === "undefined") return "";
+  const { origin, pathname } = window.location;
+  const basePath = pathname.replace(/\/admin\/?.*$/, "/");
+  return `${origin}${basePath}`;
+}
+
+function obtenerLinkCodigoInvitado(codigo = "") {
+  if (!codigo) return "";
+  const base = obtenerBasePublica();
+  return `${base}?codigo=${encodeURIComponent(codigo)}#rsvp`;
+}
+
 function obtenerValorVariableMensaje(clave, invitado) {
   switch (clave) {
     case "nombre":
@@ -530,6 +544,8 @@ function obtenerValorVariableMensaje(clave, invitado) {
       );
     case "codigo_invitado":
       return invitado?.codigoInvitacion || "";
+    case "link_codigo_invitado":
+      return obtenerLinkCodigoInvitado(invitado?.codigoInvitacion || "");
     case "link_mapa":
       return obtenerLinkMapaPrincipal();
     default:
@@ -3627,11 +3643,15 @@ function renderDamasCaballeros() {
       const imagen = persona.imagen
         ? `<a href="${persona.imagen}" target="_blank" rel="noopener">Ver imagen</a>`
         : "—";
+      const rolTexto =
+        (persona.rol || "").toLowerCase() === "pareja"
+          ? "Dama y Caballero"
+          : persona.rol || "-";
       return `
         <tr data-id="${persona.id}">
           <td>${persona.nombre || "-"}</td>
           <td>${persona.lado || "-"}</td>
-          <td>${persona.rol || "-"}</td>
+          <td>${rolTexto}</td>
           <td>${vestuario}</td>
           <td>${imagen}</td>
           <td>
@@ -3659,8 +3679,14 @@ function actualizarResumenDamasCaballeros() {
   const caballeros = damasCaballeros.filter(
     (persona) => (persona.rol || "").toLowerCase() === "caballero"
   ).length;
+  const parejas = damasCaballeros.filter(
+    (persona) => (persona.rol || "").toLowerCase() === "pareja"
+  ).length;
   countDamasElem.textContent = damas;
   countCaballerosElem.textContent = caballeros;
+  if (countDamasElem.dataset.showPareja !== "true" && parejas) {
+    countDamasElem.dataset.showPareja = "true";
+  }
 }
 
 async function cargarPresupuestoItems() {
