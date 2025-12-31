@@ -230,8 +230,8 @@ img {
 }
 
 .section h2 {
-  font-family: "Poppins", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-weight: 600;
+  font-family: "Cinzel", "Poppins", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 700;
   text-align: center;
   font-size: clamp(2rem, 4vw, 2.8rem);
   color: var(--color-accent);
@@ -841,6 +841,80 @@ textarea:focus {
   color: var(--color-primary);
 }
 
+.section-title-with-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-title-with-icon--centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-title-with-icon--stacked {
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.section-title-with-icon h2 {
+  margin: 0;
+}
+
+.section-title-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.section-title-icon--xl {
+  width: 60px;
+  height: 60px;
+}
+
+.section-title-icon--xxl {
+  width: 80px;
+  height: 80px;
+}
+
+.scripture-section {
+  background: linear-gradient(180deg, rgba(243, 230, 255, 0.25), rgba(255, 248, 242, 0.25));
+}
+
+.scripture {
+  text-align: center;
+  max-width: 780px;
+}
+
+.scripture__title {
+  font-family: "Cinzel", "Poppins", "Segoe UI", sans-serif;
+  color: #5a7022;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.scripture__quote {
+  margin: 0 auto 0.5rem;
+  color: #4b3b52;
+  font-family: "Great Vibes", "Poppins", cursive;
+  font-size: 1.6rem;
+  line-height: 1.6;
+}
+
+.scripture__quote p {
+  margin: 0.15rem 0;
+}
+
+.scripture__cite {
+  margin: 0.5rem 0 0;
+  color: #5a7022;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
 .status-box {
   background: linear-gradient(120deg, rgba(204, 138, 159, 0.15), rgba(116, 68, 102, 0.12));
   padding: 1.2rem;
@@ -1284,6 +1358,18 @@ textarea:focus {
   margin-top: 0.35rem;
   color: rgba(255, 255, 255, 0.75);
   letter-spacing: 0.05em;
+}
+
+.section--escudos {
+  padding: 2rem 1rem 3rem;
+  text-align: center;
+}
+
+.escudos-image {
+  max-width: 320px;
+  width: 100%;
+  height: auto;
+  display: inline-block;
 }
 
 /* Admin */

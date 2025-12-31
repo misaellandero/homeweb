@@ -3,11 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Boda Dara &amp; Misael</title>
+    <title>Boda Adhy &amp; Misael</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" type="image/png" sizes="any" href="assets/images/icono.png?v=1" />
@@ -19,7 +23,7 @@
     <header class="hero">
       <div class="hero__content container">
         <p class="eyebrow">¡Nos casamos!</p>
-        <h1>Dara &amp; Misael</h1> 
+        <h1>Adhy &amp; Misael</h1> 
         <div class="hero__countdown hidden" id="hero-countdown">
           <div class="countdown-grid">
             <div class="countdown-item">
@@ -52,6 +56,18 @@
     </header>
 
     <main>
+      <section class="section scripture-section">
+        <div class="container scripture"> 
+          <blockquote class="scripture__quote">
+            <p>“Pero, en el principio de la creación, Dios ‘los hizo hombre y mujer’</p>
+            <p>  y ‘por esa razón el hombre dejará a su padre y a su madre,</p>
+            <p> y los dos serán una sola carne’, así que ya no son dos, sino una sola carne.</p>
+            <p>Por lo tanto, lo que Dios ha unido, que no lo separe ningún hombre”.</p>
+          </blockquote>
+          <p class="scripture__cite">Marcos 10:6-9</p>
+        </div>
+      </section>
+
       <section class="section" id="inspiracion">
           <h2>Dress code</h2>
           <h3 class="center">Etiqueta rigurosa (black tie) / Charro Gran Gala (etiqueta)</h3>
@@ -149,7 +165,7 @@
                     </li> 
                     <li>
                       <span class="color-dot color-dot--azul-marino" aria-hidden="true"></span>
-                      <strong>Familia de Dara</strong>
+                      <strong>Familia de Adhy</strong>
                     </li>
                   </ul>
                 </div>
@@ -163,7 +179,10 @@
       <section class="section section--light" id="regalos">
         <div class="container regalos">
           <div class="regalos__intro">
-            <h2>Regalos</h2>
+            <div class="section-title-with-icon section-title-with-icon--centered section-title-with-icon--stacked">
+              <img src="assets/images/regalo.png" alt="Regalo" class="section-title-icon section-title-icon--xxl" />
+              <h2>Regalos</h2>
+            </div>
             <p>Tu presencia es el mejor regalo, pero si deseas apoyarnos con algún detalle aquí te compartimos algunas opciones.</p>
           </div>
           <div class="regalos-grid">
@@ -216,7 +235,10 @@
 
       <section class="section section--accent" id="rsvp">
         <div class="container">
-          <h2>Rsvp</h2>
+          <div class="section-title-with-icon section-title-with-icon--centered section-title-with-icon--stacked">
+            <img src="assets/images/paloma.png" alt="Paloma mensajera" class="section-title-icon section-title-icon--xxl" />
+            <h2>Rsvp</h2>
+          </div>
           <p>
             Ingresa tu código de invitación para confirmar asistencia y ayudarnos a
             planear cada detalle.
@@ -578,7 +600,10 @@
 
       <section class="section section--light section--locked" id="album-fotos">
         <div class="container">
-          <h2>Álbum compartido</h2>
+          <div class="section-title-with-icon section-title-with-icon--centered section-title-with-icon--stacked">
+            <img src="assets/images/camara.png" alt="Cámara" class="section-title-icon section-title-icon--xxl" />
+            <h2>Álbum compartido</h2>
+          </div>
           <div class="album-card" id="album-card" data-album-url="">
             <p>Comparte tus fotos del evento y descarga nuestras favoritas. El acceso se libera con tu código de invitación.</p>
             <div class="album-qr-wrapper">
@@ -596,10 +621,16 @@
     <footer class="footer">
       <div class="container">
         
-        <p>Con cariño, Dara &amp; Misael</p>
+        <p>Con cariño, Adhy &amp; Misael</p>
         <small>Diseñado con amor para compartir nuestro gran día.</small>
       </div>
     </footer>
+
+    <section class="section section--light section--escudos">
+      <div class="container">
+        <img src="assets/images/escudos.png" alt="Escudos familiares" class="escudos-image" />
+      </div>
+    </section>
 
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>

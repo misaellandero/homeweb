@@ -339,11 +339,10 @@
                   <th>Prioridad</th>
                   <th>Etiquetas</th>
                   <th>Contactos adicionales</th>
-                  <th>Convertir a solo baile</th>
-                </tr>
-              </thead>
-              <tbody id="tabla-body"></tbody>
-            </table>
+                  </tr>
+                </thead>
+                <tbody id="tabla-body"></tbody>
+              </table>
             </div>
           </section>
 
@@ -751,13 +750,14 @@
                   <tr>
                     <th>Nombre</th>
                     <th>Dirección</th>
+                    <th>Visible</th>
                     <th>Mapa</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="ubicaciones-body">
                   <tr>
-                    <td colspan="4">Todavía no agregas ubicaciones.</td>
+                    <td colspan="5">Todavía no agregas ubicaciones.</td>
                   </tr>
                 </tbody>
               </table>
@@ -1101,6 +1101,12 @@
               </label>
               <label>URL de Google Maps
                 <input type="url" name="mapsUrl" placeholder="https://maps.google.com/..." required />
+              </label>
+              <label>Visible para invitados
+                <select name="ubicacionActiva">
+                  <option value="true">Sí, mostrar</option>
+                  <option value="false">No, ocultar</option>
+                </select>
               </label>
               <div class="form-actions">
                 <button type="submit" class="btn">Guardar</button>

@@ -692,6 +692,8 @@ function renderAcciones(id, opciones = {}) {
   const puedeEditar = true;
   const puedeBorrar = rolActual === "admin";
   const incluirGestionCupo = !!opciones.incluirGestionCupo;
+  const incluirSoloBaile = !!opciones.incluirSoloBaile;
+  const esSoloBaile = !!opciones.esSoloBaile;
   const botones = [
     `<button class="btn btn--ghost" data-action="seleccionar" data-id="${id}" ${
       puedeEditar ? "" : "disabled"
@@ -706,6 +708,14 @@ function renderAcciones(id, opciones = {}) {
         puedePromover ? "" : "disabled"
       }>
         Subir a invitado
+      </button>`
+    );
+  }
+  if (incluirSoloBaile) {
+    const label = esSoloBaile ? "Convertir a recepción completa" : "Convertir a solo baile";
+    botones.push(
+      `<button class="btn btn--ghost" data-action="toggle-solo-baile" data-id="${id}">
+        ${label}
       </button>`
     );
   }
@@ -1525,6 +1535,8 @@ function construirColumnasDataTable(opciones = {}) {
               incluirPromover,
               puedePromover: row?.puedePromover !== false,
               incluirGestionCupo: opciones.incluirGestionCupo,
+              incluirSoloBaile: opciones.incluirSoloBaile,
+              esSoloBaile: row?.soloBaileFlag,
             })
           : data,
     },
@@ -1595,7 +1607,11 @@ function pintarTabla() {
   if (!dataTable) {
     dataTable = $("#tabla-invitados").DataTable({
       data,
-      columns: construirColumnasDataTable({ incluirGestionCupo: true, mostrarSoloBaile: true }),
+      columns: construirColumnasDataTable({
+        incluirGestionCupo: true,
+        mostrarSoloBaile: true,
+        incluirSoloBaile: true,
+      }),
       responsive: true,
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.13.8/i18n/es-MX.json",
@@ -1640,6 +1656,7 @@ function pintarTablaListaEspera() {
         incluirGestionCupo: true,
         controlPrioridad: true,
         mostrarSoloBaile: true,
+        incluirSoloBaile: true,
       }),
       responsive: true,
       language: {
@@ -1986,6 +2003,28 @@ async function ajustarPrioridadListaEspera(id, delta) {
   }
 }
 
+async function alternarSoloBaile(id) {
+  if (rolActual !== "admin" || !id) return;
+  const invitado = invitadosCache.find((inv) => inv.id === id);
+  if (!invitado) return;
+  const destinoSoloBaile = !(invitado.soloBaile === true);
+  const confirmar = confirm(
+    destinoSoloBaile
+      ? `Moverás a ${invitado.nombreCompleto || "este invitado"} a la modalidad "Solo baile". ¿Continuar?`
+      : `Convertirás a ${invitado.nombreCompleto || "este invitado"} a invitación completa de recepción. ¿Continuar?`
+  );
+  if (!confirmar) return;
+  try {
+    await db.collection("invitados").doc(id).update({
+      soloBaile: destinoSoloBaile,
+      esListaEspera: destinoSoloBaile ? false : invitado.esListaEspera || false,
+    });
+    await cargarListaInvitados();
+  } catch (error) {
+    console.error("Error al alternar solo baile", error);
+  }
+}
+
 /**
  * Revisa expiraciones y actualiza estados cuando sea necesario.
  */
@@ -2158,6 +2197,8 @@ tablaBody?.addEventListener("click", (event) => {
     cancelarInvitacion(id);
   } else if (action === "bajar-espera") {
     moverInvitadoAListaEspera(id);
+  } else if (action === "toggle-solo-baile") {
+    alternarSoloBaile(id);
   } else if (action === "whatsapp") {
     const invitado = invitadosCache.find((inv) => inv.id === id);
     if (invitado) {
@@ -2180,6 +2221,8 @@ baileBody?.addEventListener("click", (event) => {
     cancelarInvitacion(id);
   } else if (action === "bajar-espera") {
     moverInvitadoAListaEspera(id);
+  } else if (action === "toggle-solo-baile") {
+    alternarSoloBaile(id);
   } else if (action === "whatsapp") {
     const invitado = invitadosCache.find((inv) => inv.id === id);
     if (invitado) {
@@ -2512,6 +2555,8 @@ ubicacionesBody?.addEventListener("click", (event) => {
   if (action === "editar-ubicacion") {
     const ubicacion = ubicacionesEvento.find((item) => item.id === id);
     abrirModalUbicacion(ubicacion || null);
+  } else if (action === "toggle-ubicacion") {
+    alternarUbicacionActiva(id);
   } else if (action === "borrar-ubicacion") {
     borrarUbicacion(id);
   }
@@ -3021,7 +3066,7 @@ function renderUbicaciones() {
   if (!ubicacionesBody) return;
   if (!ubicacionesEvento.length) {
     ubicacionesBody.innerHTML =
-      '<tr><td colspan="4">Todavía no agregas ubicaciones.</td></tr>';
+      '<tr><td colspan="5">Todavía no agregas ubicaciones.</td></tr>';
     return;
   }
   const esAdmin = rolActual === "admin";
@@ -3034,15 +3079,23 @@ function renderUbicaciones() {
         ubicacion.mapsUrl && typeof ubicacion.mapsUrl === "string"
           ? `<a href="${escapeHTML(ubicacion.mapsUrl)}" target="_blank" rel="noopener noreferrer">Ver mapa</a>`
           : "—";
+      const visible = !(ubicacion.activo === false || ubicacion.activo === "false");
+      const visiblePill = visible
+        ? '<span class="status-pill status-pill--success">Visible</span>'
+        : '<span class="status-pill status-pill--desconocido">Oculta</span>';
       return `
         <tr data-id="${ubicacion.id}">
           <td>${escapeHTML(ubicacion.nombre || "-")}</td>
           <td>${direccion}</td>
+          <td>${visiblePill}</td>
           <td>${enlace}</td>
           <td>
             <button class="btn btn--ghost" data-action="editar-ubicacion" data-id="${ubicacion.id}" ${
               esAdmin ? "" : "disabled"
             }>Editar</button>
+            <button class="btn btn--ghost" data-action="toggle-ubicacion" data-id="${ubicacion.id}" ${
+              esAdmin ? "" : "disabled"
+            }>${visible ? "Ocultar" : "Publicar"}</button>
             <button class="btn btn--ghost btn--danger" data-action="borrar-ubicacion" data-id="${ubicacion.id}" ${
               esAdmin ? "" : "disabled"
             }>Eliminar</button>
@@ -3061,6 +3114,10 @@ function abrirModalUbicacion(ubicacion = null) {
   ubicacionesForm.elements["nombreUbicacion"].value = ubicacion?.nombre || "";
   ubicacionesForm.elements["direccionUbicacion"].value = ubicacion?.direccion || "";
   ubicacionesForm.elements["mapsUrl"].value = ubicacion?.mapsUrl || "";
+  if (ubicacionesForm.elements["ubicacionActiva"]) {
+    const esActiva = !(ubicacion?.activo === false || ubicacion?.activo === "false");
+    ubicacionesForm.elements["ubicacionActiva"].value = esActiva ? "true" : "false";
+  }
   modalUbicacionInstance?.show();
 }
 
@@ -3075,6 +3132,7 @@ async function guardarUbicacion(formData) {
   const nombre = formData.get("nombreUbicacion")?.trim();
   const direccion = formData.get("direccionUbicacion")?.trim();
   const mapsUrl = formData.get("mapsUrl")?.trim();
+  const activo = formData.get("ubicacionActiva") === "true";
   if (!nombre || !direccion || !mapsUrl) {
     if (ubicacionesMensaje) {
       ubicacionesMensaje.textContent = "Completa el nombre, dirección y enlace de Google Maps.";
@@ -3085,6 +3143,7 @@ async function guardarUbicacion(formData) {
     nombre,
     direccion,
     mapsUrl,
+    activo,
   };
   try {
     if (id) {
@@ -3116,6 +3175,23 @@ async function borrarUbicacion(id) {
     await cargarUbicaciones();
   } catch (error) {
     console.error("Error al borrar ubicación", error);
+  }
+}
+
+async function alternarUbicacionActiva(id) {
+  if (rolActual !== "admin" || !id) return;
+  const ubicacion = ubicacionesEvento.find((u) => u.id === id);
+  if (!ubicacion) return;
+  const esActiva = !(ubicacion.activo === false || ubicacion.activo === "false");
+  const nuevoEstado = !esActiva;
+  try {
+    await db.collection("ubicacionesEvento").doc(id).update({
+      activo: nuevoEstado,
+      actualizadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    await cargarUbicaciones();
+  } catch (error) {
+    console.error("Error al alternar visibilidad", error);
   }
 }
 

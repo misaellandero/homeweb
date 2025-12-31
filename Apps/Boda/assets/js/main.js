@@ -1520,7 +1520,10 @@ async function cargarUbicacionesPublicas() {
   if (!ubicacionesPublicList) return;
   try {
     const snap = await db.collection("ubicacionesEvento").orderBy("nombre").get();
-    ubicacionesPublicas = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const todas = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    ubicacionesPublicas = todas.filter(
+      (ubicacion) => !(ubicacion.activo === false || ubicacion.activo === "false")
+    );
     ubicacionSeleccionadaIndex = 0;
     actualizarEstadoSeccionUbicaciones();
   } catch (error) {
