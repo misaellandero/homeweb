@@ -43,6 +43,12 @@ const summaryNovia = document.getElementById("summary-novia");
 const summaryNovio = document.getElementById("summary-novio");
 const summaryNoviaTotal = document.getElementById("summary-novia-total");
 const summaryNovioTotal = document.getElementById("summary-novio-total");
+const summaryNoviaBaile = document.getElementById("summary-novia-baile");
+const summaryNovioBaile = document.getElementById("summary-novio-baile");
+const summaryNoviaCompleto = document.getElementById("summary-novia-completo");
+const summaryNovioCompleto = document.getElementById("summary-novio-completo");
+const summaryNoviaFase1 = document.getElementById("summary-novia-fase1");
+const summaryNovioFase1 = document.getElementById("summary-novio-fase1");
 const headerFechaRespuesta = document.getElementById("header-fecha-respuesta");
 const headerFechaDetalles = document.getElementById("header-fecha-detalles");
 const headerFechaBoda = document.getElementById("header-fecha-boda");
@@ -1612,6 +1618,7 @@ function construirColumnasDataTable(opciones = {}) {
 function pintarTabla() {
   const filtrados = invitadosCache
     .filter((invitado) => filtrarInvitado(invitado))
+    .filter((invitado) => !invitado.soloBaile)
     .sort((a, b) => {
       const soloA = a.soloBaile ? 1 : 0;
       const soloB = b.soloBaile ? 1 : 0;
@@ -1658,10 +1665,9 @@ function pintarTablaListaEspera() {
     })
     .map((inv) => {
       const row = mapInvitadoToRow(inv);
+      const cupoNecesario = Number(inv.numInvitadosPermitidos) || 0;
       row.puedePromover =
-        typeof disponibles === "number"
-          ? (Number(inv.numInvitadosPermitidos) || 0) <= disponibles
-          : false;
+        typeof disponibles === "number" ? cupoNecesario <= disponibles : true;
       return row;
     });
   if (!waitlistDataTable) {
@@ -1731,7 +1737,7 @@ function pintarTablaBaile() {
         searchable: false,
         render: (data, type) =>
           type === "display"
-            ? renderAcciones(data, { incluirGestionCupo: true })
+            ? renderAcciones(data, { incluirGestionCupo: true, incluirSoloBaile: true, esSoloBaile: true })
             : data,
       },
     ];
@@ -1760,6 +1766,9 @@ function filtrarInvitado(invitado) {
   if (filtroActual !== "lista-espera" && invitado.esListaEspera) {
     return false;
   }
+  if (!invitado) return false;
+  // Ocultar invitados solo baile en la tabla principal; se muestran en la tabla dedicada.
+  if (filtroActual !== "lista-espera" && invitado.soloBaile) return false;
   if (filtroLado !== "todos") {
     const ladoInv = (invitado.lado || "").toLowerCase();
     if (ladoInv !== filtroLado) {
@@ -4330,6 +4339,41 @@ function contarInvitacionesPorLado(lado) {
   ).length;
 }
 
+function contarSoloBailePorLado(lado) {
+  const ladoNormalizado = (lado || "").toLowerCase();
+  if (!ladoNormalizado) return 0;
+  return invitadosCache
+    .filter(
+      (invitado) =>
+        invitado.soloBaile &&
+        (invitado.lado || "").toLowerCase() === ladoNormalizado
+    )
+    .reduce((acc, inv) => acc + (Number(inv.numInvitadosPermitidos) || 0), 0);
+}
+
+function contarRecepcionCompletaPorLado(lado) {
+  const ladoNormalizado = (lado || "").toLowerCase();
+  if (!ladoNormalizado) return 0;
+  return invitadosCache.filter(
+    (invitado) =>
+      !invitado.soloBaile &&
+      esInvitadoActivoParaCapacidad(invitado) &&
+      (invitado.lado || "").toLowerCase() === ladoNormalizado
+  ).reduce((acc, inv) => acc + (Number(inv.numInvitadosPermitidos) || 0), 0);
+}
+
+function contarConfirmadosFase1PorLado(lado) {
+  const ladoNormalizado = (lado || "").toLowerCase();
+  if (!ladoNormalizado) return 0;
+  return invitadosCache.filter(
+    (invitado) =>
+      ["confirmado_fase1", "en_espera_codigo"].includes(
+        (invitado.estadoInvitacion || "").toLowerCase()
+      ) &&
+      (invitado.lado || "").toLowerCase() === ladoNormalizado
+  ).length;
+}
+
 function contarInvitadosListaEspera() {
   return invitadosCache
     .filter((invitado) => invitado.esListaEspera)
@@ -4363,6 +4407,18 @@ function actualizarResumenCapacidad() {
   const novioActivos = contarInvitadosPorLado("novio");
   if (summaryNovia) summaryNovia.textContent = noviaActivos;
   if (summaryNovio) summaryNovio.textContent = novioActivos;
+  const noviaBaile = contarSoloBailePorLado("novia");
+  const novioBaile = contarSoloBailePorLado("novio");
+  if (summaryNoviaBaile) summaryNoviaBaile.textContent = noviaBaile;
+  if (summaryNovioBaile) summaryNovioBaile.textContent = novioBaile;
+  const noviaCompleto = contarRecepcionCompletaPorLado("novia");
+  const novioCompleto = contarRecepcionCompletaPorLado("novio");
+  if (summaryNoviaCompleto) summaryNoviaCompleto.textContent = noviaCompleto;
+  if (summaryNovioCompleto) summaryNovioCompleto.textContent = novioCompleto;
+  const noviaFase1 = contarConfirmadosFase1PorLado("novia");
+  const novioFase1 = contarConfirmadosFase1PorLado("novio");
+  if (summaryNoviaFase1) summaryNoviaFase1.textContent = noviaFase1;
+  if (summaryNovioFase1) summaryNovioFase1.textContent = novioFase1;
   const totalNovia = contarInvitacionesPorLado("novia");
   const totalNovio = contarInvitacionesPorLado("novio");
   if (summaryNoviaTotal) summaryNoviaTotal.textContent = totalNovia;

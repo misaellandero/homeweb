@@ -267,12 +267,38 @@
                 </span>
               </div>
               <div class="table-actions capacity-pill-group">
-                <span class="capacity-pill capacity-pill--neutral">
-                  Lugares ocupados (Novia): <strong id="summary-novia">--</strong>
-                </span>
-                <span class="capacity-pill capacity-pill--neutral">
-                  Lugares ocupados (Novio): <strong id="summary-novio">--</strong>
-                </span>
+                <div class="capacity-pill-stack">
+                  <span class="capacity-pill capacity-pill--neutral">
+                    Ocupados (Novia): <strong id="summary-novia">--</strong>
+                  </span>
+                  <span class="capacity-pill capacity-pill--neutral">
+                    Ocupados (Novio): <strong id="summary-novio">--</strong>
+                  </span>
+                </div>
+                <div class="capacity-pill-stack">
+                  <span class="capacity-pill capacity-pill--neutral">
+                    Recepción (Novia): <strong id="summary-novia-completo">--</strong>
+                  </span>
+                  <span class="capacity-pill capacity-pill--neutral">
+                    Recepción (Novio): <strong id="summary-novio-completo">--</strong>
+                  </span>
+                </div>
+                <div class="capacity-pill-stack">
+                  <span class="capacity-pill capacity-pill--neutral">
+                    Confirmó 1a invitación (Novia): <strong id="summary-novia-fase1">--</strong>
+                  </span>
+                  <span class="capacity-pill capacity-pill--neutral">
+                    Confirmó 1a invitación (Novio): <strong id="summary-novio-fase1">--</strong>
+                  </span>
+                </div>
+                <div class="capacity-pill-stack">
+                  <span class="capacity-pill capacity-pill--neutral">
+                    Solo baile (Novia): <strong id="summary-novia-baile">--</strong>
+                  </span>
+                  <span class="capacity-pill capacity-pill--neutral">
+                    Solo baile (Novio): <strong id="summary-novio-baile">--</strong>
+                  </span>
+                </div>
               </div> 
             </div>
             <form id="capacidad-form" class="capacity-form">
@@ -342,6 +368,35 @@
                   </tr>
                 </thead>
                 <tbody id="tabla-body"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="table-header">
+              <h2>Invitados solo Baile</h2>
+              <div class="table-actions">
+                <span class="form-helper">Solo los que ingresan después de la hora de baile.</span>
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table class="display" id="tabla-baile">
+                <thead>
+                  <tr>
+                    <th>Nombre completo</th>
+                    <th>Lado</th>
+                    <th>Código</th>
+                    <th>Contacto</th>
+                    <th>Estado</th>
+                    <th>Solo baile</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="baile-body">
+                  <tr>
+                    <td colspan="7">No hay invitados solo de baile.</td>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </section>
