@@ -1528,6 +1528,11 @@ function construirColumnasDataTable(opciones = {}) {
       title: "Lado",
       render: (data, type, row) => (type === "display" ? row.ladoRender : data),
     },
+    {
+      data: "estadoLegible",
+      title: "Estado",
+      render: (data, type, row) => (type === "display" ? row.estadoRender : data),
+    },
     { data: "codigoInvitacion", title: "Código" },
     { data: "numInvitadosPermitidos", title: "N° invitados" },
     { data: "numAdultosPlaneados", title: "Adultos" },
@@ -1540,11 +1545,6 @@ function construirColumnasDataTable(opciones = {}) {
       searchable: false,
       render: (data, type, row) =>
         type === "display" ? renderWhatsappAction(row) : data,
-    },
-    {
-      data: "estadoLegible",
-      title: "Estado",
-      render: (data, type, row) => (type === "display" ? row.estadoRender : data),
     },
     {
       data: "id",
