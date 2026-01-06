@@ -49,6 +49,10 @@ const summaryNoviaCompleto = document.getElementById("summary-novia-completo");
 const summaryNovioCompleto = document.getElementById("summary-novio-completo");
 const summaryNoviaFase1 = document.getElementById("summary-novia-fase1");
 const summaryNovioFase1 = document.getElementById("summary-novio-fase1");
+const summaryNoviaFase1Detalle = document.getElementById("summary-novia-fase1-detalle");
+const summaryNovioFase1Detalle = document.getElementById("summary-novio-fase1-detalle");
+const summaryTotalFase1 = document.getElementById("summary-total-fase1");
+const summaryTotalFase1Detalle = document.getElementById("summary-total-fase1-detalle");
 const headerFechaRespuesta = document.getElementById("header-fecha-respuesta");
 const headerFechaDetalles = document.getElementById("header-fecha-detalles");
 const headerFechaBoda = document.getElementById("header-fecha-boda");
@@ -4384,6 +4388,39 @@ function contarConfirmadosFase1PorLado(lado) {
   }, 0);
 }
 
+function contarConfirmadosFase1DesglosePorLado(lado) {
+  const ladoNormalizado = (lado || "").toLowerCase();
+  const resultado = { total: 0, adultos: 0, ninos: 0 };
+  if (!ladoNormalizado) return resultado;
+  invitadosCache.forEach((invitado) => {
+    if ((invitado.lado || "").toLowerCase() !== ladoNormalizado) return;
+    const estado = (invitado.estadoInvitacion || "").toLowerCase();
+    if (estado === "confirmado_fase1") {
+      resultado.total += 1;
+      return;
+    }
+    if (estado === "en_espera_codigo") {
+      const adultos = Number(invitado.numAdultosPlaneados) || 0;
+      const ninos = Number(invitado.numNinosPlaneados) || 0;
+      if (adultos || ninos) {
+        resultado.adultos += adultos;
+        resultado.ninos += ninos;
+        resultado.total += adultos + ninos;
+        return;
+      }
+      const permitidos = Number(invitado.numInvitadosPermitidos);
+      if (Number.isFinite(permitidos) && permitidos > 0) {
+        resultado.adultos += permitidos;
+        resultado.total += permitidos;
+        return;
+      }
+      resultado.adultos += 1;
+      resultado.total += 1;
+    }
+  });
+  return resultado;
+}
+
 function contarInvitadosListaEspera() {
   return invitadosCache
     .filter((invitado) => invitado.esListaEspera)
@@ -4429,6 +4466,23 @@ function actualizarResumenCapacidad() {
   const novioFase1 = contarConfirmadosFase1PorLado("novio");
   if (summaryNoviaFase1) summaryNoviaFase1.textContent = noviaFase1;
   if (summaryNovioFase1) summaryNovioFase1.textContent = novioFase1;
+  const noviaFase1Detalle = contarConfirmadosFase1DesglosePorLado("novia");
+  const novioFase1Detalle = contarConfirmadosFase1DesglosePorLado("novio");
+  if (summaryNoviaFase1Detalle) {
+    summaryNoviaFase1Detalle.textContent = `(Adultos: ${noviaFase1Detalle.adultos} · Niños: ${noviaFase1Detalle.ninos})`;
+  }
+  if (summaryNovioFase1Detalle) {
+    summaryNovioFase1Detalle.textContent = `(Adultos: ${novioFase1Detalle.adultos} · Niños: ${novioFase1Detalle.ninos})`;
+  }
+  const totalFase1Detalle = {
+    adultos: noviaFase1Detalle.adultos + novioFase1Detalle.adultos,
+    ninos: noviaFase1Detalle.ninos + novioFase1Detalle.ninos,
+  };
+  totalFase1Detalle.total = noviaFase1 + novioFase1;
+  if (summaryTotalFase1) summaryTotalFase1.textContent = totalFase1Detalle.total;
+  if (summaryTotalFase1Detalle) {
+    summaryTotalFase1Detalle.textContent = `(Adultos: ${totalFase1Detalle.adultos} · Niños: ${totalFase1Detalle.ninos})`;
+  }
   const totalNovia = contarInvitacionesPorLado("novia");
   const totalNovio = contarInvitacionesPorLado("novio");
   if (summaryNoviaTotal) summaryNoviaTotal.textContent = totalNovia;
