@@ -4365,13 +4365,23 @@ function contarRecepcionCompletaPorLado(lado) {
 function contarConfirmadosFase1PorLado(lado) {
   const ladoNormalizado = (lado || "").toLowerCase();
   if (!ladoNormalizado) return 0;
-  return invitadosCache.filter(
-    (invitado) =>
-      ["confirmado_fase1", "en_espera_codigo"].includes(
-        (invitado.estadoInvitacion || "").toLowerCase()
-      ) &&
-      (invitado.lado || "").toLowerCase() === ladoNormalizado
-  ).length;
+  return invitadosCache.reduce((acc, invitado) => {
+    if ((invitado.lado || "").toLowerCase() !== ladoNormalizado) return acc;
+    const estado = (invitado.estadoInvitacion || "").toLowerCase();
+    if (estado === "confirmado_fase1") {
+      return acc + 1;
+    }
+    if (estado === "en_espera_codigo") {
+      const adultos = Number(invitado.numAdultosPlaneados) || 0;
+      const ninos = Number(invitado.numNinosPlaneados) || 0;
+      const total = adultos + ninos;
+      if (total > 0) return acc + total;
+      const permitidos = Number(invitado.numInvitadosPermitidos);
+      if (Number.isFinite(permitidos) && permitidos > 0) return acc + permitidos;
+      return acc + 1;
+    }
+    return acc;
+  }, 0);
 }
 
 function contarInvitadosListaEspera() {
