@@ -2436,7 +2436,7 @@ waitlistBody?.addEventListener("click", (event) => {
     return;
   }
   const row = button.closest("tr");
-  const id = row?.dataset?.id;
+  const id = button.dataset.id || row?.dataset?.id;
   if (!id) return;
   const action = button.dataset.action;
   const invitado = invitadosCache.find((inv) => inv.id === id);
