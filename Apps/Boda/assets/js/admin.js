@@ -220,6 +220,7 @@ let apoyosItems = [];
 let ubicacionesEvento = [];
 let mensajesPredefinidos = [];
 let presupuestoChart = null;
+let presupuestoDataTable = null;
 let presupuestoSeleccionado = null;
 let tareasPendientesBoard = [];
 let tareaSeleccionada = null;
@@ -3705,7 +3706,7 @@ async function cargarPresupuestoItems() {
   } catch (error) {
     console.error("Error al cargar presupuesto", error);
     presupuestoBody.innerHTML =
-      '<tr><td colspan="7">No pudimos cargar los movimientos.</td></tr>';
+      '<tr><td colspan="9">No pudimos cargar los movimientos.</td></tr>';
   }
 }
 
@@ -3723,59 +3724,106 @@ async function cargarApoyos() {
 
 function renderPresupuesto() {
   if (!presupuestoBody) return;
-  if (!presupuestoItems.length) {
+  const puedeBorrar = rolActual === "admin";
+  const filas = presupuestoItems.map((item) => {
+    const total = Number(item.totalCalculado) || 0;
+    const costoAdulto =
+      item.modalidad === "por_persona" ? formatearMoneda(item.costoAdulto || 0) : "—";
+    const costoNino =
+      item.modalidad === "por_persona" && item.costoNino
+        ? formatearMoneda(item.costoNino || 0)
+        : "—";
+    const adultosAplicados =
+      item.modalidad === "por_persona" ? item.totalAdultosAplicados || 0 : "-";
+    const ninosAplicados =
+      item.modalidad === "por_persona" ? item.totalNinosAplicados || 0 : "-";
+    const notasMovimiento =
+      typeof item.notasMovimiento === "string" && item.notasMovimiento.trim()
+        ? escapeHTML(item.notasMovimiento.trim())
+        : "—";
+    return {
+      id: item.id,
+      concepto: item.concepto || "-",
+      tipo: (item.tipo || "").toUpperCase(),
+      modalidad: item.modalidad === "por_persona" ? "Por persona" : "Costo fijo",
+      montoFijo: item.modalidad === "fijo" ? formatearMoneda(item.montoBase) : "—",
+      costoAdulto:
+        item.modalidad === "por_persona" ? `${costoAdulto} × ${adultosAplicados}` : "—",
+      costoNino:
+        item.modalidad === "por_persona" && (item.costoNino || 0) > 0
+          ? `${costoNino} × ${ninosAplicados}`
+          : "—",
+      notas: notasMovimiento,
+      total: formatearMoneda(total),
+      acciones: `
+        <button class="btn btn--ghost" data-action="editar-presupuesto" data-id="${item.id}" ${
+          puedeBorrar ? "" : "disabled"
+        }>Editar</button>
+        <button class="btn btn--ghost btn--danger" data-action="borrar-presupuesto" data-id="${item.id}" ${
+          puedeBorrar ? "" : "disabled"
+        }>Eliminar</button>
+      `,
+    };
+  });
+  const usarDataTable =
+    typeof $ !== "undefined" &&
+    $.fn?.DataTable &&
+    document.getElementById("tabla-presupuesto");
+
+  if (usarDataTable) {
+    if (!presupuestoDataTable) {
+      presupuestoDataTable = $("#tabla-presupuesto").DataTable({
+        data: filas,
+        columns: [
+          { data: "concepto", title: "Concepto" },
+          { data: "tipo", title: "Tipo" },
+          { data: "modalidad", title: "Modalidad" },
+          { data: "montoFijo", title: "Monto fijo" },
+          { data: "costoAdulto", title: "Costo adultos" },
+          { data: "costoNino", title: "Costo niños" },
+          { data: "notas", title: "Notas" },
+          { data: "total", title: "Total" },
+          {
+            data: "acciones",
+            title: "Acciones",
+            orderable: false,
+            searchable: false,
+          },
+        ],
+        responsive: true,
+        language: {
+          url: "https://cdn.datatables.net/plug-ins/1.13.8/i18n/es-MX.json",
+          emptyTable: "Todavía no registras movimientos.",
+        },
+        createdRow: (row, rowData) => {
+          row.dataset.id = rowData.id;
+        },
+      });
+    } else {
+      presupuestoDataTable.clear();
+      presupuestoDataTable.rows.add(filas);
+      presupuestoDataTable.draw();
+    }
+  } else if (!presupuestoItems.length) {
     presupuestoBody.innerHTML =
-      '<tr><td colspan="8">Todavía no registras movimientos.</td></tr>';
+      '<tr><td colspan="9">Todavía no registras movimientos.</td></tr>';
   } else {
-    const puedeBorrar = rolActual === "admin";
-    presupuestoBody.innerHTML = presupuestoItems
-      .map((item) => {
-        const total = Number(item.totalCalculado) || 0;
-        const costoAdulto =
-          item.modalidad === "por_persona"
-            ? formatearMoneda(item.costoAdulto || 0)
-            : "—";
-        const costoNino =
-          item.modalidad === "por_persona" && item.costoNino
-            ? formatearMoneda(item.costoNino || 0)
-            : item.modalidad === "por_persona"
-            ? "—"
-            : "—";
-        const adultosAplicados =
-          item.modalidad === "por_persona" ? item.totalAdultosAplicados || 0 : "-";
-        const ninosAplicados =
-          item.modalidad === "por_persona" ? item.totalNinosAplicados || 0 : "-";
-        const notasMovimiento =
-          typeof item.notasMovimiento === "string" && item.notasMovimiento.trim()
-            ? escapeHTML(item.notasMovimiento.trim())
-            : "—";
-        return `
+    presupuestoBody.innerHTML = filas
+      .map(
+        (item) => `
           <tr data-id="${item.id}">
-            <td>${item.concepto || "-"}</td>
-            <td>${(item.tipo || "").toUpperCase()}</td>
-            <td>${item.modalidad === "por_persona" ? "Por persona" : "Costo fijo"}</td>
-            <td>${item.modalidad === "fijo" ? formatearMoneda(item.montoBase) : "—"}</td>
-            <td>${item.modalidad === "por_persona" ? `${costoAdulto} × ${adultosAplicados}` : "—"}</td>
-            <td>${
-              item.modalidad === "por_persona" && (item.costoNino || 0) > 0
-                ? `${costoNino} × ${ninosAplicados}`
-                : item.modalidad === "por_persona"
-                ? "—"
-                : "—"
-            }</td>
-            <td>${notasMovimiento}</td>
-            <td>${formatearMoneda(total)}</td>
-            <td>
-              <button class="btn btn--ghost" data-action="editar-presupuesto" data-id="${item.id}" ${
-                puedeBorrar ? "" : "disabled"
-              }>Editar</button>
-              <button class="btn btn--ghost btn--danger" data-action="borrar-presupuesto" data-id="${item.id}" ${
-                puedeBorrar ? "" : "disabled"
-              }>Eliminar</button>
-            </td>
+            <td>${item.concepto}</td>
+            <td>${item.tipo}</td>
+            <td>${item.modalidad}</td>
+            <td>${item.montoFijo}</td>
+            <td>${item.costoAdulto}</td>
+            <td>${item.costoNino}</td>
+            <td>${item.notas}</td>
+            <td>${item.total}</td>
+            <td>${item.acciones}</td>
           </tr>
-        `;
-      })
+        `
+      )
       .join("");
   }
   actualizarResumenFinanciero();
