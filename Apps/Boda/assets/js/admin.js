@@ -1469,7 +1469,8 @@ function mapInvitadoToRow(invitado) {
     ? invitado.contactosAdicionales
     : parseContactos(invitado.contactosAdicionales || "");
   const estadoValor = invitado.estadoInvitacion || "";
-  const estadoInfo = invitado.esListaEspera
+  const esListaOEspera = invitado.esListaEspera || invitado.soloBaile;
+  const estadoInfo = esListaOEspera
     ? { label: "Lista de espera", className: "status-pill--waitlist" }
     : obtenerInfoEstado(estadoValor);
   const ladoInfo = obtenerInfoLado(invitado.lado);
@@ -1477,6 +1478,14 @@ function mapInvitadoToRow(invitado) {
   const prioridadLegible = Number.isFinite(prioridadValor)
     ? prioridadValor
     : invitado.prioridadListaEspera ?? "-";
+  const ayudaHospedaje =
+    invitado.planeaViajar === true
+      ? invitado.requiereAsistenciaViaje
+        ? "Sí"
+        : "No"
+      : invitado.planeaViajar === false
+      ? "No"
+      : "-";
   const notasTexto =
     typeof invitado.notas === "string" ? invitado.notas.trim() : "";
   const notasRender = notasTexto
@@ -1503,12 +1512,13 @@ function mapInvitadoToRow(invitado) {
     vestimenta: invitado.vestimentaConfirmada ? "Sí" : "No",
     viaje: invitado.viajeConfirmado ? "Sí" : "No",
     hospedaje: invitado.hospedajeConfirmado ? "Sí" : "No",
-    listaEspera: invitado.esListaEspera ? "Sí" : "No",
+    ayudaHospedaje,
+    listaEspera: esListaOEspera ? "Sí" : "No",
     prioridad: prioridadLegible,
     prioridadValor: Number.isFinite(prioridadValor) ? prioridadValor : null,
     etiquetasTexto: etiquetas.join(", "),
     etiquetasRender: renderTagChips(etiquetas),
-    esListaEsperaFlag: !!invitado.esListaEspera,
+    esListaEsperaFlag: !!esListaOEspera,
     soloBaile: invitado.soloBaile ? "Sí" : "No",
     soloBaileFlag: !!invitado.soloBaile,
   };
@@ -1517,7 +1527,6 @@ function mapInvitadoToRow(invitado) {
 function construirColumnasDataTable(opciones = {}) {
   const incluirPromover = !!opciones.incluirPromover;
   const controlPrioridad = !!opciones.controlPrioridad;
-  const mostrarSoloBaile = !!opciones.mostrarSoloBaile;
   const columnas = [
     {
       data: "nombreCompleto",
@@ -1582,15 +1591,12 @@ function construirColumnasDataTable(opciones = {}) {
       title: "Hospedaje",
       render: (data, type) => (type === "display" ? (data === "Sí" ? "✔" : "—") : data),
     },
+    {
+      data: "ayudaHospedaje",
+      title: "Ayuda hospedaje",
+      render: (data, type) => (type === "display" ? (data === "Sí" ? "✔" : "—") : data),
+    },
     { data: "listaEspera", title: "Lista espera" },
-    ...(mostrarSoloBaile
-      ? [
-          {
-            data: "soloBaile",
-            title: "Solo baile",
-          },
-        ]
-      : []),
     {
       data: "prioridad",
       title: "Prioridad",
@@ -1636,8 +1642,6 @@ function pintarTabla() {
       data,
       columns: construirColumnasDataTable({
         incluirGestionCupo: true,
-        mostrarSoloBaile: true,
-        incluirSoloBaile: true,
       }),
       responsive: true,
       language: {
@@ -1660,13 +1664,7 @@ function pintarTablaListaEspera() {
   if (!waitlistBody) return;
   const disponibles = calcularDisponibles();
   const waitlistData = invitadosCache
-    .filter((inv) => inv.esListaEspera)
-    .sort((a, b) => {
-      const soloA = a.soloBaile ? 1 : 0;
-      const soloB = b.soloBaile ? 1 : 0;
-      if (soloA !== soloB) return soloA - soloB;
-      return 0;
-    })
+    .filter((inv) => inv.esListaEspera || inv.soloBaile)
     .map((inv) => {
       const row = mapInvitadoToRow(inv);
       const cupoNecesario = Number(inv.numInvitadosPermitidos) || 0;
@@ -1681,8 +1679,6 @@ function pintarTablaListaEspera() {
         incluirPromover: true,
         incluirGestionCupo: true,
         controlPrioridad: true,
-        mostrarSoloBaile: true,
-        incluirSoloBaile: true,
       }),
       responsive: true,
       language: {
@@ -1767,12 +1763,10 @@ function pintarTablaBaile() {
  * Determina si el invitado pasa el filtro seleccionado.
  */
 function filtrarInvitado(invitado) {
-  if (filtroActual !== "lista-espera" && invitado.esListaEspera) {
+  if (filtroActual !== "lista-espera" && (invitado.esListaEspera || invitado.soloBaile)) {
     return false;
   }
   if (!invitado) return false;
-  // Ocultar invitados solo baile en la tabla principal; se muestran en la tabla dedicada.
-  if (filtroActual !== "lista-espera" && invitado.soloBaile) return false;
   if (filtroLado !== "todos") {
     const ladoInv = (invitado.lado || "").toLowerCase();
     if (ladoInv !== filtroLado) {
@@ -1789,7 +1783,7 @@ function filtrarInvitado(invitado) {
     );
   }
   if (filtroActual === "lista-espera") {
-    return invitado.esListaEspera;
+    return invitado.esListaEspera || invitado.soloBaile;
   }
   if (filtrosEtiquetas.size) {
     const etiquetas =
@@ -4304,7 +4298,7 @@ function obtenerCapacidadMaxima() {
 }
 
 function esInvitadoActivoParaCapacidad(invitado) {
-  if (!invitado || invitado.esListaEspera) return false;
+  if (!invitado || invitado.esListaEspera || invitado.soloBaile) return false;
   const estado = (invitado.estadoInvitacion || "").trim();
   return !ESTADOS_CAPACIDAD_EXCLUIDOS.has(estado);
 }
@@ -4423,7 +4417,7 @@ function contarConfirmadosFase1DesglosePorLado(lado) {
 
 function contarInvitadosListaEspera() {
   return invitadosCache
-    .filter((invitado) => invitado.esListaEspera)
+    .filter((invitado) => invitado.esListaEspera || invitado.soloBaile)
     .reduce(
       (acc, invitado) => acc + (Number(invitado.numInvitadosPermitidos) || 0),
       0
@@ -4454,10 +4448,6 @@ function actualizarResumenCapacidad() {
   const novioActivos = contarInvitadosPorLado("novio");
   if (summaryNovia) summaryNovia.textContent = noviaActivos;
   if (summaryNovio) summaryNovio.textContent = novioActivos;
-  const noviaBaile = contarSoloBailePorLado("novia");
-  const novioBaile = contarSoloBailePorLado("novio");
-  if (summaryNoviaBaile) summaryNoviaBaile.textContent = noviaBaile;
-  if (summaryNovioBaile) summaryNovioBaile.textContent = novioBaile;
   const noviaCompleto = contarRecepcionCompletaPorLado("novia");
   const novioCompleto = contarRecepcionCompletaPorLado("novio");
   if (summaryNoviaCompleto) summaryNoviaCompleto.textContent = noviaCompleto;
