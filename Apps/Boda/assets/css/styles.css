@@ -66,6 +66,11 @@ img {
   overflow: hidden;
 }
 
+body.landing--civil .hero {
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)),
+    url("../images/hero_civil.jpg") center/cover;
+}
+
 .hero::before {
   content: "";
   position: absolute;
@@ -2020,8 +2025,8 @@ body.admin .btn--danger {
 }
 
 .table-wrapper {
-  overflow-x: visible;
-  -webkit-overflow-scrolling: auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   width: 100%;
 }
 
@@ -2037,12 +2042,50 @@ table.dataTable {
 
 .dataTables_wrapper {
   width: 100%;
-  overflow-x: visible;
+  overflow-x: auto;
 }
 
 table.dataTable th,
 table.dataTable td {
   white-space: nowrap;
+}
+
+body.modo-solo-boleto header.hero,
+body.modo-solo-boleto main > section:not(#rsvp) {
+  display: none;
+}
+
+body.modo-solo-boleto #rsvp .section-title-with-icon,
+body.modo-solo-boleto #rsvp > .container > p,
+body.modo-solo-boleto #codigo-form {
+  display: none;
+}
+
+#rsvp-form.solo-boleto .rsvp-steps,
+#rsvp-form.solo-boleto .form-step,
+#rsvp-form.solo-boleto .step-actions,
+#rsvp-form.solo-boleto #paso-mensaje {
+  display: none;
+}
+
+#rsvp-form.solo-boleto #estado-invitado,
+#rsvp-form.solo-boleto #contador-tiempo {
+  display: none;
+}
+
+#rsvp-form.solo-boleto .status-box {
+  margin-top: 0;
+}
+
+#rsvp-form.solo-boleto #boleto-liberado-btn {
+  width: 100%;
+}
+
+#tabla-presupuesto th.dt-notes,
+#tabla-presupuesto td.dt-notes {
+  white-space: normal;
+  word-break: break-word;
+  max-width: 360px;
 }
 
 .dataTables_wrapper .dataTables_filter input,

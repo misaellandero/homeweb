@@ -66,6 +66,7 @@ const resumenViajeElem = document.getElementById("resumen-viaje");
 const resumenAsistenciaElem = document.getElementById("resumen-asistencia");
 const resumenVestimentaElem = document.getElementById("resumen-vestimenta");
 const resumenComentariosElem = document.getElementById("resumen-comentarios");
+const boletoLiberadoBtn = document.getElementById("boleto-liberado-btn");
 const heroDateEl = document.getElementById("hero-date");
 const pasoMensaje = document.getElementById("paso-mensaje");
 const stepSections = document.querySelectorAll(".form-step");
@@ -968,6 +969,7 @@ function construirEstadoPublico(invitado) {
     estado: mapearEstadoPublico(invitado.estadoInvitacion || invitado.estado),
     fechaLimiteRespuesta: invitado.fechaLimiteRespuesta,
     fechaLimiteDetalles: invitado.fechaLimiteDetalles,
+    esListaEspera: invitado.esListaEspera === true,
   };
 }
 
@@ -1003,6 +1005,7 @@ function mapearEstadoPublico(estadoOriginal = "") {
 function inicializarEstadoInvitado(invitado) {
   if (!estadoDetalle) return;
 
+  aplicarModoSoloBoleto(false);
   if (detenerCuentaRegresiva) {
     detenerCuentaRegresiva();
     detenerCuentaRegresiva = null;
@@ -1019,6 +1022,11 @@ function inicializarEstadoInvitado(invitado) {
     return;
   }
   establecerResumenEstado("Procesando invitación", "Actualizamos tu información...");
+  const mostrarSoloBoleto =
+    invitado.esListaEspera === true || invitado.estado === "CANCELADO_TIEMPO";
+  if (mostrarSoloBoleto) {
+    aplicarModoSoloBoleto(true, "Tu boleto fue liberado");
+  }
 
   switch (invitado.estado) {
     case "SIN_RESPUESTA": {
@@ -1113,6 +1121,18 @@ function inicializarEstadoInvitado(invitado) {
       actualizarResumenTiempo("");
     }
   }
+}
+
+function aplicarModoSoloBoleto(activado, mensaje) {
+  document.body.classList.toggle("modo-solo-boleto", activado);
+  rsvpForm?.classList.toggle("solo-boleto", activado);
+  if (boletoLiberadoBtn) {
+    boletoLiberadoBtn.classList.toggle("hidden", !activado);
+    boletoLiberadoBtn.textContent = mensaje || "Tu boleto fue liberado";
+  }
+  if (!activado) return;
+  resumenCard?.classList.add("hidden");
+  paseCard?.classList.add("hidden");
 }
 
 function iniciarCuentaRegresiva(fechaLimite, elementosDestino, onExpire) {

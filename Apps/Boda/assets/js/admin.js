@@ -2631,6 +2631,11 @@ panelTabs?.addEventListener("shown.bs.tab", (event) => {
       dataTable.columns.adjust().responsive.recalc();
     }, 0);
   }
+  if (targetId === "#tab-presupuesto" && presupuestoDataTable) {
+    setTimeout(() => {
+      presupuestoDataTable.columns.adjust().responsive.recalc();
+    }, 0);
+  }
 });
 
 guardarCapacidadBtn?.addEventListener("click", guardarCapacidadMaxima);
@@ -3781,7 +3786,7 @@ function renderPresupuesto() {
           { data: "montoFijo", title: "Monto fijo" },
           { data: "costoAdulto", title: "Costo adultos" },
           { data: "costoNino", title: "Costo niños" },
-          { data: "notas", title: "Notas" },
+          { data: "notas", title: "Notas", className: "dt-notes" },
           { data: "total", title: "Total" },
           {
             data: "acciones",
@@ -3818,7 +3823,7 @@ function renderPresupuesto() {
             <td>${item.montoFijo}</td>
             <td>${item.costoAdulto}</td>
             <td>${item.costoNino}</td>
-            <td>${item.notas}</td>
+            <td class="dt-notes">${item.notas}</td>
             <td>${item.total}</td>
             <td>${item.acciones}</td>
           </tr>
