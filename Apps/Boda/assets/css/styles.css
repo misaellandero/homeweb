@@ -68,7 +68,7 @@ img {
 
 body.landing--civil .hero {
   background: linear-gradient(120deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)),
-    url("../images/hero_civil.jpg") center/cover;
+    url("../images/hero_civil.jpeg") center/cover;
 }
 
 .hero::before {
