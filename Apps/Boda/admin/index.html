@@ -357,6 +357,7 @@
                   <th>WhatsApp</th>
                   <th>Acciones</th>
                     <th>N° confirmados</th>
+                    <th>Nombres confirmados</th>
                     <th>Vestimenta</th>
                   <th>Viaje</th>
                   <th>Hospedaje</th>
@@ -394,6 +395,7 @@
                     <th>WhatsApp</th>
                     <th>Acciones</th>
                     <th>N° confirmados</th>
+                    <th>Nombres confirmados</th>
                     <th>Vestimenta</th>
                     <th>Viaje</th>
                     <th>Hospedaje</th>
@@ -689,14 +691,18 @@
           <div class="card itinerary-form-card">
             <h2>Itinerario del evento</h2>
             <form id="itinerario-form" class="form-grid">
+              <input type="hidden" name="id" value="" />
               <label>Nombre del evento
                 <input type="text" name="nombreEvento" placeholder="Ceremonia civil" required />
               </label>
               <label>Lugar
                 <input type="text" name="lugarEvento" placeholder="Salon, Jardín, etc." required />
               </label>
-              <label>Horario
-                <input type="datetime-local" name="horaEvento" required />
+              <label>Fecha
+                <input type="date" name="fechaEvento" required />
+              </label>
+              <label>Hora
+                <input type="time" name="horaEvento" required />
               </label>
               <div class="form-actions">
                 <button type="submit" class="btn">Agregar al itinerario</button>
@@ -715,13 +721,14 @@
                   <tr>
                     <th>Evento</th>
                     <th>Lugar</th>
-                    <th>Horario</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody id="itinerario-body">
                   <tr>
-                    <td colspan="4">Todavía no hay eventos en el itinerario.</td>
+                    <td colspan="5">Todavía no hay eventos en el itinerario.</td>
                   </tr>
                 </tbody>
               </table>
@@ -954,6 +961,7 @@
                   <option value="pendiente_primera_confirmacion">Invitación sin respuesta</option>
                   <option value="confirmado_fase1">Confirmó asistencia</option>
                   <option value="confirmado_final">Checklist completado</option>
+                  <option value="en_espera_codigo">En espera de código</option>
                   <option value="rechazado">Rechazado</option>
                 </select>
               </label>
@@ -1320,6 +1328,7 @@
                   <option value="pendiente_primera_confirmacion">Invitación sin respuesta</option>
                   <option value="confirmado_fase1">Confirmó asistencia</option>
                   <option value="confirmado_final">Checklist completado</option>
+                  <option value="en_espera_codigo">En espera de código</option>
                   <option value="rechazado">Rechazado</option>
                   <option value="cancelado_por_tiempo">Cancelado por tiempo</option>
                 </select>

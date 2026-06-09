@@ -1844,6 +1844,18 @@ function aplicarLinksPublicos(config = {}) {
   }
 }
 
+async function asegurarSesionFirebasePublica() {
+  if (typeof auth === "undefined") return true;
+  if (auth.currentUser) return true;
+  try {
+    await auth.signInAnonymously();
+    return true;
+  } catch (error) {
+    console.error("Error al iniciar sesión anónima para lecturas públicas", error);
+    return false;
+  }
+}
+
 async function cargarLinksPublicos() {
   if (typeof db === "undefined") return;
   try {
@@ -1907,12 +1919,21 @@ rsvpForm?.addEventListener("submit", guardarRSVP);
 
 actualizarEstadoSeccionUbicaciones();
 cambiarVisibilidadSecciones(true);
-cargarDatosEvento();
-cargarUbicacionesPublicas();
-cargarItinerarioPublico();
-cargarConfiguracionBailePublica();
-cargarPinterestWidgetPublico();
-cargarLinksPublicos();
+asegurarSesionFirebasePublica().then((sesionLista) => {
+  if (!sesionLista) {
+    if (codigoMensaje) {
+      codigoMensaje.textContent =
+        "No pudimos conectar con Firebase. Revisa que el inicio anónimo esté habilitado.";
+    }
+    return;
+  }
+  cargarDatosEvento();
+  cargarUbicacionesPublicas();
+  cargarItinerarioPublico();
+  cargarConfiguracionBailePublica();
+  cargarPinterestWidgetPublico();
+  cargarLinksPublicos();
+});
 
 function mostrarOverlayInvitacion() {
   if (!invitationOverlay) return;

@@ -95,6 +95,7 @@ const editarTotalInvitadosDisplay = document.getElementById("editar-total-invita
 const itinerarioForm = document.getElementById("itinerario-form");
 const itinerarioBody = document.getElementById("itinerario-body");
 const itinerarioMensaje = document.getElementById("itinerario-mensaje");
+const ITINERARIO_FECHA_STORAGE_KEY = "itinerario-fecha-seleccionada";
 const configBaileForm = document.getElementById("config-baile-form");
 const configBaileMensaje = document.getElementById("config-baile-mensaje");
 const configBaileClearBtn = document.getElementById("config-baile-clear");
@@ -1455,7 +1456,11 @@ async function cargarListaInvitados() {
     await actualizarCodigoSugerido();
   } catch (error) {
     console.error("Error al cargar invitados", error);
-    tablaBody.innerHTML = `<tr><td colspan="13">Error al cargar datos.</td></tr>`;
+    const detalleError =
+      error?.code === "permission-denied"
+        ? "Permisos insuficientes en Firestore para este usuario."
+        : error?.message || "Error desconocido.";
+    tablaBody.innerHTML = `<tr><td colspan="13">Error al cargar datos: ${escapeHTML(detalleError)}</td></tr>`;
   }
 }
 
@@ -1492,6 +1497,11 @@ function mapInvitadoToRow(invitado) {
   const notasRender = notasTexto
     ? `<div class="table-note">${escapeHTML(notasTexto)}</div>`
     : "";
+  const nombresRsvp = Array.isArray(invitado.rsvpNombresAsistentes)
+    ? invitado.rsvpNombresAsistentes.join(", ")
+    : typeof invitado.rsvpNombresAsistentes === "string"
+    ? invitado.rsvpNombresAsistentes
+    : "";
   return {
     id: invitado.id,
     nombreCompleto: invitado.nombreCompleto || "",
@@ -1510,6 +1520,7 @@ function mapInvitadoToRow(invitado) {
     estadoLegible: estadoInfo.label,
     estadoRender: renderEstadoPill(estadoInfo),
     rsvpNumAsistentes: invitado.rsvpNumAsistentes ?? 0,
+    rsvpNombres: nombresRsvp || "-",
     vestimenta: invitado.vestimentaConfirmada ? "Sí" : "No",
     viaje: invitado.viajeConfirmado ? "Sí" : "No",
     hospedaje: invitado.hospedajeConfirmado ? "Sí" : "No",
@@ -1577,6 +1588,11 @@ function construirColumnasDataTable(opciones = {}) {
           : data,
     },
     { data: "rsvpNumAsistentes", title: "N° confirmados" },
+    {
+      data: "rsvpNombres",
+      title: "Nombres confirmados",
+      render: (data, type) => (type === "display" ? escapeHTML(data || "-") : data),
+    },
     {
       data: "vestimenta",
       title: "Vestimenta",
@@ -2109,6 +2125,10 @@ loginForm?.addEventListener("submit", (event) => {
 });
 
 auth.onAuthStateChanged((user) => {
+  if (user?.isAnonymous) {
+    auth.signOut();
+    return;
+  }
   const isLogged = !!user;
   rolActual = user ? obtenerRolPorCorreo(user.email) : "verificador";
   dashboard.classList.toggle("hidden", !isLogged);
@@ -2373,11 +2393,34 @@ itinerarioForm?.addEventListener("submit", (event) => {
 });
 
 itinerarioBody?.addEventListener("click", (event) => {
-  const btn = event.target.closest("[data-action='borrar-itinerario']");
+  const btn = event.target.closest("[data-action]");
   if (!btn) return;
+  const action = btn.dataset.action;
   const id = btn.closest("tr")?.dataset?.id;
   if (!id) return;
-  borrarEventoItinerario(id);
+  if (action === "borrar-itinerario") {
+    borrarEventoItinerario(id);
+    return;
+  }
+  if (action === "editar-itinerario") {
+    const evento = eventosItinerario.find((item) => item.id === id);
+    if (!evento || !itinerarioForm) return;
+    itinerarioForm.elements["id"].value = evento.id;
+    itinerarioForm.elements["nombreEvento"].value = evento.nombreEvento || "";
+    itinerarioForm.elements["lugarEvento"].value = evento.lugarEvento || "";
+    const { fecha, hora } = obtenerFechaHoraDesdeIso(evento.hora);
+    if (itinerarioForm.elements["fechaEvento"]) {
+      itinerarioForm.elements["fechaEvento"].value = fecha;
+      persistirFechaItinerario(fecha);
+    }
+    if (itinerarioForm.elements["horaEvento"]) {
+      itinerarioForm.elements["horaEvento"].value = hora;
+    }
+    const submitBtn = itinerarioForm.querySelector("button[type='submit']");
+    if (submitBtn) submitBtn.textContent = "Guardar cambios";
+    if (itinerarioMensaje) itinerarioMensaje.textContent = "Editando evento.";
+    return;
+  }
 });
 
 configBaileForm?.addEventListener("submit", (event) => {
@@ -2390,6 +2433,16 @@ configBaileClearBtn?.addEventListener("click", () => {
   configBaileForm.reset();
   guardarConfiguracionBaile(new FormData(configBaileForm));
 });
+
+if (itinerarioForm?.elements["fechaEvento"]) {
+  const fechaPersistida = obtenerFechaItinerarioPersistida();
+  if (fechaPersistida) {
+    itinerarioForm.elements["fechaEvento"].value = fechaPersistida;
+  }
+  itinerarioForm.elements["fechaEvento"].addEventListener("change", (event) => {
+    persistirFechaItinerario(event.target.value);
+  });
+}
 
 damasForm?.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -2944,6 +2997,62 @@ function formatearFechaResumen(iso) {
   });
 }
 
+function formatearHoraCorta(iso) {
+  if (!iso) return "--";
+  const fecha = new Date(iso);
+  if (Number.isNaN(fecha.getTime())) return "--";
+  return fecha.toLocaleTimeString("es-MX", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function obtenerFechaHoraItinerario(form) {
+  if (!form) return null;
+  const fecha = form.elements["fechaEvento"]?.value;
+  const hora = form.elements["horaEvento"]?.value;
+  if (!fecha || !hora) return null;
+  const combinada = new Date(`${fecha}T${hora}`);
+  return Number.isNaN(combinada.getTime()) ? null : combinada;
+}
+
+function persistirFechaItinerario(fecha) {
+  if (!fecha) return;
+  try {
+    localStorage.setItem(ITINERARIO_FECHA_STORAGE_KEY, fecha);
+  } catch (error) {
+    console.warn("No pudimos guardar la fecha del itinerario", error);
+  }
+}
+
+function obtenerFechaItinerarioPersistida() {
+  try {
+    return localStorage.getItem(ITINERARIO_FECHA_STORAGE_KEY) || "";
+  } catch (error) {
+    console.warn("No pudimos leer la fecha del itinerario", error);
+  }
+  return "";
+}
+
+function reiniciarFormularioItinerario() {
+  if (!itinerarioForm) return;
+  itinerarioForm.reset();
+  const submitBtn = itinerarioForm.querySelector("button[type='submit']");
+  if (submitBtn) submitBtn.textContent = "Agregar al itinerario";
+  if (itinerarioForm.elements["id"]) itinerarioForm.elements["id"].value = "";
+  const fechaPersistida = obtenerFechaItinerarioPersistida();
+  if (fechaPersistida && itinerarioForm.elements["fechaEvento"]) {
+    itinerarioForm.elements["fechaEvento"].value = fechaPersistida;
+  }
+}
+
+function obtenerFechaHoraDesdeIso(isoString) {
+  const valorLocal = isoToLocalInputValue(isoString);
+  if (!valorLocal) return { fecha: "", hora: "" };
+  const [fecha, hora] = valorLocal.split("T");
+  return { fecha: fecha || "", hora: hora || "" };
+}
+
 async function cargarItinerario() {
   if (!itinerarioBody) return;
   try {
@@ -2953,7 +3062,7 @@ async function cargarItinerario() {
   } catch (error) {
     console.error("Error al cargar itinerario", error);
     itinerarioBody.innerHTML =
-      '<tr><td colspan="4">No pudimos cargar el itinerario.</td></tr>';
+      '<tr><td colspan="5">No pudimos cargar el itinerario.</td></tr>';
   }
 }
 
@@ -2961,17 +3070,24 @@ function renderItinerario() {
   if (!itinerarioBody) return;
   if (!eventosItinerario.length) {
     itinerarioBody.innerHTML =
-      '<tr><td colspan="4">Todavía no hay eventos en el itinerario.</td></tr>';
+      '<tr><td colspan="5">Todavía no hay eventos en el itinerario.</td></tr>';
     return;
   }
-  itinerarioBody.innerHTML = eventosItinerario
+  const ordenados = [...eventosItinerario].sort(
+    (a, b) => new Date(a.hora || 0).getTime() - new Date(b.hora || 0).getTime()
+  );
+  itinerarioBody.innerHTML = ordenados
     .map(
       (evento) => `
         <tr data-id="${evento.id}">
           <td>${evento.nombreEvento || "-"}</td>
           <td>${evento.lugarEvento || "-"}</td>
-          <td>${formatearFechaHora(evento.hora)}</td>
+          <td>${formatearFechaSimple(evento.hora)}</td>
+          <td>${formatearHoraCorta(evento.hora)}</td>
           <td>
+            <button class="btn btn--ghost" data-action="editar-itinerario">
+              Editar
+            </button>
             <button class="btn btn--ghost btn--danger" data-action="borrar-itinerario">
               Borrar
             </button>
@@ -2991,29 +3107,41 @@ async function agregarEventoItinerario(formData) {
   }
   const nombreEvento = formData.get("nombreEvento")?.trim();
   const lugarEvento = formData.get("lugarEvento")?.trim();
+  const fechaEvento = formData.get("fechaEvento");
   const horaEvento = formData.get("horaEvento");
-  if (!nombreEvento || !lugarEvento || !horaEvento) {
+  if (!nombreEvento || !lugarEvento || !fechaEvento || !horaEvento) {
     if (itinerarioMensaje) {
       itinerarioMensaje.textContent = "Completa todos los campos.";
     }
     return;
   }
-  const fecha = new Date(horaEvento);
-  if (Number.isNaN(fecha.getTime())) {
+  const fecha = obtenerFechaHoraItinerario(itinerarioForm);
+  if (!fecha) {
     if (itinerarioMensaje) {
       itinerarioMensaje.textContent = "La fecha del evento no es válida.";
     }
     return;
   }
+  persistirFechaItinerario(fechaEvento);
+  const id = formData.get("id");
   try {
-    await db.collection("itinerario").add({
-      nombreEvento,
-      lugarEvento,
-      hora: fecha.toISOString(),
-      creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
-    });
-    itinerarioForm.reset();
-    if (itinerarioMensaje) itinerarioMensaje.textContent = "Evento agregado.";
+    if (id) {
+      await db.collection("itinerario").doc(id).update({
+        nombreEvento,
+        lugarEvento,
+        hora: fecha.toISOString(),
+      });
+      if (itinerarioMensaje) itinerarioMensaje.textContent = "Evento actualizado.";
+    } else {
+      await db.collection("itinerario").add({
+        nombreEvento,
+        lugarEvento,
+        hora: fecha.toISOString(),
+        creadoEn: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      if (itinerarioMensaje) itinerarioMensaje.textContent = "Evento agregado.";
+    }
+    reiniciarFormularioItinerario();
     await cargarItinerario();
   } catch (error) {
     console.error("Error al agregar evento", error);
