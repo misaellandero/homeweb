@@ -17956,6 +17956,14 @@ hr.line-deafult {
   margin-bottom: 150px;
 }
 
+.section-coins .portfolio-grid {
+  row-gap: 120px;
+}
+
+.section-coins .portfolio-grid > [class*="col-"] {
+  margin-bottom: 40px;
+}
+
 .section-nucleo-icons {
   --icon-size: 5rem;
   --icon-sm-size: 3.75rem;
