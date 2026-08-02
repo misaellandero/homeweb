@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sprite Vault Control</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090a19;
+      --panel: rgba(23, 27, 54, .78);
+      --panel-strong: rgba(39, 45, 86, .86);
+      --line: rgba(160, 180, 255, .22);
+      --text: #f7f8ff;
+      --muted: #a9b0c8;
+      --blue: #3f8cff;
+      --pink: #e24fe6;
+      --green: #54d878;
+      --yellow: #ffd447;
+      --red: #ff5b6a;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 8%, rgba(63, 140, 255, .24), transparent 30%),
+        radial-gradient(circle at 84% 14%, rgba(226, 79, 230, .18), transparent 28%),
+        linear-gradient(135deg, #11194a 0%, #080915 46%, #1c0c32 100%);
+    }
+
+    main {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    header {
+      display: flex;
+      gap: 22px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 64px);
+      line-height: .94;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 16px;
+      margin-top: 12px;
+      max-width: 680px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .brand img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 22px rgba(114, 88, 255, .45));
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(330px, .85fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      backdrop-filter: blur(22px);
+      border-radius: 22px;
+      box-shadow: 0 24px 90px rgba(0, 0, 0, .32);
+    }
+
+    .section {
+      padding: 20px;
+    }
+
+    .status-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .metric {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .055);
+      min-height: 100px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .value {
+      font-size: 30px;
+      font-weight: 900;
+      margin-top: 9px;
+      overflow-wrap: anywhere;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .14);
+      color: var(--text);
+    }
+
+    .pill.ok { color: #c7ffd3; background: rgba(84, 216, 120, .16); }
+    .pill.warn { color: #ffe8a6; background: rgba(255, 212, 71, .14); }
+    .pill.bad { color: #ffd0d5; background: rgba(255, 91, 106, .16); }
+
+    .mode-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin: 14px 0 18px;
+    }
+
+    .mode {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, .06);
+      border-radius: 18px;
+      padding: 16px;
+      color: var(--text);
+      cursor: pointer;
+      min-height: 122px;
+      text-align: left;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .mode:hover { transform: translateY(-2px); }
+    .mode.active {
+      border-color: rgba(63, 140, 255, .95);
+      background: linear-gradient(135deg, rgba(63, 140, 255, .24), rgba(226, 79, 230, .14));
+      box-shadow: 0 0 0 1px rgba(63, 140, 255, .22) inset;
+    }
+
+    .mode strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .mode span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    textarea, input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .08);
+      color: var(--text);
+      padding: 12px 14px;
+      font: inherit;
+      outline: none;
+    }
+
+    textarea { min-height: 88px; resize: vertical; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    button.action, a.action {
+      border: 1px solid rgba(255, 255, 255, .18);
+      background: rgba(255, 255, 255, .1);
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 850;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button.primary {
+      background: linear-gradient(135deg, var(--blue), var(--pink));
+      border-color: transparent;
+    }
+
+    button.green {
+      background: linear-gradient(135deg, #36c76a, #71e28f);
+      border-color: transparent;
+      color: #071407;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .log {
+      margin-top: 14px;
+      padding: 14px;
+      min-height: 100px;
+      max-height: 240px;
+      overflow: auto;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, .24);
+      color: #cbd3ef;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+
+    .phone {
+      position: sticky;
+      top: 18px;
+      border-radius: 38px;
+      padding: 18px;
+      background: linear-gradient(145deg, rgba(245, 248, 255, .95), rgba(214, 225, 255, .86));
+      color: #070a18;
+      border: 1px solid rgba(255, 255, 255, .66);
+      box-shadow: 0 34px 110px rgba(0, 0, 0, .4);
+    }
+
+    .phone-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 900;
+      margin-bottom: 18px;
+      color: #151827;
+    }
+
+    .phone-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #868b9b;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .phone-title img { width: 26px; height: 26px; }
+
+    .progress-card {
+      border-radius: 26px;
+      padding: 20px;
+      background: linear-gradient(145deg, #15132c, #080612);
+      color: white;
+      min-height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glow {
+      position: absolute;
+      right: -28px;
+      top: -34px;
+      width: 170px;
+      height: 170px;
+      background: radial-gradient(circle, rgba(63, 140, 255, .46), transparent 68%);
+    }
+
+    .big-count {
+      font-size: 58px;
+      font-weight: 950;
+      line-height: 1;
+      margin-top: 28px;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      overflow: hidden;
+      margin-top: 16px;
+    }
+
+    .progress > div {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), var(--pink));
+    }
+
+    .sprite-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .sprite-row {
+      display: grid;
+      grid-template-columns: 48px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 9px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .72);
+    }
+
+    .sprite-row img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 12px rgba(63, 140, 255, .34));
+    }
+
+    .sprite-row strong { display: block; font-size: 15px; }
+    .sprite-row span { color: #717789; font-size: 12px; font-weight: 750; }
+
+    @media (max-width: 900px) {
+      header { display: block; }
+      .grid { grid-template-columns: 1fr; }
+      .status-strip, .mode-row, .split { grid-template-columns: 1fr; }
+      .phone { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <div class="brand">
+          <img src="../../sprite-vault/images/water_basic.webp" alt="">
+          Sprite Vault Control
+        </div>
+        <h1>Control de origen del catálogo</h1>
+        <p class="subtitle">Cambia al instante entre SpriteLocker y el respaldo HomeWeb. También puedes disparar el reclonado del mirror y revisar una vista previa tipo iPhone.</p>
+      </div>
+      <span id="healthPill" class="pill warn">Cargando...</span>
+    </header>
+
+    <div class="grid">
+      <section>
+        <div class="status-strip">
+          <div class="metric">
+            <div class="label">Modo activo</div>
+            <div id="modeValue" class="value">...</div>
+          </div>
+          <div class="metric">
+            <div class="label">Sprites</div>
+            <div id="spriteCount" class="value">...</div>
+          </div>
+          <div class="metric">
+            <div class="label">Variantes</div>
+            <div id="variantCount" class="value">...</div>
+          </div>
+          <div class="metric">
+            <div class="label">Mirror v</div>
+            <div id="mirrorVersion" class="value">...</div>
+          </div>
+        </div>
+
+        <div class="card section">
+          <h2>Origen de datos</h2>
+          <p class="subtitle">La app lee <code>control.json</code>. En automático intenta SpriteLocker y cae a HomeWeb; en HomeWeb usa solo el mirror.</p>
+          <div class="mode-row" id="modeRow">
+            <button class="mode" data-mode="automatic">
+              <strong>Automático</strong>
+              <span>SpriteLocker primero. Si falla, usa HomeWeb.</span>
+            </button>
+            <button class="mode" data-mode="spritelocker">
+              <strong>SpriteLocker</strong>
+              <span>Solo la fuente viva. Útil cuando quieres validar el sitio original.</span>
+            </button>
+            <button class="mode" data-mode="homeweb">
+              <strong>HomeWeb</strong>
+              <span>Solo el respaldo estático. Útil si el scrape se rompe.</span>
+            </button>
+          </div>
+
+          <label class="label" for="reason">Razón del cambio</label>
+          <textarea id="reason" placeholder="Ej. SpriteLocker cambió HTML; usar HomeWeb hasta validar parser."></textarea>
+
+          <div class="split" style="margin-top:12px">
+            <div>
+              <label class="label" for="token">GitHub token</label>
+              <input id="token" type="password" autocomplete="off" placeholder="Token con permiso contents/workflows">
+            </div>
+            <div>
+              <label class="label" for="branch">Branch</label>
+              <input id="branch" value="main">
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="action primary" id="saveControl">Guardar control.json</button>
+            <button class="action green" id="dispatchWorkflow">Reclonar mirror</button>
+            <button class="action" id="downloadControl">Descargar control</button>
+            <a class="action" href="../../sprite-vault/manifest.json" download>Descargar manifest</a>
+            <a class="action" href="../../sprite-vault/sprites.json" download>Descargar catálogo</a>
+          </div>
+          <div id="log" class="log"></div>
+        </div>
+
+        <div class="card section" style="margin-top:18px">
+          <h2>Backups</h2>
+          <p class="subtitle">El workflow mantiene backups cuando detecta cambios del catálogo. Si aún no aparecen aquí, corre el reclonado después de publicar esta versión.</p>
+          <div id="backups" class="sprite-list"></div>
+        </div>
+      </section>
+
+      <aside class="phone">
+        <div class="phone-top">
+          <span>9:41</span>
+          <span>●●●</span>
+        </div>
+        <div class="phone-title">
+          <img src="../../sprite-vault/images/water_basic.webp" alt="">
+          Sprite Vault Tracker
+        </div>
+        <div class="progress-card">
+          <div class="glow"></div>
+          <span id="phoneMode" class="pill">...</span>
+          <div class="big-count"><span id="phoneObtained">0</span><span style="font-size:34px;color:#9ba1b6">/<span id="phoneTotal">0</span></span></div>
+          <p style="color:#aeb4c9;font-weight:800;margin-top:8px">variantes conseguidas</p>
+          <div class="progress"><div id="phoneProgress"></div></div>
+        </div>
+        <div id="previewList" class="sprite-list"></div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const owner = 'misaellandero';
+    const repo = 'homeweb';
+    const controlPath = 'sprite-vault/control.json';
+    const workflowFile = 'update-sprite-vault-mirror.yml';
+    const publicBase = '../../sprite-vault/';
+    let control = null;
+    let catalog = null;
+    let manifest = null;
+    let selectedMode = 'automatic';
+
+    const $ = (id) => document.getElementById(id);
+    const log = (message) => {
+      $('log').textContent = `[${new Date().toLocaleTimeString()}] ${message}\n` + $('log').textContent;
+    };
+
+    async function getJSON(url) {
+      const response = await fetch(url, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`${url} -> ${response.status}`);
+      return response.json();
+    }
+
+    function setHealth(kind, text) {
+      const pill = $('healthPill');
+      pill.className = `pill ${kind}`;
+      pill.textContent = text;
+    }
+
+    function selectMode(mode) {
+      selectedMode = mode;
+      document.querySelectorAll('.mode').forEach((button) => {
+        button.classList.toggle('active', button.dataset.mode === mode);
+      });
+      $('modeValue').textContent = mode;
+      $('phoneMode').textContent = mode === 'homeweb' ? 'HomeWeb' : mode === 'spritelocker' ? 'SpriteLocker' : 'Automático';
+    }
+
+    function variantCountFor(sprite) {
+      return (sprite.variants || []).filter((variant) => variant.defaultStatus !== 'notAvailable').length;
+    }
+
+    function renderPreview() {
+      if (!catalog) return;
+      const sprites = catalog.sprites || [];
+      const total = sprites.reduce((sum, sprite) => sum + variantCountFor(sprite), 0);
+      const obtained = Math.max(0, Math.round(total * 0.31));
+      $('spriteCount').textContent = sprites.length;
+      $('variantCount').textContent = total;
+      $('mirrorVersion').textContent = manifest?.version ?? catalog.version ?? '...';
+      $('phoneObtained').textContent = obtained;
+      $('phoneTotal').textContent = total;
+      $('phoneProgress').style.width = `${total ? (obtained / total) * 100 : 0}%`;
+
+      const list = sprites.slice(0, 6).map((sprite) => {
+        const variant = (sprite.variants || [])[0];
+        const slug = variant?.variant === 'normal' ? 'basic' : variant?.variant === 'gummy' ? 'candy' : variant?.variant || 'basic';
+        const image = `${publicBase}images/${sprite.key}_${slug}.webp`;
+        const name = sprite.localizedDisplayNames?.es || sprite.localizedDisplayNames?.en || sprite.displayName || sprite.key;
+        return `
+          <div class="sprite-row">
+            <img src="${image}" alt="">
+            <div><strong>${name}</strong><span>${variantCountFor(sprite)} variantes</span></div>
+            <span class="pill">${sprite.rarity || 'rare'}</span>
+          </div>`;
+      }).join('');
+      $('previewList').innerHTML = list;
+    }
+
+    function renderBackups(backups) {
+      const target = $('backups');
+      if (!backups?.length) {
+        target.innerHTML = '<p class="subtitle">Sin backups publicados todavía.</p>';
+        return;
+      }
+      target.innerHTML = backups.map((backup) => `
+        <div class="sprite-row">
+          <img src="../../sprite-vault/images/water_basic.webp" alt="">
+          <div><strong>v${backup.version} · ${backup.spriteCount} sprites</strong><span>${backup.createdAt}</span></div>
+          <a class="pill" href="../../sprite-vault/backups/${backup.file}" download>Descargar</a>
+        </div>
+      `).join('');
+    }
+
+    async function load() {
+      try {
+        const [controlJSON, manifestJSON, catalogJSON] = await Promise.all([
+          getJSON(`${publicBase}control.json`),
+          getJSON(`${publicBase}manifest.json`),
+          getJSON(`${publicBase}sprites.json`),
+        ]);
+        control = controlJSON;
+        manifest = manifestJSON;
+        catalog = catalogJSON;
+        selectMode(control.mode || 'automatic');
+        $('reason').value = control.reason || '';
+        setHealth('ok', 'Control cargado');
+        renderPreview();
+        log('Datos públicos cargados.');
+      } catch (error) {
+        setHealth('bad', 'No se pudo cargar control');
+        log(error.message);
+      }
+
+      try {
+        const backupIndex = await getJSON(`${publicBase}backups/index.json`);
+        renderBackups(backupIndex.backups || []);
+      } catch {
+        renderBackups([]);
+      }
+    }
+
+    async function githubRequest(url, options = {}) {
+      const token = $('token').value.trim();
+      if (!token) throw new Error('Pega un GitHub token primero.');
+      sessionStorage.setItem('spriteVaultGitHubToken', token);
+      const response = await fetch(url, {
+        ...options,
+        headers: {
+          Accept: 'application/vnd.github+json',
+          Authorization: `Bearer ${token}`,
+          'X-GitHub-Api-Version': '2022-11-28',
+          ...(options.headers || {}),
+        },
+      });
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`${response.status}: ${text}`);
+      }
+      return response.status === 204 ? null : response.json();
+    }
+
+    async function saveControl() {
+      const branch = $('branch').value.trim() || 'main';
+      const url = `https://api.github.com/repos/${owner}/${repo}/contents/${controlPath}?ref=${encodeURIComponent(branch)}`;
+      const existing = await githubRequest(url);
+      const next = {
+        ...(control || {}),
+        schemaVersion: 1,
+        mode: selectedMode,
+        updatedAt: new Date().toISOString(),
+        updatedBy: 'SpriteVaultControl',
+        reason: $('reason').value.trim() || `Changed to ${selectedMode}`,
+        primary: {
+          name: 'SpriteLocker',
+          englishURL: 'https://spritelocker.com/',
+          spanishURL: 'https://spritelocker.com/es/',
+        },
+        mirror: {
+          name: 'HomeWeb',
+          manifestURL: 'https://misaellandero.com/sprite-vault/manifest.json',
+          spritesURL: 'https://misaellandero.com/sprite-vault/sprites.json',
+        },
+      };
+      const content = btoa(unescape(encodeURIComponent(JSON.stringify(next, null, 2) + '\n')));
+      await githubRequest(`https://api.github.com/repos/${owner}/${repo}/contents/${controlPath}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          message: `Update Sprite Vault data source to ${selectedMode}`,
+          content,
+          sha: existing.sha,
+          branch,
+        }),
+      });
+      control = next;
+      selectMode(next.mode);
+      log(`control.json guardado en modo ${selectedMode}.`);
+      setHealth('ok', `Modo ${selectedMode}`);
+    }
+
+    async function dispatchWorkflow() {
+      const branch = $('branch').value.trim() || 'main';
+      await githubRequest(`https://api.github.com/repos/${owner}/${repo}/actions/workflows/${workflowFile}/dispatches`, {
+        method: 'POST',
+        body: JSON.stringify({ ref: branch }),
+      });
+      log('Workflow de reclonado disparado.');
+    }
+
+    function downloadControl() {
+      const next = {
+        ...(control || {}),
+        schemaVersion: 1,
+        mode: selectedMode,
+        updatedAt: new Date().toISOString(),
+        updatedBy: 'download',
+        reason: $('reason').value.trim(),
+      };
+      const blob = new Blob([JSON.stringify(next, null, 2) + '\n'], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'control.json';
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+
+    document.querySelectorAll('.mode').forEach((button) => {
+      button.addEventListener('click', () => selectMode(button.dataset.mode));
+    });
+    $('saveControl').addEventListener('click', () => saveControl().catch((error) => log(error.message)));
+    $('dispatchWorkflow').addEventListener('click', () => dispatchWorkflow().catch((error) => log(error.message)));
+    $('downloadControl').addEventListener('click', downloadControl);
+    $('token').value = sessionStorage.getItem('spriteVaultGitHubToken') || '';
+
+    load();
+  </script>
+</body>
+</html>

@@ -1,0 +1,882 @@
+{
+  "version": 4,
+  "lastUpdated": "2026-07-26",
+  "sprites": [
+    {
+      "key": "water",
+      "displayNameKey": "sprite.water.name",
+      "displayName": "Water",
+      "localizedDisplayNames": {
+        "en": "Water",
+        "es": "Agua"
+      },
+      "rarity": "rare",
+      "abilityDescriptionKey": "sprite.water.ability",
+      "abilityDescription": "Replenishes shields for you and nearby squadmates while in water.",
+      "localizedAbilityDescriptions": {
+        "en": "Replenishes shields for you and nearby squadmates while in water.",
+        "es": "Repone escudos para ti y los compañeros de escuadra cercanos mientras estás en el agua."
+      },
+      "whereToFindKey": "sprite.water.location",
+      "whereToFind": "Spawns near water — lakes, rivers and the coastline.",
+      "localizedWhereToFind": {
+        "en": "Spawns near water — lakes, rivers and the coastline.",
+        "es": "Aparece cerca del agua — lagos, ríos y la costa."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "holofoil",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "earth",
+      "displayNameKey": "sprite.earth.name",
+      "displayName": "Earth",
+      "localizedDisplayNames": {
+        "en": "Earth",
+        "es": "Tierra"
+      },
+      "rarity": "rare",
+      "abilityDescriptionKey": "sprite.earth.ability",
+      "abilityDescription": "Chance for extra rare items from chests.",
+      "localizedAbilityDescriptions": {
+        "en": "Chance for extra rare items from chests.",
+        "es": "Posibilidad de objetos raros adicionales en los cofres."
+      },
+      "whereToFindKey": "sprite.earth.location",
+      "whereToFind": "Found around forests and wooded areas.",
+      "localizedWhereToFind": {
+        "en": "Found around forests and wooded areas.",
+        "es": "Se encuentra en bosques y zonas arboladas."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "holofoil",
+          "defaultStatus": "comingSoon"
+        },
+        {
+          "variant": "cube",
+          "defaultStatus": "comingSoon"
+        },
+        {
+          "variant": "quack",
+          "defaultStatus": "comingSoon"
+        }
+      ]
+    },
+    {
+      "key": "fire",
+      "displayNameKey": "sprite.fire.name",
+      "displayName": "Fire",
+      "localizedDisplayNames": {
+        "en": "Fire",
+        "es": "Fuego"
+      },
+      "rarity": "rare",
+      "abilityDescriptionKey": "sprite.fire.ability",
+      "abilityDescription": "Releases a fiery burst once you deal enough damage.",
+      "localizedAbilityDescriptions": {
+        "en": "Releases a fiery burst once you deal enough damage.",
+        "es": "Lanza una ráfaga ardiente una vez que infliges suficiente daño."
+      },
+      "whereToFindKey": "sprite.fire.location",
+      "whereToFind": "Found around city / built-up POIs.",
+      "localizedWhereToFind": {
+        "en": "Found around city / built-up POIs.",
+        "es": "Se encuentra en ciudades y zonas urbanizadas (POI)."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "holofoil",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "cube",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "fishy",
+      "displayNameKey": "sprite.fishy.name",
+      "displayName": "Fishy",
+      "localizedDisplayNames": {
+        "en": "Fishy",
+        "es": "Pececillo"
+      },
+      "rarity": "rare",
+      "abilityDescriptionKey": "sprite.fishy.ability",
+      "abilityDescription": "Increases your swim speed, with an extra movement boost while you're taking fire.",
+      "localizedAbilityDescriptions": {
+        "en": "Increases your swim speed, with an extra movement boost while you're taking fire.",
+        "es": "Aumenta tu velocidad de nado, con un impulso de movimiento adicional mientras recibes disparos."
+      },
+      "whereToFindKey": "sprite.fishy.location",
+      "whereToFind": "Found in chests across the map.",
+      "localizedWhereToFind": {
+        "en": "Found in chests across the map.",
+        "es": "Se encuentra en cofres por todo el mapa."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "cube",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "air",
+      "displayNameKey": "sprite.air.name",
+      "displayName": "Air",
+      "localizedDisplayNames": {
+        "en": "Air",
+        "es": "Aire"
+      },
+      "rarity": "rare",
+      "abilityDescriptionKey": "sprite.air.ability",
+      "abilityDescription": "Ability not yet confirmed — pending official details.",
+      "localizedAbilityDescriptions": {
+        "en": "Ability not yet confirmed — pending official details.",
+        "es": "Habilidad aún sin confirmar — pendiente de detalles oficiales."
+      },
+      "whereToFindKey": "sprite.air.location",
+      "whereToFind": "Where to find not yet confirmed.",
+      "localizedWhereToFind": {
+        "en": "Where to find not yet confirmed.",
+        "es": "Dónde encontrarlo aún sin confirmar."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "holofoil",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "duck",
+      "displayNameKey": "sprite.duck.name",
+      "displayName": "Duck",
+      "localizedDisplayNames": {
+        "en": "Duck",
+        "es": "Pato"
+      },
+      "rarity": "epic",
+      "abilityDescriptionKey": "sprite.duck.ability",
+      "abilityDescription": "Emoting and jamming replenishes your shields.",
+      "localizedAbilityDescriptions": {
+        "en": "Emoting and jamming replenishes your shields.",
+        "es": "Hacer gestos y tocar música repone tus escudos."
+      },
+      "whereToFindKey": "sprite.duck.location",
+      "whereToFind": "From Sprite Chests across the map.",
+      "localizedWhereToFind": {
+        "en": "From Sprite Chests across the map.",
+        "es": "De los Cofres de Sprite por todo el mapa."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "ghost",
+      "displayNameKey": "sprite.ghost.name",
+      "displayName": "Ghost",
+      "localizedDisplayNames": {
+        "en": "Ghost",
+        "es": "Fantasma"
+      },
+      "rarity": "epic",
+      "abilityDescriptionKey": "sprite.ghost.ability",
+      "abilityDescription": "Cloaks you for a short time on reload.",
+      "localizedAbilityDescriptions": {
+        "en": "Cloaks you for a short time on reload.",
+        "es": "Te oculta durante un breve tiempo al recargar."
+      },
+      "whereToFindKey": "sprite.ghost.location",
+      "whereToFind": "Only spawns at night.",
+      "localizedWhereToFind": {
+        "en": "Only spawns at night.",
+        "es": "Solo aparece de noche."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "holofoil",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "demon",
+      "displayNameKey": "sprite.demon.name",
+      "displayName": "Demon",
+      "localizedDisplayNames": {
+        "en": "Demon",
+        "es": "Demonio"
+      },
+      "rarity": "epic",
+      "abilityDescriptionKey": "sprite.demon.ability",
+      "abilityDescription": "Siphons health and shields on eliminations.",
+      "localizedAbilityDescriptions": {
+        "en": "Siphons health and shields on eliminations.",
+        "es": "Absorbe salud y escudos en las eliminaciones."
+      },
+      "whereToFindKey": "sprite.demon.location",
+      "whereToFind": "From Sprite Chests across the map.",
+      "localizedWhereToFind": {
+        "en": "From Sprite Chests across the map.",
+        "es": "De los Cofres de Sprite por todo el mapa."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "king",
+      "displayNameKey": "sprite.king.name",
+      "displayName": "King",
+      "localizedDisplayNames": {
+        "en": "King",
+        "es": "Rey"
+      },
+      "rarity": "epic",
+      "abilityDescriptionKey": "sprite.king.ability",
+      "abilityDescription": "Your pickaxe deals more damage.",
+      "localizedAbilityDescriptions": {
+        "en": "Your pickaxe deals more damage.",
+        "es": "Tu pico inflige más daño."
+      },
+      "whereToFindKey": "sprite.king.location",
+      "whereToFind": "From Sprite Chests across the map.",
+      "localizedWhereToFind": {
+        "en": "From Sprite Chests across the map.",
+        "es": "De los Cofres de Sprite por todo el mapa."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "holofoil",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "drifter",
+      "displayNameKey": "sprite.drifter.name",
+      "displayName": "Aura",
+      "localizedDisplayNames": {
+        "en": "Aura",
+        "es": "Aura"
+      },
+      "rarity": "epic",
+      "abilityDescriptionKey": "sprite.drifter.ability",
+      "abilityDescription": "Grants a Shock Rock charge once you deal enough damage.",
+      "localizedAbilityDescriptions": {
+        "en": "Grants a Shock Rock charge once you deal enough damage.",
+        "es": "Otorga una carga de Roca Eléctrica una vez que infliges suficiente daño."
+      },
+      "whereToFindKey": "sprite.drifter.location",
+      "whereToFind": "Found in chests and Supply Drops across the map.",
+      "localizedWhereToFind": {
+        "en": "Found in chests and Supply Drops across the map.",
+        "es": "Se encuentra en cofres y Entregas de Suministros por todo el mapa."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "soccer",
+      "displayNameKey": "sprite.soccer.name",
+      "displayName": "Striker",
+      "localizedDisplayNames": {
+        "en": "Striker",
+        "es": "Delantero"
+      },
+      "rarity": "epic",
+      "abilityDescriptionKey": "sprite.soccer.ability",
+      "abilityDescription": "Triggers Overdrive whenever you mantle a ledge or hurdle an obstacle.",
+      "localizedAbilityDescriptions": {
+        "en": "Triggers Overdrive whenever you mantle a ledge or hurdle an obstacle.",
+        "es": "Activa Sobremarcha cada vez que trepas un borde o saltas un obstáculo."
+      },
+      "whereToFindKey": "sprite.soccer.location",
+      "whereToFind": "Unlock it by scoring a goal at the Soccer Pitch.",
+      "localizedWhereToFind": {
+        "en": "Unlock it by scoring a goal at the Soccer Pitch.",
+        "es": "Desbloquéalo marcando un gol en el Campo de Fútbol."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "holofoil",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "dream",
+      "displayNameKey": "sprite.dream.name",
+      "displayName": "Dream",
+      "localizedDisplayNames": {
+        "en": "Dream",
+        "es": "Sueño"
+      },
+      "rarity": "legendary",
+      "abilityDescriptionKey": "sprite.dream.ability",
+      "abilityDescription": "Grants a random item each level; legendary loot at max level.",
+      "localizedAbilityDescriptions": {
+        "en": "Grants a random item each level; legendary loot at max level.",
+        "es": "Otorga un objeto aleatorio en cada nivel; botín legendario al nivel máximo."
+      },
+      "whereToFindKey": "sprite.dream.location",
+      "whereToFind": "Chests only — a rarer spawn.",
+      "localizedWhereToFind": {
+        "en": "Chests only — a rarer spawn.",
+        "es": "Solo en cofres — una aparición más rara."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "cube",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "punk",
+      "displayNameKey": "sprite.punk.name",
+      "displayName": "Punk",
+      "localizedDisplayNames": {
+        "en": "Punk",
+        "es": "Punk"
+      },
+      "rarity": "legendary",
+      "abilityDescriptionKey": "sprite.punk.ability",
+      "abilityDescription": "Chance of infinite ammo — possibly nothing, or infinitely something.",
+      "localizedAbilityDescriptions": {
+        "en": "Chance of infinite ammo — possibly nothing, or infinitely something.",
+        "es": "Posibilidad de munición infinita — quizá nada, o infinitamente algo."
+      },
+      "whereToFindKey": "sprite.punk.location",
+      "whereToFind": "Chests only — a rarer spawn.",
+      "localizedWhereToFind": {
+        "en": "Chests only — a rarer spawn.",
+        "es": "Solo en cofres — una aparición más rara."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "cube",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "boss",
+      "displayNameKey": "sprite.boss.name",
+      "displayName": "Boss",
+      "localizedDisplayNames": {
+        "en": "Boss",
+        "es": "Jefe"
+      },
+      "rarity": "legendary",
+      "abilityDescriptionKey": "sprite.boss.ability",
+      "abilityDescription": "Boosts your maximum Health and Shield.",
+      "localizedAbilityDescriptions": {
+        "en": "Boosts your maximum Health and Shield.",
+        "es": "Aumenta tu Salud y Escudo máximos."
+      },
+      "whereToFindKey": "sprite.boss.location",
+      "whereToFind": "Drops from any Boss after you defeat them.",
+      "localizedWhereToFind": {
+        "en": "Drops from any Boss after you defeat them.",
+        "es": "Cae de cualquier Jefe después de derrotarlo."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "cube",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "seven",
+      "displayNameKey": "sprite.seven.name",
+      "displayName": "Seven",
+      "localizedDisplayNames": {
+        "en": "Seven",
+        "es": "Siete"
+      },
+      "rarity": "legendary",
+      "abilityDescriptionKey": "sprite.seven.ability",
+      "abilityDescription": "Ability not yet confirmed — pending official details.",
+      "localizedAbilityDescriptions": {
+        "en": "Ability not yet confirmed — pending official details.",
+        "es": "Habilidad aún sin confirmar — pendiente de detalles oficiales."
+      },
+      "whereToFindKey": "sprite.seven.location",
+      "whereToFind": "Where to find not yet confirmed.",
+      "localizedWhereToFind": {
+        "en": "Where to find not yet confirmed.",
+        "es": "Dónde encontrarlo aún sin confirmar."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "holofoil",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "fossilmeal",
+      "displayNameKey": "sprite.fossilmeal.name",
+      "displayName": "Batman",
+      "localizedDisplayNames": {
+        "en": "Batman",
+        "es": "Batman"
+      },
+      "rarity": "mythic",
+      "abilityDescriptionKey": "sprite.fossilmeal.ability",
+      "abilityDescription": "Deploy the Bat Cape midair, and find rare Sprites in chests more often.",
+      "localizedAbilityDescriptions": {
+        "en": "Deploy the Bat Cape midair, and find rare Sprites in chests more often.",
+        "es": "Despliega la Bat-capa en el aire y encuentra Sprites raros en los cofres más a menudo."
+      },
+      "whereToFindKey": "sprite.fossilmeal.location",
+      "whereToFind": "Beat the Catwoman NPC on the beach south of Wonkeeland, or open Sprite Chests.",
+      "localizedWhereToFind": {
+        "en": "Beat the Catwoman NPC on the beach south of Wonkeeland, or open Sprite Chests.",
+        "es": "Derrota a la PNJ Catwoman en la playa al sur de Wonkeeland o abre Cofres de Sprite."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "holofoil",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "cube",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "grimreaper",
+      "displayNameKey": "sprite.grimreaper.name",
+      "displayName": "Grim Reaper",
+      "localizedDisplayNames": {
+        "en": "Grim Reaper",
+        "es": "Parca"
+      },
+      "rarity": "mythic",
+      "abilityDescriptionKey": "sprite.grimreaper.ability",
+      "abilityDescription": "Marks any player who damages you, revealing their location on your map.",
+      "localizedAbilityDescriptions": {
+        "en": "Marks any player who damages you, revealing their location on your map.",
+        "es": "Marca a cualquier jugador que te inflija daño, revelando su ubicación en tu mapa."
+      },
+      "whereToFindKey": "sprite.grimreaper.location",
+      "whereToFind": "Found in chests across the map.",
+      "localizedWhereToFind": {
+        "en": "Found in chests across the map.",
+        "es": "Se encuentra en cofres por todo el mapa."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "cube",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "zeropoint",
+      "displayNameKey": "sprite.zeropoint.name",
+      "displayName": "Zero Point",
+      "localizedDisplayNames": {
+        "en": "Zero Point",
+        "es": "El Punto Cero"
+      },
+      "rarity": "mythic",
+      "abilityDescriptionKey": "sprite.zeropoint.ability",
+      "abilityDescription": "Spawns a Shield Bubble Jr. when you heal yourself.",
+      "localizedAbilityDescriptions": {
+        "en": "Spawns a Shield Bubble Jr. when you heal yourself.",
+        "es": "Genera una Burbuja de Escudo Jr. cuando te curas."
+      },
+      "whereToFindKey": "sprite.zeropoint.location",
+      "whereToFind": "Vault / keycard Sprite Chests — the rarest collectible.",
+      "localizedWhereToFind": {
+        "en": "Vault / keycard Sprite Chests — the rarest collectible.",
+        "es": "Cofres de Sprite de bóveda / tarjeta de acceso — el coleccionable más raro."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gold",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "gummy",
+          "defaultStatus": "missing"
+        },
+        {
+          "variant": "galaxy",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "theburntpeanut",
+      "displayNameKey": "sprite.theburntpeanut.name",
+      "displayName": "Burnt Peanut",
+      "localizedDisplayNames": {
+        "en": "Burnt Peanut",
+        "es": "Cacahuete Quemado"
+      },
+      "rarity": "mythic",
+      "abilityDescriptionKey": "sprite.theburntpeanut.ability",
+      "abilityDescription": "On eliminations, a chance for extra or mythic loot.",
+      "localizedAbilityDescriptions": {
+        "en": "On eliminations, a chance for extra or mythic loot.",
+        "es": "En las eliminaciones, posibilidad de botín extra o mítico."
+      },
+      "whereToFindKey": "sprite.theburntpeanut.location",
+      "whereToFind": "Drops from Relic Chests (~1.5% chance).",
+      "localizedWhereToFind": {
+        "en": "Drops from Relic Chests (~1.5% chance).",
+        "es": "Cae de los Cofres de Reliquia (~1,5% de probabilidad)."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "cokeparmesan",
+      "displayNameKey": "sprite.cokeparmesan.name",
+      "displayName": "Vini Jr.",
+      "localizedDisplayNames": {
+        "en": "Vini Jr.",
+        "es": "Vini Jr."
+      },
+      "rarity": "mythic",
+      "abilityDescriptionKey": "sprite.cokeparmesan.ability",
+      "abilityDescription": "Sprint to unlock a slidekick that damages enemies and boosts fire rate and reload speed.",
+      "localizedAbilityDescriptions": {
+        "en": "Sprint to unlock a slidekick that damages enemies and boosts fire rate and reload speed.",
+        "es": "Esprinta para desbloquear una barrida que daña a los enemigos y aumenta la cadencia y la recarga."
+      },
+      "whereToFindKey": "sprite.cokeparmesan.location",
+      "whereToFind": "Sprite Chests and Rare Chests — Sprite Chests have the best odds.",
+      "localizedWhereToFind": {
+        "en": "Sprite Chests and Rare Chests — Sprite Chests have the best odds.",
+        "es": "Cofres de Sprite y Cofres Raros — los Cofres de Sprite dan las mejores probabilidades."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        }
+      ]
+    },
+    {
+      "key": "companystargazer",
+      "displayNameKey": "sprite.companystargazer.name",
+      "displayName": "Pollo",
+      "localizedDisplayNames": {
+        "en": "Pollo",
+        "es": "Pollo"
+      },
+      "rarity": "mythic",
+      "abilityDescriptionKey": "sprite.companystargazer.ability",
+      "abilityDescription": "After an elimination, you and your squad regenerate shields for up to 10 seconds.",
+      "localizedAbilityDescriptions": {
+        "en": "After an elimination, you and your squad regenerate shields for up to 10 seconds.",
+        "es": "Tras una eliminación, tú y tu escuadrón regeneráis escudo durante un máximo de 10 segundos."
+      },
+      "whereToFindKey": "sprite.companystargazer.location",
+      "whereToFind": "Sprite Chests and Rare Chests — Sprite Chests have the best odds.",
+      "localizedWhereToFind": {
+        "en": "Sprite Chests and Rare Chests — Sprite Chests have the best odds.",
+        "es": "Cofres de Sprite y Cofres Raros — los Cofres de Sprite dan las mejores probabilidades."
+      },
+      "variants": [
+        {
+          "variant": "normal",
+          "defaultStatus": "missing"
+        }
+      ]
+    }
+  ]
+}

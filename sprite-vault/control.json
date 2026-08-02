@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "mode": "automatic",
+  "updatedAt": "2026-08-01T00:00:00Z",
+  "updatedBy": "manual-seed",
+  "reason": "Default automatic mode. The app tries SpriteLocker first and falls back to HomeWeb.",
+  "primary": {
+    "name": "SpriteLocker",
+    "englishURL": "https://spritelocker.com/",
+    "spanishURL": "https://spritelocker.com/es/"
+  },
+  "mirror": {
+    "name": "HomeWeb",
+    "manifestURL": "https://misaellandero.com/sprite-vault/manifest.json",
+    "spritesURL": "https://misaellandero.com/sprite-vault/sprites.json"
+  }
+}
