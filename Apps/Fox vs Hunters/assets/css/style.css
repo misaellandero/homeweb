@@ -297,11 +297,10 @@ h1 {
   filter: drop-shadow(0 28px 42px rgba(0, 0, 0, 0.48));
 }
 
-.forest-stage .preview {
+.forest-stage .hero-logo {
   right: 5%;
-  top: 9%;
-  width: 40%;
-  border-radius: 24px;
+  top: 18%;
+  width: 56%;
   filter: drop-shadow(0 28px 42px rgba(0, 0, 0, 0.45));
 }
 
@@ -501,8 +500,8 @@ footer {
     width: 62%;
   }
 
-  .forest-stage .preview {
-    width: 46%;
+  .forest-stage .hero-logo {
+    width: 58%;
   }
 }
 
