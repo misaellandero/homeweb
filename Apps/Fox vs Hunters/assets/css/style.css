@@ -82,6 +82,19 @@ img {
   box-shadow: 0 14px 34px rgba(255, 122, 26, 0.24);
 }
 
+.brand img.brand-wordmark,
+.app-lockup img.lockup-wordmark {
+  width: auto;
+  height: 46px;
+  border-radius: 0;
+  object-fit: contain;
+  box-shadow: none;
+}
+
+.app-lockup img.lockup-wordmark {
+  height: 54px;
+}
+
 nav {
   display: flex;
   flex-wrap: wrap;
