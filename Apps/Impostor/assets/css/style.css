@@ -1,0 +1,60 @@
+@import "../../../_shared/app-landing.css";
+
+body {
+  background:
+    linear-gradient(rgba(19, 8, 5, 0.72), rgba(19, 8, 5, 0.96)),
+    url("../images/hero-bg.png") center top / cover fixed,
+    #130805;
+}
+
+.forest-stage {
+  position: relative;
+  min-height: 430px;
+  border-radius: 28px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(19, 8, 5, 0.64)),
+    url("../images/hero-bg.png") center / cover;
+}
+
+.forest-stage img {
+  position: absolute;
+  display: block;
+}
+
+.forest-stage .mascot {
+  left: 7%;
+  bottom: -2%;
+  width: 42%;
+  filter: drop-shadow(0 26px 40px rgba(0, 0, 0, 0.42));
+}
+
+.forest-stage .scoreboard {
+  right: 5%;
+  top: 10%;
+  width: 38%;
+  border-radius: 24px;
+  filter: drop-shadow(0 26px 40px rgba(0, 0, 0, 0.4));
+}
+
+.hero-card {
+  width: min(100%, 650px);
+}
+
+.feature-card {
+  background: linear-gradient(145deg, rgba(70, 36, 14, 0.8), rgba(20, 9, 5, 0.78));
+}
+
+@media (max-width: 640px) {
+  .forest-stage {
+    min-height: 340px;
+  }
+
+  .forest-stage .mascot {
+    width: 54%;
+  }
+
+  .forest-stage .scoreboard {
+    width: 44%;
+  }
+}

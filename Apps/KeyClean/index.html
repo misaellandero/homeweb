@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" style="--accent:#7dd3fc;--accent-2:#86efac;--bg:#05080d;--bg-soft:#101827;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="KeyClean is a native macOS menu bar utility that locks your keyboard and trackpad so you can clean your Mac safely.">
+  <meta name="keywords" content="KeyClean, keyboard cleaner, macOS menu bar app, lock keyboard, clean Mac keyboard, SwiftUI app">
+  <meta name="author" content="Misael Landero">
+  <title>KeyClean | Lock your keyboard to clean your Mac</title>
+  <link rel="icon" href="assets/images/icon.png">
+  <link rel="apple-touch-icon" href="assets/images/icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="topbar" id="home">
+    <div class="container">
+      <a class="brand" href="#home"><img src="assets/images/icon.png" alt="KeyClean icon"><span>KeyClean</span></a>
+      <nav aria-label="Main navigation">
+        <a href="#features">Features</a>
+        <a href="#technical">Tech</a>
+        <a href="#privacy">Privacy</a>
+        <a href="privacy.html">Privacy Notice</a>
+        <a href="terms.html">License</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="app-lockup"><img src="assets/images/icon.png" alt="KeyClean app icon"><span>macOS menu bar utility</span></div>
+          <h1>KeyClean</h1>
+          <p class="headline">Lock your keyboard.<br>Clean your Mac.</p>
+          <p class="lead">A native macOS utility that blocks accidental keyboard and trackpad input while you clean your Mac. Unlock safely when you are done.</p>
+          <div class="cta-row">
+            <span class="store-badge pending"><img src="assets/images/appstorebadge.svg" alt="Download on the Mac App Store"></span>
+            <a class="btn" href="#features">Learn more</a>
+          </div>
+          <ul class="trust-list"><li>macOS only</li><li>No account</li><li>No tracking</li><li>Accessibility permission only</li></ul>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-card keyclean-surface">
+            <img class="keyclean-icon" src="assets/images/hero.png" alt="KeyClean dark app icon">
+            <div class="keyboard-preview" aria-hidden="true">
+              <div class="keyboard-row"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <div class="keyboard-row"><span class="wide"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+              <div class="keyboard-row"><span class="wide"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span class="wide"></span></div>
+              <div class="keyboard-row"><span></span><span></span><span class="space"></span><span></span><span></span><span></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="features">
+      <div class="container">
+        <p class="eyebrow">Features</p>
+        <h2 class="section-title">Built for quick, safe keyboard cleaning.</h2>
+        <div class="feature-grid">
+          <article class="feature-card"><h3>Keyboard Lock</h3><p>Suppresses accidental key input while cleaning your keyboard.</p></article>
+          <article class="feature-card"><h3>Trackpad Lock</h3><p>Helps avoid cursor movement and clicks while wiping your MacBook.</p></article>
+          <article class="feature-card"><h3>Menu Bar Ready</h3><p>Start and stop cleaning mode from the macOS menu bar.</p></article>
+          <article class="feature-card"><h3>Safe Unlock</h3><p>Unlock from the app controls, with escape-key recovery support.</p></article>
+          <article class="feature-card"><h3>Cleaning Progress</h3><p>Visual feedback helps you see what keys have been touched.</p></article>
+          <article class="feature-card"><h3>Private by Design</h3><p>No accounts, no analytics, and no personal data collection.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="technical">
+      <div class="container">
+        <p class="eyebrow">Technical Build</p>
+        <h2 class="section-title">Native macOS code for low-level input control.</h2>
+        <div class="feature-grid">
+          <article class="feature-card"><h3>SwiftUI + Observation</h3><p>Native menu bar popover, onboarding, virtual keyboard, and trackpad interface.</p></article>
+          <article class="feature-card"><h3>AppKit + CoreGraphics</h3><p>Uses a CGEvent session tap to suppress keyDown, keyUp, and modifier events while cleaning mode is active.</p></article>
+          <article class="feature-card"><h3>IOKit HID</h3><p>Detects input devices and supports hardware-aware keyboard and external mouse workflows.</p></article>
+          <article class="feature-card"><h3>macOS Permissions</h3><p>Guides users through Accessibility and Input Monitoring permissions required for input blocking.</p></article>
+          <article class="feature-card"><h3>Keyboard Model</h3><p>Tracks an ANSI keyboard layout with visual cleaning feedback and escape-key recovery.</p></article>
+          <article class="feature-card"><h3>Privacy Boundary</h3><p>No keystroke storage, analytics, accounts, or custom backend services.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="privacy">
+      <div class="container">
+        <p class="eyebrow">Privacy</p>
+        <h2 class="section-title">Your keyboard activity stays on your Mac.</h2>
+        <p class="section-copy">KeyClean uses macOS system permissions only to block input while cleaning. It does not record keystrokes, send analytics, or connect to a custom backend.</p>
+      </div>
+    </section>
+  </main>
+  <footer><div class="container footer-inner"><span>© <script>document.write(new Date().getFullYear());</script> KeyClean.</span><span><a href="privacy.html">Privacy</a> · <a href="terms.html">License</a></span></div></footer>
+</body>
+</html>

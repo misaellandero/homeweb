@@ -25,6 +25,7 @@
         <a href="#features">Features</a>
         <a href="#screenshots">Screenshots</a>
         <a href="#tv">TV mode</a>
+        <a href="#waitlist">Waitlist</a>
         <a href="#privacy">Privacy</a>
         <a href="privacy.html">Privacy Notice</a>
         <a href="terms.html">License</a>
@@ -45,6 +46,7 @@
           <p class="lead">Pass one iPhone around the room, reveal your card in private, build custom categories, and vote before the hidden fox slips past the hunters.</p>
           <div class="cta-row">
             <span class="store-badge">Submitted to the App Store - review in progress</span>
+            <a class="btn" href="#waitlist">Join the waitlist</a>
             <a class="btn primary" href="#screenshots">See it in action</a>
           </div>
           <ul class="trust-list">
@@ -94,6 +96,31 @@
             <p>Made for living room nights, classrooms, travel, family gatherings, and casual parties.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="section waitlist-section" id="waitlist">
+      <div class="container waitlist-grid">
+        <div>
+          <p class="eyebrow">Beta and updates</p>
+          <h2 class="section-title">Want to play before launch?</h2>
+          <p class="section-copy">Tell me where you want Fox vs Hunters next. I will use your message for beta invites and launch updates.</p>
+          <a class="btn primary beta-link" href="mailto:hola@misaellandero.com?subject=Fox%20vs%20Hunters%20beta%20access&body=Hi%2C%20I%20want%20beta%20access%20for%20Fox%20vs%20Hunters.%0A%0AI%20am%20interested%20in%3A%20iOS%0A%0AMy%20email%3A%20">Request beta access</a>
+        </div>
+        <form class="waitlist-card" id="waitlist-form">
+          <label for="waitlist-email">Email</label>
+          <input id="waitlist-email" name="email" type="email" placeholder="you@example.com" autocomplete="email">
+
+          <fieldset>
+            <legend>I am interested in</legend>
+            <label class="option-pill"><input type="checkbox" name="interest" value="iOS" checked> iOS</label>
+            <label class="option-pill"><input type="checkbox" name="interest" value="Web"> Web</label>
+            <label class="option-pill"><input type="checkbox" name="interest" value="Android"> Android</label>
+          </fieldset>
+
+          <button class="btn primary" type="submit">Tell me when it is ready</button>
+          <p class="form-note">This opens your email app. No account, no tracking, no backend.</p>
+        </form>
       </div>
     </section>
 
@@ -159,5 +186,23 @@
       <span><a href="privacy.html">Privacy</a> · <a href="terms.html">License</a></span>
     </div>
   </footer>
+  <script>
+    const waitlistForm = document.getElementById("waitlist-form");
+
+    if (waitlistForm) {
+      waitlistForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const email = document.getElementById("waitlist-email").value.trim();
+        const interests = Array.from(waitlistForm.querySelectorAll("input[name='interest']:checked"))
+          .map((input) => input.value);
+        const selected = interests.length ? interests.join(", ") : "Fox vs Hunters";
+        const subject = encodeURIComponent("Fox vs Hunters waitlist");
+        const body = encodeURIComponent(`Hi, I want updates about Fox vs Hunters.\n\nI am interested in: ${selected}\nMy email: ${email}`);
+
+        window.location.href = `mailto:hola@misaellandero.com?subject=${subject}&body=${body}`;
+      });
+    }
+  </script>
 </body>
 </html>

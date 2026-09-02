@@ -331,10 +331,17 @@ h1 {
 }
 
 .feature-grid,
-.story-grid {
+.story-grid,
+.waitlist-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
+}
+
+.waitlist-grid {
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.8fr);
+  align-items: center;
+  gap: 28px;
 }
 
 .feature-card,
@@ -346,6 +353,86 @@ h1 {
   background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.025)), var(--glass);
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24);
   backdrop-filter: blur(16px);
+}
+
+.waitlist-card {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+  border: 1px solid var(--stroke);
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.03)), var(--glass);
+  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(18px);
+}
+
+.waitlist-card label,
+.waitlist-card legend {
+  color: var(--ivory);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.waitlist-card input[type="email"] {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 241, 212, 0.16);
+  border-radius: 14px;
+  color: var(--ivory);
+  background: rgba(255, 255, 255, 0.08);
+  font: inherit;
+  outline: none;
+}
+
+.waitlist-card input[type="email"]::placeholder {
+  color: rgba(255, 241, 212, 0.46);
+}
+
+.waitlist-card input[type="email"]:focus {
+  border-color: rgba(255, 200, 87, 0.58);
+  box-shadow: 0 0 0 4px rgba(255, 200, 87, 0.12);
+}
+
+.waitlist-card fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.waitlist-card legend {
+  width: 100%;
+  margin-bottom: 2px;
+}
+
+.option-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 200, 87, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 200, 87, 0.1);
+  cursor: pointer;
+}
+
+.option-pill input {
+  accent-color: var(--fox);
+}
+
+.form-note {
+  margin: -4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.beta-link {
+  margin-top: 8px;
 }
 
 .feature-card h3,
@@ -444,6 +531,7 @@ footer {
   .hero-grid,
   .feature-grid,
   .story-grid,
+  .waitlist-grid,
   .screens {
     grid-template-columns: 1fr;
   }

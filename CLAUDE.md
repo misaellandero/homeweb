@@ -14,6 +14,7 @@ You are working in `homeweb`.
 - Do not add dependencies, services, or broad rewrites without explicit approval.
 - Do not revert user changes unless explicitly requested.
 - Preserve app/product copy and visual direction unless the task asks to change it.
+- GitHub Pages routes should link to concrete files, not directory paths. Use the actual filename and casing in this repo, for example `https://misaellandero.com/Apps/PetPal/index.html` instead of `https://misaellandero.com/Apps/PetPal`.
 - Run the most relevant available verification before finishing.
 - If verification cannot run, explain why and what remains unverified.
 

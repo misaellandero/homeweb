@@ -1,0 +1,55 @@
+@import "../../../_shared/app-landing.css";
+
+body {
+  background:
+    radial-gradient(circle at 74% 12%, rgba(56, 189, 248, 0.22), transparent 30%),
+    radial-gradient(circle at 14% 28%, rgba(245, 158, 11, 0.18), transparent 34%),
+    linear-gradient(145deg, #06131f 0%, #102333 48%, #172a22 100%);
+}
+
+.petpal-hero {
+  min-height: 420px;
+  padding: 28px;
+  display: grid;
+  place-items: center;
+}
+
+.pet-orbit {
+  position: relative;
+  width: min(100%, 390px);
+  aspect-ratio: 1;
+}
+
+.pet-orbit img {
+  position: absolute;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 34px rgba(0, 0, 0, 0.32));
+}
+
+.pet-orbit .pet-icon {
+  inset: 24% 24%;
+  width: 52%;
+  border-radius: 28%;
+}
+
+.pet-orbit .dog {
+  left: 0;
+  bottom: 3%;
+  width: 38%;
+}
+
+.pet-orbit .food {
+  right: 0;
+  top: 7%;
+  width: 34%;
+}
+
+.pet-orbit .reminders {
+  right: 4%;
+  bottom: 0;
+  width: 32%;
+}
+
+.feature-card {
+  border-radius: 22px;
+}

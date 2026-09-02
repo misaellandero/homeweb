@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Cota es la app para cuidar a tus mascotas en iOS, web y Android. Unete a la waitlist para enterarte de la beta.">
+    <title>Cota Waitlist</title>
+    <link rel="icon" href="./assets/images/cota-icon-light.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" href="./assets/images/cota-icon-dark.png" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" href="./assets/images/cota-icon-light.png">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-backdrop" aria-hidden="true"></div>
+
+        <div class="hero-content">
+          <picture class="brand-icon">
+            <source srcset="./assets/images/cota-icon-dark.png" media="(prefers-color-scheme: dark)">
+            <img src="./assets/images/cota-icon-light.png" alt="Cota app icon">
+          </picture>
+          <p class="eyebrow">Cota para iOS, web y Android</p>
+          <h1 id="hero-title">Cuidado diario para tus mascotas, sin perder el ritmo.</h1>
+          <p class="lede">
+            Registra paseos, agua, comida, pipi, popo, vacunas y recordatorios. Estamos preparando la beta.
+          </p>
+
+          <div class="platforms" aria-label="Plataformas">
+            <span>iOS</span>
+            <span>Web</span>
+            <span>Android</span>
+          </div>
+
+          <form class="waitlist-form" id="waitlist-form">
+            <label class="sr-only" for="email">Correo electronico</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="tu@email.com" required>
+            <button type="submit">Join waitlist</button>
+          </form>
+          <p class="form-note" id="form-note" role="status">Demo local: conecta el formulario a tu backend para guardar correos reales.</p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const form = document.querySelector("#waitlist-form");
+      const note = document.querySelector("#form-note");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(form);
+        const email = data.get("email");
+
+        if (email) {
+          localStorage.setItem("cota-waitlist-email", email);
+          note.textContent = "Listo. El correo quedo guardado en este navegador para probar la waitlist.";
+          form.reset();
+        }
+      });
+    </script>
+  </body>
+</html>

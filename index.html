@@ -31,9 +31,86 @@
   <!-- CSS Files -->
   <link href="blk-desing/assets/css/landercorp.css" rel="stylesheet" />  
   <!-- Animate  Files -->
-  <link href="sistema/css/animate.css" rel="stylesheet" />  
+  <link href="sistema/css/animate.css" rel="stylesheet" />
 
-</head> 
+  <!-- Page-specific tweaks -->
+  <style>
+    .hero-app-icons {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-app-icon {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      border-radius: 22%;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+      opacity: .14;
+      filter: saturate(.8);
+      animation-name: float-hero-icon;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes float-hero-icon {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-18px) rotate(4deg); }
+    }
+
+    @media (max-width: 991.98px) {
+      .hero-app-icon { display: none; }
+    }
+
+    .section-coins .portfolio-grid > [class*="col-"] {
+      display: flex;
+    }
+
+    .section-coins .portfolio-grid .card.card-coin {
+      width: 100%;
+      height: 100%;
+    }
+
+    .badge-store {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 50px;
+      padding: 0 18px;
+      border-radius: 10px;
+      background-color: #111;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, .15);
+      transition: transform .15s ease, background-color .15s ease;
+    }
+
+    .badge-store:hover,
+    .badge-store:focus {
+      background-color: #000;
+      color: #fff;
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .badge-store-pending {
+      background-color: transparent;
+      border: 1px solid rgba(255, 255, 255, .35);
+    }
+
+    .badge-store-pending:hover,
+    .badge-store-pending:focus {
+      background-color: rgba(255, 255, 255, .08);
+    }
+  </style>
+
+</head>
 
 <body class="register-page landing-page">
   <!-- Navbar -->
@@ -68,15 +145,18 @@
           </div>
         </div>
         <ul class="navbar-nav"> 
-            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="3s">
-                  <a class="nav-link"  href="#SobreMi" ><i class="fa fa-smile-wink"></i> Me</a>
-            </li> 
             <li class="nav-item  p-0 wow slideInRight" data-wow-duration="2s">
                   <a class="nav-link" href="#Portafolio" ><i class="fa fa-laptop-code"></i> Portafolio</a>
+            </li>
+            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="3s">
+                  <a class="nav-link"  href="#SobreMi" ><i class="fa fa-smile-wink"></i> Me</a>
             </li>
             <li class="nav-item  p-0 wow slideInRight" data-wow-duration="4s">
                   <a class="nav-link" href="https://www.instagram.com/misaellandero"><i class="fab fa-instagram"></i> Instagram</a>
             </li>  
+            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="4s">
+                  <a class="nav-link" href="resume/index.html"><i class="fa fa-file-alt"></i> Resume</a>
+            </li>
            <li class="nav-item p-0" >
             <a class="nav-link btn btn-warning d-none d-lg-block text-white wow slideInRight pulse" data-wow-duration="5s"   href="#contacto" onclick="scrollToDownload()">
               Get in touch
@@ -98,6 +178,14 @@
       <img src="blk-desing/assets/img/waves.png" class="shapes wave wow slideInDown">
       <img src="blk-desing/assets/img/patrat.png" class="shapes squares wow slideInRight">
       <img src="blk-desing/assets/img/cercuri.png" class="shapes circle wow slideInLeft">
+      <div class="hero-app-icons" aria-hidden="true">
+        <img src="Apps/Cota/assets/images/cota-icon-light.png" class="hero-app-icon" style="top:17%; right:5%; width:52px; height:52px; animation-duration:7s; animation-delay:0s;" alt="">
+        <img src="Apps/DebtMe/sistema/images/portfolio-icon-light.png" class="hero-app-icon" style="top:44%; right:3%; width:64px; height:64px; animation-duration:8.5s; animation-delay:.6s;" alt="">
+        <img src="Apps/Revisits/assets/images/iconiOS26.png" class="hero-app-icon" style="top:78%; right:9%; width:48px; height:48px; animation-duration:6.5s; animation-delay:1.2s;" alt="">
+        <img src="Apps/Loxi/assets/images/icon.png" class="hero-app-icon" style="top:90%; left:46%; width:44px; height:44px; animation-duration:7.5s; animation-delay:.3s;" alt="">
+        <img src="Apps/Fox%20vs%20Hunters/assets/images/portfolio-icon-light.png" class="hero-app-icon" style="top:17%; left:3%; width:46px; height:46px; animation-duration:9s; animation-delay:1.8s;" alt="">
+        <img src="Apps/CaffeinateBar/assets/images/icon.png" class="hero-app-icon" style="top:56%; left:2%; width:56px; height:56px; animation-duration:8s; animation-delay:.9s;" alt="">
+      </div>
       <div class="content-center d-flex flex-column">
       
       
@@ -146,59 +234,6 @@
         </div>
       </div>
     </div>
-    <section class="servicios main wow fadeInDown" data-wow-duration="3s"  id="SobreMi">
-      <div class="container">
-        <div class="row d-flex justify-content-center">
-          <div class="menu-content pb-60 col-lg-10">
-          <div class="title text-white text-center"> 
-            <div class="row d-flex justify-content-center">
-              <div class="menu-content pb-60 col-lg-10">
-                <div class="">
-                  <br>
-                  <br>
-                  <br>
-                    <h1 class="wow fadeInDown animated" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;"><i class="fa fa-smile-wink"></i> Me</h1>
-                    <br>
-                    <br>
-                    <div class="row">
-                      <div class="col-md-6">
-
-<h3 class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">Hello, my name is Misael Landero. </h3>
-<div class="text-justify">
-<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;">I was a student at the National Autonomous University of Mexico <a href="https://www.unam.mx/">#UNAM</a> (2014).</p>
-<p class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">I spend a lot of my time as a volunteer, teaching people about the Bible and how it can give them hope and improve their lives. If you want to learn more about this, visit <a href="https://www.jw.org/es/">JW.ORG</a>.</p>
-<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;">To support myself, I program and design websites and computer systems.</p>
-
-<p class="wow fadeInUp" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;">Since I was a child, computers have been a part of my life, and now I want to share what I love and what I've learned with those who need it.</p>
-<p class="wow fadeInDown" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;"> With fresh, innovative solutions tailored exactly to your needs, whatever you need will become a reality.</p>
-<br>
-<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;"><H5>2022 UPDATE:</H5></p>
-<p class="wow fadeInUp" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;">A lot has changed since 2014. I finished college, got my degree, and also worked at <a href="https://www.dexcom.com/en-us">Dexcom</a> on the <a href="https://apps.apple.com/us/app/dexcom-g6/id1209262925">G6 App</a>.</p>
-<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;">I'm an iOS developer, but I still do some web work. I love my work, and I'm going to keep the old bio because I like to remember how I started.</p>
-<p class="wow fadeInUp" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;">BTW, I still love helping people learn about God. Check out my own app <a href="Apps/Revisits/index_revisitas.html">Revisits</a>, a tool for Jehovah's Witnesses.</p>
-</div>  
-</div>
-
-<div class="col-md-6">
-   
-<img class="img-fluid rounded" src="sistema/images/rename.jpg" alt="">
-<div class="text-justify">
-
-<p>I live in Mexico and have been programming since I was 17 (2014).</p> 
-</div>
-</div> 
-
- 
-</div>
-                </div>
-              </div>
-            </div>
-          </div> 
-          </div>
-          </div>
-        </div>						
-        </section> 
-
     <section id="Portafolio" class="section section-lg section-coins">
       <img src="blk-desing/assets/img/path3.png" class="path">
       <div class="container"> 
@@ -210,6 +245,44 @@
           </div> 
         </div>
         <div class="row portfolio-grid" id="pq_comprar">
+
+          <div class="col-md-4">
+            <div class="card card-coin card-plain">
+              <div class="card-header">
+                <picture>
+                  <source srcset="Apps/Cota/assets/images/cota-icon-dark.png" media="(prefers-color-scheme: dark)">
+                  <img src="Apps/Cota/assets/images/cota-icon-light.png" class="img-center img-fluid" alt="Cota app icon">
+                </picture>
+              </div>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12 text-center">
+                    <h4 class="text-uppercase">Cota</h4>
+                    <span>iOS Web Android</span>
+                    <hr class="line-primary">
+                    <p>Daily pet care, health records, walks, meals, water, and reminders</p>
+                    <hr class="line-primary">
+                  </div>
+                </div>
+                <div class="row">
+                  <ul class="list-group">
+                    <li class="list-group-item">SwiftUI</li>
+                    <li class="list-group-item">WidgetKit</li>
+                    <li class="list-group-item">Waitlist</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-footer text-center">
+                <a href="Apps/Cota/index.html#waitlist-form" class="badge-store badge-store-pending" aria-label="Join the Cota waitlist">
+                  <i class="fa fa-bell"></i>
+                  <span>Join the Waitlist</span>
+                </a>
+              </div>
+              <div class="card-footer text-center">
+                <a href="Apps/Cota/index.html">Go to the website</a>
+              </div>
+            </div>
+          </div>
 
           <div class="col-md-4">
             <div class="card card-coin card-plain">
@@ -238,7 +311,7 @@
                 </div>
               </div>
               <div class="card-footer text-center">
-                <a href="https://apps.apple.com/us/app/debtme/id6448072205""><img src="sistema/images/AppStore.png" class="img-fluid" heigth="50em00em" alt=""></a>
+                <a href="https://apps.apple.com/us/app/debtme/id6448072205"><img src="sistema/images/AppStore.png" class="img-fluid" heigth="50em00em" alt=""></a>
               </div>
               <div class="card-footer text-center">
                 <a href="Apps/DebtMe/index_debtMe.html">Go to the website</a>
@@ -302,6 +375,11 @@
                 </div>
               </div>
               <div class="card-footer text-center">
+                <a href="https://apps.apple.com/us/app/loxi-localize-xcstrings/id6754300830?mt=12" target="_blank" rel="noopener" aria-label="Loxi on the Mac App Store">
+                  <img src="Apps/Loxi/assets/images/appstorebadge.svg" class="img-fluid" height="50" alt="Download Loxi on the Mac App Store">
+                </a>
+              </div>
+              <div class="card-footer text-center">
                 <a href="Apps/Loxi/index.html">Go to the website</a>
               </div>
             </div>
@@ -331,6 +409,12 @@
                     <li class="list-group-item">External display</li>
                   </ul>
                 </div>
+              </div>
+              <div class="card-footer text-center">
+                <a href="Apps/Fox%20vs%20Hunters/index.html#waitlist" class="badge-store badge-store-pending" aria-label="Join the Fox vs Hunters waitlist">
+                  <i class="fa fa-bell"></i>
+                  <span>Join the Waitlist</span>
+                </a>
               </div>
               <div class="card-footer text-center">
                 <a href="Apps/Fox%20vs%20Hunters/index.html">Go to the website</a>
@@ -373,6 +457,59 @@
         </div>
       </div>
     </section> 
+
+    <section class="servicios main wow fadeInDown" data-wow-duration="3s"  id="SobreMi">
+      <div class="container">
+        <div class="row d-flex justify-content-center">
+          <div class="menu-content pb-60 col-lg-10">
+          <div class="title text-white text-center"> 
+            <div class="row d-flex justify-content-center">
+              <div class="menu-content pb-60 col-lg-10">
+                <div class="">
+                  <br>
+                  <br>
+                  <br>
+                    <h1 class="wow fadeInDown animated" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;"><i class="fa fa-smile-wink"></i> Me</h1>
+                    <br>
+                    <br>
+                    <div class="row">
+                      <div class="col-md-6">
+
+<h3 class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">Hello, my name is Misael Landero. </h3>
+<div class="text-justify">
+<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;">I was a student at the National Autonomous University of Mexico <a href="https://www.unam.mx/">#UNAM</a> (2014).</p>
+<p class="wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">I spend a lot of my time as a volunteer, teaching people about the Bible and how it can give them hope and improve their lives. If you want to learn more about this, visit <a href="https://www.jw.org/es/">JW.ORG</a>.</p>
+<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;">To support myself, I program and design websites and computer systems.</p>
+
+<p class="wow fadeInUp" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;">Since I was a child, computers have been a part of my life, and now I want to share what I love and what I've learned with those who need it.</p>
+<p class="wow fadeInDown" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;"> With fresh, innovative solutions tailored exactly to your needs, whatever you need will become a reality.</p>
+<br>
+<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;"><H5>2022 UPDATE:</H5></p>
+<p class="wow fadeInUp" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;">A lot has changed since 2014. I finished college, got my degree, and also worked at <a href="https://www.dexcom.com/en-us">Dexcom</a> on the <a href="https://apps.apple.com/us/app/dexcom-g6/id1209262925">G6 App</a>.</p>
+<p class="wow fadeInDown" data-wow-duration="2s" style="visibility: visible; animation-duration: 2s; animation-name: fadeInDown;">I'm an iOS developer, but I still do some web work. I love my work, and I'm going to keep the old bio because I like to remember how I started.</p>
+<p class="wow fadeInUp" data-wow-duration="3s" style="visibility: visible; animation-duration: 3s; animation-name: fadeInDown;">BTW, I still love helping people learn about God. Check out my own app <a href="Apps/Revisits/index_revisitas.html">Revisits</a>, a tool for Jehovah's Witnesses.</p>
+</div>  
+</div>
+
+<div class="col-md-6">
+   
+<img class="img-fluid rounded" src="sistema/images/rename.jpg" alt="">
+<div class="text-justify">
+
+<p>I live in Mexico and have been programming since I was 17 (2014).</p> 
+</div>
+</div> 
+
+ 
+</div>
+                </div>
+              </div>
+            </div>
+          </div> 
+          </div>
+          </div>
+        </div>						
+        </section> 
   
    
       <br>
@@ -457,7 +594,7 @@
                   <img src="sistema/images/icono.jpg"  class="img-fluid rounded-circle shadow-lg icon-oscuro wow  infinite pulse"  width="8%" alt="">
                   <br>
                   <br>
-									Copyright &copy;<script>document.write(new Date().getFullYear());</script> | All rights reserved | This website is a handmade artisan product by <a href="misaellandero.com" target="_blank">misaellandero.com</a>
+									Copyright &copy;<script>document.write(new Date().getFullYear());</script> | All rights reserved | This website is a handmade artisan product by <a href="https://misaellandero.com" target="_blank" rel="noopener">misaellandero.com</a>
 									<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 								</p>
 														

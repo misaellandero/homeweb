@@ -10,6 +10,7 @@ Last updated: 2026-06-26
 - Avoid unrelated formatting churn.
 - Add comments only when they clarify non-obvious logic.
 - Update tests or verification notes when behavior changes.
+- For GitHub Pages, never assume folder URLs resolve. Public links must point to a specific file with exact casing, such as `/Apps/KeyClean/index.html` or `/sprite-vault/manifest.json`.
 
 ## Verification
 Before finishing, run the cheapest useful validation available for this repo. Examples:
