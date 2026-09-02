@@ -49,18 +49,18 @@
           </div>
         </div>
         <div class="hero__cta">
-          <a class="btn btn--hero btn--hero-rosa" href="#rsvp">Confirmar asistencia</a>
+          <a class="btn btn--hero btn--hero-rosa" href="#recuerdos">Ver recuerdos</a>
           <a class="btn btn--hero btn--hero-lila" href="#inspiracion">Código de vestimenta</a>
-          <a class="btn btn--hero btn--hero-olivo" href="#regalos">Regalos</a>
+          <a class="btn btn--hero btn--hero-olivo" href="#album-fotos">Álbum virtual</a>
         </div>
         <p class="hero__lock-note" id="section-lock-note">
-          La ubicación y el itinerario se mostrarán al ingresar tu código de invitación.
+          Un espacio para conservar los momentos de nuestra boda.
         </p>
       </div>
     </header>
 
     <main>
-      <section class="section section--light invitation invitation-overlay is-visible" id="invitacion">
+      <section class="section section--light invitation" id="invitacion">
         <div class="invitation-overlay__backdrop"></div>
         <div class="container invitation__container">
           <div class="invitation__intro invitation__intro--hidden" aria-hidden="true"></div>
@@ -69,20 +69,20 @@
             <img src="assets/images/sello_cera.png" alt="Sello de cera" class="invitation-seal-wax" />
             <div class="invitation-panel invitation-panel--left">
               <div class="invitation-panel__inner">
-                <p class="invitation-panel__eyebrow"></p>
-                <h3 class="invitation-panel__names"></h3>
+                <p class="invitation-panel__eyebrow">Nuestra boda</p>
+                <h3 class="invitation-panel__names">Adhy &amp; Misael</h3>
                 <img src="assets/images/escudolandero.png" alt="Escudo Landero" class="invitation-crest invitation-crest--left" />
               </div>
             </div>
             <div class="invitation-panel invitation-panel--right">
               <div class="invitation-panel__inner">
-                <p class="invitation-panel__date"></p>
-                <p class="invitation-panel__place"></p>
+                <p class="invitation-panel__date">Un día para recordar</p>
+                <p class="invitation-panel__place">Con nuestras familias y amigos</p>
                 <img src="assets/images/escudo_hurtado.png" alt="Escudo Hurtado" class="invitation-crest invitation-crest--right" />
               </div>
             </div>
             <div class="invitation-card__content">
-              <p></p>
+              <p>Gracias por haber sido parte de este momento tan especial. Esta página queda como recuerdo de la celebración, los detalles y las fotos que queremos conservar.</p>
             </div>
           </div>
         </div>
@@ -103,41 +103,9 @@
       <section class="section" id="inspiracion">
           <h2>Dress code</h2>
           <h3 class="center">Etiqueta rigurosa (black tie) / Charro Gran Gala (etiqueta)</h3>
-            <h4 class="center pinterest-subtitle">Ayúdanos a que nuestra boda sea como la imaginamos. Busca “Charro Gran Gala“ y “Black Tie” Dress code para inspirarte en tu outfit o revisa nuestro tablero de Pinterest.</h4>
+            <h4 class="center dresscode-subtitle">Así recordamos la inspiración visual de nuestra celebración.</h4>
            
-        <div class="container pinterest-showcase" id="pinterest-section">
-          
-          <div class="dresscode-board-column">
-            <div class="dresscode-board-wrapper">
-              
-              <div class="pinterest-widget dresscode-board" id="pinterest-widget">
-                <a
-                  id="pinterest-embed"
-                  class="hidden"
-                  data-pin-do="embedBoard"
-                  data-pin-scale-height="650"
-                  data-pin-scale-width="400"
-                  data-default-href="https://www.pinterest.com/anapinskywalker/style/"
-                  href="https://www.pinterest.com/anapinskywalker/style/"
-                ></a>
-                <p id="pinterest-placeholder">Pronto verás nuestras ideas favoritas aquí.</p>
-              </div>
-              <img class="dresscode-board-overlay overlay-left" src="assets/images/novios.png" alt="Inspiración de los novios" />
-              <img class="dresscode-board-overlay overlay-right-top" src="assets/images/lavanda.png" alt="Detalle floral en lavanda" />
-              <img class="dresscode-board-overlay overlay-right-bottom" src="assets/images/ramo.png" alt="Ramo inspirado en nuestra paleta" />
-            </div>
-               <div class="center dresscode-download">
-              <a
-                class="btn btn--ghost"
-                href="assets/docs/Codigo de vestimenta Boda.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                download
-                >Descargar PDF con el código completo</a
-              >
-            </div>
-          </div>
-          <div class="pinterest-text">
+        <div class="container dresscode-showcase" id="dresscode-section">
            <div class="dresscode-gallery">
                <article class="dresscode-gallery__item">
                 <img height="150" src="assets/images/segeridos_mujeres.png" alt="Vestidos sugeridos para invitadas" />
@@ -203,450 +171,56 @@
                 </div>
               </article>
             </div>
-         
-          </div>
-        </div>
-      </section>
-
-      <section class="section section--light" id="regalos">
-        <div class="container regalos">
-          <div class="regalos__intro">
-            <div class="section-title-with-icon section-title-with-icon--centered section-title-with-icon--stacked">
-              <img src="assets/images/regalo.png" alt="Regalo" class="section-title-icon section-title-icon--xxl" />
-              <h2>Regalos</h2>
+            <div class="center dresscode-download">
+              <a
+                class="btn btn--ghost"
+                href="assets/docs/Codigo de vestimenta Boda.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                >Descargar PDF con el código completo</a
+              >
             </div>
-            <p>Tu presencia es el mejor regalo, pero si deseas apoyarnos con algún detalle aquí te compartimos algunas opciones.</p>
-          </div>
-          <div class="regalos-grid">
-            <article class="regalo-card">
-              <p class="regalo-card__eyebrow" id="regalo-liverpool-nombre">Mesa Liverpool</p>
-              <h3>Clave mesa: <span id="regalo-liverpool-codigo">51753295</span></h3>
-              <p id="regalo-liverpool-texto">Ingresa nuestro código en el sitio de Liverpool.</p>
-              <div class="regalo-card__actions">
-                <a
-                  class="btn btn--ghost"
-                  id="regalo-liverpool-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://mesaderegalos.liverpool.com.mx/milistaderegalos/51753295"
-                  >Ver mesa de regalos</a
-                >
-              </div>
-            </article>
-            <article class="regalo-card">
-              <p class="regalo-card__eyebrow" id="regalo-amazon-nombre">Mesa Amazon</p>
-              <h3 id="regalo-amazon-subtitulo">En línea</h3>
-              <p id="regalo-amazon-texto">Si prefieres Amazon, consulta nuestra Mesa de regalos.</p>
-              <div class="regalo-card__actions">
-                <a
-                  class="btn btn--ghost"
-                  id="regalo-amazon-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://www.amazon.com.mx/wedding/share/daraymisael"
-                  >Ver lista Amazon</a
-                >
-              </div>
-            </article>
-            <article class="regalo-card">
-              <p class="regalo-card__eyebrow">Transferencia bancaria</p>
-              <h3></h3>
-              <ul class="regalo-lista">
-                <li><strong>Banco:</strong> <span id="regalo-transfer-banco">BBVA</span></li>
-                <li>
-                  <strong>Beneficiario:</strong>
-                  <span id="regalo-transfer-beneficiario">Francisco Misael Landero Ychante</span>
-                </li>
-                <li><strong>Cuenta:</strong> <span id="regalo-transfer-cuenta">4152313778026117</span></li>
-              </ul>
-             </article>
-          </div>
-          <p>Nuestro hogar ya cuenta con algunos electrodomésticos básicos: lavadora, aspiradora, licuadora, microondas y plancha. </p>
         </div>
       </section>
 
-      <section class="section section--accent" id="rsvp">
-        <div class="container">
+      <section class="section section--light" id="recuerdos">
+        <div class="container recuerdos">
           <div class="section-title-with-icon section-title-with-icon--centered section-title-with-icon--stacked">
-            <img src="assets/images/paloma.png" alt="Paloma mensajera" class="section-title-icon section-title-icon--xxl" />
-            <h2>Rsvp</h2>
+            <img src="assets/images/ramo.png" alt="Detalle floral" class="section-title-icon section-title-icon--xxl" />
+            <h2>Recuerdos</h2>
           </div>
           <p>
-            Ingresa tu código de invitación para confirmar asistencia y ayudarnos a
-            planear cada detalle.
+            Esta página queda como un pequeño archivo de nuestro día: la invitación, los detalles visuales
+            y el álbum de fotos que iremos conservando con cariño.
           </p>
-
-          <form id="codigo-form" class="card">
-            <label for="codigoInvitacion">Código de invitación</label>
-            <div class="input-group">
-              <input
-                type="text"
-                id="codigoInvitacion"
-                name="codigoInvitacion"
-                placeholder="Ej. ABO000"
-                required
-              />
-              <button type="submit" class="btn">Validar código</button>
-            </div>
-            <p class="form-helper" id="codigo-mensaje"></p>
-          </form>
-
-          <form id="rsvp-form" class="card hidden" aria-live="polite">
-            <div class="rsvp-steps" aria-label="Progreso de confirmación">
-              <div class="rsvp-step is-active" data-step="1">
-                <span class="rsvp-step__number">1</span>
-                <span class="rsvp-step__label">Confirmación</span>
-              </div>
-              <div class="rsvp-step" data-step="2">
-                <span class="rsvp-step__number">2</span>
-                <span class="rsvp-step__label">Viaje</span>
-              </div>
-              <div class="rsvp-step" data-step="3">
-                <span class="rsvp-step__number">3</span>
-                <span class="rsvp-step__label">Vestimenta</span>
-              </div>
-            </div>
-
-            <section class="form-step is-active" data-step="1">
-              <h3>Paso 1 · Confirmación inicial</h3>
-              <div class="form-field">
-                <label>¿Podrás asistir?</label>
-                <div class="options">
-                  <label><input type="radio" name="asistencia" value="si" /> Sí</label>
-                  <label><input type="radio" name="asistencia" value="no" /> No</label>
-                </div>
-              </div>
-              <div class="form-field">
-                <label for="numAcompanantes">Número total de asistentes confirmados</label>
-                <input
-                  type="number"
-                  id="numAcompanantes"
-                  name="numAcompanantes"
-                  min="0"
-                  value="0"
-                />
-                <small id="acompanantes-help">Máximo permitido según tu invitación: --</small>
-              </div>
-              <div class="alert alert--warning hidden" id="alerta-no-asistira">
-                <strong>¿No podrás asistir?</strong> Al confirmar esta opción liberaremos definitivamente tu invitación y no podremos revertirlo.
-              </div>
-              <div class="form-field">
-                <label for="numNinosConfirmados">¿Cuántos son niños?</label>
-                <input
-                  type="number"
-                  id="numNinosConfirmados"
-                  name="numNinosConfirmados"
-                  min="0"
-                  value="0"
-                />
-                <small>Usaremos esta información para considerar platos especiales.</small>
-              </div>
-              <div class="form-field">
-                <label for="nombresAsistentes">Nombres de quienes asistirán</label>
-                <textarea
-                  id="nombresAsistentes"
-                  name="nombresAsistentes"
-                  rows="3"
-                  placeholder="Ej. Ana Pérez (adulto), Luis Pérez (niño)"
-                ></textarea>
-                <small>Separar por coma o salto de línea, indicando si alguno es niño.</small>
-              </div>
-              <div class="form-field">
-                <label for="comentarios">Comentarios o restricciones alimenticias</label>
-                <textarea id="comentarios" name="comentarios" rows="3"></textarea>
-              </div>
-            </section>
-
-            <section class="form-step" data-step="2">
-              <h3>Paso 2 · Viaje y asistencia</h3>
-              <div class="form-field">
-                <label>¿Viajarás para acompañarnos?</label>
-                <div class="options">
-                  <label
-                    ><input type="radio" name="planeaViajar" value="si" /> Sí, viajaré desde otra
-                    ciudad</label
-                  >
-                  <label><input type="radio" name="planeaViajar" value="no" /> No, estaré en la ciudad</label>
-                </div>
-              </div>
-              <div class="form-field hidden" id="asistencia-viaje-field">
-                <label>¿Necesitas asistencia con hospedaje o traslados?</label>
-                <div class="options">
-                  <label
-                    ><input type="radio" name="requiereAsistencia" value="si" /> Sí, agradecería
-                    su apoyo</label
-                  >
-                  <label><input type="radio" name="requiereAsistencia" value="no" /> No, me encargo por mi cuenta</label>
-                </div>
-              </div>
-            </section>
-
-            <section class="form-step" data-step="3">
-              <h3>Paso 3 · Código de vestimenta</h3>
-              <div class="dresscode-card">
-                <p>
-                  Nuestro evento es de etiqueta con inspiración mexicana. Sigue estas indicaciones para mantener la armonía del cortejo
-                  y asegurar tu acceso al restaurante.
-                </p>
-                <div class="dresscode-grid">
-                  <div>
-                    <h4>Cortejo nupcial</h4>
-                    <ul class="dresscode-list">
-                      <li>Damas exclusivas: <strong>Verde olivo</strong></li>
-                      <li>Hermanas de los novios: <strong>Lila / lavanda</strong></li>
-                      <li>Novia: <strong>Blanco gala mexicana</strong></li>
-                    </ul>
-                    <p class="dresscode-note">
-                      Estos colores están reservados. Evitemos repetirlos para que cada rol destaque.
-                    </p>
-                  </div>
-                  <div>
-                    <h4>Invitadas e invitados</h4>
-                    <ul class="dresscode-list">
-                      <li>Vestido largo formal en tonos neutros u oscuros que combinen con el verde olivo.</li>
-                      <li>Invitados: traje charro formal o traje de etiqueta (corbata o moño).</li>
-                      <li>Zapatos formales obligatorios.</li>
-                      <li>No se permite mezclilla ni atuendos casuales.</li>
-                    </ul>
-                  </div>
-                </div>
-                <div>
-                  <h4>Reglas clave</h4>
-                  <ul class="dresscode-list">
-                    <li>Sin escotes pronunciados ni aberturas altas.</li>
-                    <li>Sin vestidos cortos.</li>
-                    <li>Evita tonos reservados para el cortejo: blanco, verde olivo, lila o lavanda.</li>
-                    <li>Sin tenis, sin ropa casual y sin mezclilla.</li>
-                    <li>La administración del restaurante podrá negar el acceso si no se respeta el código.</li>
-                  </ul>
-                  <div class="dresscode-download">
-                    <a
-                      class="btn btn--ghost"
-                      href="assets/docs/Codigo de vestimenta Boda.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      download
-                      >Descargar PDF con el código completo</a
-                    >
-                  </div>
-                </div>
-              </div>
-              <label class="options single">
-                <input type="checkbox" id="vestimentaConfirmada" />
-                Confirmo que revisé el código de vestimenta y estoy de acuerdo.
-              </label>
-              <p class="form-helper">
-                Después de completar estos pasos, tu invitación quedará en espera mientras generamos tu
-                código de acceso.
-              </p>
-            </section>
-
-            <div class="status-box" id="estadoInvitacion">
-              <div id="estado-invitado"></div>
-              <div id="contador-tiempo"></div>
-              <button type="button" class="btn hidden" id="boleto-liberado-btn">
-                Tu boleto fue liberado
-              </button>
-            </div>
-            <p id="paso-mensaje" class="form-helper form-helper--error"></p>
-
-            <div class="step-actions">
-              <button type="button" class="btn btn--ghost" id="step-prev">Anterior</button>
-              <button type="button" class="btn" id="step-next">Siguiente</button>
-              <button type="submit" class="btn hidden" id="step-submit">Enviar respuestas</button>
-            </div>
-          </form>
-          <div id="rsvp-resumen" class="card rsvp-summary hidden">
-            <h3>Tu confirmación</h3>
-            <div class="rsvp-summary__status">
-              <p class="rsvp-summary__headline" id="resumen-estado-detalle">--</p>
-              <p class="rsvp-summary__time" id="resumen-tiempo"></p>
-            </div>
-            <div class="rsvp-summary__grid" id="resumen-detalles">
-              <dl class="rsvp-summary__item">
-                <dt>Estado</dt>
-                <dd id="resumen-estado">--</dd>
-              </dl>
-              <dl class="rsvp-summary__item">
-                <dt>Asistentes confirmados</dt>
-                <dd id="resumen-asistentes">--</dd>
-              </dl>
-              <dl class="rsvp-summary__item">
-                <dt>Niños considerados</dt>
-                <dd id="resumen-ninos">--</dd>
-              </dl>
-              <dl class="rsvp-summary__item">
-                <dt>Nombres registrados</dt>
-                <dd id="resumen-nombres">--</dd>
-              </dl>
-              <dl class="rsvp-summary__item">
-                <dt>Plan de viaje</dt>
-                <dd id="resumen-viaje">--</dd>
-              </dl>
-              <dl class="rsvp-summary__item">
-                <dt>Asistencia requerida</dt>
-                <dd id="resumen-asistencia">--</dd>
-              </dl>
-              <dl class="rsvp-summary__item">
-                <dt>Código de vestimenta</dt>
-                <dd id="resumen-vestimenta">--</dd>
-              </dl>
-              <dl class="rsvp-summary__item">
-                <dt>Comentarios</dt>
-                <dd id="resumen-comentarios">--</dd>
-              </dl>
-            </div>
-            <div class="rsvp-summary__actions" id="resumen-acciones">
-              <button type="button" class="btn btn--ghost" id="resumen-editar">Editar mis respuestas</button>
-            </div>
-          </div>
-          <section class="section section--locked" id="detalles">
-            <div class="container">
-              <h2>Detalles de la Celebración</h2>
-              <div class="details-grid">
-                <article id="detalle-card-ubicacion">
-                  <h3>Ubicación principal</h3>
-                  <p class="place-name" id="detalle-ubicacion-nombre">Ubicación por confirmar</p>
-                  <p id="detalle-ubicacion-direccion">Agrega una ubicación desde el panel para mostrarla aquí.</p>
-                  <a
-                    class="btn-link"
-                    id="detalle-ubicacion-link"
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    hidden
-                    >Cómo llegar</a
-                  >
-                  <p class="detail-helper hidden" id="detalle-ubicacion-mensaje"></p>
-                </article>
-                <article id="detalle-card-vestimenta">
-                  <h3>Código de Vestimenta</h3>
-                  <p>Etiqueta Rigurosa / Charro Gran Gala</p>
-                  <ul class="dresscode-list">
-                    <li>Vestido largo formal en tonos neutros u oscuros.</li>
-                    <li>Traje charro o de etiqueta con corbata/moño.</li>
-                    <li>Zapatos formales. Sin tenis ni mezclilla.</li>
-                    <li>Evita colores del cortejo: blanco, verde olivo y lila.</li>
-                  </ul>
-                  <a
-                    class="btn-link"
-                    href="assets/docs/Codigo de vestimenta Boda.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    download
-                    >Descargar guía completa</a
-                  >
-                </article>
-                <article id="detalle-card-programa">
-                  <h3>Programa</h3>
-                  <ul class="timeline" id="detalle-programa-lista"></ul>
-                  <p class="detail-helper" id="detalle-programa-mensaje">
-                    Aún no publicamos el itinerario. Cuando lo registres en el panel aparecerá aquí.
-                  </p>
-                </article>
-              </div>
-            </div>
-          </section>
-          <section class="section section--light section--locked" id="ubicaciones">
-            <div class="container ubicaciones-wrapper">
-              <div class="ubicaciones-map-card">
-                <div class="ubicaciones-map">
-                  <iframe
-                    id="ubicaciones-mapa"
-                    title="Mapa del evento"
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                  ></iframe>
-                </div>
-                <div class="ubicaciones-map__info">
-                  <p class="ubicaciones-map__title" id="ubicaciones-mapa-nombre">Pronto compartiremos los detalles</p>
-                  <p class="ubicaciones-map__address" id="ubicaciones-mapa-direccion"></p>
-                  <a
-                    id="ubicaciones-mapa-link"
-                    class="btn btn--ghost"
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    hidden
-                    >Ver en Google Maps</a
-                  >
-                </div>
-              </div>
-              <div class="ubicaciones-list" id="ubicaciones-lista">
-                <p>Estamos cargando las ubicaciones del evento...</p>
-              </div>
-            </div>
-          </section>
-          <div id="pase-digital" class="card pase-card hidden" aria-live="polite">
-            <div class="pase-card__header">
-              <p class="pase-card__eyebrow">Pase digital</p>
-              <h3>Tu pase para la boda</h3>
-              <p id="pase-mensaje">Confirma tu asistencia para activar tu pase.</p>
-            </div>
-            <div class="pase-card__content">
-              <div class="pase-card__info">
-                <dl>
-                  <dt>Invitado</dt>
-                  <dd id="pase-nombre">--</dd>
-                </dl>
-                <dl>
-                  <dt>Código</dt>
-                  <dd id="pase-codigo">--</dd>
-                </dl>
-                <dl>
-                  <dt>Mesa asignada</dt>
-                  <dd id="pase-mesa">--</dd>
-                </dl>
-                <p class="pase-card__helper" id="pase-mesa-helper">Te avisaremos cuando tengamos tu mesa asignada.</p>
-              </div>
-              <div class="pase-card__qr">
-                <div class="pase-card__qr-frame">
-                  <img
-                    src="assets/images/novios.png"
-                    alt="Ilustración romántica"
-                    class="pase-qr-decor pase-qr-decor--left"
-                    loading="lazy"
-                  />
-                  <img
-                    src="assets/images/lavanda.png"
-                    alt="Detalle floral"
-                    class="pase-qr-decor pase-qr-decor--top"
-                    loading="lazy"
-                  />
-                  <img
-                    src="assets/images/ramo.png"
-                    alt="Ramo decorativo"
-                    class="pase-qr-decor pase-qr-decor--right"
-                    loading="lazy"
-                  />
-                  <canvas id="pase-qr" width="420" height="520" aria-hidden="true"></canvas>
-                  <p id="pase-qr-placeholder">Tu QR aparecerá aquí</p>
-                </div>
-                <small>Genera tu pase digital y muéstralo el día del evento.</small>
-              </div>
-            </div>
-            <div class="pase-card__actions">
-              <button type="button" class="btn" id="pase-generar">Generar pase digital</button>
-              <button type="button" class="btn btn--ghost hidden" id="pase-descargar">Descargar pase</button>
-            </div>
+          <div class="recuerdos-grid">
+            <article class="recuerdo-card">
+              <h3>La invitación</h3>
+              <p>Un recuerdo de cómo compartimos la noticia con nuestras familias y amigos.</p>
+            </article>
+            <article class="recuerdo-card">
+              <h3>La celebración</h3>
+              <p>Un espacio para guardar las imágenes y momentos favoritos del evento.</p>
+            </article>
+            <article class="recuerdo-card">
+              <h3>Nuestro álbum</h3>
+              <p>Un enlace centralizado para subir, ver y descargar fotografías del día.</p>
+            </article>
           </div>
         </div>
       </section>
 
-      <section class="section section--light section--locked" id="album-fotos">
+      <section class="section section--light" id="album-fotos">
         <div class="container">
           <div class="section-title-with-icon section-title-with-icon--centered section-title-with-icon--stacked">
             <img src="assets/images/camara.png" alt="Cámara" class="section-title-icon section-title-icon--xxl" />
-            <h2>Álbum compartido</h2>
+            <h2>Álbum virtual</h2>
           </div>
-          <div class="album-card" id="album-card" data-album-url="">
-            <p>Comparte tus fotos del evento y descarga nuestras favoritas. El acceso se libera con tu código de invitación.</p>
-            <div class="album-qr-wrapper">
-              <canvas id="album-qr" width="260" height="260" aria-hidden="true"></canvas>
-              <p id="album-qr-placeholder">Generaremos el QR del álbum cuando valides tu invitación.</p>
-            </div>
+          <div class="album-card">
+            <p>Comparte tus fotos del evento y vuelve a visitar nuestras favoritas cuando el álbum esté listo.</p>
             <div class="album-actions">
-              <a id="album-link" class="btn btn--ghost hidden" href="#" target="_blank" rel="noopener noreferrer">Abrir álbum en Google Fotos</a>
+              <span class="album-status">Álbum próximamente</span>
             </div>
           </div>
         </div>
@@ -667,17 +241,12 @@
       </div>
     </section>
 
-    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
-    <script
-      type="text/javascript"
-      async
-      defer
-      src="https://assets.pinterest.com/js/pinit.js"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
-    <script src="assets/js/firebase-config.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script>
+      const invitationCard = document.getElementById("invitation-card");
+
+      invitationCard?.addEventListener("click", () => {
+        invitationCard.classList.add("is-open");
+      });
+    </script>
   </body>
 </html>
