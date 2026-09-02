@@ -35,12 +35,22 @@
 
   <!-- Page-specific tweaks -->
   <style>
+    @property --hero-icon-float {
+      syntax: '<length>';
+      inherits: false;
+      initial-value: 0px;
+    }
+
     .hero-app-icons {
       position: absolute;
       inset: 0;
       overflow: hidden;
-      z-index: 1;
+      z-index: 3;
       pointer-events: none;
+    }
+
+    .page-header > .content-center {
+      z-index: 4;
     }
 
     .hero-app-icon {
@@ -51,14 +61,31 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
       opacity: .14;
       filter: saturate(.8);
+      --hero-icon-float: 0px;
+      --hero-icon-tilt-x: 0deg;
+      --hero-icon-tilt-y: 0deg;
+      --hero-icon-spin-axis-x: 0;
+      --hero-icon-spin-axis-y: 1;
+      --hero-icon-spin-axis-z: 0.2;
+      --hero-icon-spin: 0deg;
+      transform: perspective(520px) translate3d(0, var(--hero-icon-float), 0) rotateX(var(--hero-icon-tilt-x)) rotateY(var(--hero-icon-tilt-y)) rotate3d(var(--hero-icon-spin-axis-x), var(--hero-icon-spin-axis-y), var(--hero-icon-spin-axis-z), var(--hero-icon-spin));
+      transform-style: preserve-3d;
+      will-change: transform;
       animation-name: float-hero-icon;
       animation-timing-function: ease-in-out;
       animation-iteration-count: infinite;
     }
 
     @keyframes float-hero-icon {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-18px) rotate(4deg); }
+      0%, 100% { --hero-icon-float: 0px; }
+      50% { --hero-icon-float: -18px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-app-icon {
+        animation: none;
+        transform: none;
+      }
     }
 
     @media (max-width: 991.98px) {
@@ -656,6 +683,115 @@
    <!-- funciones Generales--> 
   <script src="sistema/js/funciones_generales.js" type="text/javascript"></script> 
   <script src="sistema/js/portafolio.js" type="text/javascript"></script>
+  <script>
+    (function () {
+      var icons = Array.prototype.slice.call(document.querySelectorAll('.hero-app-icon'));
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (!icons.length || reduceMotion) {
+        return;
+      }
+
+      var states = icons.map(function (icon) {
+        return {
+          icon: icon,
+          tiltX: 0,
+          tiltY: 0,
+          targetTiltX: 0,
+          targetTiltY: 0,
+          axisX: 0,
+          axisY: 1,
+          axisZ: 0.2,
+          spin: 0,
+          spinVelocity: 0
+        };
+      });
+      var pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+      var lastPointer = { x: pointer.x, y: pointer.y, time: performance.now() };
+      var accumulatedDistance = 0;
+      var ticking = false;
+
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function onPointerMove(event) {
+        var now = performance.now();
+        var deltaTime = Math.max(now - lastPointer.time, 16);
+        var deltaX = event.clientX - lastPointer.x;
+        var deltaY = event.clientY - lastPointer.y;
+        var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        var speed = distance / deltaTime;
+        var direction = deltaX || deltaY ? Math.atan2(deltaY, deltaX) : 0;
+        var spinThreshold = 120;
+        var spinReady = accumulatedDistance + distance >= spinThreshold;
+        var impulse = spinReady ? clamp(speed * 12, 0, 12) : 0;
+
+        pointer.x = event.clientX;
+        pointer.y = event.clientY;
+
+        accumulatedDistance = spinReady ? 0 : accumulatedDistance + distance;
+
+        states.forEach(function (state, index) {
+          var directionWeight = Math.cos(direction - index * 0.55);
+          var axisX = -Math.sin(direction);
+          var axisY = Math.cos(direction);
+          var axisZ = clamp(speed * 0.28, 0.12, 0.55);
+
+          state.axisX += (axisX - state.axisX) * 0.35;
+          state.axisY += (axisY - state.axisY) * 0.35;
+          state.axisZ += (axisZ - state.axisZ) * 0.35;
+          state.spinVelocity += impulse * directionWeight;
+        });
+
+        lastPointer.x = event.clientX;
+        lastPointer.y = event.clientY;
+        lastPointer.time = now;
+
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(updateIcons);
+        }
+      }
+
+      function updateIcons() {
+        states.forEach(function (state) {
+          var rect = state.icon.getBoundingClientRect();
+          var centerX = rect.left + rect.width / 2;
+          var centerY = rect.top + rect.height / 2;
+          var distanceX = clamp((pointer.x - centerX) / window.innerWidth, -1, 1);
+          var distanceY = clamp((pointer.y - centerY) / window.innerHeight, -1, 1);
+          state.targetTiltX = clamp(distanceY * -34, -24, 24);
+          state.targetTiltY = clamp(distanceX * 42, -30, 30);
+
+          state.tiltX += (state.targetTiltX - state.tiltX) * 0.1;
+          state.tiltY += (state.targetTiltY - state.tiltY) * 0.1;
+          state.spin += state.spinVelocity;
+          state.spinVelocity *= 0.92;
+
+          state.icon.style.setProperty('--hero-icon-tilt-x', state.tiltX.toFixed(2) + 'deg');
+          state.icon.style.setProperty('--hero-icon-tilt-y', state.tiltY.toFixed(2) + 'deg');
+          state.icon.style.setProperty('--hero-icon-spin-axis-x', state.axisX.toFixed(3));
+          state.icon.style.setProperty('--hero-icon-spin-axis-y', state.axisY.toFixed(3));
+          state.icon.style.setProperty('--hero-icon-spin-axis-z', state.axisZ.toFixed(3));
+          state.icon.style.setProperty('--hero-icon-spin', state.spin.toFixed(2) + 'deg');
+        });
+
+        if (states.some(function (state) {
+          return Math.abs(state.spinVelocity) > 0.02 ||
+            Math.abs(state.targetTiltX - state.tiltX) > 0.02 ||
+            Math.abs(state.targetTiltY - state.tiltY) > 0.02;
+        })) {
+          requestAnimationFrame(updateIcons);
+          return;
+        }
+
+        ticking = false;
+      }
+
+      window.addEventListener('pointermove', onPointerMove, { passive: true });
+    }());
+  </script>
  
 </body>
 
