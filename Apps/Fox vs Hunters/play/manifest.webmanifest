@@ -1,0 +1,26 @@
+{
+  "name": "Fox Vs Hunters",
+  "short_name": "Fox Hunters",
+  "description": "A local pass-and-play social deduction game with secret words and hidden foxes.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07110c",
+  "theme_color": "#ff7a1a",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "../assets/images/app-icon.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../assets/images/portfolio-icon-light.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

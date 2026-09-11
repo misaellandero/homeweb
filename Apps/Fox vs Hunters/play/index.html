@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ff7a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Fox Vs Hunters">
+  <meta name="description" content="Play Fox Vs Hunters from the browser as an installable local party game.">
+  <title>Fox Vs Hunters Web</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="../assets/images/app-icon.png">
+  <link rel="apple-touch-icon" href="../assets/images/app-icon.png">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <button class="icon-button" id="back-button" type="button" hidden aria-label="Back">‹</button>
+      <img class="app-logo" src="../assets/images/logo.png" alt="Fox Vs Hunters">
+      <div class="header-actions">
+        <button class="pill-button subtle" id="install-button" type="button" hidden data-i18n="install">Install</button>
+        <button class="icon-button" id="settings-button" type="button" aria-label="Settings">⚙</button>
+      </div>
+    </header>
+
+    <main id="app" class="screen-host" aria-live="polite"></main>
+
+    <dialog class="modal" id="settings-dialog">
+      <form method="dialog" class="modal-card">
+        <div class="modal-title-row">
+          <h2 data-i18n="settings">Settings</h2>
+          <button class="icon-button" type="submit" aria-label="Close">×</button>
+        </div>
+        <label class="field">
+          <span data-i18n="language">Language</span>
+          <select id="language-select">
+            <option value="auto">Auto</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+          </select>
+        </label>
+        <label class="toggle-row">
+          <span>
+            <strong data-i18n="sound">Sound</strong>
+            <small data-i18n="soundHint">Soft feedback during reveals and votes.</small>
+          </span>
+          <input id="sound-toggle" type="checkbox" checked>
+        </label>
+        <button class="danger-link" id="reset-button" type="button" data-i18n="resetData">Reset local data</button>
+      </form>
+    </dialog>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
