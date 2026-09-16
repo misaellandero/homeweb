@@ -4,8 +4,8 @@ import {
   getDoc,
   getFirestore,
   increment,
-  runTransaction,
   serverTimestamp,
+  setDoc,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -189,48 +189,65 @@ async function loadStats() {
   }
 }
 
+async function readPreviousEntry(entryRef) {
+  try {
+    const snap = await getDoc(entryRef);
+    return {
+      exists: snap.exists(),
+      platforms: snap.exists() ? snap.data().platforms || [] : [],
+      submittedAt: snap.exists() ? snap.data().submittedAt : null,
+    };
+  } catch (error) {
+    // Reading is optional: older Firestore rules may deny it. The waitlist
+    // entry itself must still save, so treat this as "unknown" and skip stats.
+    console.warn("Could not read previous Cota waitlist entry; stats update will be skipped.", error);
+    return null;
+  }
+}
+
+function updateStats(previousEntry, platforms) {
+  const statsUpdate = {};
+  if (!previousEntry.exists) statsUpdate.total = increment(1);
+  platforms
+    .filter((platform) => !previousEntry.platforms.includes(platform))
+    .forEach((platform) => {
+      statsUpdate[PLATFORM_STAT_KEYS[platform]] = increment(1);
+    });
+  previousEntry.platforms
+    .filter((platform) => !platforms.includes(platform))
+    .forEach((platform) => {
+      statsUpdate[PLATFORM_STAT_KEYS[platform]] = increment(-1);
+    });
+
+  if (!Object.keys(statsUpdate).length) return Promise.resolve();
+  return setDoc(doc(db, "cotaWaitlistStats", "summary"), statsUpdate, { merge: true });
+}
+
 async function submitToWaitlist(email, platforms, emailId) {
   const entryRef = doc(db, "cotaWaitlist", emailId);
-  const statsRef = doc(db, "cotaWaitlistStats", "summary");
+  const previousEntry = await readPreviousEntry(entryRef);
 
-  await runTransaction(db, async (transaction) => {
-    const entrySnap = await transaction.get(entryRef);
-    const previousPlatforms = entrySnap.exists() ? entrySnap.data().platforms || [] : [];
-    const isNewEntry = !entrySnap.exists();
+  await setDoc(
+    entryRef,
+    {
+      email,
+      platforms,
+      source: "cota-web",
+      language: currentLanguage,
+      page: window.location.pathname,
+      locale: navigator.language || "",
+      userAgent: navigator.userAgent || "",
+      updatedAt: serverTimestamp(),
+      submittedAt: previousEntry?.exists ? previousEntry.submittedAt : serverTimestamp(),
+    },
+    { merge: true }
+  );
 
-    transaction.set(
-      entryRef,
-      {
-        email,
-        platforms,
-        source: "cota-web",
-        language: currentLanguage,
-        page: window.location.pathname,
-        locale: navigator.language || "",
-        userAgent: navigator.userAgent || "",
-        updatedAt: serverTimestamp(),
-        submittedAt: isNewEntry ? serverTimestamp() : entrySnap.data().submittedAt,
-      },
-      { merge: true }
-    );
-
-    const statsUpdate = {};
-    if (isNewEntry) statsUpdate.total = increment(1);
-    platforms
-      .filter((platform) => !previousPlatforms.includes(platform))
-      .forEach((platform) => {
-        statsUpdate[PLATFORM_STAT_KEYS[platform]] = increment(1);
-      });
-    previousPlatforms
-      .filter((platform) => !platforms.includes(platform))
-      .forEach((platform) => {
-        statsUpdate[PLATFORM_STAT_KEYS[platform]] = increment(-1);
-      });
-
-    if (Object.keys(statsUpdate).length) {
-      transaction.set(statsRef, statsUpdate, { merge: true });
-    }
-  });
+  if (previousEntry) {
+    updateStats(previousEntry, platforms).catch((error) => {
+      console.warn("Cota waitlist stats not updated (check Firestore rules).", error);
+    });
+  }
 }
 
 languageButtons.forEach((button) => {
