@@ -62,6 +62,14 @@ Keep this concise. Record outcomes and decisions, not full chat transcripts.
 - Verification: `node --check` passed; re-read the full file to confirm control flow (write always attempted; stats update only on the non-blocking path). Same sandbox network limitation as before — could not exercise this against live Firestore.
 - Follow-ups: same rule changes as the entry above are still needed for the public counter and admin panel to actually populate; gave the user the exact rules to paste (merged with their existing `cotaWaitlist` rule) — `allow get: if true`, `allow list: if request.auth != null`, plus a new `cotaWaitlistStats/summary` match block with public read/write. Pushed this fix directly to `main` (fast-forward) given the live regression and the user's earlier explicit direct-to-main request.
 
+## 2026-09-16 (3)
+- Request: after applying the Firestore rules and creating the admin user, the user reported the public counter on the landing page still didn't reflect entries that already existed in `cotaWaitlist` from before this feature shipped.
+- Root cause: expected, not a bug — `cotaWaitlistStats/summary` is only ever updated incrementally by new submissions (see the 2026-09-16 hotfix); pre-existing `cotaWaitlist` documents were never counted into it, so the public counter started from whatever it was (0, or only post-fix signups) instead of the true total.
+- Files changed: `Apps/Cota/assets/js/admin.js` — `loadEntries()` now also stores the counts it already computes from the full collection scan as `lastComputedStats` (`{total, ios, web, android, iosBeta}`); added `syncPublicStats()`, which overwrites `cotaWaitlistStats/summary` with those exact numbers (a full `setDoc`, not an increment, so it always matches the raw collection exactly); wired a new "Sincronizar contador público" button to it. `Apps/Cota/admin.html` — added that button next to "Actualizar"/"Cerrar sesión".
+- Decisions: kept this as an authenticated-admin-only action (not automatic) since a full collection scan + overwrite is heavier than the per-signup increment and doesn't need to run on every page load; reused the counts already computed for the dashboard table instead of a second query.
+- Verification: `node --check` passed; rendered `admin.html` with Playwright (forced the dashboard section visible without auth, since Firebase itself is unreachable from this sandbox) and confirmed the new button renders correctly alongside the existing ones.
+- Follow-ups: user needs to log into `Apps/Cota/admin.html` and click "Sincronizar contador público" once to backfill the counter with all pre-existing signups; from then on new signups keep it accurate automatically.
+
 ## Template
 - Date:
 - Request:

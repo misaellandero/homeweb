@@ -1,8 +1,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import {
   collection,
+  doc,
   getDocs,
   getFirestore,
+  setDoc,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 import {
   getAuth,
@@ -32,8 +34,11 @@ const loginForm = document.querySelector("#login-form");
 const loginError = document.querySelector("#login-error");
 const logoutButton = document.querySelector("#logout-button");
 const refreshButton = document.querySelector("#refresh-button");
+const syncButton = document.querySelector("#sync-stats-button");
 const statusNote = document.querySelector("#dashboard-status");
 const tableBody = document.querySelector("#entries-body");
+
+let lastComputedStats = null;
 
 const metricTotalEl = document.querySelector("#metric-total");
 const metricPlatformEls = {
@@ -92,6 +97,14 @@ async function loadEntries() {
       if (metricPlatformEls[platform]) metricPlatformEls[platform].textContent = counts[platform];
     });
 
+    lastComputedStats = {
+      total: snapshot.size,
+      ios: counts.iOS,
+      web: counts.Web,
+      android: counts.Android,
+      iosBeta: counts["iOS Beta"],
+    };
+
     tableBody.innerHTML = rows
       .map(
         (row) => `
@@ -111,6 +124,24 @@ async function loadEntries() {
   }
 }
 
+async function syncPublicStats() {
+  if (!lastComputedStats) {
+    setStatus("Carga los registros primero.", "error");
+    return;
+  }
+  setStatus("Sincronizando contador público...", "neutral");
+  try {
+    await setDoc(doc(db, "cotaWaitlistStats", "summary"), lastComputedStats);
+    setStatus(
+      `Contador público sincronizado: ${lastComputedStats.total} en total.`,
+      "success"
+    );
+  } catch (error) {
+    console.error("Error syncing Cota waitlist stats", error);
+    setStatus("No se pudo sincronizar el contador. Revisa las reglas de Firestore.", "error");
+  }
+}
+
 loginForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   loginError.textContent = "";
@@ -126,6 +157,7 @@ loginForm?.addEventListener("submit", async (event) => {
 
 logoutButton?.addEventListener("click", () => signOut(auth));
 refreshButton?.addEventListener("click", () => loadEntries());
+syncButton?.addEventListener("click", () => syncPublicStats());
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
