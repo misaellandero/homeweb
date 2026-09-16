@@ -19,7 +19,7 @@ Unknown. This file was generated as a migration aid for Claude/context continuit
 
 ## Known Issues
 - Public GitHub Pages must publish `sprite-vault/control.json` and `Apps/SpriteVaultControl/Index.html` before the app can use the control panel in production.
-- Cota's Firestore security rules (managed in the Firebase console, not in this repo) have not been updated for the new stats/admin features — see the 2026-09-16 entry in `.ai/TASK_LOG.md` for the exact rules needed. Until they're applied, the public counter and admin dashboard will fail to read/write.
+- Cota's Firestore security rules (managed in the Firebase console, not in this repo) still need updating for the new stats/admin features — see the 2026-09-16 (2) hotfix entry in `.ai/TASK_LOG.md` for the exact rules needed (confirmed against the user's actual live rules). Until applied, waitlist signups themselves now work fine (fixed in the hotfix), but the public counter stays at 0 and the admin dashboard (`Apps/Cota/admin.html`) can't load any data.
 
 ## In Progress
 - Sprite Vault mirror and source-control panel are staged in `homeweb`; Gustambo should consume the public control URL and manifest URL.
