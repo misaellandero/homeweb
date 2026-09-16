@@ -53,6 +53,10 @@
                 <span>Android app</span>
               </label>
               <label>
+                <input type="checkbox" name="platform" value="iOS Beta">
+                <span data-i18n="platformIosBeta">iOS beta (TestFlight)</span>
+              </label>
+              <label>
                 <input type="checkbox" name="platform" value="All" id="platform-all">
                 <span data-i18n="allPlatforms">Todas</span>
               </label>
@@ -65,6 +69,19 @@
             </div>
           </form>
           <p class="form-note" id="form-note" role="status" data-i18n="initialStatus">Te avisaremos cuando la beta esté lista para las plataformas que elijas.</p>
+
+          <div class="waitlist-stats" id="waitlist-stats" aria-live="polite">
+            <p class="stats-total">
+              <strong id="stats-total">0</strong>
+              <span data-i18n="statsTotalLabel">personas en la waitlist</span>
+            </p>
+            <ul class="stats-platforms">
+              <li><span class="stats-key">iOS</span><span class="stats-value" id="stats-ios">0</span></li>
+              <li><span class="stats-key">Web</span><span class="stats-value" id="stats-web">0</span></li>
+              <li><span class="stats-key">Android</span><span class="stats-value" id="stats-android">0</span></li>
+              <li><span class="stats-key" data-i18n="platformIosBeta">iOS beta (TestFlight)</span><span class="stats-value" id="stats-ios-beta">0</span></li>
+            </ul>
+          </div>
         </div>
       </section>
     </main>

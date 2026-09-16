@@ -1,9 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
 import {
   doc,
+  getDoc,
   getFirestore,
+  increment,
+  runTransaction,
   serverTimestamp,
-  setDoc,
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -27,6 +29,21 @@ const submitButton = form?.querySelector("button[type='submit']");
 const languageButtons = Array.from(document.querySelectorAll("[data-language]"));
 const metaDescription = document.querySelector('meta[name="description"]');
 
+const statsTotalEl = document.querySelector("#stats-total");
+const statsPlatformEls = {
+  iOS: document.querySelector("#stats-ios"),
+  Web: document.querySelector("#stats-web"),
+  Android: document.querySelector("#stats-android"),
+  "iOS Beta": document.querySelector("#stats-ios-beta"),
+};
+
+const PLATFORM_STAT_KEYS = {
+  iOS: "ios",
+  Web: "web",
+  Android: "android",
+  "iOS Beta": "iosBeta",
+};
+
 const translations = {
   es: {
     documentTitle: "Cota Waitlist",
@@ -39,6 +56,7 @@ const translations = {
     lede:
       "Registra paseos, agua, comida, pipi, popo, vacunas y recordatorios. Estamos preparando la beta.",
     platformLegend: "Quiero recibir noticias de",
+    platformIosBeta: "iOS beta (TestFlight)",
     allPlatforms: "Todas",
     emailLabel: "Correo electronico",
     emailPlaceholder: "tu@email.com",
@@ -52,6 +70,7 @@ const translations = {
       "Listo. Guardamos tu correo. Puedes elegir una plataforma si quieres recibir noticias mas precisas.",
     errorStatus:
       "No pudimos conectar con Firebase ahora. Guardamos una copia local para no perder tu registro.",
+    statsTotalLabel: "personas en la waitlist",
   },
   en: {
     documentTitle: "Cota Waitlist",
@@ -64,6 +83,7 @@ const translations = {
     lede:
       "Track walks, water, food, pee, poop, vaccines, and reminders. We are preparing the beta.",
     platformLegend: "I want updates about",
+    platformIosBeta: "iOS beta (TestFlight)",
     allPlatforms: "All",
     emailLabel: "Email address",
     emailPlaceholder: "you@email.com",
@@ -77,6 +97,7 @@ const translations = {
       "Done. We saved your email. You can choose a platform if you want more specific updates.",
     errorStatus:
       "We could not connect to Firebase right now. A local copy was saved so your registration is not lost.",
+    statsTotalLabel: "people on the waitlist",
   },
 };
 
@@ -152,6 +173,66 @@ function saveLocalCopy(email, platforms) {
   localStorage.setItem("cota-waitlist-platforms", JSON.stringify(platforms));
 }
 
+function renderStats(stats) {
+  if (statsTotalEl) statsTotalEl.textContent = stats.total || 0;
+  Object.entries(statsPlatformEls).forEach(([platform, element]) => {
+    if (element) element.textContent = stats[PLATFORM_STAT_KEYS[platform]] || 0;
+  });
+}
+
+async function loadStats() {
+  try {
+    const statsSnap = await getDoc(doc(db, "cotaWaitlistStats", "summary"));
+    renderStats(statsSnap.exists() ? statsSnap.data() : {});
+  } catch (error) {
+    console.error("Error loading Cota waitlist stats", error);
+  }
+}
+
+async function submitToWaitlist(email, platforms, emailId) {
+  const entryRef = doc(db, "cotaWaitlist", emailId);
+  const statsRef = doc(db, "cotaWaitlistStats", "summary");
+
+  await runTransaction(db, async (transaction) => {
+    const entrySnap = await transaction.get(entryRef);
+    const previousPlatforms = entrySnap.exists() ? entrySnap.data().platforms || [] : [];
+    const isNewEntry = !entrySnap.exists();
+
+    transaction.set(
+      entryRef,
+      {
+        email,
+        platforms,
+        source: "cota-web",
+        language: currentLanguage,
+        page: window.location.pathname,
+        locale: navigator.language || "",
+        userAgent: navigator.userAgent || "",
+        updatedAt: serverTimestamp(),
+        submittedAt: isNewEntry ? serverTimestamp() : entrySnap.data().submittedAt,
+      },
+      { merge: true }
+    );
+
+    const statsUpdate = {};
+    if (isNewEntry) statsUpdate.total = increment(1);
+    platforms
+      .filter((platform) => !previousPlatforms.includes(platform))
+      .forEach((platform) => {
+        statsUpdate[PLATFORM_STAT_KEYS[platform]] = increment(1);
+      });
+    previousPlatforms
+      .filter((platform) => !platforms.includes(platform))
+      .forEach((platform) => {
+        statsUpdate[PLATFORM_STAT_KEYS[platform]] = increment(-1);
+      });
+
+    if (Object.keys(statsUpdate).length) {
+      transaction.set(statsRef, statsUpdate, { merge: true });
+    }
+  });
+}
+
 languageButtons.forEach((button) => {
   button.addEventListener("click", () => {
     applyLanguage(button.dataset.language);
@@ -188,21 +269,7 @@ form?.addEventListener("submit", async (event) => {
 
   try {
     const emailId = await createEmailId(email);
-    await setDoc(
-      doc(db, "cotaWaitlist", emailId),
-      {
-        email,
-        platforms,
-        source: "cota-web",
-        language: currentLanguage,
-        page: window.location.pathname,
-        locale: navigator.language || "",
-        userAgent: navigator.userAgent || "",
-        updatedAt: serverTimestamp(),
-        submittedAt: serverTimestamp(),
-      },
-      { merge: true }
-    );
+    await submitToWaitlist(email, platforms, emailId);
 
     saveLocalCopy(email, platforms);
     setStatus(
@@ -213,6 +280,7 @@ form?.addEventListener("submit", async (event) => {
     );
     form.reset();
     if (platformAll) platformAll.checked = false;
+    loadStats();
   } catch (error) {
     console.error("Error saving Cota waitlist", error);
     saveLocalCopy(email, platforms);
@@ -223,3 +291,4 @@ form?.addEventListener("submit", async (event) => {
 });
 
 applyLanguage(currentLanguage);
+loadStats();

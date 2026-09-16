@@ -13,9 +13,13 @@ Unknown. This file was generated as a migration aid for Claude/context continuit
 - `Tools/SpriteVaultMirror/generate_mirror.py` creates backups in `sprite-vault/backups/` before replacing a changed catalog.
 - `Tools/SpriteVaultMirror/generate_mirror.py` validates with `py_compile` and generates valid JSON files.
 - Public GitHub Pages links should use explicit file paths with exact casing, for example `/Apps/PetPal/index.html` rather than `/Apps/PetPal`.
+- `Apps/Cota/` is a Firebase-backed wish list ("Cota Waitlist") for a separate pet-care app (iOS/Web/Android), not to be confused with `Apps/PetPal/` (a static landing page with no signup form). Signups write to Firestore `cotaWaitlist` (per-email doc) in the `misaellanderoweb` Firebase project via `Apps/Cota/assets/js/waitlist.js`.
+- `Apps/Cota/index.html` now also shows a public live counter (total signups + per-platform breakdown, including the new "iOS beta (TestFlight)" option) backed by a PII-free `cotaWaitlistStats/summary` Firestore doc, kept in sync via an atomic transaction in `waitlist.js`.
+- `Apps/Cota/admin.html` + `Apps/Cota/assets/js/admin.js` is a Firebase Auth-gated admin dashboard that lists every wish list entry and recomputes counts live from the raw `cotaWaitlist` collection.
 
 ## Known Issues
 - Public GitHub Pages must publish `sprite-vault/control.json` and `Apps/SpriteVaultControl/Index.html` before the app can use the control panel in production.
+- Cota's Firestore security rules (managed in the Firebase console, not in this repo) have not been updated for the new stats/admin features — see the 2026-09-16 entry in `.ai/TASK_LOG.md` for the exact rules needed. Until they're applied, the public counter and admin dashboard will fail to read/write.
 
 ## In Progress
 - Sprite Vault mirror and source-control panel are staged in `homeweb`; Gustambo should consume the public control URL and manifest URL.
