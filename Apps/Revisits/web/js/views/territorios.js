@@ -1,7 +1,7 @@
 import * as store from '../store.js';
 import { t, visitTypeLabel } from '../i18n.js';
 import { escapeHTML } from '../utils.js';
-import { openDetail } from './revisits.js';
+import { openDetail, openNewRevisitForm } from './revisits.js';
 
 let map = null;
 let markersLayer = null;
@@ -27,8 +27,15 @@ export async function render(container) {
 
 	if (!located.length) {
 		mapEl.style.display = 'none';
-		emptyEl.style.display = 'block';
-		emptyEl.textContent = t('emptyTerritorios');
+		emptyEl.style.display = 'flex';
+		emptyEl.innerHTML = `
+			<p>${escapeHTML(t('emptyTerritorios'))}</p>
+			<button class="btn btn-primary" id="emptyTerritoriosAddBtn"><i class="fas fa-plus"></i> ${t('btnAddFirstRevisit')}</button>
+		`;
+		emptyEl.querySelector('#emptyTerritoriosAddBtn').addEventListener('click', () => {
+			document.querySelector('#app-tabbar button[data-tab="revisitas"]')?.click();
+			openNewRevisitForm();
+		});
 		return;
 	}
 

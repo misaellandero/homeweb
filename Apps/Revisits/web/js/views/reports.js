@@ -111,7 +111,13 @@ async function renderHistory(container) {
 
 	const historyEl = container.querySelector('#reportHistory');
 	if (!reports.length) {
-		historyEl.innerHTML = `<div class="empty-state">${escapeHTML(t('emptyHistory'))}</div>`;
+		historyEl.innerHTML = `
+			<div class="empty-state">
+				<p>${escapeHTML(t('emptyHistory'))}</p>
+				<button class="btn btn-primary" id="emptyHistoryAddBtn"><i class="fas fa-plus"></i> ${t('btnRegister')}</button>
+			</div>
+		`;
+		historyEl.querySelector('#emptyHistoryAddBtn').addEventListener('click', () => openReportForm(services));
 		return;
 	}
 
@@ -240,27 +246,49 @@ function renderTimer(container, services, timerState) {
 
 	function drawControls(active) {
 		if (active) {
+			const state = getTimerState();
+			const running = state.running !== false;
 			controls.innerHTML = `
-				<button class="btn" id="restartBtn"><i class="fas fa-undo"></i> ${t('btnRestart')}</button>
-				<button class="btn btn-primary btn-block" id="registerBtn"><i class="fas fa-check"></i> ${t('btnRegister')}</button>
+				<div class="row" style="gap:10px; width:100%;">
+					<button class="btn btn-danger" id="ignoreBtn" style="flex:1;"><i class="fas fa-trash"></i> ${t('btnIgnore')}</button>
+					<button class="btn" id="pauseResumeBtn" style="flex:1;">
+						${running ? `<i class="fas fa-pause"></i> ${t('btnPause')}` : `<i class="fas fa-play"></i> ${t('btnResume')}`}
+					</button>
+				</div>
+				<button class="btn btn-primary btn-block" id="registerBtn" style="margin-top:10px;"><i class="fas fa-check"></i> ${t('btnRegister')}</button>
 			`;
-			controls.querySelector('#restartBtn').addEventListener('click', () => {
-				if (!confirm(t('confirmRestartTimer'))) return;
+			controls.querySelector('#ignoreBtn').addEventListener('click', () => {
+				if (!confirm(t('confirmIgnoreTimer'))) return;
 				clearTimerState();
 				clearTimerGoalNotification();
 				render(container);
 			});
+			controls.querySelector('#pauseResumeBtn').addEventListener('click', () => {
+				const s = getTimerState();
+				if (!s) return;
+				if (s.running !== false) {
+					s.accumulatedMs = elapsedMs(s);
+					s.running = false;
+					s.startTime = null;
+				} else {
+					s.running = true;
+					s.startTime = new Date().toISOString();
+				}
+				setTimerState(s);
+				stopTicking();
+				renderTimer(container, services, s);
+			});
 			controls.querySelector('#registerBtn').addEventListener('click', () => {
-				const state = getTimerState();
-				const elapsedHours = (Date.now() - new Date(state.startTime).getTime()) / 3_600_000;
+				const s = getTimerState();
+				const elapsedHours = elapsedMs(s) / 3_600_000;
 				openReportForm(services, {
 					date: todayISO(),
-					serviceId: state.serviceId,
+					serviceId: s.serviceId,
 					hours: Math.round(elapsedHours * 100) / 100,
-					studies: state.counters.studies,
-					pubs: state.counters.pubs,
-					videos: state.counters.videos,
-					returnVisits: state.counters.returnVisits,
+					studies: s.counters.studies,
+					pubs: s.counters.pubs,
+					videos: s.counters.videos,
+					returnVisits: s.counters.returnVisits,
 					clearTimer: true
 				});
 			});
@@ -276,7 +304,9 @@ function renderTimer(container, services, timerState) {
 					const preset = PRESETS[Number(btn.dataset.i)];
 					setTimerState({
 						active: true,
+						running: true,
 						startTime: new Date().toISOString(),
+						accumulatedMs: 0,
 						presetSeconds: preset.seconds,
 						serviceId: services[0]?.id || null,
 						counters: { studies: 0, pubs: 0, videos: 0, returnVisits: 0 }
@@ -291,19 +321,26 @@ function renderTimer(container, services, timerState) {
 	function tick() {
 		const state = getTimerState();
 		if (!state) return;
-		const elapsedMs = Date.now() - new Date(state.startTime).getTime();
-		display.textContent = formatClock(elapsedMs);
+		display.textContent = formatClock(elapsedMs(state));
 	}
 
 	const active = !!timerState;
 	drawControls(active);
 	drawCounters();
-	if (active) {
+	if (active && timerState.running !== false) {
 		tick();
 		timerIntervalId = setInterval(tick, 1000);
+	} else if (active) {
+		display.textContent = formatClock(elapsedMs(timerState));
 	} else {
 		display.textContent = '00:00:00';
 	}
+}
+
+function elapsedMs(state) {
+	const accumulated = state.accumulatedMs || 0;
+	if (state.running === false || !state.startTime) return accumulated;
+	return accumulated + (Date.now() - new Date(state.startTime).getTime());
 }
 
 function stopTicking() {
