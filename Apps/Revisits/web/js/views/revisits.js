@@ -18,7 +18,7 @@ export async function render(container) {
 	container.innerHTML = `
 		<div class="card">
 			<div class="row wrap" style="margin-bottom:10px;">
-				<input type="search" id="revisitSearch" placeholder="${escapeHTML(t('searchPlaceholder'))}" style="flex:1; min-width:160px; border:1px solid var(--border); border-radius:10px; padding:8px 12px;" value="${escapeHTML(currentSearch)}">
+				<input type="search" id="revisitSearch" placeholder="${escapeHTML(t('searchPlaceholder'))}" style="flex:1; min-width:160px; border:1px solid var(--border); border-radius:10px; padding:8px 12px; background:var(--surface); color:var(--text);" value="${escapeHTML(currentSearch)}">
 			</div>
 			<div class="segmented" id="revisitFilters">
 				<button data-filter="todos" class="${currentFilter === 'todos' ? 'active' : ''}">${t('filterAll')}</button>
@@ -237,9 +237,9 @@ function locationFieldsHTML(revisit) {
 			</div>
 			<div class="row" style="gap:8px;">
 				<button type="button" class="btn" id="useLocationBtn">
-					<i class="fas fa-location-crosshairs"></i> ${hasLocation ? t('btnUpdateLocation') : t('btnUseMyLocation')}
+					<i class="fas fa-crosshairs"></i> ${hasLocation ? t('btnUpdateLocation') : t('btnUseMyLocation')}
 				</button>
-				${hasLocation ? `<button type="button" class="btn btn-ghost" id="removeLocationBtn"><i class="fas fa-xmark"></i></button>` : ''}
+				${hasLocation ? `<button type="button" class="btn btn-ghost" id="removeLocationBtn"><i class="fas fa-times"></i></button>` : ''}
 			</div>
 		</div>
 	`;
@@ -264,7 +264,7 @@ function wireLocationField(sheet) {
 			latInput.value = pos.lat;
 			lngInput.value = pos.lng;
 			status.textContent = `${pos.lat.toFixed(5)}, ${pos.lng.toFixed(5)}`;
-			btn.innerHTML = `<i class="fas fa-location-crosshairs"></i> ${t('btnUpdateLocation')}`;
+			btn.innerHTML = `<i class="fas fa-crosshairs"></i> ${t('btnUpdateLocation')}`;
 			showToast(t('locationSaved'));
 
 			const houseDetailsInput = sheet.querySelector('input[name="houseDetails"]');
@@ -417,7 +417,7 @@ function collectVisitFields(fd, revisitId, existingId) {
 
 // ---------- Detail view ----------
 
-async function openDetail(id) {
+export async function openDetail(id) {
 	const revisit = await store.getRevisit(id);
 	if (!revisit) return;
 	const visits = await store.listVisitsForRevisit(id);
@@ -437,7 +437,7 @@ async function openDetail(id) {
 			</div>
 			<div class="row" style="gap:10px; margin-bottom:12px;">
 				<a class="btn" href="${geo.mapEmbedUrl(revisit.mapLat, revisit.mapLng)}" target="_blank" rel="noopener"><i class="fas fa-map"></i> ${t('btnViewOnMap')}</a>
-				<a class="btn btn-primary" href="${geo.directionsUrl(revisit.mapLat, revisit.mapLng)}" target="_blank" rel="noopener"><i class="fas fa-diamond-turn-right"></i> ${t('btnGetDirections')}</a>
+				<a class="btn btn-primary" href="${geo.directionsUrl(revisit.mapLat, revisit.mapLng)}" target="_blank" rel="noopener"><i class="fas fa-route"></i> ${t('btnGetDirections')}</a>
 			</div>
 		` : ''}
 		<div class="row" style="gap:10px; margin:14px 0;">

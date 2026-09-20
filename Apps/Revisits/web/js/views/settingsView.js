@@ -3,12 +3,18 @@ import { exportBackup, importBackup } from '../store.js';
 import { showToast } from '../ui.js';
 import { requestNotificationPermission } from '../notifications.js';
 import { t, getLanguage, setLanguage, LANGUAGES } from '../i18n.js';
+import { canPromptInstall, triggerInstall, isStandalone, onInstallStateChange } from '../install.js';
 
 export async function render(container) {
 	container.innerHTML = `
 		<div class="card">
+			<h2>${t('headingInstall')}</h2>
+			${installSectionHTML()}
+		</div>
+
+		<div class="card">
 			<h2>${t('headingLanguage')}</h2>
-			<select id="languageSelect" style="width:100%; border:1px solid var(--border); border-radius:10px; padding:10px 12px; font-size:15px;">
+			<select id="languageSelect" style="width:100%; border:1px solid var(--border); border-radius:10px; padding:10px 12px; font-size:15px; background:var(--surface); color:var(--text);">
 				${LANGUAGES.map((l) => `<option value="${l.code}" ${getLanguage() === l.code ? 'selected' : ''}>${escapeAttr(l.name)}</option>`).join('')}
 			</select>
 		</div>
@@ -51,9 +57,16 @@ export async function render(container) {
 
 		<div class="card">
 			<h2>${t('headingDangerZone')}</h2>
-			<button class="btn btn-danger" id="resetBtn"><i class="fas fa-triangle-exclamation"></i> ${t('btnResetAll')}</button>
+			<button class="btn btn-danger" id="resetBtn"><i class="fas fa-exclamation-triangle"></i> ${t('btnResetAll')}</button>
 		</div>
 	`;
+
+	container.querySelector('#installAppBtn')?.addEventListener('click', async () => {
+		await triggerInstall();
+		render(container);
+	});
+
+	onInstallStateChange(() => render(container));
 
 	container.querySelector('#languageSelect').addEventListener('change', (e) => {
 		setLanguage(e.target.value);
@@ -104,4 +117,14 @@ export async function render(container) {
 
 function escapeAttr(str) {
 	return String(str).replace(/"/g, '&quot;');
+}
+
+function installSectionHTML() {
+	if (isStandalone()) {
+		return `<p class="sub">${t('alreadyInstalledLabel')}</p>`;
+	}
+	if (canPromptInstall()) {
+		return `<button class="btn btn-primary" id="installAppBtn"><i class="fas fa-download"></i> ${t('btnInstallApp')}</button>`;
+	}
+	return `<p class="sub">${t('manualInstallHint')}</p>`;
 }

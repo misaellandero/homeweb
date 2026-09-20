@@ -123,7 +123,7 @@ async function renderHistory(container) {
 			<div class="avatar revisita"><i class="fas fa-clock"></i></div>
 			<div class="meta">
 				<div class="name">${formatDateLong(report.date)} · ${formatHours(report.hours)}</div>
-				<div class="sub">${escapeHTML(serviceName(report.serviceId))}${report.studies ? ' · ' + t('wordEstudios') + ': ' + report.studies : ''}${report.returnVisits ? ' · ' + t('wordRevisitas') + ': ' + report.returnVisits : ''}</div>
+				<div class="sub">${escapeHTML(serviceName(report.serviceId))}${report.studies ? ' · ' + t('wordEstudios') + ': ' + report.studies : ''}${report.returnVisits ? ' · ' + t('wordRevisitas') + ': ' + report.returnVisits : ''}${report.pubs ? ' · ' + t('wordPublicaciones') + ': ' + report.pubs : ''}${report.videos ? ' · ' + t('wordVideos') + ': ' + report.videos : ''}</div>
 			</div>
 			<button class="icon-btn" aria-label="${escapeHTML(t('ariaDelete'))}"><i class="fas fa-trash"></i></button>
 		`;
@@ -241,7 +241,7 @@ function renderTimer(container, services, timerState) {
 	function drawControls(active) {
 		if (active) {
 			controls.innerHTML = `
-				<button class="btn" id="restartBtn"><i class="fas fa-rotate-left"></i> ${t('btnRestart')}</button>
+				<button class="btn" id="restartBtn"><i class="fas fa-undo"></i> ${t('btnRestart')}</button>
 				<button class="btn btn-primary btn-block" id="registerBtn"><i class="fas fa-check"></i> ${t('btnRegister')}</button>
 			`;
 			controls.querySelector('#restartBtn').addEventListener('click', () => {
