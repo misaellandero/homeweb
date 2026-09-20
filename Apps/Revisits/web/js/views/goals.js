@@ -199,6 +199,9 @@ async function renderServicesList(container, services) {
 	}
 	el.innerHTML = '';
 	for (const service of services) {
+		const dayGoals = await store.listDayGoals(service.id);
+		const weeklyTotal = dayGoals.reduce((s, g) => s + (Number(g.goal) || 0), 0);
+		const monthlyApprox = weeklyTotal * 4 + (Number(service.extraTime) || 0);
 		const row = document.createElement('div');
 		row.className = 'list-item';
 		row.innerHTML = `
@@ -206,11 +209,50 @@ async function renderServicesList(container, services) {
 			<div class="meta">
 				<div class="name">${escapeHTML(service.name)}</div>
 				<div class="sub">${t('monthlyGoalPrefix')} ${formatHours(service.timeGoal || 0)}</div>
+				<div class="sub">${t('weeklyTotalLabel')}: ${formatHours(weeklyTotal)} · ${t('monthlyApproxLabel')}: ${formatHours(monthlyApprox)}</div>
 			</div>
 		`;
 		row.addEventListener('click', () => openServiceForm(service));
 		el.append(row);
 	}
+}
+
+function dayGoalRowHTML(i, hours) {
+	return `
+		<div class="day-goal-row" data-day="${i}">
+			<div class="day-goal-toggle" role="button" aria-label="${escapeHTML(weekdayName(i))}">
+				<i class="fas ${hours >= 1 ? 'fa-check-circle' : 'fa-circle'}"></i>
+			</div>
+			<div class="day-goal-info">
+				<div class="day-goal-name">${escapeHTML(weekdayName(i))}</div>
+				<div class="day-goal-hours sub">${hours > 0 ? formatHours(hours) : escapeHTML(t('noHoursScheduled'))}</div>
+			</div>
+			<div class="stepper">
+				<button type="button" class="stepper-btn" data-step="-0.25" aria-label="-"><i class="fas fa-minus"></i></button>
+				<input type="hidden" name="day${i}" value="${hours}">
+				<button type="button" class="stepper-btn" data-step="0.25" aria-label="+"><i class="fas fa-plus"></i></button>
+			</div>
+		</div>
+	`;
+}
+
+function updateTotalsHTML(sheet) {
+	const timeGoal = Number(sheet.querySelector('[name="timeGoal"]').value) || 0;
+	const extraHours = Number(sheet.querySelector('[name="extraTime"]').value) || 0;
+	const dayValues = Array.from(sheet.querySelectorAll('.day-goal-row input[type="hidden"]')).map((el) => Number(el.value) || 0);
+	const weeklyTotal = dayValues.reduce((s, v) => s + v, 0);
+	const monthlyApprox = weeklyTotal * 4 + extraHours;
+	const el = sheet.querySelector('#serviceTotals');
+	if (!el) return;
+	const covered = monthlyApprox >= timeGoal && timeGoal > 0;
+	el.innerHTML = `
+		<div class="row between" style="margin-bottom:6px;"><span>${t('weeklyTotalLabel')}</span><strong>${formatHours(weeklyTotal)}</strong></div>
+		<div class="row between" style="margin-bottom:6px;"><span>${t('monthlyApproxLabel')}</span><strong>${formatHours(monthlyApprox)}</strong></div>
+		${timeGoal > 0 ? `<div class="sub" style="color:${covered ? 'var(--success)' : 'var(--warning)'};">
+			<i class="fas ${covered ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+			${covered ? escapeHTML(t('goalCoveredMessage')) : escapeHTML(t('goalPendingMessage', { hours: formatHours(timeGoal - monthlyApprox) }))}
+		</div>` : ''}
+	`;
 }
 
 async function openServiceForm(service) {
@@ -228,20 +270,55 @@ async function openServiceForm(service) {
 				<input type="number" name="timeGoal" min="0" step="0.5" value="${service?.timeGoal || 0}">
 			</div>
 			<h2 style="font-size:14px;">${t('headingDayGoals')}</h2>
-			<div class="row wrap" style="gap:10px;">
-				${Array.from({ length: 7 }, (_, i) => `
-					<div class="field" style="flex:1; min-width:110px;">
-						<label>${escapeHTML(weekdayName(i))}</label>
-						<input type="number" name="day${i}" min="0" step="0.25" value="${goalsByDay[i]}">
-					</div>
-				`).join('')}
+			<div class="day-goal-list">
+				${Array.from({ length: 7 }, (_, i) => dayGoalRowHTML(i, goalsByDay[i])).join('')}
 			</div>
+			<div class="field">
+				<label>${t('labelExtraHours')}</label>
+				<input type="number" name="extraTime" min="0" step="0.25" value="${service?.extraTime || 0}">
+			</div>
+			<h2 style="font-size:14px;">${t('headingTotals')}</h2>
+			<div class="card" id="serviceTotals" style="padding:12px;"></div>
 			<div class="row" style="gap:10px; margin-top:10px;">
 				${service ? `<button type="button" class="btn btn-danger" id="deleteServiceBtn"><i class="fas fa-trash"></i></button>` : ''}
 				<button type="submit" class="btn btn-primary btn-block">${service ? t('update') : t('save')}</button>
 			</div>
 		</form>
 	`);
+
+	sheet.querySelectorAll('.day-goal-row').forEach((row) => {
+		const input = row.querySelector('input[type="hidden"]');
+		const toggle = row.querySelector('.day-goal-toggle');
+		const nameEl = row.querySelector('.day-goal-name');
+		const hoursEl = row.querySelector('.day-goal-hours');
+		const icon = toggle.querySelector('i');
+
+		const refresh = () => {
+			const hours = Number(input.value) || 0;
+			hoursEl.textContent = hours > 0 ? formatHours(hours) : t('noHoursScheduled');
+			icon.className = `fas ${hours >= 1 ? 'fa-check-circle' : 'fa-circle'}`;
+			updateTotalsHTML(sheet);
+		};
+
+		toggle.addEventListener('click', () => {
+			input.value = (Number(input.value) || 0) < 1 ? 1 : 0;
+			refresh();
+		});
+		nameEl.parentElement.style.cursor = 'default';
+
+		row.querySelectorAll('.stepper-btn').forEach((btn) => {
+			btn.addEventListener('click', () => {
+				const step = Number(btn.dataset.step);
+				const next = Math.min(12, Math.max(0, (Number(input.value) || 0) + step));
+				input.value = Math.round(next * 100) / 100;
+				refresh();
+			});
+		});
+	});
+
+	sheet.querySelector('[name="timeGoal"]').addEventListener('input', () => updateTotalsHTML(sheet));
+	sheet.querySelector('[name="extraTime"]').addEventListener('input', () => updateTotalsHTML(sheet));
+	updateTotalsHTML(sheet);
 
 	if (service) {
 		sheet.querySelector('#deleteServiceBtn').addEventListener('click', async () => {
@@ -261,7 +338,7 @@ async function openServiceForm(service) {
 			id: service?.id,
 			name: fd.get('name')?.trim(),
 			timeGoal: Number(fd.get('timeGoal')) || 0,
-			extraTime: service?.extraTime || 0
+			extraTime: Number(fd.get('extraTime')) || 0
 		}, dayValues);
 		closeModal();
 		showToast(service ? t('toastServiceUpdated') : t('toastServiceCreated'));

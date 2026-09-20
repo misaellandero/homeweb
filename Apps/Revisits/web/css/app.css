@@ -5,6 +5,8 @@
 	--estudio: #28a745;
 	--revisita: #235ee7;
 	--overdue: #dc3545;
+	--success: #2e7d32;
+	--warning: #b26a00;
 	--bg: #f4f6fb;
 	--surface: #ffffff;
 	--text: #1c2530;
@@ -46,7 +48,6 @@
 	--shape-lg: 20px;
 	--shape-xl: 28px;
 	--shape-full: 999px;
-	--shape-fab: 22px;
 
 	/* Type scale (size / weight / line-height via the `font` shorthand). */
 	--type-headline: 700 24px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -70,6 +71,8 @@
 		--text-muted: #9aa2ad;
 		--border: #33383f;
 		--shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+		--success: #66bb6a;
+		--warning: #ffb74d;
 	}
 }
 
@@ -162,6 +165,81 @@ main {
 	font: var(--type-title-lg);
 }
 
+.support-hero {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	background: linear-gradient(135deg, #ff5f6d 0%, #ffa751 100%);
+	color: #fff;
+	border-radius: var(--shape-lg);
+	box-shadow: var(--elevation-3);
+	padding: 18px;
+	margin-bottom: 16px;
+}
+
+.support-hero > .fa-heart {
+	font-size: 30px;
+	flex-shrink: 0;
+}
+
+.support-hero h2 {
+	margin: 0 0 4px;
+	font: var(--type-title-lg);
+}
+
+.support-hero p {
+	margin: 0 0 12px;
+	font-size: 13px;
+	opacity: 0.95;
+}
+
+.support-hero .btn {
+	background: #fff;
+	color: #d1495b;
+}
+
+.install-card-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 14px;
+}
+
+.install-card-header h2 {
+	margin: 0;
+}
+
+.install-icon {
+	width: 44px;
+	height: 44px;
+	border-radius: var(--shape-full);
+	background: var(--md-primary-container);
+	color: var(--md-on-primary-container);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	flex-shrink: 0;
+}
+
+.install-hint {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	font-size: 14px;
+	color: var(--text);
+	background: var(--md-surface-variant);
+	border-radius: var(--shape-md);
+	padding: 14px;
+	margin: 0;
+}
+
+.install-hint i {
+	font-size: 18px;
+	color: var(--brand);
+	margin-top: 2px;
+}
+
 .row {
 	display: flex;
 	gap: 8px;
@@ -206,6 +284,75 @@ main {
 	min-height: 64px;
 }
 
+.day-goal-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.day-goal-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 12px;
+	background: var(--md-surface-variant);
+	border-radius: var(--shape-md);
+}
+
+.day-goal-toggle {
+	width: 28px;
+	height: 28px;
+	font-size: 22px;
+	color: var(--brand);
+	cursor: pointer;
+	line-height: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.day-goal-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.day-goal-name {
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.day-goal-hours {
+	font-size: 12px;
+}
+
+.stepper {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.stepper-btn {
+	width: 30px;
+	height: 30px;
+	border-radius: var(--shape-full);
+	border: 1px solid var(--border);
+	background: var(--surface);
+	color: var(--text);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	font-size: 12px;
+	padding: 0;
+}
+
+.stepper-btn:active {
+	background: var(--md-primary-container);
+	color: var(--md-on-primary-container);
+}
+
 .btn {
 	display: inline-flex;
 	align-items: center;
@@ -219,7 +366,14 @@ main {
 	cursor: pointer;
 	background: var(--border);
 	color: var(--text);
+	text-decoration: none;
 	transition: transform 0.25s var(--easing-spring), box-shadow 0.1s ease;
+}
+
+.btn-lg {
+	padding: 16px 20px;
+	font-size: 16px;
+	box-shadow: var(--elevation-3);
 }
 
 .btn:active {
@@ -252,20 +406,23 @@ main {
 	bottom: 84px;
 	width: 60px;
 	height: 60px;
-	border-radius: var(--shape-fab);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--shape-full);
 	background: linear-gradient(135deg, var(--brand-start) 0%, var(--brand-end) 100%);
 	color: #fff;
-	font-size: 28px;
+	font-size: 24px;
+	line-height: 1;
 	border: none;
 	box-shadow: var(--elevation-3);
 	cursor: pointer;
 	z-index: 15;
-	transition: transform 0.25s var(--easing-spring), border-radius 0.25s var(--easing-spring);
+	transition: transform 0.2s var(--easing-spring);
 }
 
 .fab:active {
 	transform: scale(0.90);
-	border-radius: var(--shape-full);
 }
 
 .tabbar {

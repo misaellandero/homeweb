@@ -3,12 +3,26 @@ import { exportBackup, importBackup } from '../store.js';
 import { showToast } from '../ui.js';
 import { requestNotificationPermission } from '../notifications.js';
 import { t, getLanguage, setLanguage, LANGUAGES } from '../i18n.js';
-import { canPromptInstall, triggerInstall, isStandalone, isIOS, onInstallStateChange } from '../install.js';
+import { canPromptInstall, triggerInstall, isStandalone, isIOS, isSafari, onInstallStateChange } from '../install.js';
+
+const APP_STORE_URL = 'https://apps.apple.com/mx/app/revisits/id1513271477';
 
 export async function render(container) {
 	container.innerHTML = `
-		<div class="card">
-			<h2>${t('headingInstall')}</h2>
+		<div class="support-hero">
+			<i class="fas fa-heart"></i>
+			<div>
+				<h2>${t('headingSupport')}</h2>
+				<p>${t('supportHint')}</p>
+				<a class="btn btn-block" id="supportBtn" href="${APP_STORE_URL}" target="_blank" rel="noopener">${t('btnSupport')}</a>
+			</div>
+		</div>
+
+		<div class="card install-card">
+			<div class="install-card-header">
+				<div class="install-icon"><i class="fas ${isStandalone() ? 'fa-check-circle' : 'fa-download'}"></i></div>
+				<h2>${t('headingInstall')}</h2>
+			</div>
 			${installSectionHTML()}
 		</div>
 
@@ -38,9 +52,11 @@ export async function render(container) {
 		<div class="card">
 			<h2>${t('headingNotifications')}</h2>
 			<p class="sub">${t('notificationsHint')}</p>
-			<button class="btn btn-primary" id="enableNotifBtn">
-				${'Notification' in window && Notification.permission === 'granted' ? t('notificationsEnabledLabel') : t('btnEnableNotifications')}
-			</button>
+			${'Notification' in window && Notification.permission === 'denied'
+				? `<p class="sub" style="color:var(--warning);"><i class="fas fa-exclamation-circle"></i> ${t('notificationsDeniedHint')}</p>`
+				: `<button class="btn btn-primary" id="enableNotifBtn">
+					${'Notification' in window && Notification.permission === 'granted' ? t('notificationsEnabledLabel') : t('btnEnableNotifications')}
+				</button>`}
 		</div>
 
 		<div class="card">
@@ -76,7 +92,7 @@ export async function render(container) {
 	container.querySelector('#toggleCountVideos').addEventListener('change', (e) => { settings.countVideos = e.target.checked; });
 	container.querySelector('#toggleCountReturnVisits').addEventListener('change', (e) => { settings.countReturnVisits = e.target.checked; });
 
-	container.querySelector('#enableNotifBtn').addEventListener('click', async () => {
+	container.querySelector('#enableNotifBtn')?.addEventListener('click', async () => {
 		const granted = await requestNotificationPermission();
 		if (granted) showToast(t('notificationsEnabledLabel'));
 		render(container);
@@ -121,13 +137,16 @@ function escapeAttr(str) {
 
 function installSectionHTML() {
 	if (isStandalone()) {
-		return `<p class="sub">${t('alreadyInstalledLabel')}</p>`;
+		return `<p class="install-hint">${t('alreadyInstalledLabel')}</p>`;
 	}
 	if (canPromptInstall()) {
-		return `<button class="btn btn-primary" id="installAppBtn"><i class="fas fa-download"></i> ${t('btnInstallApp')}</button>`;
+		return `<button class="btn btn-primary btn-block btn-lg" id="installAppBtn"><i class="fas fa-download"></i> ${t('btnInstallApp')}</button>`;
 	}
 	if (isIOS()) {
-		return `<p class="sub"><i class="fas fa-share-square"></i> ${t('manualInstallHintIOS')}</p>`;
+		return `<p class="install-hint"><i class="fas fa-share-square"></i> ${t('manualInstallHintIOS')}</p>`;
 	}
-	return `<p class="sub">${t('manualInstallHint')}</p>`;
+	if (isSafari()) {
+		return `<p class="install-hint"><i class="fas fa-share-square"></i> ${t('manualInstallHintSafariMac')}</p>`;
+	}
+	return `<p class="install-hint"><i class="fas fa-arrow-down"></i> ${t('manualInstallHint')}</p>`;
 }
