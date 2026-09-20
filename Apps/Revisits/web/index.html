@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>Revisits Web</title>
+	<meta name="description" content="Your ministry companion! Lleva el control de tus estudios biblicos y tus informes de tiempo, ahora tambien desde la web.">
+	<meta name="theme-color" content="#235ee7">
+	<link rel="manifest" href="manifest.json">
+	<link rel="icon" href="icons/icon-192.png">
+	<link rel="apple-touch-icon" href="icons/icon-192.png">
+	<style>
+		:root {
+			--brand-start: #235ee7;
+			--brand-end: #4ae7fa;
+		}
+		* { box-sizing: border-box; }
+		body {
+			margin: 0;
+			min-height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: linear-gradient(135deg, var(--brand-start) 0%, var(--brand-end) 100%);
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			color: #fff;
+			text-align: center;
+			padding: 24px;
+		}
+		main {
+			max-width: 480px;
+		}
+		.app-icon {
+			width: 96px;
+			height: 96px;
+			border-radius: 22px;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+			margin-bottom: 24px;
+		}
+		h1 {
+			margin: 0 0 8px;
+			font-size: 28px;
+		}
+		.tagline {
+			margin: 0 0 20px;
+			font-weight: 600;
+			opacity: 0.95;
+		}
+		.status {
+			line-height: 1.5;
+			opacity: 0.9;
+			margin-bottom: 24px;
+		}
+		.status-badge {
+			display: inline-block;
+			padding: 6px 18px;
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.18);
+			font-weight: 600;
+			letter-spacing: 0.02em;
+			margin-bottom: 32px;
+		}
+		.back-link {
+			display: inline-block;
+			color: #fff;
+			text-decoration: underline;
+			opacity: 0.85;
+		}
+		.back-link:hover {
+			opacity: 1;
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<img src="icons/icon-192.png" alt="Revisits" class="app-icon">
+		<h1>Revisits Web</h1>
+		<p class="tagline">Your ministry companion!</p>
+		<p class="status">
+			Estamos preparando la version web de Revisits para llevar tus estudios biblicos
+			e informes de tiempo contigo, guardados en este mismo dispositivo.
+		</p>
+		<p class="status-badge">Proximamente</p>
+		<br>
+		<a class="back-link" href="../index.html">&larr; Volver a Revisits</a>
+	</main>
+	<script>
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', function () {
+				navigator.serviceWorker.register('./sw.js').catch(function (err) {
+					console.error('Revisits Web: service worker registration failed', err);
+				});
+			});
+		}
+	</script>
+</body>
+</html>

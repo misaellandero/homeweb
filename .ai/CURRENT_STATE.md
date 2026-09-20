@@ -1,6 +1,6 @@
 # homeweb Current State
 
-Last updated: 2026-08-01
+Last updated: 2026-09-20
 
 ## Status
 Unknown. This file was generated as a migration aid for Claude/context continuity.
@@ -16,6 +16,8 @@ Unknown. This file was generated as a migration aid for Claude/context continuit
 - `Apps/Cota/` is a Firebase-backed wish list ("Cota Waitlist") for a separate pet-care app (iOS/Web/Android), not to be confused with `Apps/PetPal/` (a static landing page with no signup form). Signups write to Firestore `cotaWaitlist` (per-email doc) in the `misaellanderoweb` Firebase project via `Apps/Cota/assets/js/waitlist.js`.
 - `Apps/Cota/index.html` now also shows a public live counter (total signups + per-platform breakdown, including the new "iOS beta (TestFlight)" option) backed by a PII-free `cotaWaitlistStats/summary` Firestore doc, kept in sync via an atomic transaction in `waitlist.js`.
 - `Apps/Cota/admin.html` + `Apps/Cota/assets/js/admin.js` is a Firebase Auth-gated admin dashboard that lists every wish list entry and recomputes counts live from the raw `cotaWaitlist` collection.
+- `Apps/Revisits/index.html` now has a "Usar en la Web" button (`assets/js/web-install.js`) next to the App Store CTA: on Apple devices (iOS/iPadOS/macOS) it redirects straight to the App Store listing; on Windows/Android/other it opens a Bootstrap modal with platform-specific PWA install steps linking to `Apps/Revisits/web/index.html`.
+- `Apps/Revisits/web/` is a minimal installable PWA placeholder ("coming soon" shell) for Revisits — `manifest.json` + `sw.js` (basic cache-first service worker) + generated 192/512 icons from the existing app icon. It has no real revisits/local-storage functionality yet; that's the next step once the actual web app (IndexedDB-backed) is built.
 
 ## Known Issues
 - Public GitHub Pages must publish `sprite-vault/control.json` and `Apps/SpriteVaultControl/Index.html` before the app can use the control panel in production.
