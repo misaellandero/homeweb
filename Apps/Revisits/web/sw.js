@@ -1,10 +1,39 @@
-const CACHE_NAME = 'revisits-web-v1';
+const CACHE_NAME = 'revisits-web-v2';
 const APP_SHELL = [
 	'./',
 	'./index.html',
 	'./manifest.json',
+	'./css/app.css',
+	'./js/app.js',
+	'./js/db.js',
+	'./js/utils.js',
+	'./js/constants.js',
+	'./js/store.js',
+	'./js/settings.js',
+	'./js/notifications.js',
+	'./js/ui.js',
+	'./js/views/revisits.js',
+	'./js/views/reports.js',
+	'./js/views/goals.js',
+	'./js/views/settingsView.js',
 	'./icons/icon-192.png',
-	'./icons/icon-512.png'
+	'./icons/icon-512.png',
+	'./assets/art/medals/medal_day.png',
+	'./assets/art/medals/medal_week.png',
+	'./assets/art/medals/medal_month.png',
+	'./assets/art/medals/medal_year.png',
+	'./assets/art/houses/casa_estudio_1.png',
+	'./assets/art/houses/casa_estudio_2.png',
+	'./assets/art/houses/casa_estudio_3.png',
+	'./assets/art/houses/casa_estudio_4.png',
+	'./assets/art/houses/casa_estudio_5.png',
+	'./assets/art/houses/casa_estudio_6.png',
+	'./assets/art/houses/casa_revisita_1.png',
+	'./assets/art/houses/casa_revisita_2.png',
+	'./assets/art/houses/casa_revisita_3.png',
+	'./assets/art/houses/casa_revisita_4.png',
+	'./assets/art/houses/casa_revisita_5.png',
+	'./assets/art/houses/casa_revisita_6.png'
 ];
 
 self.addEventListener('install', (event) => {
