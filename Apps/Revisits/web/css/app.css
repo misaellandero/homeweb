@@ -14,6 +14,52 @@
 	--shadow: 0 6px 20px rgba(20, 40, 90, 0.08);
 	--elevation-1: 0 1px 3px rgba(0, 0, 0, 0.14), 0 1px 2px rgba(0, 0, 0, 0.10);
 	--elevation-3: 0 4px 8px rgba(0, 0, 0, 0.18), 0 1px 3px rgba(0, 0, 0, 0.12);
+
+	/* ---- Material 3 Expressive-inspired tokens ---- */
+
+	/* Color roles: containers/on-container tones are mixed at runtime from
+	   the base hue + the current surface/text, so they self-adjust for
+	   dark mode without a second hand-picked palette. */
+	--md-primary: var(--brand);
+	--md-secondary: var(--estudio);
+	--md-tertiary: #7c4dff;
+	--md-error: var(--overdue);
+
+	--md-primary-container: color-mix(in srgb, var(--md-primary) 16%, var(--surface));
+	--md-on-primary-container: color-mix(in srgb, var(--md-primary) 65%, var(--text));
+	--md-secondary-container: color-mix(in srgb, var(--md-secondary) 16%, var(--surface));
+	--md-on-secondary-container: color-mix(in srgb, var(--md-secondary) 60%, var(--text));
+	--md-tertiary-container: color-mix(in srgb, var(--md-tertiary) 16%, var(--surface));
+	--md-on-tertiary-container: color-mix(in srgb, var(--md-tertiary) 60%, var(--text));
+	--md-error-container: color-mix(in srgb, var(--md-error) 16%, var(--surface));
+	--md-on-error-container: color-mix(in srgb, var(--md-error) 60%, var(--text));
+
+	--md-surface-variant: color-mix(in srgb, var(--text) 6%, var(--surface));
+	--md-outline: var(--border);
+	--md-outline-variant: color-mix(in srgb, var(--border) 60%, transparent);
+
+	/* Shape scale — Expressive leans on more shape variety than flat M3,
+	   from tight corners to full "squircle" components. */
+	--shape-xs: 8px;
+	--shape-sm: 12px;
+	--shape-md: 16px;
+	--shape-lg: 20px;
+	--shape-xl: 28px;
+	--shape-full: 999px;
+	--shape-fab: 22px;
+
+	/* Type scale (size / weight / line-height via the `font` shorthand). */
+	--type-headline: 700 24px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--type-title-lg: 700 17px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--type-title-sm: 700 13px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--type-label-lg: 700 13px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--type-label-sm: 700 11px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--type-display: 800 46px/1.05 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+	/* Motion — a gentle overshoot ("spring") curve for press feedback and
+	   sheet entrances is the most recognizable Expressive motion trait. */
+	--easing-standard: cubic-bezier(0.2, 0, 0, 1);
+	--easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -77,9 +123,8 @@ a {
 }
 
 .app-header h1 {
-	font-size: 18px;
+	font: var(--type-headline);
 	margin: 0;
-	font-weight: 700;
 }
 
 .app-header .back-link {
@@ -106,7 +151,7 @@ main {
 
 .card {
 	background: var(--surface);
-	border-radius: var(--radius);
+	border-radius: var(--shape-lg);
 	box-shadow: var(--elevation-1);
 	padding: 16px;
 	margin-bottom: 16px;
@@ -114,7 +159,7 @@ main {
 
 .card h2 {
 	margin: 0 0 12px;
-	font-size: 16px;
+	font: var(--type-title-lg);
 }
 
 .row {
@@ -148,7 +193,7 @@ main {
 .field select,
 .field textarea {
 	border: 1px solid var(--border);
-	border-radius: 10px;
+	border-radius: var(--shape-sm);
 	padding: 10px 12px;
 	font-size: 15px;
 	background: var(--surface);
@@ -167,14 +212,14 @@ main {
 	justify-content: center;
 	gap: 6px;
 	border: none;
-	border-radius: 999px;
+	border-radius: var(--shape-full);
 	padding: 10px 18px;
 	font-size: 14px;
 	font-weight: 600;
 	cursor: pointer;
 	background: var(--border);
 	color: var(--text);
-	transition: transform 0.1s ease, box-shadow 0.1s ease;
+	transition: transform 0.25s var(--easing-spring), box-shadow 0.1s ease;
 }
 
 .btn:active {
@@ -205,9 +250,9 @@ main {
 	position: fixed;
 	right: 20px;
 	bottom: 84px;
-	width: 56px;
-	height: 56px;
-	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+	border-radius: var(--shape-fab);
 	background: linear-gradient(135deg, var(--brand-start) 0%, var(--brand-end) 100%);
 	color: #fff;
 	font-size: 28px;
@@ -215,11 +260,12 @@ main {
 	box-shadow: var(--elevation-3);
 	cursor: pointer;
 	z-index: 15;
-	transition: transform 0.1s ease;
+	transition: transform 0.25s var(--easing-spring), border-radius 0.25s var(--easing-spring);
 }
 
 .fab:active {
-	transform: scale(0.94);
+	transform: scale(0.90);
+	border-radius: var(--shape-full);
 }
 
 .tabbar {
@@ -240,7 +286,7 @@ main {
 	background: none;
 	padding: 8px 0 6px;
 	color: var(--text-muted);
-	font-size: 11px;
+	font: var(--type-label-sm);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -253,13 +299,14 @@ main {
 	width: 44px;
 	height: 22px;
 	line-height: 22px;
-	border-radius: 999px;
-	transition: background-color 0.15s ease, color 0.15s ease;
+	border-radius: var(--shape-full);
+	transition: background-color 0.2s var(--easing-spring), color 0.2s ease, border-radius 0.2s var(--easing-spring);
 }
 
 .tabbar button.active i {
-	background: color-mix(in srgb, var(--brand) 18%, transparent);
-	color: var(--brand);
+	background: var(--md-primary-container);
+	color: var(--md-on-primary-container);
+	border-radius: var(--shape-sm);
 }
 
 .tabbar button.active {
@@ -326,17 +373,18 @@ main {
 	font-size: 11px;
 	font-weight: 700;
 	padding: 3px 9px;
-	border-radius: 999px;
+	border-radius: var(--shape-full);
 	color: #fff;
 	white-space: nowrap;
 }
 
 .badge.overdue {
-	background: var(--overdue);
+	background: var(--md-error);
 }
 
 .badge.upcoming {
-	background: var(--text-muted);
+	background: var(--md-tertiary-container);
+	color: var(--md-on-tertiary-container);
 }
 
 .segmented {
@@ -351,21 +399,21 @@ main {
 	border: 1px solid var(--border);
 	background: transparent;
 	padding: 8px 14px;
-	border-radius: 999px;
+	border-radius: var(--shape-full);
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--text-muted);
 	cursor: pointer;
-	transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease, transform 0.1s ease;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.25s var(--easing-spring);
 }
 
 .segmented button:active {
-	transform: scale(0.96);
+	transform: scale(0.94);
 }
 
 .segmented button.active {
-	background: var(--brand);
-	border-color: var(--brand);
+	background: var(--md-primary);
+	border-color: var(--md-primary);
 	color: #fff;
 }
 
@@ -376,26 +424,25 @@ main {
 }
 
 .stat-tile {
-	background: var(--bg);
-	border-radius: 12px;
+	background: var(--md-surface-variant);
+	border-radius: var(--shape-md);
 	padding: 12px;
 	text-align: center;
 }
 
 .stat-tile .value {
-	font-size: 22px;
-	font-weight: 700;
-	color: var(--brand);
+	font-size: 24px;
+	font-weight: 800;
+	color: var(--md-primary);
 }
 
 .stat-tile .label {
-	font-size: 12px;
+	font: var(--type-label-sm);
 	color: var(--text-muted);
 }
 
 .timer-display {
-	font-size: 42px;
-	font-weight: 700;
+	font: var(--type-display);
 	text-align: center;
 	font-variant-numeric: tabular-nums;
 	margin: 8px 0 16px;
@@ -421,11 +468,12 @@ main {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	border-radius: 8px;
+	border-radius: var(--shape-xs);
 	font-size: 13px;
 	cursor: pointer;
-	background: var(--bg);
+	background: var(--md-surface-variant);
 	position: relative;
+	transition: border-radius 0.2s var(--easing-spring);
 }
 
 .calendar-day.empty {
@@ -438,12 +486,13 @@ main {
 }
 
 .calendar-day.goal-met {
-	background: rgba(40, 167, 69, 0.18);
-	color: #1c6b31;
+	border-radius: var(--shape-sm);
+	background: color-mix(in srgb, var(--md-secondary) 20%, var(--surface));
+	color: color-mix(in srgb, var(--md-secondary) 65%, var(--text));
 }
 
 .calendar-day.goal-missed {
-	background: rgba(220, 53, 69, 0.12);
+	background: color-mix(in srgb, var(--md-error) 14%, var(--surface));
 }
 
 .calendar-day .dot {
@@ -512,8 +561,20 @@ main {
 	max-width: 720px;
 	max-height: 90vh;
 	overflow-y: auto;
-	border-radius: 20px 20px 0 0;
+	border-radius: var(--shape-xl) var(--shape-xl) 0 0;
 	padding: 20px;
+	animation: modal-sheet-in 0.35s var(--easing-spring);
+}
+
+@keyframes modal-sheet-in {
+	from {
+		transform: translateY(28px);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
 }
 
 @media (min-width: 720px) {
@@ -521,7 +582,7 @@ main {
 		align-items: center;
 	}
 	.modal-sheet {
-		border-radius: 20px;
+		border-radius: var(--shape-xl);
 	}
 }
 
@@ -534,6 +595,7 @@ main {
 
 .modal-sheet .modal-title h2 {
 	margin: 0;
+	font: var(--type-title-lg);
 }
 
 .close-x {
@@ -569,7 +631,7 @@ main {
 	background: #1c2530;
 	color: #fff;
 	padding: 10px 18px;
-	border-radius: 999px;
+	border-radius: var(--shape-full);
 	font-size: 13px;
 	z-index: 40;
 	opacity: 0;
@@ -601,7 +663,7 @@ main {
 	bottom: 148px;
 	z-index: 25;
 	background: var(--surface);
-	border-radius: var(--radius);
+	border-radius: var(--shape-lg);
 	box-shadow: var(--elevation-3);
 	padding: 14px 16px;
 	display: flex;
