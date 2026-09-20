@@ -1,7 +1,7 @@
 import * as store from '../store.js';
 import { openModal, closeModal, showToast } from '../ui.js';
 import { escapeHTML, formatHours, formatDateLong, todayISO, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear } from '../utils.js';
-import { settings, getTimerState, setTimerState, clearTimerState } from '../settings.js';
+import { settings, getTimerState, setTimerState, clearTimerState, getPendingCounters, setPendingCounters, clearPendingCounters } from '../settings.js';
 import { scheduleTimerGoalNotification, clearTimerGoalNotification } from '../notifications.js';
 import { t } from '../i18n.js';
 
@@ -68,7 +68,7 @@ export async function render(container) {
 	await renderHistory(container);
 	renderTimer(container, services, timerState);
 
-	container.querySelector('#manualReportBtn').addEventListener('click', () => openReportForm(services));
+	container.querySelector('#manualReportBtn').addEventListener('click', () => openReportForm(services, getPendingCounters()));
 }
 
 function periodRange() {
@@ -117,7 +117,7 @@ async function renderHistory(container) {
 				<button class="btn btn-primary" id="emptyHistoryAddBtn"><i class="fas fa-plus"></i> ${t('btnRegister')}</button>
 			</div>
 		`;
-		historyEl.querySelector('#emptyHistoryAddBtn').addEventListener('click', () => openReportForm(services));
+		historyEl.querySelector('#emptyHistoryAddBtn').addEventListener('click', () => openReportForm(services, getPendingCounters()));
 		return;
 	}
 
@@ -195,6 +195,7 @@ function openReportForm(services, prefill = {}) {
 			videos: Number(fd.get('videos')) || 0
 		};
 		await store.saveReport(report);
+		clearPendingCounters();
 		if (prefill.clearTimer) {
 			clearTimerState();
 			clearTimerGoalNotification();
@@ -213,8 +214,7 @@ function renderTimer(container, services, timerState) {
 	const display = container.querySelector('#timerDisplay');
 
 	function drawCounters() {
-		const state = getTimerState();
-		const counters = state?.counters || { studies: 0, pubs: 0, videos: 0, returnVisits: 0 };
+		const counters = getPendingCounters();
 		const fields = [{ key: 'studies', label: t('wordEstudios') }];
 		if (settings.countPubs) fields.push({ key: 'pubs', label: t('wordPublicaciones') });
 		if (settings.countVideos) fields.push({ key: 'videos', label: t('wordVideos') });
@@ -233,13 +233,12 @@ function renderTimer(container, services, timerState) {
 
 		countersEl.querySelectorAll('button').forEach((btn) => {
 			btn.addEventListener('click', () => {
-				const state = getTimerState();
-				if (!state) return;
+				const current = getPendingCounters();
 				const key = btn.dataset.key;
 				const delta = Number(btn.dataset.delta);
-				state.counters[key] = Math.max(0, (state.counters[key] || 0) + delta);
-				setTimerState(state);
-				countersEl.querySelector(`[data-counter="${key}"]`).textContent = state.counters[key];
+				current[key] = Math.max(0, (current[key] || 0) + delta);
+				setPendingCounters(current);
+				countersEl.querySelector(`[data-counter="${key}"]`).textContent = current[key];
 			});
 		});
 	}
@@ -280,14 +279,15 @@ function renderTimer(container, services, timerState) {
 			controls.querySelector('#registerBtn').addEventListener('click', () => {
 				const s = getTimerState();
 				const elapsedHours = elapsedMs(s) / 3_600_000;
+				const counters = getPendingCounters();
 				openReportForm(services, {
 					date: todayISO(),
 					serviceId: s.serviceId,
 					hours: Math.round(elapsedHours * 100) / 100,
-					studies: s.counters.studies,
-					pubs: s.counters.pubs,
-					videos: s.counters.videos,
-					returnVisits: s.counters.returnVisits,
+					studies: counters.studies,
+					pubs: counters.pubs,
+					videos: counters.videos,
+					returnVisits: counters.returnVisits,
 					clearTimer: true
 				});
 			});
@@ -307,8 +307,7 @@ function renderTimer(container, services, timerState) {
 						startTime: new Date().toISOString(),
 						accumulatedMs: 0,
 						presetSeconds: preset.seconds,
-						serviceId: services[0]?.id || null,
-						counters: { studies: 0, pubs: 0, videos: 0, returnVisits: 0 }
+						serviceId: services[0]?.id || null
 					});
 					if (preset.seconds) scheduleTimerGoalNotification(preset.seconds);
 					render(container);

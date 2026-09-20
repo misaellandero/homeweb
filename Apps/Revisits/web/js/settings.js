@@ -52,3 +52,19 @@ export function clearTimerState() {
 		/* ignore */
 	}
 }
+
+export function getPendingCounters() {
+	return getJSON('pendingCounters', { studies: 0, pubs: 0, videos: 0, returnVisits: 0 });
+}
+
+export function setPendingCounters(counters) {
+	setJSON('pendingCounters', counters);
+}
+
+export function clearPendingCounters() {
+	try {
+		localStorage.removeItem(PREFIX + 'pendingCounters');
+	} catch {
+		/* ignore */
+	}
+}
