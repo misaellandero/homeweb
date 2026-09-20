@@ -34,6 +34,11 @@ export function isIOS() {
 	return isIOSDevice || isIPadOS;
 }
 
+export function isSafari() {
+	const ua = navigator.userAgent || '';
+	return /^((?!chrome|android|crios|fxios|edg).)*safari/i.test(ua);
+}
+
 export function onInstallStateChange(callback) {
 	onStateChange = callback;
 }

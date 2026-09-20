@@ -1,4 +1,5 @@
 import { settings } from './settings.js';
+import { t } from './i18n.js';
 
 export async function requestNotificationPermission() {
 	if (!('Notification' in window)) return false;
@@ -31,9 +32,10 @@ export function checkDueReminders(revisits) {
 	const due = revisits.filter((r) => r.notification && r.nextVisit && r.nextVisit.slice(0, 10) <= todayISO);
 	if (due.length === 0) return;
 	if (due.length === 1) {
-		notify('Recordatorio de revisita', `${due[0].name || 'Revisita'} ${due[0].lastName || ''} — hoy toca visitar.`.trim());
+		const name = `${due[0].name || t('wordRevisita')} ${due[0].lastName || ''}`.trim();
+		notify(t('notifDueSingleTitle'), t('notifDueSingleBody', { name }));
 	} else {
-		notify('Recordatorios de revisitas', `Tienes ${due.length} revisitas programadas para hoy o antes.`);
+		notify(t('notifDueMultipleTitle'), t('notifDueMultipleBody', { count: due.length }));
 	}
 }
 
@@ -43,7 +45,7 @@ export function scheduleTimerGoalNotification(afterSeconds) {
 	clearTimerGoalNotification();
 	if (!afterSeconds || afterSeconds <= 0) return;
 	goalTimeoutId = setTimeout(() => {
-		notify('Meta de tiempo alcanzado', 'Has cubierto el tiempo programado ⌛️');
+		notify(t('notifTimerGoalTitle'), t('notifTimerGoalBody'));
 	}, afterSeconds * 1000);
 }
 

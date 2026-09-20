@@ -18,10 +18,10 @@ function setJSON(key, value) {
 }
 
 export const settings = {
-	get countPubs() { return getJSON('countPubs', true); },
+	get countPubs() { return getJSON('countPubs', false); },
 	set countPubs(v) { setJSON('countPubs', !!v); },
 
-	get countVideos() { return getJSON('countVideos', true); },
+	get countVideos() { return getJSON('countVideos', false); },
 	set countVideos(v) { setJSON('countVideos', !!v); },
 
 	get countReturnVisits() { return getJSON('countReturnVisits', true); },
