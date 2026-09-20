@@ -122,7 +122,8 @@
 		return 'en';
 	}
 
-	var APP_STORE_URL_LANG = APP_STORE_URL;
+	// TEMPORARY (testing): set back to true to restore the App Store redirect on Apple devices.
+	var APPLE_REDIRECT_ENABLED = false;
 
 	function detectPlatform() {
 		var ua = navigator.userAgent || navigator.vendor || window.opera || '';
@@ -157,8 +158,13 @@
 		btn.addEventListener('click', function () {
 			var platform = detectPlatform();
 
+			if (platform === 'apple' && APPLE_REDIRECT_ENABLED) {
+				window.location.href = APP_STORE_URL;
+				return;
+			}
+
 			if (platform === 'apple') {
-				window.location.href = APP_STORE_URL_LANG;
+				window.location.href = 'web/index.html';
 				return;
 			}
 
