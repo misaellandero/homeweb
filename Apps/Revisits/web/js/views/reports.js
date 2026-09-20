@@ -250,15 +250,14 @@ function renderTimer(container, services, timerState) {
 			const running = state.running !== false;
 			controls.innerHTML = `
 				<div class="row" style="gap:10px; width:100%;">
-					<button class="btn btn-danger" id="ignoreBtn" style="flex:1;"><i class="fas fa-trash"></i> ${t('btnIgnore')}</button>
+					<button class="btn" id="restartBtn" style="flex:1;"><i class="fas fa-redo"></i> ${t('btnRestart')}</button>
 					<button class="btn" id="pauseResumeBtn" style="flex:1;">
 						${running ? `<i class="fas fa-pause"></i> ${t('btnPause')}` : `<i class="fas fa-play"></i> ${t('btnResume')}`}
 					</button>
 				</div>
 				<button class="btn btn-primary btn-block" id="registerBtn" style="margin-top:10px;"><i class="fas fa-check"></i> ${t('btnRegister')}</button>
 			`;
-			controls.querySelector('#ignoreBtn').addEventListener('click', () => {
-				if (!confirm(t('confirmIgnoreTimer'))) return;
+			controls.querySelector('#restartBtn').addEventListener('click', () => {
 				clearTimerState();
 				clearTimerGoalNotification();
 				render(container);

@@ -1,6 +1,6 @@
 const es = {
 	strings: {
-		btnPause: "Pausar", btnResume: "Reanudar", btnIgnore: "Ignorar", confirmIgnoreTimer: "¿Descartar este registro? Se perderá el tiempo acumulado.", btnAddFirstRevisit: "Agregar revisita",
+		btnPause: "Pausar", btnResume: "Reanudar", btnAddFirstRevisit: "Agregar revisita",
 		mapUnavailable: "No se pudo cargar el mapa. Revisa tu conexión a internet.",
 		installBannerTitle: "Instala Revisits Web", installBannerHint: "Agrégala a tu pantalla de inicio para usarla como una app.", btnInstallNow: "Instalar", btnNotNow: "Ahora no", headingInstall: "Instalar aplicación", btnInstallApp: "Instalar app", alreadyInstalledLabel: "Ya está instalada ✓", manualInstallHint: "Usa el menú de tu navegador y busca \"Instalar aplicación\" o \"Añadir a pantalla de inicio\".",
 		tabTerritorios: "Territorios", emptyTerritorios: "Aún no hay revisitas con ubicación guardada.", mapPopupOpen: "Ver detalle",
@@ -37,7 +37,7 @@ const es = {
 		noServicesHint: 'Crea un tipo de servicio en la pestaña Metas para poder asociar tus informes.',
 		labelHoursFraction: 'Horas (15 minutos = 0.25 horas)', toastReportSaved: 'Informe guardado',
 		presetNoLimit: 'Sin límite', preset5min: '5 min', preset10min: '10 min', preset15min: '15 min', preset30min: '30 min', preset1h: '1 hora', preset2h: '2 horas',
-		btnRestart: 'Reiniciar', confirmRestartTimer: '¿Reiniciar el temporizador? Se perderá el tiempo acumulado.',
+		btnRestart: 'Reiniciar',
 		headingGoals: 'Metas de servicio', scopeMonth: 'Mes', scopeYear: 'Año', yearKindCalendar: 'Año calendario', yearKindService: 'Año de servicio',
 		goalLabelPrefix: 'Meta:', noGoalDefined: 'Sin meta definida', headingMedals: 'Medallas',
 		emptyMedals: 'Aún no ganas medallas. ¡Cumple tus metas para desbloquearlas!',
@@ -68,7 +68,7 @@ const es = {
 
 const en = {
 	strings: {
-		btnPause: "Pause", btnResume: "Resume", btnIgnore: "Ignore", confirmIgnoreTimer: "Discard this log? The accumulated time will be lost.", btnAddFirstRevisit: "Add return visit",
+		btnPause: "Pause", btnResume: "Resume", btnAddFirstRevisit: "Add return visit",
 		mapUnavailable: "Could not load the map. Check your internet connection.",
 		installBannerTitle: "Install Revisits Web", installBannerHint: "Add it to your home screen to use it like an app.", btnInstallNow: "Install", btnNotNow: "Not now", headingInstall: "Install app", btnInstallApp: "Install app", alreadyInstalledLabel: "Already installed ✓", manualInstallHint: "Use your browser menu and look for \"Install app\" or \"Add to Home screen\".",
 		tabTerritorios: "Territories", emptyTerritorios: "No revisits with a saved location yet.", mapPopupOpen: "View details",
@@ -105,7 +105,7 @@ const en = {
 		noServicesHint: 'Create a service type on the Goals tab so you can attach your reports to it.',
 		labelHoursFraction: 'Hours (15 minutes = 0.25 hours)', toastReportSaved: 'Report saved',
 		presetNoLimit: 'No limit', preset5min: '5 min', preset10min: '10 min', preset15min: '15 min', preset30min: '30 min', preset1h: '1 hour', preset2h: '2 hours',
-		btnRestart: 'Restart', confirmRestartTimer: 'Restart the timer? The accumulated time will be lost.',
+		btnRestart: 'Restart',
 		headingGoals: 'Service goals', scopeMonth: 'Month', scopeYear: 'Year', yearKindCalendar: 'Calendar year', yearKindService: 'Service year',
 		goalLabelPrefix: 'Goal:', noGoalDefined: 'No goal set', headingMedals: 'Medals',
 		emptyMedals: 'You haven’t earned any medals yet. Meet your goals to unlock them!',
@@ -136,7 +136,7 @@ const en = {
 
 const de = {
 	strings: {
-		btnPause: "Pausieren", btnResume: "Fortsetzen", btnIgnore: "Verwerfen", confirmIgnoreTimer: "Diesen Eintrag verwerfen? Die angesammelte Zeit geht verloren.", btnAddFirstRevisit: "Rückbesuch hinzufügen",
+		btnPause: "Pausieren", btnResume: "Fortsetzen", btnAddFirstRevisit: "Rückbesuch hinzufügen",
 		mapUnavailable: "Die Karte konnte nicht geladen werden. Überprüfe deine Internetverbindung.",
 		installBannerTitle: "Revisits Web installieren", installBannerHint: "Füge sie zu deinem Startbildschirm hinzu, um sie wie eine App zu nutzen.", btnInstallNow: "Installieren", btnNotNow: "Nicht jetzt", headingInstall: "App installieren", btnInstallApp: "App installieren", alreadyInstalledLabel: "Bereits installiert ✓", manualInstallHint: "Öffne das Browsermenü und suche nach „App installieren“ oder „Zum Startbildschirm hinzufügen“.",
 		tabTerritorios: "Gebiete", emptyTerritorios: "Noch keine Rückbesuche mit gespeichertem Standort.", mapPopupOpen: "Details ansehen",
@@ -173,7 +173,7 @@ const de = {
 		noServicesHint: 'Erstelle im Tab „Ziele“ eine Dienstart, um deine Berichte damit zu verknüpfen.',
 		labelHoursFraction: 'Stunden (15 Minuten = 0,25 Stunden)', toastReportSaved: 'Bericht gespeichert',
 		presetNoLimit: 'Ohne Limit', preset5min: '5 Min.', preset10min: '10 Min.', preset15min: '15 Min.', preset30min: '30 Min.', preset1h: '1 Stunde', preset2h: '2 Stunden',
-		btnRestart: 'Neu starten', confirmRestartTimer: 'Timer neu starten? Die angesammelte Zeit geht verloren.',
+		btnRestart: 'Neu starten',
 		headingGoals: 'Dienstziele', scopeMonth: 'Monat', scopeYear: 'Jahr', yearKindCalendar: 'Kalenderjahr', yearKindService: 'Dienstjahr',
 		goalLabelPrefix: 'Ziel:', noGoalDefined: 'Kein Ziel festgelegt', headingMedals: 'Medaillen',
 		emptyMedals: 'Du hast noch keine Medaillen gewonnen. Erreiche deine Ziele, um sie freizuschalten!',
@@ -204,7 +204,7 @@ const de = {
 
 const fr = {
 	strings: {
-		btnPause: "Pause", btnResume: "Reprendre", btnIgnore: "Ignorer", confirmIgnoreTimer: "Annuler cet enregistrement ? Le temps accumulé sera perdu.", btnAddFirstRevisit: "Ajouter une visite",
+		btnPause: "Pause", btnResume: "Reprendre", btnAddFirstRevisit: "Ajouter une visite",
 		mapUnavailable: "Impossible de charger la carte. Vérifie ta connexion internet.",
 		installBannerTitle: "Installer Revisits Web", installBannerHint: "Ajoute-la à ton écran d’accueil pour l’utiliser comme une application.", btnInstallNow: "Installer", btnNotNow: "Pas maintenant", headingInstall: "Installer l’application", btnInstallApp: "Installer l’application", alreadyInstalledLabel: "Déjà installée ✓", manualInstallHint: "Utilise le menu de ton navigateur et cherche « Installer l’application » ou « Ajouter à l’écran d’accueil ».",
 		tabTerritorios: "Territoires", emptyTerritorios: "Aucune visite avec une position enregistrée pour l’instant.", mapPopupOpen: "Voir les détails",
@@ -241,7 +241,7 @@ const fr = {
 		noServicesHint: 'Crée un type de service dans l’onglet Objectifs pour pouvoir y associer tes rapports.',
 		labelHoursFraction: 'Heures (15 minutes = 0,25 heure)', toastReportSaved: 'Rapport enregistré',
 		presetNoLimit: 'Sans limite', preset5min: '5 min', preset10min: '10 min', preset15min: '15 min', preset30min: '30 min', preset1h: '1 heure', preset2h: '2 heures',
-		btnRestart: 'Réinitialiser', confirmRestartTimer: 'Réinitialiser le minuteur ? Le temps accumulé sera perdu.',
+		btnRestart: 'Réinitialiser',
 		headingGoals: 'Objectifs de service', scopeMonth: 'Mois', scopeYear: 'Année', yearKindCalendar: 'Année civile', yearKindService: 'Année de service',
 		goalLabelPrefix: 'Objectif :', noGoalDefined: 'Aucun objectif défini', headingMedals: 'Médailles',
 		emptyMedals: 'Tu n’as pas encore gagné de médailles. Atteins tes objectifs pour les débloquer !',
@@ -272,7 +272,7 @@ const fr = {
 
 const it = {
 	strings: {
-		btnPause: "Pausa", btnResume: "Riprendi", btnIgnore: "Ignora", confirmIgnoreTimer: "Scartare questa registrazione? Il tempo accumulato andrà perso.", btnAddFirstRevisit: "Aggiungi revisita",
+		btnPause: "Pausa", btnResume: "Riprendi", btnAddFirstRevisit: "Aggiungi revisita",
 		mapUnavailable: "Impossibile caricare la mappa. Controlla la tua connessione internet.",
 		installBannerTitle: "Installa Revisits Web", installBannerHint: "Aggiungila alla schermata Home per usarla come un’app.", btnInstallNow: "Installa", btnNotNow: "Non ora", headingInstall: "Installa app", btnInstallApp: "Installa app", alreadyInstalledLabel: "Già installata ✓", manualInstallHint: "Usa il menu del browser e cerca \"Installa app\" o \"Aggiungi a schermata Home\".",
 		tabTerritorios: "Territori", emptyTerritorios: "Ancora nessuna revisita con una posizione salvata.", mapPopupOpen: "Vedi dettagli",
@@ -309,7 +309,7 @@ const it = {
 		noServicesHint: 'Crea un tipo di servizio nella scheda Obiettivi per poter associare i tuoi rapporti.',
 		labelHoursFraction: 'Ore (15 minuti = 0,25 ore)', toastReportSaved: 'Rapporto salvato',
 		presetNoLimit: 'Senza limite', preset5min: '5 min', preset10min: '10 min', preset15min: '15 min', preset30min: '30 min', preset1h: '1 ora', preset2h: '2 ore',
-		btnRestart: 'Riavvia', confirmRestartTimer: 'Riavviare il timer? Il tempo accumulato andrà perso.',
+		btnRestart: 'Riavvia',
 		headingGoals: 'Obiettivi di servizio', scopeMonth: 'Mese', scopeYear: 'Anno', yearKindCalendar: 'Anno solare', yearKindService: 'Anno di servizio',
 		goalLabelPrefix: 'Obiettivo:', noGoalDefined: 'Nessun obiettivo definito', headingMedals: 'Medaglie',
 		emptyMedals: 'Non hai ancora vinto medaglie. Raggiungi i tuoi obiettivi per sbloccarle!',
@@ -340,7 +340,7 @@ const it = {
 
 const pt = {
 	strings: {
-		btnPause: "Pausar", btnResume: "Retomar", btnIgnore: "Ignorar", confirmIgnoreTimer: "Descartar este registo? O tempo acumulado será perdido.", btnAddFirstRevisit: "Adicionar revisita",
+		btnPause: "Pausar", btnResume: "Retomar", btnAddFirstRevisit: "Adicionar revisita",
 		mapUnavailable: "Não foi possível carregar o mapa. Verifica a tua ligação à internet.",
 		installBannerTitle: "Instalar Revisits Web", installBannerHint: "Adiciona-a ao teu ecrã principal para a usares como uma app.", btnInstallNow: "Instalar", btnNotNow: "Agora não", headingInstall: "Instalar aplicação", btnInstallApp: "Instalar app", alreadyInstalledLabel: "Já instalada ✓", manualInstallHint: "Usa o menu do teu navegador e procura \"Instalar aplicação\" ou \"Adicionar ao ecrã principal\".",
 		tabTerritorios: "Territórios", emptyTerritorios: "Ainda não há revisitas com localização guardada.", mapPopupOpen: "Ver detalhes",
@@ -377,7 +377,7 @@ const pt = {
 		noServicesHint: 'Cria um tipo de serviço no separador Metas para poderes associar os teus relatórios.',
 		labelHoursFraction: 'Horas (15 minutos = 0,25 horas)', toastReportSaved: 'Relatório guardado',
 		presetNoLimit: 'Sem limite', preset5min: '5 min', preset10min: '10 min', preset15min: '15 min', preset30min: '30 min', preset1h: '1 hora', preset2h: '2 horas',
-		btnRestart: 'Reiniciar', confirmRestartTimer: 'Reiniciar o temporizador? O tempo acumulado será perdido.',
+		btnRestart: 'Reiniciar',
 		headingGoals: 'Metas de serviço', scopeMonth: 'Mês', scopeYear: 'Ano', yearKindCalendar: 'Ano civil', yearKindService: 'Ano de serviço',
 		goalLabelPrefix: 'Meta:', noGoalDefined: 'Sem meta definida', headingMedals: 'Medalhas',
 		emptyMedals: 'Ainda não ganhaste medalhas. Cumpre as tuas metas para as desbloquear!',
@@ -408,7 +408,7 @@ const pt = {
 
 const nl = {
 	strings: {
-		btnPause: "Pauzeren", btnResume: "Hervatten", btnIgnore: "Negeren", confirmIgnoreTimer: "Deze registratie negeren? De opgebouwde tijd gaat verloren.", btnAddFirstRevisit: "Nabezoek toevoegen",
+		btnPause: "Pauzeren", btnResume: "Hervatten", btnAddFirstRevisit: "Nabezoek toevoegen",
 		mapUnavailable: "De kaart kon niet worden geladen. Controleer je internetverbinding.",
 		installBannerTitle: "Revisits Web installeren", installBannerHint: "Voeg het toe aan je startscherm om het als app te gebruiken.", btnInstallNow: "Installeren", btnNotNow: "Niet nu", headingInstall: "App installeren", btnInstallApp: "App installeren", alreadyInstalledLabel: "Al geïnstalleerd ✓", manualInstallHint: "Gebruik het browsermenu en zoek naar \"App installeren\" of \"Toevoegen aan startscherm\".",
 		tabTerritorios: "Gebieden", emptyTerritorios: "Nog geen nabezoeken met opgeslagen locatie.", mapPopupOpen: "Details bekijken",
@@ -445,7 +445,7 @@ const nl = {
 		noServicesHint: 'Maak een diensttype aan op het tabblad Doelen om je rapporten eraan te koppelen.',
 		labelHoursFraction: 'Uren (15 minuten = 0,25 uur)', toastReportSaved: 'Rapport opgeslagen',
 		presetNoLimit: 'Geen limiet', preset5min: '5 min', preset10min: '10 min', preset15min: '15 min', preset30min: '30 min', preset1h: '1 uur', preset2h: '2 uur',
-		btnRestart: 'Opnieuw beginnen', confirmRestartTimer: 'Timer opnieuw starten? De opgebouwde tijd gaat verloren.',
+		btnRestart: 'Opnieuw beginnen',
 		headingGoals: 'Dienstdoelen', scopeMonth: 'Maand', scopeYear: 'Jaar', yearKindCalendar: 'Kalenderjaar', yearKindService: 'Dienstjaar',
 		goalLabelPrefix: 'Doel:', noGoalDefined: 'Geen doel ingesteld', headingMedals: 'Medailles',
 		emptyMedals: 'Je hebt nog geen medailles verdiend. Behaal je doelen om ze te ontgrendelen!',
@@ -476,7 +476,7 @@ const nl = {
 
 const el = {
 	strings: {
-		btnPause: "Παύση", btnResume: "Συνέχιση", btnIgnore: "Παράβλεψη", confirmIgnoreTimer: "Απόρριψη αυτής της καταγραφής; Ο συσσωρευμένος χρόνος θα χαθεί.", btnAddFirstRevisit: "Προσθήκη επανεπίσκεψης",
+		btnPause: "Παύση", btnResume: "Συνέχιση", btnAddFirstRevisit: "Προσθήκη επανεπίσκεψης",
 		mapUnavailable: "Δεν ήταν δυνατή η φόρτωση του χάρτη. Έλεγξε τη σύνδεσή σου στο διαδίκτυο.",
 		installBannerTitle: "Εγκατάσταση Revisits Web", installBannerHint: "Πρόσθεσέ το στην αρχική οθόνη σου για να το χρησιμοποιείς σαν εφαρμογή.", btnInstallNow: "Εγκατάσταση", btnNotNow: "Όχι τώρα", headingInstall: "Εγκατάσταση εφαρμογής", btnInstallApp: "Εγκατάσταση εφαρμογής", alreadyInstalledLabel: "Έχει ήδη εγκατασταθεί ✓", manualInstallHint: "Χρησιμοποίησε το μενού του browser και αναζήτησε \"Εγκατάσταση εφαρμογής\" ή \"Προσθήκη στην αρχική οθόνη\".",
 		tabTerritorios: "Περιοχές", emptyTerritorios: "Δεν υπάρχουν ακόμα επανεπισκέψεις με αποθηκευμένη τοποθεσία.", mapPopupOpen: "Προβολή λεπτομερειών",
@@ -513,7 +513,7 @@ const el = {
 		noServicesHint: 'Δημιούργησε έναν τύπο υπηρεσίας στην καρτέλα Στόχοι για να συνδέσεις τις αναφορές σου.',
 		labelHoursFraction: 'Ώρες (15 λεπτά = 0,25 ώρες)', toastReportSaved: 'Η αναφορά αποθηκεύτηκε',
 		presetNoLimit: 'Χωρίς όριο', preset5min: '5 λεπτά', preset10min: '10 λεπτά', preset15min: '15 λεπτά', preset30min: '30 λεπτά', preset1h: '1 ώρα', preset2h: '2 ώρες',
-		btnRestart: 'Επανεκκίνηση', confirmRestartTimer: 'Επανεκκίνηση του χρονομέτρου; Ο συσσωρευμένος χρόνος θα χαθεί.',
+		btnRestart: 'Επανεκκίνηση',
 		headingGoals: 'Στόχοι υπηρεσίας', scopeMonth: 'Μήνας', scopeYear: 'Έτος', yearKindCalendar: 'Ημερολογιακό έτος', yearKindService: 'Έτος υπηρεσίας',
 		goalLabelPrefix: 'Στόχος:', noGoalDefined: 'Δεν έχει οριστεί στόχος', headingMedals: 'Μετάλλια',
 		emptyMedals: 'Δεν έχεις κερδίσει μετάλλια ακόμα. Πέτυχε τους στόχους σου για να τα ξεκλειδώσεις!',
@@ -544,7 +544,7 @@ const el = {
 
 const pl = {
 	strings: {
-		btnPause: "Wstrzymaj", btnResume: "Wznów", btnIgnore: "Odrzuć", confirmIgnoreTimer: "Odrzucić ten wpis? Zgromadzony czas zostanie utracony.", btnAddFirstRevisit: "Dodaj odwiedziny",
+		btnPause: "Wstrzymaj", btnResume: "Wznów", btnAddFirstRevisit: "Dodaj odwiedziny",
 		mapUnavailable: "Nie udało się wczytać mapy. Sprawdź swoje połączenie z internetem.",
 		installBannerTitle: "Zainstaluj Revisits Web", installBannerHint: "Dodaj ją do ekranu głównego, aby korzystać z niej jak z aplikacji.", btnInstallNow: "Zainstaluj", btnNotNow: "Nie teraz", headingInstall: "Zainstaluj aplikację", btnInstallApp: "Zainstaluj aplikację", alreadyInstalledLabel: "Już zainstalowana ✓", manualInstallHint: "Użyj menu przeglądarki i znajdź \"Zainstaluj aplikację\" lub \"Dodaj do ekranu głównego\".",
 		tabTerritorios: "Tereny", emptyTerritorios: "Nie ma jeszcze odwiedzin ponownych z zapisaną lokalizacją.", mapPopupOpen: "Zobacz szczegóły",
@@ -581,7 +581,7 @@ const pl = {
 		noServicesHint: 'Utwórz rodzaj służby w zakładce Cele, aby móc powiązać z nim swoje sprawozdania.',
 		labelHoursFraction: 'Godziny (15 minut = 0,25 godziny)', toastReportSaved: 'Sprawozdanie zapisane',
 		presetNoLimit: 'Bez limitu', preset5min: '5 min', preset10min: '10 min', preset15min: '15 min', preset30min: '30 min', preset1h: '1 godzina', preset2h: '2 godziny',
-		btnRestart: 'Zresetuj', confirmRestartTimer: 'Zresetować stoper? Zgromadzony czas zostanie utracony.',
+		btnRestart: 'Zresetuj',
 		headingGoals: 'Cele w służbie', scopeMonth: 'Miesiąc', scopeYear: 'Rok', yearKindCalendar: 'Rok kalendarzowy', yearKindService: 'Rok służbowy',
 		goalLabelPrefix: 'Cel:', noGoalDefined: 'Nie ustalono celu', headingMedals: 'Medale',
 		emptyMedals: 'Nie zdobyłeś jeszcze żadnych medali. Osiągaj swoje cele, aby je odblokować!',
@@ -612,7 +612,7 @@ const pl = {
 
 const ru = {
 	strings: {
-		btnPause: "Пауза", btnResume: "Продолжить", btnIgnore: "Отменить", confirmIgnoreTimer: "Отменить эту запись? Накопленное время будет потеряно.", btnAddFirstRevisit: "Добавить посещение",
+		btnPause: "Пауза", btnResume: "Продолжить", btnAddFirstRevisit: "Добавить посещение",
 		mapUnavailable: "Не удалось загрузить карту. Проверьте подключение к интернету.",
 		installBannerTitle: "Установить Revisits Web", installBannerHint: "Добавьте его на главный экран, чтобы использовать как приложение.", btnInstallNow: "Установить", btnNotNow: "Не сейчас", headingInstall: "Установить приложение", btnInstallApp: "Установить приложение", alreadyInstalledLabel: "Уже установлено ✓", manualInstallHint: "Откройте меню браузера и найдите «Установить приложение» или «Добавить на главный экран».",
 		tabTerritorios: "Территории", emptyTerritorios: "Пока нет повторных посещений с сохранённой геопозицией.", mapPopupOpen: "Подробнее",
@@ -649,7 +649,7 @@ const ru = {
 		noServicesHint: 'Создайте вид служения на вкладке «Цели», чтобы связать с ним свои отчёты.',
 		labelHoursFraction: 'Часы (15 минут = 0,25 часа)', toastReportSaved: 'Отчёт сохранён',
 		presetNoLimit: 'Без ограничения', preset5min: '5 мин', preset10min: '10 мин', preset15min: '15 мин', preset30min: '30 мин', preset1h: '1 час', preset2h: '2 часа',
-		btnRestart: 'Сбросить', confirmRestartTimer: 'Сбросить таймер? Накопленное время будет потеряно.',
+		btnRestart: 'Сбросить',
 		headingGoals: 'Цели служения', scopeMonth: 'Месяц', scopeYear: 'Год', yearKindCalendar: 'Календарный год', yearKindService: 'Служебный год',
 		goalLabelPrefix: 'Цель:', noGoalDefined: 'Цель не задана', headingMedals: 'Медали',
 		emptyMedals: 'Вы ещё не получили ни одной медали. Достигайте своих целей, чтобы открыть их!',
@@ -680,7 +680,7 @@ const ru = {
 
 const tr = {
 	strings: {
-		btnPause: "Duraklat", btnResume: "Devam et", btnIgnore: "Yoksay", confirmIgnoreTimer: "Bu kayıt silinsin mi? Birikmiş süre kaybolacak.", btnAddFirstRevisit: "Tekrar ziyaret ekle",
+		btnPause: "Duraklat", btnResume: "Devam et", btnAddFirstRevisit: "Tekrar ziyaret ekle",
 		mapUnavailable: "Harita yüklenemedi. İnternet bağlantını kontrol et.",
 		installBannerTitle: "Revisits Web’i yükle", installBannerHint: "Bir uygulama gibi kullanmak için ana ekranına ekle.", btnInstallNow: "Yükle", btnNotNow: "Şimdi değil", headingInstall: "Uygulamayı yükle", btnInstallApp: "Uygulamayı yükle", alreadyInstalledLabel: "Zaten yüklü ✓", manualInstallHint: "Tarayıcı menünü kullan ve \"Uygulamayı yükle\" veya \"Ana ekrana ekle\" seçeneğini ara.",
 		tabTerritorios: "Bölgeler", emptyTerritorios: "Henüz kayıtlı konumu olan tekrar ziyaret yok.", mapPopupOpen: "Ayrıntıları gör",
@@ -717,7 +717,7 @@ const tr = {
 		noServicesHint: 'Raporlarını bağlayabilmek için Hedefler sekmesinde bir hizmet türü oluştur.',
 		labelHoursFraction: 'Saat (15 dakika = 0,25 saat)', toastReportSaved: 'Rapor kaydedildi',
 		presetNoLimit: 'Sınırsız', preset5min: '5 dk', preset10min: '10 dk', preset15min: '15 dk', preset30min: '30 dk', preset1h: '1 saat', preset2h: '2 saat',
-		btnRestart: 'Yeniden başlat', confirmRestartTimer: 'Zamanlayıcı sıfırlansın mı? Birikmiş süre kaybolacak.',
+		btnRestart: 'Yeniden başlat',
 		headingGoals: 'Hizmet hedefleri', scopeMonth: 'Ay', scopeYear: 'Yıl', yearKindCalendar: 'Takvim yılı', yearKindService: 'Hizmet yılı',
 		goalLabelPrefix: 'Hedef:', noGoalDefined: 'Hedef belirlenmedi', headingMedals: 'Madalyalar',
 		emptyMedals: 'Henüz madalya kazanmadın. Kilidini açmak için hedeflerine ulaş!',
@@ -748,7 +748,7 @@ const tr = {
 
 const uk = {
 	strings: {
-		btnPause: "Пауза", btnResume: "Продовжити", btnIgnore: "Скасувати", confirmIgnoreTimer: "Скасувати цей запис? Накопичений час буде втрачено.", btnAddFirstRevisit: "Додати відвідини",
+		btnPause: "Пауза", btnResume: "Продовжити", btnAddFirstRevisit: "Додати відвідини",
 		mapUnavailable: "Не вдалося завантажити карту. Перевірте підключення до інтернету.",
 		installBannerTitle: "Встановити Revisits Web", installBannerHint: "Додайте його на головний екран, щоб використовувати як застосунок.", btnInstallNow: "Встановити", btnNotNow: "Не зараз", headingInstall: "Встановити застосунок", btnInstallApp: "Встановити застосунок", alreadyInstalledLabel: "Вже встановлено ✓", manualInstallHint: "Відкрийте меню браузера і знайдіть «Встановити застосунок» або «Додати на головний екран».",
 		tabTerritorios: "Території", emptyTerritorios: "Ще немає повторних відвідин зі збереженим місцезнаходженням.", mapPopupOpen: "Переглянути деталі",
@@ -785,7 +785,7 @@ const uk = {
 		noServicesHint: 'Створіть вид служіння на вкладці «Цілі», щоб пов’язати з ним свої звіти.',
 		labelHoursFraction: 'Години (15 хвилин = 0,25 години)', toastReportSaved: 'Звіт збережено',
 		presetNoLimit: 'Без обмеження', preset5min: '5 хв', preset10min: '10 хв', preset15min: '15 хв', preset30min: '30 хв', preset1h: '1 година', preset2h: '2 години',
-		btnRestart: 'Скинути', confirmRestartTimer: 'Скинути таймер? Накопичений час буде втрачено.',
+		btnRestart: 'Скинути',
 		headingGoals: 'Цілі служіння', scopeMonth: 'Місяць', scopeYear: 'Рік', yearKindCalendar: 'Календарний рік', yearKindService: 'Служебний рік',
 		goalLabelPrefix: 'Ціль:', noGoalDefined: 'Ціль не визначена', headingMedals: 'Медалі',
 		emptyMedals: 'Ви ще не отримали жодної медалі. Досягайте своїх цілей, щоб відкрити їх!',
@@ -816,7 +816,7 @@ const uk = {
 
 const vi = {
 	strings: {
-		btnPause: "Tạm dừng", btnResume: "Tiếp tục", btnIgnore: "Bỏ qua", confirmIgnoreTimer: "Bỏ bản ghi này? Thời gian đã tích lũy sẽ mất.", btnAddFirstRevisit: "Thêm cuộc thăm lại",
+		btnPause: "Tạm dừng", btnResume: "Tiếp tục", btnAddFirstRevisit: "Thêm cuộc thăm lại",
 		mapUnavailable: "Không thể tải bản đồ. Hãy kiểm tra kết nối internet của bạn.",
 		installBannerTitle: "Cài đặt Revisits Web", installBannerHint: "Thêm vào màn hình chính để dùng như một ứng dụng.", btnInstallNow: "Cài đặt", btnNotNow: "Để sau", headingInstall: "Cài đặt ứng dụng", btnInstallApp: "Cài đặt ứng dụng", alreadyInstalledLabel: "Đã cài đặt ✓", manualInstallHint: "Dùng menu trình duyệt và tìm \"Cài đặt ứng dụng\" hoặc \"Thêm vào màn hình chính\".",
 		tabTerritorios: "Khu vực", emptyTerritorios: "Chưa có cuộc thăm lại nào có vị trí đã lưu.", mapPopupOpen: "Xem chi tiết",
@@ -853,7 +853,7 @@ const vi = {
 		noServicesHint: 'Tạo một loại thánh chức trong thẻ Chỉ tiêu để gắn báo cáo của bạn vào đó.',
 		labelHoursFraction: 'Giờ (15 phút = 0,25 giờ)', toastReportSaved: 'Đã lưu báo cáo',
 		presetNoLimit: 'Không giới hạn', preset5min: '5 phút', preset10min: '10 phút', preset15min: '15 phút', preset30min: '30 phút', preset1h: '1 giờ', preset2h: '2 giờ',
-		btnRestart: 'Đặt lại', confirmRestartTimer: 'Đặt lại bộ đếm giờ? Thời gian đã tích lũy sẽ bị mất.',
+		btnRestart: 'Đặt lại',
 		headingGoals: 'Chỉ tiêu thánh chức', scopeMonth: 'Tháng', scopeYear: 'Năm', yearKindCalendar: 'Năm dương lịch', yearKindService: 'Năm công tác',
 		goalLabelPrefix: 'Chỉ tiêu:', noGoalDefined: 'Chưa đặt chỉ tiêu', headingMedals: 'Huy hiệu',
 		emptyMedals: 'Bạn chưa đạt huy hiệu nào. Hãy đạt chỉ tiêu để mở khóa!',
@@ -884,7 +884,7 @@ const vi = {
 
 const id = {
 	strings: {
-		btnPause: "Jeda", btnResume: "Lanjutkan", btnIgnore: "Abaikan", confirmIgnoreTimer: "Abaikan catatan ini? Waktu yang terkumpul akan hilang.", btnAddFirstRevisit: "Tambah kunjungan kembali",
+		btnPause: "Jeda", btnResume: "Lanjutkan", btnAddFirstRevisit: "Tambah kunjungan kembali",
 		mapUnavailable: "Tidak dapat memuat peta. Periksa koneksi internet Anda.",
 		installBannerTitle: "Instal Revisits Web", installBannerHint: "Tambahkan ke layar utama untuk menggunakannya seperti aplikasi.", btnInstallNow: "Instal", btnNotNow: "Nanti saja", headingInstall: "Instal aplikasi", btnInstallApp: "Instal aplikasi", alreadyInstalledLabel: "Sudah terinstal ✓", manualInstallHint: "Gunakan menu browser Anda dan cari \"Instal aplikasi\" atau \"Tambahkan ke layar utama\".",
 		tabTerritorios: "Daerah", emptyTerritorios: "Belum ada kunjungan kembali dengan lokasi tersimpan.", mapPopupOpen: "Lihat detail",
@@ -921,7 +921,7 @@ const id = {
 		noServicesHint: 'Buat jenis dinas di tab Target agar laporan Anda dapat dikaitkan.',
 		labelHoursFraction: 'Jam (15 menit = 0,25 jam)', toastReportSaved: 'Laporan disimpan',
 		presetNoLimit: 'Tanpa batas', preset5min: '5 mnt', preset10min: '10 mnt', preset15min: '15 mnt', preset30min: '30 mnt', preset1h: '1 jam', preset2h: '2 jam',
-		btnRestart: 'Mulai ulang', confirmRestartTimer: 'Mulai ulang pengatur waktu? Waktu yang terkumpul akan hilang.',
+		btnRestart: 'Mulai ulang',
 		headingGoals: 'Target dinas', scopeMonth: 'Bulan', scopeYear: 'Tahun', yearKindCalendar: 'Tahun kalender', yearKindService: 'Tahun dinas',
 		goalLabelPrefix: 'Target:', noGoalDefined: 'Belum ada target', headingMedals: 'Medali',
 		emptyMedals: 'Anda belum meraih medali. Capai target Anda untuk membukanya!',
@@ -952,7 +952,7 @@ const id = {
 
 const th = {
 	strings: {
-		btnPause: "หยุดชั่วคราว", btnResume: "ดำเนินการต่อ", btnIgnore: "ละเว้น", confirmIgnoreTimer: "ยกเลิกบันทึกนี้หรือไม่? เวลาที่สะสมไว้จะหายไป", btnAddFirstRevisit: "เพิ่มการเยี่ยมเยียนซ้ำ",
+		btnPause: "หยุดชั่วคราว", btnResume: "ดำเนินการต่อ", btnAddFirstRevisit: "เพิ่มการเยี่ยมเยียนซ้ำ",
 		mapUnavailable: "ไม่สามารถโหลดแผนที่ได้ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ",
 		installBannerTitle: "ติดตั้ง Revisits Web", installBannerHint: "เพิ่มลงในหน้าจอหลักเพื่อใช้งานเหมือนแอป", btnInstallNow: "ติดตั้ง", btnNotNow: "ไว้ทีหลัง", headingInstall: "ติดตั้งแอป", btnInstallApp: "ติดตั้งแอป", alreadyInstalledLabel: "ติดตั้งแล้ว ✓", manualInstallHint: "ใช้เมนูเบราว์เซอร์ของคุณและมองหา \"ติดตั้งแอป\" หรือ \"เพิ่มลงในหน้าจอหลัก\"",
 		tabTerritorios: "เขตงาน", emptyTerritorios: "ยังไม่มีการเยี่ยมเยียนซ้ำที่บันทึกตำแหน่งไว้", mapPopupOpen: "ดูรายละเอียด",
@@ -989,7 +989,7 @@ const th = {
 		noServicesHint: 'สร้างประเภทงานรับใช้ในแท็บเป้าหมายเพื่อเชื่อมโยงรายงานของคุณ',
 		labelHoursFraction: 'ชั่วโมง (15 นาที = 0.25 ชั่วโมง)', toastReportSaved: 'บันทึกรายงานแล้ว',
 		presetNoLimit: 'ไม่จำกัด', preset5min: '5 นาที', preset10min: '10 นาที', preset15min: '15 นาที', preset30min: '30 นาที', preset1h: '1 ชั่วโมง', preset2h: '2 ชั่วโมง',
-		btnRestart: 'เริ่มใหม่', confirmRestartTimer: 'เริ่มตัวจับเวลาใหม่หรือไม่? เวลาที่สะสมไว้จะหายไป',
+		btnRestart: 'เริ่มใหม่',
 		headingGoals: 'เป้าหมายงานรับใช้', scopeMonth: 'เดือน', scopeYear: 'ปี', yearKindCalendar: 'ปีปฏิทิน', yearKindService: 'ปีงานรับใช้',
 		goalLabelPrefix: 'เป้าหมาย:', noGoalDefined: 'ยังไม่ได้กำหนดเป้าหมาย', headingMedals: 'เหรียญตรา',
 		emptyMedals: 'คุณยังไม่ได้รับเหรียญตรา ทำตามเป้าหมายเพื่อปลดล็อก!',
@@ -1020,7 +1020,7 @@ const th = {
 
 const hi = {
 	strings: {
-		btnPause: "रोकें", btnResume: "फिर से शुरू करें", btnIgnore: "अनदेखा करें", confirmIgnoreTimer: "क्या इस रिकॉर्ड को छोड़ें? संचित समय खो जाएगा।", btnAddFirstRevisit: "पुनः भेंट जोड़ें",
+		btnPause: "रोकें", btnResume: "फिर से शुरू करें", btnAddFirstRevisit: "पुनः भेंट जोड़ें",
 		mapUnavailable: "मानचित्र लोड नहीं हो सका। कृपया अपना इंटरनेट कनेक्शन जांचें।",
 		installBannerTitle: "Revisits Web इंस्टॉल करें", installBannerHint: "इसे ऐप की तरह उपयोग करने के लिए अपनी होम स्क्रीन पर जोड़ें।", btnInstallNow: "इंस्टॉल करें", btnNotNow: "अभी नहीं", headingInstall: "ऐप इंस्टॉल करें", btnInstallApp: "ऐप इंस्टॉल करें", alreadyInstalledLabel: "पहले से इंस्टॉल है ✓", manualInstallHint: "अपने ब्राउज़र मेनू का उपयोग करें और \"ऐप इंस्टॉल करें\" या \"होम स्क्रीन पर जोड़ें\" खोजें।",
 		tabTerritorios: "क्षेत्र", emptyTerritorios: "अभी तक सहेजे गए स्थान वाली कोई पुनः भेंट नहीं है।", mapPopupOpen: "विवरण देखें",
@@ -1057,7 +1057,7 @@ const hi = {
 		noServicesHint: 'अपनी रिपोर्ट जोड़ने के लिए लक्ष्य टैब में एक सेवा प्रकार बनाएँ।',
 		labelHoursFraction: 'घंटे (15 मिनट = 0.25 घंटे)', toastReportSaved: 'रिपोर्ट सहेजी गई',
 		presetNoLimit: 'कोई सीमा नहीं', preset5min: '5 मिनट', preset10min: '10 मिनट', preset15min: '15 मिनट', preset30min: '30 मिनट', preset1h: '1 घंटा', preset2h: '2 घंटे',
-		btnRestart: 'रीस्टार्ट करें', confirmRestartTimer: 'टाइमर रीस्टार्ट करें? संचित समय खो जाएगा।',
+		btnRestart: 'रीस्टार्ट करें',
 		headingGoals: 'सेवा लक्ष्य', scopeMonth: 'महीना', scopeYear: 'वर्ष', yearKindCalendar: 'कैलेंडर वर्ष', yearKindService: 'सेवा वर्ष',
 		goalLabelPrefix: 'लक्ष्य:', noGoalDefined: 'कोई लक्ष्य निर्धारित नहीं', headingMedals: 'पदक',
 		emptyMedals: 'आपने अभी तक कोई पदक नहीं जीता है। इन्हें अनलॉक करने के लिए अपने लक्ष्य पूरे करें!',
@@ -1088,7 +1088,7 @@ const hi = {
 
 const ja = {
 	strings: {
-		btnPause: "一時停止", btnResume: "再開", btnIgnore: "無視", confirmIgnoreTimer: "この記録を破棄しますか？蓄積した時間は失われます。", btnAddFirstRevisit: "再訪問を追加",
+		btnPause: "一時停止", btnResume: "再開", btnAddFirstRevisit: "再訪問を追加",
 		mapUnavailable: "地図を読み込めませんでした。インターネット接続を確認してください。",
 		installBannerTitle: "Revisits Webをインストール", installBannerHint: "ホーム画面に追加してアプリのように使いましょう。", btnInstallNow: "インストール", btnNotNow: "今はしない", headingInstall: "アプリをインストール", btnInstallApp: "アプリをインストール", alreadyInstalledLabel: "インストール済み ✓", manualInstallHint: "ブラウザのメニューから「アプリをインストール」または「ホーム画面に追加」を探してください。",
 		tabTerritorios: "区域", emptyTerritorios: "まだ位置情報が保存された再訪問はありません。", mapPopupOpen: "詳細を見る",
@@ -1125,7 +1125,7 @@ const ja = {
 		noServicesHint: 'レポートを関連付けるには、目標タブで奉仕の種類を作成してください。',
 		labelHoursFraction: '時間（15分＝0.25時間）', toastReportSaved: 'レポートを保存しました',
 		presetNoLimit: '制限なし', preset5min: '5分', preset10min: '10分', preset15min: '15分', preset30min: '30分', preset1h: '1時間', preset2h: '2時間',
-		btnRestart: 'リセット', confirmRestartTimer: 'タイマーをリセットしますか？蓄積した時間は失われます。',
+		btnRestart: 'リセット',
 		headingGoals: '奉仕の目標', scopeMonth: '月', scopeYear: '年', yearKindCalendar: '暦年', yearKindService: '奉仕年度',
 		goalLabelPrefix: '目標:', noGoalDefined: '目標が設定されていません', headingMedals: 'メダル',
 		emptyMedals: 'まだメダルを獲得していません。目標を達成して解除しましょう！',
@@ -1156,7 +1156,7 @@ const ja = {
 
 const ko = {
 	strings: {
-		btnPause: "일시정지", btnResume: "재개", btnIgnore: "무시", confirmIgnoreTimer: "이 기록을 무시하시겠습니까? 누적된 시간이 사라집니다.", btnAddFirstRevisit: "재방문 추가",
+		btnPause: "일시정지", btnResume: "재개", btnAddFirstRevisit: "재방문 추가",
 		mapUnavailable: "지도를 불러올 수 없습니다. 인터넷 연결을 확인하세요.",
 		installBannerTitle: "Revisits Web 설치", installBannerHint: "앱처럼 사용하려면 홈 화면에 추가하세요.", btnInstallNow: "설치", btnNotNow: "나중에", headingInstall: "앱 설치", btnInstallApp: "앱 설치", alreadyInstalledLabel: "이미 설치됨 ✓", manualInstallHint: "브라우저 메뉴에서 \"앱 설치\" 또는 \"홈 화면에 추가\"를 찾으세요.",
 		tabTerritorios: "구역", emptyTerritorios: "아직 저장된 위치가 있는 재방문이 없습니다.", mapPopupOpen: "세부정보 보기",
@@ -1193,7 +1193,7 @@ const ko = {
 		noServicesHint: '보고서를 연결하려면 목표 탭에서 봉사 종류를 만드세요.',
 		labelHoursFraction: '시간 (15분 = 0.25시간)', toastReportSaved: '보고서가 저장되었습니다',
 		presetNoLimit: '제한 없음', preset5min: '5분', preset10min: '10분', preset15min: '15분', preset30min: '30분', preset1h: '1시간', preset2h: '2시간',
-		btnRestart: '다시 시작', confirmRestartTimer: '타이머를 다시 시작하시겠습니까? 누적된 시간이 사라집니다.',
+		btnRestart: '다시 시작',
 		headingGoals: '봉사 목표', scopeMonth: '월', scopeYear: '년', yearKindCalendar: '달력 연도', yearKindService: '봉사 연도',
 		goalLabelPrefix: '목표:', noGoalDefined: '설정된 목표 없음', headingMedals: '메달',
 		emptyMedals: '아직 획득한 메달이 없습니다. 목표를 달성해 잠금을 해제하세요!',
