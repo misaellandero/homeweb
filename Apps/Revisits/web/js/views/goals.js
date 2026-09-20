@@ -188,7 +188,13 @@ async function renderMedals(container) {
 async function renderServicesList(container, services) {
 	const el = container.querySelector('#servicesList');
 	if (!services.length) {
-		el.innerHTML = `<div class="empty-state">${escapeHTML(t('emptyServices'))}</div>`;
+		el.innerHTML = `
+			<div class="empty-state">
+				<p>${escapeHTML(t('emptyServices'))}</p>
+				<button class="btn btn-primary" id="emptyServicesAddBtn"><i class="fas fa-plus"></i> ${t('btnNewService')}</button>
+			</div>
+		`;
+		el.querySelector('#emptyServicesAddBtn').addEventListener('click', () => openServiceForm());
 		return;
 	}
 	el.innerHTML = '';

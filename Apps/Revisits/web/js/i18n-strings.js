@@ -1,5 +1,6 @@
 const es = {
 	strings: {
+		btnPause: "Pausar", btnResume: "Reanudar", btnIgnore: "Ignorar", confirmIgnoreTimer: "¿Descartar este registro? Se perderá el tiempo acumulado.", btnAddFirstRevisit: "Agregar revisita",
 		mapUnavailable: "No se pudo cargar el mapa. Revisa tu conexión a internet.",
 		installBannerTitle: "Instala Revisits Web", installBannerHint: "Agrégala a tu pantalla de inicio para usarla como una app.", btnInstallNow: "Instalar", btnNotNow: "Ahora no", headingInstall: "Instalar aplicación", btnInstallApp: "Instalar app", alreadyInstalledLabel: "Ya está instalada ✓", manualInstallHint: "Usa el menú de tu navegador y busca \"Instalar aplicación\" o \"Añadir a pantalla de inicio\".",
 		tabTerritorios: "Territorios", emptyTerritorios: "Aún no hay revisitas con ubicación guardada.", mapPopupOpen: "Ver detalle",
@@ -67,6 +68,7 @@ const es = {
 
 const en = {
 	strings: {
+		btnPause: "Pause", btnResume: "Resume", btnIgnore: "Ignore", confirmIgnoreTimer: "Discard this log? The accumulated time will be lost.", btnAddFirstRevisit: "Add return visit",
 		mapUnavailable: "Could not load the map. Check your internet connection.",
 		installBannerTitle: "Install Revisits Web", installBannerHint: "Add it to your home screen to use it like an app.", btnInstallNow: "Install", btnNotNow: "Not now", headingInstall: "Install app", btnInstallApp: "Install app", alreadyInstalledLabel: "Already installed ✓", manualInstallHint: "Use your browser menu and look for \"Install app\" or \"Add to Home screen\".",
 		tabTerritorios: "Territories", emptyTerritorios: "No revisits with a saved location yet.", mapPopupOpen: "View details",
@@ -134,6 +136,7 @@ const en = {
 
 const de = {
 	strings: {
+		btnPause: "Pausieren", btnResume: "Fortsetzen", btnIgnore: "Verwerfen", confirmIgnoreTimer: "Diesen Eintrag verwerfen? Die angesammelte Zeit geht verloren.", btnAddFirstRevisit: "Rückbesuch hinzufügen",
 		mapUnavailable: "Die Karte konnte nicht geladen werden. Überprüfe deine Internetverbindung.",
 		installBannerTitle: "Revisits Web installieren", installBannerHint: "Füge sie zu deinem Startbildschirm hinzu, um sie wie eine App zu nutzen.", btnInstallNow: "Installieren", btnNotNow: "Nicht jetzt", headingInstall: "App installieren", btnInstallApp: "App installieren", alreadyInstalledLabel: "Bereits installiert ✓", manualInstallHint: "Öffne das Browsermenü und suche nach „App installieren“ oder „Zum Startbildschirm hinzufügen“.",
 		tabTerritorios: "Gebiete", emptyTerritorios: "Noch keine Rückbesuche mit gespeichertem Standort.", mapPopupOpen: "Details ansehen",
@@ -201,6 +204,7 @@ const de = {
 
 const fr = {
 	strings: {
+		btnPause: "Pause", btnResume: "Reprendre", btnIgnore: "Ignorer", confirmIgnoreTimer: "Annuler cet enregistrement ? Le temps accumulé sera perdu.", btnAddFirstRevisit: "Ajouter une visite",
 		mapUnavailable: "Impossible de charger la carte. Vérifie ta connexion internet.",
 		installBannerTitle: "Installer Revisits Web", installBannerHint: "Ajoute-la à ton écran d’accueil pour l’utiliser comme une application.", btnInstallNow: "Installer", btnNotNow: "Pas maintenant", headingInstall: "Installer l’application", btnInstallApp: "Installer l’application", alreadyInstalledLabel: "Déjà installée ✓", manualInstallHint: "Utilise le menu de ton navigateur et cherche « Installer l’application » ou « Ajouter à l’écran d’accueil ».",
 		tabTerritorios: "Territoires", emptyTerritorios: "Aucune visite avec une position enregistrée pour l’instant.", mapPopupOpen: "Voir les détails",
@@ -268,6 +272,7 @@ const fr = {
 
 const it = {
 	strings: {
+		btnPause: "Pausa", btnResume: "Riprendi", btnIgnore: "Ignora", confirmIgnoreTimer: "Scartare questa registrazione? Il tempo accumulato andrà perso.", btnAddFirstRevisit: "Aggiungi revisita",
 		mapUnavailable: "Impossibile caricare la mappa. Controlla la tua connessione internet.",
 		installBannerTitle: "Installa Revisits Web", installBannerHint: "Aggiungila alla schermata Home per usarla come un’app.", btnInstallNow: "Installa", btnNotNow: "Non ora", headingInstall: "Installa app", btnInstallApp: "Installa app", alreadyInstalledLabel: "Già installata ✓", manualInstallHint: "Usa il menu del browser e cerca \"Installa app\" o \"Aggiungi a schermata Home\".",
 		tabTerritorios: "Territori", emptyTerritorios: "Ancora nessuna revisita con una posizione salvata.", mapPopupOpen: "Vedi dettagli",
@@ -335,6 +340,7 @@ const it = {
 
 const pt = {
 	strings: {
+		btnPause: "Pausar", btnResume: "Retomar", btnIgnore: "Ignorar", confirmIgnoreTimer: "Descartar este registo? O tempo acumulado será perdido.", btnAddFirstRevisit: "Adicionar revisita",
 		mapUnavailable: "Não foi possível carregar o mapa. Verifica a tua ligação à internet.",
 		installBannerTitle: "Instalar Revisits Web", installBannerHint: "Adiciona-a ao teu ecrã principal para a usares como uma app.", btnInstallNow: "Instalar", btnNotNow: "Agora não", headingInstall: "Instalar aplicação", btnInstallApp: "Instalar app", alreadyInstalledLabel: "Já instalada ✓", manualInstallHint: "Usa o menu do teu navegador e procura \"Instalar aplicação\" ou \"Adicionar ao ecrã principal\".",
 		tabTerritorios: "Territórios", emptyTerritorios: "Ainda não há revisitas com localização guardada.", mapPopupOpen: "Ver detalhes",
@@ -402,6 +408,7 @@ const pt = {
 
 const nl = {
 	strings: {
+		btnPause: "Pauzeren", btnResume: "Hervatten", btnIgnore: "Negeren", confirmIgnoreTimer: "Deze registratie negeren? De opgebouwde tijd gaat verloren.", btnAddFirstRevisit: "Nabezoek toevoegen",
 		mapUnavailable: "De kaart kon niet worden geladen. Controleer je internetverbinding.",
 		installBannerTitle: "Revisits Web installeren", installBannerHint: "Voeg het toe aan je startscherm om het als app te gebruiken.", btnInstallNow: "Installeren", btnNotNow: "Niet nu", headingInstall: "App installeren", btnInstallApp: "App installeren", alreadyInstalledLabel: "Al geïnstalleerd ✓", manualInstallHint: "Gebruik het browsermenu en zoek naar \"App installeren\" of \"Toevoegen aan startscherm\".",
 		tabTerritorios: "Gebieden", emptyTerritorios: "Nog geen nabezoeken met opgeslagen locatie.", mapPopupOpen: "Details bekijken",
@@ -469,6 +476,7 @@ const nl = {
 
 const el = {
 	strings: {
+		btnPause: "Παύση", btnResume: "Συνέχιση", btnIgnore: "Παράβλεψη", confirmIgnoreTimer: "Απόρριψη αυτής της καταγραφής; Ο συσσωρευμένος χρόνος θα χαθεί.", btnAddFirstRevisit: "Προσθήκη επανεπίσκεψης",
 		mapUnavailable: "Δεν ήταν δυνατή η φόρτωση του χάρτη. Έλεγξε τη σύνδεσή σου στο διαδίκτυο.",
 		installBannerTitle: "Εγκατάσταση Revisits Web", installBannerHint: "Πρόσθεσέ το στην αρχική οθόνη σου για να το χρησιμοποιείς σαν εφαρμογή.", btnInstallNow: "Εγκατάσταση", btnNotNow: "Όχι τώρα", headingInstall: "Εγκατάσταση εφαρμογής", btnInstallApp: "Εγκατάσταση εφαρμογής", alreadyInstalledLabel: "Έχει ήδη εγκατασταθεί ✓", manualInstallHint: "Χρησιμοποίησε το μενού του browser και αναζήτησε \"Εγκατάσταση εφαρμογής\" ή \"Προσθήκη στην αρχική οθόνη\".",
 		tabTerritorios: "Περιοχές", emptyTerritorios: "Δεν υπάρχουν ακόμα επανεπισκέψεις με αποθηκευμένη τοποθεσία.", mapPopupOpen: "Προβολή λεπτομερειών",
@@ -536,6 +544,7 @@ const el = {
 
 const pl = {
 	strings: {
+		btnPause: "Wstrzymaj", btnResume: "Wznów", btnIgnore: "Odrzuć", confirmIgnoreTimer: "Odrzucić ten wpis? Zgromadzony czas zostanie utracony.", btnAddFirstRevisit: "Dodaj odwiedziny",
 		mapUnavailable: "Nie udało się wczytać mapy. Sprawdź swoje połączenie z internetem.",
 		installBannerTitle: "Zainstaluj Revisits Web", installBannerHint: "Dodaj ją do ekranu głównego, aby korzystać z niej jak z aplikacji.", btnInstallNow: "Zainstaluj", btnNotNow: "Nie teraz", headingInstall: "Zainstaluj aplikację", btnInstallApp: "Zainstaluj aplikację", alreadyInstalledLabel: "Już zainstalowana ✓", manualInstallHint: "Użyj menu przeglądarki i znajdź \"Zainstaluj aplikację\" lub \"Dodaj do ekranu głównego\".",
 		tabTerritorios: "Tereny", emptyTerritorios: "Nie ma jeszcze odwiedzin ponownych z zapisaną lokalizacją.", mapPopupOpen: "Zobacz szczegóły",
@@ -603,6 +612,7 @@ const pl = {
 
 const ru = {
 	strings: {
+		btnPause: "Пауза", btnResume: "Продолжить", btnIgnore: "Отменить", confirmIgnoreTimer: "Отменить эту запись? Накопленное время будет потеряно.", btnAddFirstRevisit: "Добавить посещение",
 		mapUnavailable: "Не удалось загрузить карту. Проверьте подключение к интернету.",
 		installBannerTitle: "Установить Revisits Web", installBannerHint: "Добавьте его на главный экран, чтобы использовать как приложение.", btnInstallNow: "Установить", btnNotNow: "Не сейчас", headingInstall: "Установить приложение", btnInstallApp: "Установить приложение", alreadyInstalledLabel: "Уже установлено ✓", manualInstallHint: "Откройте меню браузера и найдите «Установить приложение» или «Добавить на главный экран».",
 		tabTerritorios: "Территории", emptyTerritorios: "Пока нет повторных посещений с сохранённой геопозицией.", mapPopupOpen: "Подробнее",
@@ -670,6 +680,7 @@ const ru = {
 
 const tr = {
 	strings: {
+		btnPause: "Duraklat", btnResume: "Devam et", btnIgnore: "Yoksay", confirmIgnoreTimer: "Bu kayıt silinsin mi? Birikmiş süre kaybolacak.", btnAddFirstRevisit: "Tekrar ziyaret ekle",
 		mapUnavailable: "Harita yüklenemedi. İnternet bağlantını kontrol et.",
 		installBannerTitle: "Revisits Web’i yükle", installBannerHint: "Bir uygulama gibi kullanmak için ana ekranına ekle.", btnInstallNow: "Yükle", btnNotNow: "Şimdi değil", headingInstall: "Uygulamayı yükle", btnInstallApp: "Uygulamayı yükle", alreadyInstalledLabel: "Zaten yüklü ✓", manualInstallHint: "Tarayıcı menünü kullan ve \"Uygulamayı yükle\" veya \"Ana ekrana ekle\" seçeneğini ara.",
 		tabTerritorios: "Bölgeler", emptyTerritorios: "Henüz kayıtlı konumu olan tekrar ziyaret yok.", mapPopupOpen: "Ayrıntıları gör",
@@ -737,6 +748,7 @@ const tr = {
 
 const uk = {
 	strings: {
+		btnPause: "Пауза", btnResume: "Продовжити", btnIgnore: "Скасувати", confirmIgnoreTimer: "Скасувати цей запис? Накопичений час буде втрачено.", btnAddFirstRevisit: "Додати відвідини",
 		mapUnavailable: "Не вдалося завантажити карту. Перевірте підключення до інтернету.",
 		installBannerTitle: "Встановити Revisits Web", installBannerHint: "Додайте його на головний екран, щоб використовувати як застосунок.", btnInstallNow: "Встановити", btnNotNow: "Не зараз", headingInstall: "Встановити застосунок", btnInstallApp: "Встановити застосунок", alreadyInstalledLabel: "Вже встановлено ✓", manualInstallHint: "Відкрийте меню браузера і знайдіть «Встановити застосунок» або «Додати на головний екран».",
 		tabTerritorios: "Території", emptyTerritorios: "Ще немає повторних відвідин зі збереженим місцезнаходженням.", mapPopupOpen: "Переглянути деталі",
@@ -804,6 +816,7 @@ const uk = {
 
 const vi = {
 	strings: {
+		btnPause: "Tạm dừng", btnResume: "Tiếp tục", btnIgnore: "Bỏ qua", confirmIgnoreTimer: "Bỏ bản ghi này? Thời gian đã tích lũy sẽ mất.", btnAddFirstRevisit: "Thêm cuộc thăm lại",
 		mapUnavailable: "Không thể tải bản đồ. Hãy kiểm tra kết nối internet của bạn.",
 		installBannerTitle: "Cài đặt Revisits Web", installBannerHint: "Thêm vào màn hình chính để dùng như một ứng dụng.", btnInstallNow: "Cài đặt", btnNotNow: "Để sau", headingInstall: "Cài đặt ứng dụng", btnInstallApp: "Cài đặt ứng dụng", alreadyInstalledLabel: "Đã cài đặt ✓", manualInstallHint: "Dùng menu trình duyệt và tìm \"Cài đặt ứng dụng\" hoặc \"Thêm vào màn hình chính\".",
 		tabTerritorios: "Khu vực", emptyTerritorios: "Chưa có cuộc thăm lại nào có vị trí đã lưu.", mapPopupOpen: "Xem chi tiết",
@@ -871,6 +884,7 @@ const vi = {
 
 const id = {
 	strings: {
+		btnPause: "Jeda", btnResume: "Lanjutkan", btnIgnore: "Abaikan", confirmIgnoreTimer: "Abaikan catatan ini? Waktu yang terkumpul akan hilang.", btnAddFirstRevisit: "Tambah kunjungan kembali",
 		mapUnavailable: "Tidak dapat memuat peta. Periksa koneksi internet Anda.",
 		installBannerTitle: "Instal Revisits Web", installBannerHint: "Tambahkan ke layar utama untuk menggunakannya seperti aplikasi.", btnInstallNow: "Instal", btnNotNow: "Nanti saja", headingInstall: "Instal aplikasi", btnInstallApp: "Instal aplikasi", alreadyInstalledLabel: "Sudah terinstal ✓", manualInstallHint: "Gunakan menu browser Anda dan cari \"Instal aplikasi\" atau \"Tambahkan ke layar utama\".",
 		tabTerritorios: "Daerah", emptyTerritorios: "Belum ada kunjungan kembali dengan lokasi tersimpan.", mapPopupOpen: "Lihat detail",
@@ -938,6 +952,7 @@ const id = {
 
 const th = {
 	strings: {
+		btnPause: "หยุดชั่วคราว", btnResume: "ดำเนินการต่อ", btnIgnore: "ละเว้น", confirmIgnoreTimer: "ยกเลิกบันทึกนี้หรือไม่? เวลาที่สะสมไว้จะหายไป", btnAddFirstRevisit: "เพิ่มการเยี่ยมเยียนซ้ำ",
 		mapUnavailable: "ไม่สามารถโหลดแผนที่ได้ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ",
 		installBannerTitle: "ติดตั้ง Revisits Web", installBannerHint: "เพิ่มลงในหน้าจอหลักเพื่อใช้งานเหมือนแอป", btnInstallNow: "ติดตั้ง", btnNotNow: "ไว้ทีหลัง", headingInstall: "ติดตั้งแอป", btnInstallApp: "ติดตั้งแอป", alreadyInstalledLabel: "ติดตั้งแล้ว ✓", manualInstallHint: "ใช้เมนูเบราว์เซอร์ของคุณและมองหา \"ติดตั้งแอป\" หรือ \"เพิ่มลงในหน้าจอหลัก\"",
 		tabTerritorios: "เขตงาน", emptyTerritorios: "ยังไม่มีการเยี่ยมเยียนซ้ำที่บันทึกตำแหน่งไว้", mapPopupOpen: "ดูรายละเอียด",
@@ -1005,6 +1020,7 @@ const th = {
 
 const hi = {
 	strings: {
+		btnPause: "रोकें", btnResume: "फिर से शुरू करें", btnIgnore: "अनदेखा करें", confirmIgnoreTimer: "क्या इस रिकॉर्ड को छोड़ें? संचित समय खो जाएगा।", btnAddFirstRevisit: "पुनः भेंट जोड़ें",
 		mapUnavailable: "मानचित्र लोड नहीं हो सका। कृपया अपना इंटरनेट कनेक्शन जांचें।",
 		installBannerTitle: "Revisits Web इंस्टॉल करें", installBannerHint: "इसे ऐप की तरह उपयोग करने के लिए अपनी होम स्क्रीन पर जोड़ें।", btnInstallNow: "इंस्टॉल करें", btnNotNow: "अभी नहीं", headingInstall: "ऐप इंस्टॉल करें", btnInstallApp: "ऐप इंस्टॉल करें", alreadyInstalledLabel: "पहले से इंस्टॉल है ✓", manualInstallHint: "अपने ब्राउज़र मेनू का उपयोग करें और \"ऐप इंस्टॉल करें\" या \"होम स्क्रीन पर जोड़ें\" खोजें।",
 		tabTerritorios: "क्षेत्र", emptyTerritorios: "अभी तक सहेजे गए स्थान वाली कोई पुनः भेंट नहीं है।", mapPopupOpen: "विवरण देखें",
@@ -1072,6 +1088,7 @@ const hi = {
 
 const ja = {
 	strings: {
+		btnPause: "一時停止", btnResume: "再開", btnIgnore: "無視", confirmIgnoreTimer: "この記録を破棄しますか？蓄積した時間は失われます。", btnAddFirstRevisit: "再訪問を追加",
 		mapUnavailable: "地図を読み込めませんでした。インターネット接続を確認してください。",
 		installBannerTitle: "Revisits Webをインストール", installBannerHint: "ホーム画面に追加してアプリのように使いましょう。", btnInstallNow: "インストール", btnNotNow: "今はしない", headingInstall: "アプリをインストール", btnInstallApp: "アプリをインストール", alreadyInstalledLabel: "インストール済み ✓", manualInstallHint: "ブラウザのメニューから「アプリをインストール」または「ホーム画面に追加」を探してください。",
 		tabTerritorios: "区域", emptyTerritorios: "まだ位置情報が保存された再訪問はありません。", mapPopupOpen: "詳細を見る",
@@ -1139,6 +1156,7 @@ const ja = {
 
 const ko = {
 	strings: {
+		btnPause: "일시정지", btnResume: "재개", btnIgnore: "무시", confirmIgnoreTimer: "이 기록을 무시하시겠습니까? 누적된 시간이 사라집니다.", btnAddFirstRevisit: "재방문 추가",
 		mapUnavailable: "지도를 불러올 수 없습니다. 인터넷 연결을 확인하세요.",
 		installBannerTitle: "Revisits Web 설치", installBannerHint: "앱처럼 사용하려면 홈 화면에 추가하세요.", btnInstallNow: "설치", btnNotNow: "나중에", headingInstall: "앱 설치", btnInstallApp: "앱 설치", alreadyInstalledLabel: "이미 설치됨 ✓", manualInstallHint: "브라우저 메뉴에서 \"앱 설치\" 또는 \"홈 화면에 추가\"를 찾으세요.",
 		tabTerritorios: "구역", emptyTerritorios: "아직 저장된 위치가 있는 재방문이 없습니다.", mapPopupOpen: "세부정보 보기",

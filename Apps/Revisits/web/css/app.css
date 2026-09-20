@@ -458,6 +458,14 @@ main {
 	text-align: center;
 	color: var(--text-muted);
 	padding: 32px 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 14px;
+}
+
+.empty-state p {
+	margin: 0;
 }
 
 .medal-row {

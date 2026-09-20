@@ -28,9 +28,17 @@ export async function render(container) {
 			</div>
 		</div>
 		<div class="card" id="revisitListCard">
-			${filtered.length ? `<div id="revisitList"></div>` : `<div class="empty-state"><i class="fas fa-door-open" style="font-size:32px; opacity:.4;"></i><p>${escapeHTML(t('emptyRevisitsTitle'))}<br>${escapeHTML(t('emptyRevisitsHint'))}</p></div>`}
+			${filtered.length ? `<div id="revisitList"></div>` : `
+				<div class="empty-state">
+					<i class="fas fa-door-open" style="font-size:32px; opacity:.4;"></i>
+					<p>${escapeHTML(t('emptyRevisitsTitle'))}<br>${escapeHTML(t('emptyRevisitsHint'))}</p>
+					<button class="btn btn-primary" id="emptyRevisitsAddBtn"><i class="fas fa-plus"></i> ${t('btnAddFirstRevisit')}</button>
+				</div>
+			`}
 		</div>
 	`;
+
+	container.querySelector('#emptyRevisitsAddBtn')?.addEventListener('click', () => openNewRevisitForm());
 
 	const listEl = container.querySelector('#revisitList');
 	if (listEl) {
