@@ -3,19 +3,22 @@ import { openModal, closeModal, showToast } from '../ui.js';
 import { escapeHTML, formatHours, formatDateLong, todayISO, startOfWeek, endOfWeek, startOfMonth, endOfMonth, startOfYear, endOfYear } from '../utils.js';
 import { settings, getTimerState, setTimerState, clearTimerState } from '../settings.js';
 import { scheduleTimerGoalNotification, clearTimerGoalNotification } from '../notifications.js';
+import { t } from '../i18n.js';
 
 let periodScope = 'dia';
 let timerIntervalId = null;
 
-const PRESETS = [
-	{ label: 'Sin límite', seconds: null },
-	{ label: '5 min', seconds: 5 * 60 },
-	{ label: '10 min', seconds: 10 * 60 },
-	{ label: '15 min', seconds: 15 * 60 },
-	{ label: '30 min', seconds: 30 * 60 },
-	{ label: '1 hora', seconds: 60 * 60 },
-	{ label: '2 horas', seconds: 2 * 60 * 60 }
-];
+function presets() {
+	return [
+		{ label: t('presetNoLimit'), seconds: null },
+		{ label: t('preset5min'), seconds: 5 * 60 },
+		{ label: t('preset10min'), seconds: 10 * 60 },
+		{ label: t('preset15min'), seconds: 15 * 60 },
+		{ label: t('preset30min'), seconds: 30 * 60 },
+		{ label: t('preset1h'), seconds: 60 * 60 },
+		{ label: t('preset2h'), seconds: 2 * 60 * 60 }
+	];
+}
 
 export async function render(container) {
 	stopTicking();
@@ -23,16 +26,23 @@ export async function render(container) {
 	const services = await store.listServices();
 	const timerState = getTimerState();
 
+	const periods = [
+		{ key: 'dia', label: t('periodDay') },
+		{ key: 'semana', label: t('periodWeek') },
+		{ key: 'mes', label: t('periodMonth') },
+		{ key: 'año', label: t('periodYear') }
+	];
+
 	container.innerHTML = `
 		<div class="card">
 			<div class="segmented" id="periodSeg">
-				${['dia', 'semana', 'mes', 'año'].map((p) => `<button data-scope="${p}" class="${periodScope === p ? 'active' : ''}">${cap(p)}</button>`).join('')}
+				${periods.map((p) => `<button data-scope="${p.key}" class="${periodScope === p.key ? 'active' : ''}">${p.label}</button>`).join('')}
 			</div>
 			<div class="stat-grid" id="periodStats" style="margin-top:12px;"></div>
 		</div>
 
 		<div class="card">
-			<h2><i class="fas fa-stopwatch"></i> Temporizador</h2>
+			<h2><i class="fas fa-stopwatch"></i> ${t('headingTimer')}</h2>
 			<div class="timer-display" id="timerDisplay">00:00:00</div>
 			<div id="timerCounters" class="row wrap" style="gap:10px; justify-content:center; margin-bottom:14px;"></div>
 			<div class="row" style="gap:10px;" id="timerControls"></div>
@@ -40,8 +50,8 @@ export async function render(container) {
 
 		<div class="card">
 			<div class="row between">
-				<h2 style="margin:0;"><i class="fas fa-clock"></i> Historial</h2>
-				<button class="btn btn-primary" id="manualReportBtn"><i class="fas fa-plus"></i> Registrar</button>
+				<h2 style="margin:0;"><i class="fas fa-clock"></i> ${t('headingHistory')}</h2>
+				<button class="btn btn-primary" id="manualReportBtn"><i class="fas fa-plus"></i> ${t('btnRegister')}</button>
 			</div>
 			<div id="reportHistory"></div>
 		</div>
@@ -59,10 +69,6 @@ export async function render(container) {
 	renderTimer(container, services, timerState);
 
 	container.querySelector('#manualReportBtn').addEventListener('click', () => openReportForm(services));
-}
-
-function cap(s) {
-	return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 function periodRange() {
@@ -91,21 +97,21 @@ async function renderPeriodStats(container, services) {
 
 	const grid = container.querySelector('#periodStats');
 	grid.innerHTML = `
-		<div class="stat-tile"><div class="value">${formatHours(hours)}</div><div class="label">Horas${goal ? ' / ' + formatHours(goal) : ''}</div></div>
-		<div class="stat-tile"><div class="value">${studies}</div><div class="label">Estudios</div></div>
-		<div class="stat-tile"><div class="value">${returnVisits}</div><div class="label">Revisitas</div></div>
-		<div class="stat-tile"><div class="value">${services.length}</div><div class="label">Tipos de servicio</div></div>
+		<div class="stat-tile"><div class="value">${formatHours(hours)}</div><div class="label">${t('wordHoras')}${goal ? ' / ' + formatHours(goal) : ''}</div></div>
+		<div class="stat-tile"><div class="value">${studies}</div><div class="label">${t('wordEstudios')}</div></div>
+		<div class="stat-tile"><div class="value">${returnVisits}</div><div class="label">${t('wordRevisitas')}</div></div>
+		<div class="stat-tile"><div class="value">${services.length}</div><div class="label">${t('statServiceTypes')}</div></div>
 	`;
 }
 
 async function renderHistory(container) {
 	const reports = await store.listReports();
 	const services = await store.listServices();
-	const serviceName = (id) => services.find((s) => s.id === id)?.name || 'Servicio';
+	const serviceName = (id) => services.find((s) => s.id === id)?.name || t('wordServicio');
 
 	const historyEl = container.querySelector('#reportHistory');
 	if (!reports.length) {
-		historyEl.innerHTML = '<div class="empty-state">Aún no has registrado horas de servicio.</div>';
+		historyEl.innerHTML = `<div class="empty-state">${escapeHTML(t('emptyHistory'))}</div>`;
 		return;
 	}
 
@@ -117,15 +123,15 @@ async function renderHistory(container) {
 			<div class="avatar revisita"><i class="fas fa-clock"></i></div>
 			<div class="meta">
 				<div class="name">${formatDateLong(report.date)} · ${formatHours(report.hours)}</div>
-				<div class="sub">${escapeHTML(serviceName(report.serviceId))}${report.studies ? ' · ' + report.studies + ' estudio(s)' : ''}${report.returnVisits ? ' · ' + report.returnVisits + ' revisita(s)' : ''}</div>
+				<div class="sub">${escapeHTML(serviceName(report.serviceId))}${report.studies ? ' · ' + t('wordEstudios') + ': ' + report.studies : ''}${report.returnVisits ? ' · ' + t('wordRevisitas') + ': ' + report.returnVisits : ''}</div>
 			</div>
-			<button class="icon-btn" aria-label="Eliminar"><i class="fas fa-trash"></i></button>
+			<button class="icon-btn" aria-label="${escapeHTML(t('ariaDelete'))}"><i class="fas fa-trash"></i></button>
 		`;
 		row.querySelector('button').addEventListener('click', async (e) => {
 			e.stopPropagation();
-			if (!confirm('¿Eliminar este informe?')) return;
+			if (!confirm(t('confirmDeleteReport'))) return;
 			await store.deleteReport(report.id);
-			showToast('Informe eliminado');
+			showToast(t('toastReportDeleted'));
 			render(document.getElementById('view-informes'));
 		});
 		historyEl.append(row);
@@ -139,33 +145,33 @@ function sourceServiceOptions(services, selectedId) {
 }
 
 function openReportForm(services, prefill = {}) {
-	const sheet = openModal('Registrar informe', `
+	const sheet = openModal(t('reportFormTitle'), `
 		<form id="reportForm">
 			<div class="field">
-				<label>Fecha</label>
+				<label>${t('labelDate')}</label>
 				<input type="date" name="date" value="${prefill.date || todayISO()}">
 			</div>
 			${services.length ? `
 			<div class="field">
-				<label>Tipo de servicio</label>
+				<label>${t('labelServiceType')}</label>
 				<select name="serviceId">${sourceServiceOptions(services, prefill.serviceId || services[0]?.id)}</select>
-			</div>` : '<p class="empty-state">Crea un tipo de servicio en la pestaña Metas para poder asociar tus informes.</p>'}
+			</div>` : `<p class="empty-state">${escapeHTML(t('noServicesHint'))}</p>`}
 			<div class="field">
-				<label>Horas (15 minutos = 0.25 horas)</label>
+				<label>${t('labelHoursFraction')}</label>
 				<input type="number" name="hours" step="0.25" min="0" max="24" value="${prefill.hours ?? 0}">
 			</div>
 			<div class="row wrap" style="gap:16px;">
 				<div class="field" style="flex:1;">
-					<label>Estudios</label>
+					<label>${t('wordEstudios')}</label>
 					<input type="number" name="studies" min="0" max="100" value="${prefill.studies ?? 0}">
 				</div>
-				${settings.countReturnVisits ? `<div class="field" style="flex:1;"><label>Revisitas</label><input type="number" name="returnVisits" min="0" max="100" value="${prefill.returnVisits ?? 0}"></div>` : ''}
+				${settings.countReturnVisits ? `<div class="field" style="flex:1;"><label>${t('wordRevisitas')}</label><input type="number" name="returnVisits" min="0" max="100" value="${prefill.returnVisits ?? 0}"></div>` : ''}
 			</div>
 			<div class="row wrap" style="gap:16px;">
-				${settings.countPubs ? `<div class="field" style="flex:1;"><label>Publicaciones</label><input type="number" name="pubs" min="0" max="100" value="${prefill.pubs ?? 0}"></div>` : ''}
-				${settings.countVideos ? `<div class="field" style="flex:1;"><label>Videos</label><input type="number" name="videos" min="0" max="100" value="${prefill.videos ?? 0}"></div>` : ''}
+				${settings.countPubs ? `<div class="field" style="flex:1;"><label>${t('wordPublicaciones')}</label><input type="number" name="pubs" min="0" max="100" value="${prefill.pubs ?? 0}"></div>` : ''}
+				${settings.countVideos ? `<div class="field" style="flex:1;"><label>${t('wordVideos')}</label><input type="number" name="videos" min="0" max="100" value="${prefill.videos ?? 0}"></div>` : ''}
 			</div>
-			<button type="submit" class="btn btn-primary btn-block" style="margin-top:8px;">Guardar</button>
+			<button type="submit" class="btn btn-primary btn-block" style="margin-top:8px;">${t('save')}</button>
 		</form>
 	`);
 
@@ -188,7 +194,7 @@ function openReportForm(services, prefill = {}) {
 			clearTimerGoalNotification();
 		}
 		closeModal();
-		showToast('Informe guardado');
+		showToast(t('toastReportSaved'));
 		render(document.getElementById('view-informes'));
 	});
 }
@@ -203,10 +209,10 @@ function renderTimer(container, services, timerState) {
 	function drawCounters() {
 		const state = getTimerState();
 		const counters = state?.counters || { studies: 0, pubs: 0, videos: 0, returnVisits: 0 };
-		const fields = [{ key: 'studies', label: 'Estudios', always: true }];
-		if (settings.countPubs) fields.push({ key: 'pubs', label: 'Publicaciones' });
-		if (settings.countVideos) fields.push({ key: 'videos', label: 'Videos' });
-		if (settings.countReturnVisits) fields.push({ key: 'returnVisits', label: 'Revisitas' });
+		const fields = [{ key: 'studies', label: t('wordEstudios') }];
+		if (settings.countPubs) fields.push({ key: 'pubs', label: t('wordPublicaciones') });
+		if (settings.countVideos) fields.push({ key: 'videos', label: t('wordVideos') });
+		if (settings.countReturnVisits) fields.push({ key: 'returnVisits', label: t('wordRevisitas') });
 
 		countersEl.innerHTML = fields.map((f) => `
 			<div class="stat-tile" style="min-width:84px;">
@@ -235,11 +241,11 @@ function renderTimer(container, services, timerState) {
 	function drawControls(active) {
 		if (active) {
 			controls.innerHTML = `
-				<button class="btn" id="restartBtn"><i class="fas fa-rotate-left"></i> Reiniciar</button>
-				<button class="btn btn-primary btn-block" id="registerBtn"><i class="fas fa-check"></i> Registrar</button>
+				<button class="btn" id="restartBtn"><i class="fas fa-rotate-left"></i> ${t('btnRestart')}</button>
+				<button class="btn btn-primary btn-block" id="registerBtn"><i class="fas fa-check"></i> ${t('btnRegister')}</button>
 			`;
 			controls.querySelector('#restartBtn').addEventListener('click', () => {
-				if (!confirm('¿Reiniciar el temporizador? Se perderá el tiempo acumulado.')) return;
+				if (!confirm(t('confirmRestartTimer'))) return;
 				clearTimerState();
 				clearTimerGoalNotification();
 				render(container);
@@ -259,6 +265,7 @@ function renderTimer(container, services, timerState) {
 				});
 			});
 		} else {
+			const PRESETS = presets();
 			controls.innerHTML = `
 				<div class="segmented" id="presetSeg" style="flex-wrap:wrap;">
 					${PRESETS.map((p, i) => `<button type="button" data-i="${i}">${p.label}</button>`).join('')}

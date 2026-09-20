@@ -1,4 +1,4 @@
-const CACHE_NAME = 'revisits-web-v2';
+const CACHE_NAME = 'revisits-web-v3';
 const APP_SHELL = [
 	'./',
 	'./index.html',
@@ -12,6 +12,9 @@ const APP_SHELL = [
 	'./js/settings.js',
 	'./js/notifications.js',
 	'./js/ui.js',
+	'./js/i18n.js',
+	'./js/i18n-strings.js',
+	'./js/geo.js',
 	'./js/views/revisits.js',
 	'./js/views/reports.js',
 	'./js/views/goals.js',

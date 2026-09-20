@@ -1,8 +1,10 @@
 import * as store from '../store.js';
 import { openModal, closeModal, showToast } from '../ui.js';
 import { escapeHTML, formatDateLong, todayISO } from '../utils.js';
-import { PEOPLE_TYPES, PEOPLE_EMOJI, VISIT_TYPES, SOURCES, SOURCES_EMOJI, SOURCES_TEXT, houseImage, randomHouseIcon } from '../constants.js';
+import { PEOPLE_EMOJI, VISIT_TYPES, SOURCES_EMOJI, houseImage, randomHouseIcon } from '../constants.js';
 import { checkDueReminders } from '../notifications.js';
+import { t, personTypeLabel, sourceLabel, sourceRefLabel, visitTypeLabel } from '../i18n.js';
+import * as geo from '../geo.js';
 
 let currentFilter = 'todos';
 let currentSearch = '';
@@ -16,17 +18,17 @@ export async function render(container) {
 	container.innerHTML = `
 		<div class="card">
 			<div class="row wrap" style="margin-bottom:10px;">
-				<input type="search" id="revisitSearch" placeholder="Buscar por nombre..." style="flex:1; min-width:160px; border:1px solid var(--border); border-radius:10px; padding:8px 12px;" value="${escapeHTML(currentSearch)}">
+				<input type="search" id="revisitSearch" placeholder="${escapeHTML(t('searchPlaceholder'))}" style="flex:1; min-width:160px; border:1px solid var(--border); border-radius:10px; padding:8px 12px;" value="${escapeHTML(currentSearch)}">
 			</div>
 			<div class="segmented" id="revisitFilters">
-				<button data-filter="todos" class="${currentFilter === 'todos' ? 'active' : ''}">Todos</button>
-				<button data-filter="estudio" class="${currentFilter === 'estudio' ? 'active' : ''}">Estudio</button>
-				<button data-filter="revisita" class="${currentFilter === 'revisita' ? 'active' : ''}">Revisita</button>
-				<button data-filter="vencidas" class="${currentFilter === 'vencidas' ? 'active' : ''}">Vencidas</button>
+				<button data-filter="todos" class="${currentFilter === 'todos' ? 'active' : ''}">${t('filterAll')}</button>
+				<button data-filter="estudio" class="${currentFilter === 'estudio' ? 'active' : ''}">${t('filterEstudio')}</button>
+				<button data-filter="revisita" class="${currentFilter === 'revisita' ? 'active' : ''}">${t('filterRevisita')}</button>
+				<button data-filter="vencidas" class="${currentFilter === 'vencidas' ? 'active' : ''}">${t('filterOverdue')}</button>
 			</div>
 		</div>
 		<div class="card" id="revisitListCard">
-			${filtered.length ? `<div id="revisitList"></div>` : `<div class="empty-state"><i class="fas fa-door-open" style="font-size:32px; opacity:.4;"></i><p>No hay revisitas todavía.<br>Toca el botón + para agregar la primera.</p></div>`}
+			${filtered.length ? `<div id="revisitList"></div>` : `<div class="empty-state"><i class="fas fa-door-open" style="font-size:32px; opacity:.4;"></i><p>${escapeHTML(t('emptyRevisitsTitle'))}<br>${escapeHTML(t('emptyRevisitsHint'))}</p></div>`}
 		</div>
 	`;
 
@@ -77,15 +79,14 @@ function renderListItem(revisit) {
 	el.className = 'list-item';
 	const overdue = isOverdue(revisit);
 	const upcoming = isUpcoming(revisit);
-	const typeClass = revisit.visitType === 'Estudio' ? 'estudio' : 'revisita';
 
 	el.innerHTML = `
 		<img src="${houseImage(revisit.visitType, revisit.houseIcon)}" class="avatar" style="background:none; object-fit:contain;" alt="">
 		<div class="meta">
 			<div class="name">${escapeHTML(revisit.emoji || '')} ${escapeHTML(revisit.name || '')} ${escapeHTML(revisit.lastName || '')}</div>
-			<div class="sub">${revisit.visitType === 'Estudio' ? 'Estudio' : 'Revisita'}${revisit.nextVisit ? ' · Próxima: ' + formatDateLong(revisit.nextVisit) : ''}</div>
+			<div class="sub">${escapeHTML(visitTypeLabel(revisit.visitType))}${revisit.nextVisit ? ' · ' + escapeHTML(t('nextVisitPrefix')) + ' ' + formatDateLong(revisit.nextVisit) : ''}</div>
 		</div>
-		${overdue ? '<span class="badge overdue">Vencida</span>' : upcoming ? '<span class="badge upcoming">Hoy</span>' : ''}
+		${overdue ? `<span class="badge overdue">${escapeHTML(t('badgeOverdue'))}</span>` : upcoming ? `<span class="badge upcoming">${escapeHTML(t('badgeToday'))}</span>` : ''}
 	`;
 	el.addEventListener('click', () => openDetail(revisit.id));
 	return el;
@@ -101,66 +102,67 @@ async function openForm(revisit) {
 	const isNew = !revisit;
 	const territories = await store.listTerritories();
 
-	const sheet = openModal(isNew ? 'Nueva revisita' : 'Editar revisita', `
+	const sheet = openModal(isNew ? t('newRevisitTitle') : t('editRevisitTitle'), `
 		<form id="revisitForm">
 			<div class="field">
-				<label>Edad / tipo de persona</label>
+				<label>${t('labelPersonType')}</label>
 				<select name="personType">
-					<option value="">— Sin especificar —</option>
-					${PEOPLE_TYPES.map((t, i) => `<option value="${i}" ${revisit?.personType === i ? 'selected' : ''}>${PEOPLE_EMOJI[i]} ${t}</option>`).join('')}
+					<option value="">${t('optionUnspecified')}</option>
+					${Array.from({ length: 14 }, (_, i) => `<option value="${i}" ${revisit?.personType === i ? 'selected' : ''}>${PEOPLE_EMOJI[i]} ${escapeHTML(personTypeLabel(i))}</option>`).join('')}
 				</select>
 			</div>
 			<div class="row">
 				<div class="field" style="flex:1;">
-					<label>Nombre</label>
+					<label>${t('labelFirstName')}</label>
 					<input name="name" required value="${escapeHTML(revisit?.name || '')}">
 				</div>
 				<div class="field" style="flex:1;">
-					<label>Apellido</label>
+					<label>${t('labelLastName')}</label>
 					<input name="lastName" value="${escapeHTML(revisit?.lastName || '')}">
 				</div>
 			</div>
 			<div class="field">
-				<label>Revisita</label>
+				<label>${t('labelRevisitTypeField')}</label>
 				<div class="segmented" id="visitTypeSeg">
-					${VISIT_TYPES.map((t) => `<button type="button" data-value="${t}" class="${(revisit?.visitType || 'Revisita') === t ? 'active' : ''}">${t}</button>`).join('')}
+					${VISIT_TYPES.map((v) => `<button type="button" data-value="${v}" class="${(revisit?.visitType || 'Revisita') === v ? 'active' : ''}">${escapeHTML(visitTypeLabel(v))}</button>`).join('')}
 				</div>
 			</div>
 			<div class="field">
-				<label>Territorio</label>
+				<label>${t('labelTerritory')}</label>
 				<select name="territoryId">
-					<option value="">— Sin territorio —</option>
-					${territories.map((t) => `<option value="${t.id}" ${revisit?.territoryId === t.id ? 'selected' : ''}>${escapeHTML(t.name)}</option>`).join('')}
-					<option value="__new__">+ Nuevo territorio…</option>
+					<option value="">${t('optionNoTerritory')}</option>
+					${territories.map((terr) => `<option value="${terr.id}" ${revisit?.territoryId === terr.id ? 'selected' : ''}>${escapeHTML(terr.name)}</option>`).join('')}
+					<option value="__new__">${t('optionNewTerritory')}</option>
 				</select>
 			</div>
 			<div class="field">
-				<label>Observaciones sobre la persona</label>
+				<label>${t('labelObservations')}</label>
 				<input name="observations" value="${escapeHTML(revisit?.observations || '')}">
 			</div>
 			<div class="field">
-				<label>Teléfono de contacto</label>
+				<label>${t('labelPhone')}</label>
 				<input name="phone" type="tel" value="${escapeHTML(revisit?.phone || '')}">
 			</div>
 			<div class="field">
-				<label>Referencias de la casa</label>
+				<label>${t('labelHouseDetails')}</label>
 				<input name="houseDetails" value="${escapeHTML(revisit?.houseDetails || '')}">
 			</div>
 			<div class="field">
-				<label>Próxima visita</label>
+				<label>${t('labelNextVisit')}</label>
 				<input name="nextVisit" type="date" value="${revisit?.nextVisit ? revisit.nextVisit.slice(0, 10) : ''}">
 			</div>
-			<h2 style="font-size:14px; margin-top:16px;">Recordatorios</h2>
+			${locationFieldsHTML(revisit)}
+			<h2 style="font-size:14px; margin-top:16px;">${t('headingReminders')}</h2>
 			<label class="row" style="gap:8px; font-size:14px; margin-bottom:8px;">
-				<input type="checkbox" name="notification" ${revisit?.notification ? 'checked' : ''}> Recordarme esta revisita
+				<input type="checkbox" name="notification" ${revisit?.notification ? 'checked' : ''}> ${t('labelNotification')}
 			</label>
 			<label class="row" style="gap:8px; font-size:14px; margin-bottom:8px;">
-				<input type="checkbox" name="weekReminder" ${revisit?.weekReminder ? 'checked' : ''}> Recordarme cada semana
+				<input type="checkbox" name="weekReminder" ${revisit?.weekReminder ? 'checked' : ''}> ${t('labelWeekReminder')}
 			</label>
 			${isNew ? initialVisitSectionHTML() : ''}
 			<div class="row" style="margin-top:16px; gap:10px;">
 				${!isNew ? `<button type="button" class="btn btn-danger" id="deleteRevisitBtn"><i class="fas fa-trash"></i></button>` : ''}
-				<button type="submit" class="btn btn-primary btn-block">${isNew ? 'Guardar' : 'Actualizar'}</button>
+				<button type="submit" class="btn btn-primary btn-block">${isNew ? t('save') : t('update')}</button>
 			</div>
 		</form>
 	`);
@@ -168,13 +170,14 @@ async function openForm(revisit) {
 	wireVisitTypeSegmented(sheet);
 	wireSourcePicker(sheet);
 	wireTerritorySelect(sheet);
+	wireLocationField(sheet);
 
 	if (!isNew) {
 		sheet.querySelector('#deleteRevisitBtn').addEventListener('click', async () => {
-			if (!confirm('¿Eliminar esta revisita y todo su historial?')) return;
+			if (!confirm(t('confirmDeleteRevisit'))) return;
 			await store.deleteRevisit(revisit.id);
 			closeModal();
-			showToast('Revisita eliminada');
+			showToast(t('toastRevisitDeleted'));
 			renderCurrentIfMounted();
 		});
 	}
@@ -184,6 +187,8 @@ async function openForm(revisit) {
 		const fd = new FormData(e.target);
 		const personTypeRaw = fd.get('personType');
 		const personType = personTypeRaw === '' ? null : Number(personTypeRaw);
+		const lat = fd.get('mapLat');
+		const lng = fd.get('mapLng');
 
 		const data = {
 			id: revisit?.id,
@@ -200,7 +205,9 @@ async function openForm(revisit) {
 			notification: fd.get('notification') === 'on',
 			weekReminder: fd.get('weekReminder') === 'on',
 			houseIcon: revisit?.houseIcon || randomHouseIcon(),
-			lastVisit: revisit?.lastVisit || null
+			lastVisit: revisit?.lastVisit || null,
+			mapLat: lat ? Number(lat) : null,
+			mapLng: lng ? Number(lng) : null
 		};
 
 		const saved = await store.saveRevisit(data);
@@ -213,18 +220,77 @@ async function openForm(revisit) {
 		}
 
 		closeModal();
-		showToast(isNew ? 'Revisita guardada' : 'Revisita actualizada');
+		showToast(isNew ? t('toastRevisitSaved') : t('toastRevisitUpdated'));
 		renderCurrentIfMounted();
+	});
+}
+
+function locationFieldsHTML(revisit) {
+	const hasLocation = revisit?.mapLat != null && revisit?.mapLng != null;
+	return `
+		<div class="field">
+			<label>${t('headingLocation')}</label>
+			<input type="hidden" name="mapLat" value="${hasLocation ? revisit.mapLat : ''}">
+			<input type="hidden" name="mapLng" value="${hasLocation ? revisit.mapLng : ''}">
+			<div id="locationStatus" style="font-size:13px; color:var(--text-muted); margin-bottom:6px;">
+				${hasLocation ? `${revisit.mapLat.toFixed(5)}, ${revisit.mapLng.toFixed(5)}` : ''}
+			</div>
+			<div class="row" style="gap:8px;">
+				<button type="button" class="btn" id="useLocationBtn">
+					<i class="fas fa-location-crosshairs"></i> ${hasLocation ? t('btnUpdateLocation') : t('btnUseMyLocation')}
+				</button>
+				${hasLocation ? `<button type="button" class="btn btn-ghost" id="removeLocationBtn"><i class="fas fa-xmark"></i></button>` : ''}
+			</div>
+		</div>
+	`;
+}
+
+function wireLocationField(sheet) {
+	const btn = sheet.querySelector('#useLocationBtn');
+	if (!btn) return;
+	const status = sheet.querySelector('#locationStatus');
+	const latInput = sheet.querySelector('input[name="mapLat"]');
+	const lngInput = sheet.querySelector('input[name="mapLng"]');
+
+	if (!geo.isSupported()) {
+		btn.disabled = true;
+		status.textContent = t('locationUnsupported');
+	}
+
+	btn.addEventListener('click', async () => {
+		status.textContent = t('locationFetching');
+		try {
+			const pos = await geo.getCurrentPosition();
+			latInput.value = pos.lat;
+			lngInput.value = pos.lng;
+			status.textContent = `${pos.lat.toFixed(5)}, ${pos.lng.toFixed(5)}`;
+			btn.innerHTML = `<i class="fas fa-location-crosshairs"></i> ${t('btnUpdateLocation')}`;
+			showToast(t('locationSaved'));
+
+			const houseDetailsInput = sheet.querySelector('input[name="houseDetails"]');
+			if (houseDetailsInput && !houseDetailsInput.value.trim()) {
+				const address = await geo.reverseGeocode(pos.lat, pos.lng);
+				if (address) houseDetailsInput.value = address;
+			}
+		} catch {
+			status.textContent = t('locationError');
+		}
+	});
+
+	sheet.querySelector('#removeLocationBtn')?.addEventListener('click', () => {
+		latInput.value = '';
+		lngInput.value = '';
+		status.textContent = '';
 	});
 }
 
 function initialVisitSectionHTML() {
 	return `
 		<label class="row" style="gap:8px; font-size:14px; margin:16px 0 8px;">
-			<input type="checkbox" name="registerInitialVisit" id="registerInitialVisit"> Registrar visita inicial
+			<input type="checkbox" name="registerInitialVisit" id="registerInitialVisit"> ${t('labelRegisterInitialVisit')}
 		</label>
 		<div id="initialVisitFields" style="display:none;">
-			${visitFieldsHTML({ prefix: '' })}
+			${visitFieldsHTML({})}
 		</div>
 	`;
 }
@@ -233,47 +299,47 @@ function visitFieldsHTML(opts = {}) {
 	const v = opts.visit || {};
 	return `
 		<div class="field">
-			<label>Día de la visita</label>
+			<label>${t('labelVisitDate')}</label>
 			<input type="date" name="visitDate" value="${v.date ? v.date.slice(0, 10) : todayISO()}">
 		</div>
 		<div class="field">
-			<label>Sobre qué hablaron</label>
+			<label>${t('labelVisitSummary')}</label>
 			<input name="visitSumaryNotes" value="${escapeHTML(v.visitSumaryNotes || '')}">
 		</div>
 		<div class="field">
-			<label>Publicación</label>
+			<label>${t('labelPublication')}</label>
 			<div class="segmented source-seg" data-target="toolboxPub">
-				${SOURCES.map((s, i) => `<button type="button" data-value="${i}" class="${String(v.toolboxPub ?? '0') === String(i) ? 'active' : ''}">${SOURCES_EMOJI[i]} ${s}</button>`).join('')}
+				${[0, 1, 2].map((i) => `<button type="button" data-value="${i}" class="${String(v.toolboxPub ?? '0') === String(i) ? 'active' : ''}">${SOURCES_EMOJI[i]} ${escapeHTML(sourceLabel(i))}</button>`).join('')}
 			</div>
 		</div>
 		<div class="field">
-			<label class="source-ref-label">${SOURCES_TEXT[Number(v.toolboxPub) || 0]}</label>
+			<label class="source-ref-label">${escapeHTML(sourceRefLabel(Number(v.toolboxPub) || 0))}</label>
 			<input name="toolboxReference" class="source-ref-input" value="${escapeHTML(v.toolboxReference || '')}">
 		</div>
 		<div class="field">
-			<label>Compañero</label>
+			<label>${t('labelCompanion')}</label>
 			<input name="parner" value="${escapeHTML(v.parner || '')}">
 		</div>
 		<div class="field">
-			<label>Próxima visita</label>
+			<label>${t('labelNextVisit')}</label>
 			<input type="date" name="nextVisit" value="${v.nextVisit ? v.nextVisit.slice(0, 10) : ''}">
 		</div>
 		<div class="field">
-			<label>Tema próxima visita</label>
+			<label>${t('labelNextVisitTopic')}</label>
 			<input name="nextVisitNotes" value="${escapeHTML(v.nextVisitNotes || '')}">
 		</div>
 		<div class="field">
-			<label>Publicación (próxima visita)</label>
+			<label>${t('labelPublicationNext')}</label>
 			<div class="segmented source-seg" data-target="nextVisitToolboxPub">
-				${SOURCES.map((s, i) => `<button type="button" data-value="${i}" class="${String(v.nextVisitToolboxPub ?? '0') === String(i) ? 'active' : ''}">${SOURCES_EMOJI[i]} ${s}</button>`).join('')}
+				${[0, 1, 2].map((i) => `<button type="button" data-value="${i}" class="${String(v.nextVisitToolboxPub ?? '0') === String(i) ? 'active' : ''}">${SOURCES_EMOJI[i]} ${escapeHTML(sourceLabel(i))}</button>`).join('')}
 			</div>
 		</div>
 		<div class="field">
-			<label class="source-ref-label" data-for="nextVisitToolboxPub">${SOURCES_TEXT[Number(v.nextVisitToolboxPub) || 0]}</label>
+			<label class="source-ref-label" data-for="nextVisitToolboxPub">${escapeHTML(sourceRefLabel(Number(v.nextVisitToolboxPub) || 0))}</label>
 			<input name="nextVisitToolBoxReference" class="source-ref-input" data-for="nextVisitToolboxPub" value="${escapeHTML(v.nextVisitToolBoxReference || '')}">
 		</div>
 		<label class="row" style="gap:8px; font-size:14px; margin-bottom:8px;">
-			<input type="checkbox" name="countVisit" ${v.noCount ? '' : 'checked'}> Contar como revisita
+			<input type="checkbox" name="countVisit" ${v.noCount ? '' : 'checked'}> ${t('labelCountVisit')}
 		</label>
 	`;
 }
@@ -307,7 +373,7 @@ function wireSourcePicker(sheet) {
 				const labelEl = target === 'toolboxPub'
 					? sheet.querySelector('.source-ref-label:not([data-for])')
 					: sheet.querySelector(`.source-ref-label[data-for="${target}"]`);
-				if (labelEl) labelEl.textContent = SOURCES_TEXT[idx];
+				if (labelEl) labelEl.textContent = sourceRefLabel(idx);
 			});
 		});
 	});
@@ -318,7 +384,7 @@ function wireTerritorySelect(sheet) {
 	if (!select) return;
 	select.addEventListener('change', async () => {
 		if (select.value !== '__new__') return;
-		const name = prompt('Nombre del nuevo territorio:');
+		const name = prompt(t('promptNewTerritory'));
 		if (!name || !name.trim()) {
 			select.value = '';
 			return;
@@ -355,22 +421,32 @@ async function openDetail(id) {
 	const revisit = await store.getRevisit(id);
 	if (!revisit) return;
 	const visits = await store.listVisitsForRevisit(id);
+	const hasLocation = revisit.mapLat != null && revisit.mapLng != null;
 
 	const sheet = openModal(`${revisit.emoji || ''} ${escapeHTML(revisit.name || '')} ${escapeHTML(revisit.lastName || '')}`.trim(), `
 		<div class="row wrap" style="gap:8px; margin-bottom:12px;">
-			<span class="badge ${revisit.visitType === 'Estudio' ? '' : ''}" style="background:${revisit.visitType === 'Estudio' ? 'var(--estudio)' : 'var(--revisita)'};">${revisit.visitType}</span>
+			<span class="badge" style="background:${revisit.visitType === 'Estudio' ? 'var(--estudio)' : 'var(--revisita)'};">${escapeHTML(visitTypeLabel(revisit.visitType))}</span>
 			${revisit.phone ? `<a href="tel:${escapeHTML(revisit.phone)}" class="badge upcoming"><i class="fas fa-phone"></i> ${escapeHTML(revisit.phone)}</a>` : ''}
 		</div>
-		${revisit.houseDetails ? `<p><strong>Referencias de la casa:</strong> ${escapeHTML(revisit.houseDetails)}</p>` : ''}
-		${revisit.observations ? `<p><strong>Observaciones:</strong> ${escapeHTML(revisit.observations)}</p>` : ''}
-		${revisit.nextVisit ? `<p><strong>Próxima visita:</strong> ${formatDateLong(revisit.nextVisit)}</p>` : ''}
+		${revisit.houseDetails ? `<p><strong>${t('labelHouseDetailsColon')}</strong> ${escapeHTML(revisit.houseDetails)}</p>` : ''}
+		${revisit.observations ? `<p><strong>${t('labelObservationsColon')}</strong> ${escapeHTML(revisit.observations)}</p>` : ''}
+		${revisit.nextVisit ? `<p><strong>${t('labelNextVisitColon')}</strong> ${formatDateLong(revisit.nextVisit)}</p>` : ''}
+		${hasLocation ? `
+			<div class="card" style="padding:0; overflow:hidden; margin-bottom:12px;">
+				<iframe src="${geo.mapEmbedUrl(revisit.mapLat, revisit.mapLng)}" style="width:100%; height:160px; border:0; display:block;" loading="lazy"></iframe>
+			</div>
+			<div class="row" style="gap:10px; margin-bottom:12px;">
+				<a class="btn" href="${geo.mapEmbedUrl(revisit.mapLat, revisit.mapLng)}" target="_blank" rel="noopener"><i class="fas fa-map"></i> ${t('btnViewOnMap')}</a>
+				<a class="btn btn-primary" href="${geo.directionsUrl(revisit.mapLat, revisit.mapLng)}" target="_blank" rel="noopener"><i class="fas fa-diamond-turn-right"></i> ${t('btnGetDirections')}</a>
+			</div>
+		` : ''}
 		<div class="row" style="gap:10px; margin:14px 0;">
-			<button class="btn btn-ghost" id="editRevisitBtn"><i class="fas fa-pen"></i> Editar</button>
-			<button class="btn btn-primary" id="addVisitBtn"><i class="fas fa-plus"></i> Nueva visita</button>
+			<button class="btn btn-ghost" id="editRevisitBtn"><i class="fas fa-pen"></i> ${t('edit')}</button>
+			<button class="btn btn-primary" id="addVisitBtn"><i class="fas fa-plus"></i> ${t('btnNewVisit')}</button>
 		</div>
-		<h2 style="font-size:14px;">Historial de visitas</h2>
+		<h2 style="font-size:14px;">${t('headingVisitHistory')}</h2>
 		<div id="visitHistory">
-			${visits.length ? '' : '<div class="empty-state">Sin visitas registradas todavía.</div>'}
+			${visits.length ? '' : `<div class="empty-state">${escapeHTML(t('emptyVisitHistory'))}</div>`}
 		</div>
 	`);
 
@@ -390,19 +466,19 @@ function renderVisitLogItem(visit) {
 	el.innerHTML = `
 		<div class="row between">
 			<strong>${formatDateLong(visit.date)}</strong>
-			${visit.studie ? '<span class="badge" style="background:var(--estudio);">Estudio</span>' : ''}
+			${visit.studie ? `<span class="badge" style="background:var(--estudio);">${escapeHTML(t('wordEstudio'))}</span>` : ''}
 		</div>
 		${visit.visitSumaryNotes ? `<p style="margin:6px 0 0;">${escapeHTML(visit.visitSumaryNotes)}</p>` : ''}
-		${visit.nextVisit ? `<p style="margin:6px 0 0; font-size:13px; color:var(--text-muted);">Próxima visita: ${formatDateLong(visit.nextVisit)}${visit.nextVisitNotes ? ' — ' + escapeHTML(visit.nextVisitNotes) : ''}</p>` : ''}
+		${visit.nextVisit ? `<p style="margin:6px 0 0; font-size:13px; color:var(--text-muted);">${t('visitNextVisitPrefix')} ${formatDateLong(visit.nextVisit)}${visit.nextVisitNotes ? ' — ' + escapeHTML(visit.nextVisitNotes) : ''}</p>` : ''}
 	`;
 	return el;
 }
 
 async function openVisitForm(revisit) {
-	const sheet = openModal('Nueva visita', `
+	const sheet = openModal(t('newVisitTitle'), `
 		<form id="visitForm">
 			${visitFieldsHTML({})}
-			<button type="submit" class="btn btn-primary btn-block" style="margin-top:12px;">Guardar</button>
+			<button type="submit" class="btn btn-primary btn-block" style="margin-top:12px;">${t('save')}</button>
 		</form>
 	`);
 
@@ -416,7 +492,7 @@ async function openVisitForm(revisit) {
 		await store.saveVisit(visit);
 		await store.saveRevisit({ ...revisit, lastVisit: visit.date, nextVisit: visit.nextVisit || revisit.nextVisit });
 		closeModal();
-		showToast('Visita guardada');
+		showToast(t('toastVisitSaved'));
 		openDetail(revisit.id);
 		renderCurrentIfMounted();
 	});

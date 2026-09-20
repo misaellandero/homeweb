@@ -31,7 +31,10 @@ export const settings = {
 	set yearPeriodKind(v) { setJSON('yearPeriodKind', v); },
 
 	get notificationsEnabled() { return getJSON('notificationsEnabled', false); },
-	set notificationsEnabled(v) { setJSON('notificationsEnabled', !!v); }
+	set notificationsEnabled(v) { setJSON('notificationsEnabled', !!v); },
+
+	get language() { return getJSON('language', null); },
+	set language(v) { setJSON('language', v); }
 };
 
 export function getTimerState() {

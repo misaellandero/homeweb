@@ -2,17 +2,20 @@ import * as revisitsView from './views/revisits.js';
 import * as reportsView from './views/reports.js';
 import * as goalsView from './views/goals.js';
 import * as settingsView from './views/settingsView.js';
+import { settings } from './settings.js';
+import { initLanguage, onLanguageChange, getLanguage, t } from './i18n.js';
 
 const TABS = [
-	{ id: 'revisitas', label: 'Revisitas', icon: 'fa-door-open', module: revisitsView },
-	{ id: 'informes', label: 'Informes', icon: 'fa-chart-simple', module: reportsView },
-	{ id: 'metas', label: 'Metas', icon: 'fa-bullseye', module: goalsView },
-	{ id: 'ajustes', label: 'Ajustes', icon: 'fa-gear', module: settingsView }
+	{ id: 'revisitas', icon: 'fa-door-open', module: revisitsView, labelKey: 'tabRevisitas' },
+	{ id: 'informes', icon: 'fa-chart-simple', module: reportsView, labelKey: 'tabInformes' },
+	{ id: 'metas', icon: 'fa-bullseye', module: goalsView, labelKey: 'tabMetas' },
+	{ id: 'ajustes', icon: 'fa-gear', module: settingsView, labelKey: 'tabAjustes' }
 ];
 
 let activeTab = 'revisitas';
 
 function buildShell() {
+	document.documentElement.lang = getLanguage();
 	const main = document.getElementById('app-main');
 	main.innerHTML = TABS.map((tab) => `<div class="view" id="view-${tab.id}"></div>`).join('');
 
@@ -20,13 +23,19 @@ function buildShell() {
 	tabbar.innerHTML = TABS.map((tab) => `
 		<button data-tab="${tab.id}" class="${tab.id === activeTab ? 'active' : ''}">
 			<i class="fas ${tab.icon}"></i>
-			<span>${tab.label}</span>
+			<span>${t(tab.labelKey)}</span>
 		</button>
 	`).join('');
 
 	tabbar.querySelectorAll('button').forEach((btn) => {
 		btn.addEventListener('click', () => switchTab(btn.dataset.tab));
 	});
+
+	const fab = document.getElementById('app-fab');
+	fab.setAttribute('aria-label', t('addAria'));
+
+	const siteLink = document.getElementById('site-link');
+	if (siteLink) siteLink.textContent = t('siteLink');
 }
 
 async function switchTab(tabId) {
@@ -53,6 +62,14 @@ function wireFab() {
 }
 
 async function bootstrap() {
+	initLanguage(settings.language);
+	onLanguageChange(async (code) => {
+		settings.language = code;
+		buildShell();
+		wireFab();
+		await switchTab(activeTab);
+	});
+
 	buildShell();
 	wireFab();
 	await switchTab(activeTab);

@@ -1,3 +1,5 @@
+import { getLocale } from './i18n.js';
+
 export function uid() {
 	if (crypto.randomUUID) return crypto.randomUUID();
 	return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
@@ -63,17 +65,17 @@ export function formatHours(hours) {
 	return `${wholeHours}h ${minutes}min`;
 }
 
-export function formatDateLong(isoDate, locale = 'es-MX') {
+export function formatDateLong(isoDate, locale = getLocale()) {
 	const d = new Date(isoDate + (isoDate.length === 10 ? 'T00:00:00' : ''));
 	return d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
-export function formatDateShort(isoDate, locale = 'es-MX') {
+export function formatDateShort(isoDate, locale = getLocale()) {
 	const d = new Date(isoDate + (isoDate.length === 10 ? 'T00:00:00' : ''));
 	return d.toLocaleDateString(locale, { day: 'numeric', month: 'short' });
 }
 
-export function monthLabel(year, month, locale = 'es-MX') {
+export function monthLabel(year, month, locale = getLocale()) {
 	const d = new Date(year, month, 1);
 	const label = d.toLocaleDateString(locale, { month: 'long', year: 'numeric' });
 	return label.charAt(0).toUpperCase() + label.slice(1);

@@ -2,7 +2,8 @@ import * as store from '../store.js';
 import { openModal, closeModal, showToast } from '../ui.js';
 import { escapeHTML, formatHours, formatDateLong, monthLabel, daysInMonth, toISODate } from '../utils.js';
 import { settings } from '../settings.js';
-import { WEEKDAY_SHORT, WEEKDAY_NAMES, MEDAL_TYPES } from '../constants.js';
+import { MEDAL_IMAGES } from '../constants.js';
+import { t, weekdayName, weekdayShortName, medalLabel } from '../i18n.js';
 
 let scope = 'mes';
 let viewDate = new Date();
@@ -13,15 +14,15 @@ export async function render(container) {
 
 	container.innerHTML = `
 		<div class="card">
-			<h2 style="margin:0 0 10px;">Metas de servicio</h2>
+			<h2 style="margin:0 0 10px;">${t('headingGoals')}</h2>
 			<div class="segmented" id="scopeSeg">
-				<button data-scope="mes" class="${scope === 'mes' ? 'active' : ''}">Mes</button>
-				<button data-scope="año" class="${scope === 'año' ? 'active' : ''}">Año</button>
+				<button data-scope="mes" class="${scope === 'mes' ? 'active' : ''}">${t('scopeMonth')}</button>
+				<button data-scope="año" class="${scope === 'año' ? 'active' : ''}">${t('scopeYear')}</button>
 			</div>
 			${scope === 'año' ? `
 			<div class="segmented" id="yearKindSeg" style="margin-top:8px;">
-				<button data-kind="calendario" class="${settings.yearPeriodKind === 'calendario' ? 'active' : ''}">Año calendario</button>
-				<button data-kind="servicio" class="${settings.yearPeriodKind === 'servicio' ? 'active' : ''}">Año de servicio</button>
+				<button data-kind="calendario" class="${settings.yearPeriodKind === 'calendario' ? 'active' : ''}">${t('yearKindCalendar')}</button>
+				<button data-kind="servicio" class="${settings.yearPeriodKind === 'servicio' ? 'active' : ''}">${t('yearKindService')}</button>
 			</div>` : ''}
 			<div id="scopeStats" style="margin-top:14px;"></div>
 		</div>
@@ -37,14 +38,14 @@ export async function render(container) {
 		</div>` : ''}
 
 		<div class="card">
-			<h2><i class="fas fa-medal"></i> Medallas</h2>
+			<h2><i class="fas fa-medal"></i> ${t('headingMedals')}</h2>
 			<div id="medalsRow"></div>
 		</div>
 
 		<div class="card">
 			<div class="row between">
-				<h2 style="margin:0;">Tipos de servicio</h2>
-				<button class="btn btn-primary" id="newServiceBtn"><i class="fas fa-plus"></i> Nuevo</button>
+				<h2 style="margin:0;">${t('headingServiceTypes')}</h2>
+				<button class="btn btn-primary" id="newServiceBtn"><i class="fas fa-plus"></i> ${t('btnNewService')}</button>
 			</div>
 			<div id="servicesList"></div>
 		</div>
@@ -99,7 +100,7 @@ async function renderScopeStats(container, monthlyGoal) {
 	el.innerHTML = `
 		<div class="row between" style="margin-bottom:6px; font-size:14px;">
 			<span>${formatHours(hours)}</span>
-			<span style="color:var(--text-muted);">${goal > 0 ? 'Meta: ' + formatHours(goal) : 'Sin meta definida'}</span>
+			<span style="color:var(--text-muted);">${goal > 0 ? t('goalLabelPrefix') + ' ' + formatHours(goal) : t('noGoalDefined')}</span>
 		</div>
 		<div style="background:var(--border); border-radius:999px; height:10px; overflow:hidden;">
 			<div style="width:${pct}%; height:100%; background:linear-gradient(90deg, var(--brand-start), var(--brand-end));"></div>
@@ -128,7 +129,7 @@ async function renderCalendar(container) {
 	const firstWeekday = monthStart.getDay();
 	const todayISOValue = toISODate(new Date());
 
-	grid.innerHTML = WEEKDAY_SHORT.map((d) => `<div class="dow">${d}</div>`).join('');
+	grid.innerHTML = Array.from({ length: 7 }, (_, i) => `<div class="dow">${escapeHTML(weekdayShortName(i))}</div>`).join('');
 
 	for (let i = 0; i < firstWeekday; i++) {
 		grid.insertAdjacentHTML('beforeend', '<div class="calendar-day empty"></div>');
@@ -157,15 +158,15 @@ async function openDayDetail(iso) {
 	const reports = await store.listReports();
 	const dayReports = reports.filter((r) => r.date.slice(0, 10) === iso);
 	const services = await store.listServices();
-	const serviceName = (id) => services.find((s) => s.id === id)?.name || 'Servicio';
+	const serviceName = (id) => services.find((s) => s.id === id)?.name || t('wordServicio');
 
 	openModal(formatDateLong(iso), `
 		${dayReports.length ? dayReports.map((r) => `
 			<div class="card">
 				<div class="row between"><strong>${formatHours(r.hours)}</strong><span class="sub">${escapeHTML(serviceName(r.serviceId))}</span></div>
-				<div class="sub">${r.studies ? r.studies + ' estudio(s)' : ''} ${r.returnVisits ? r.returnVisits + ' revisita(s)' : ''}</div>
+				<div class="sub">${r.studies ? t('wordEstudios') + ': ' + r.studies : ''} ${r.returnVisits ? t('wordRevisitas') + ': ' + r.returnVisits : ''}</div>
 			</div>
-		`).join('') : '<div class="empty-state">Sin informes ese día.</div>'}
+		`).join('') : `<div class="empty-state">${escapeHTML(t('dayDetailEmpty'))}</div>`}
 	`);
 }
 
@@ -173,12 +174,12 @@ async function renderMedals(container) {
 	const medals = await store.listMedals();
 	const el = container.querySelector('#medalsRow');
 	if (!medals.length) {
-		el.innerHTML = '<div class="empty-state">Aún no ganas medallas. ¡Cumple tus metas para desbloquearlas!</div>';
+		el.innerHTML = `<div class="empty-state">${escapeHTML(t('emptyMedals'))}</div>`;
 		return;
 	}
 	el.innerHTML = `<div class="medal-row">${medals.map((m) => `
 		<div class="medal">
-			<img src="${MEDAL_TYPES[m.type]?.image || ''}" alt="${escapeHTML(MEDAL_TYPES[m.type]?.label || m.type)}">
+			<img src="${MEDAL_IMAGES[m.type] || ''}" alt="${escapeHTML(medalLabel(m.type))}">
 			<div class="medal-label">${formatDateLong(m.date)}</div>
 		</div>
 	`).join('')}</div>`;
@@ -187,7 +188,7 @@ async function renderMedals(container) {
 async function renderServicesList(container, services) {
 	const el = container.querySelector('#servicesList');
 	if (!services.length) {
-		el.innerHTML = '<div class="empty-state">Crea un tipo de servicio para definir tus metas de horas.</div>';
+		el.innerHTML = `<div class="empty-state">${escapeHTML(t('emptyServices'))}</div>`;
 		return;
 	}
 	el.innerHTML = '';
@@ -198,7 +199,7 @@ async function renderServicesList(container, services) {
 			<div class="avatar revisita"><i class="fas fa-bullseye"></i></div>
 			<div class="meta">
 				<div class="name">${escapeHTML(service.name)}</div>
-				<div class="sub">Meta mensual: ${formatHours(service.timeGoal || 0)}</div>
+				<div class="sub">${t('monthlyGoalPrefix')} ${formatHours(service.timeGoal || 0)}</div>
 			</div>
 		`;
 		row.addEventListener('click', () => openServiceForm(service));
@@ -210,38 +211,38 @@ async function openServiceForm(service) {
 	const dayGoals = service ? await store.listDayGoals(service.id) : [];
 	const goalsByDay = Array.from({ length: 7 }, (_, i) => dayGoals.find((g) => g.day === i)?.goal || 0);
 
-	const sheet = openModal(service ? 'Editar servicio' : 'Nuevo servicio', `
+	const sheet = openModal(service ? t('editServiceTitle') : t('newServiceTitle'), `
 		<form id="serviceForm">
 			<div class="field">
-				<label>Nombre</label>
-				<input name="name" required value="${escapeHTML(service?.name || '')}" placeholder="Ej. Precursor, Publicador...">
+				<label>${t('labelServiceName')}</label>
+				<input name="name" required value="${escapeHTML(service?.name || '')}" placeholder="${escapeHTML(t('placeholderServiceName'))}">
 			</div>
 			<div class="field">
-				<label>Meta mensual (horas)</label>
+				<label>${t('labelMonthlyGoal')}</label>
 				<input type="number" name="timeGoal" min="0" step="0.5" value="${service?.timeGoal || 0}">
 			</div>
-			<h2 style="font-size:14px;">Meta por día de la semana</h2>
+			<h2 style="font-size:14px;">${t('headingDayGoals')}</h2>
 			<div class="row wrap" style="gap:10px;">
-				${WEEKDAY_NAMES.map((name, i) => `
+				${Array.from({ length: 7 }, (_, i) => `
 					<div class="field" style="flex:1; min-width:110px;">
-						<label>${name}</label>
+						<label>${escapeHTML(weekdayName(i))}</label>
 						<input type="number" name="day${i}" min="0" step="0.25" value="${goalsByDay[i]}">
 					</div>
 				`).join('')}
 			</div>
 			<div class="row" style="gap:10px; margin-top:10px;">
 				${service ? `<button type="button" class="btn btn-danger" id="deleteServiceBtn"><i class="fas fa-trash"></i></button>` : ''}
-				<button type="submit" class="btn btn-primary btn-block">${service ? 'Actualizar' : 'Guardar'}</button>
+				<button type="submit" class="btn btn-primary btn-block">${service ? t('update') : t('save')}</button>
 			</div>
 		</form>
 	`);
 
 	if (service) {
 		sheet.querySelector('#deleteServiceBtn').addEventListener('click', async () => {
-			if (!confirm('¿Eliminar este tipo de servicio y sus informes asociados?')) return;
+			if (!confirm(t('confirmDeleteService'))) return;
 			await store.deleteService(service.id);
 			closeModal();
-			showToast('Servicio eliminado');
+			showToast(t('toastServiceDeleted'));
 			render(document.getElementById('view-metas'));
 		});
 	}
@@ -257,7 +258,7 @@ async function openServiceForm(service) {
 			extraTime: service?.extraTime || 0
 		}, dayValues);
 		closeModal();
-		showToast(service ? 'Servicio actualizado' : 'Servicio creado');
+		showToast(service ? t('toastServiceUpdated') : t('toastServiceCreated'));
 		render(document.getElementById('view-metas'));
 	});
 }
