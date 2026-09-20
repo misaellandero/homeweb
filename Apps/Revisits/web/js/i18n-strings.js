@@ -1,5 +1,6 @@
 const es = {
 	strings: {
+		manualInstallHintIOS: "En Safari: toca el botón Compartir (el cuadro con la flecha hacia arriba) y luego elige \"Añadir a pantalla de inicio\".",
 		btnPause: "Pausar", btnResume: "Reanudar", btnAddFirstRevisit: "Agregar revisita",
 		mapUnavailable: "No se pudo cargar el mapa. Revisa tu conexión a internet.",
 		installBannerTitle: "Instala Revisits Web", installBannerHint: "Agrégala a tu pantalla de inicio para usarla como una app.", btnInstallNow: "Instalar", btnNotNow: "Ahora no", headingInstall: "Instalar aplicación", btnInstallApp: "Instalar app", alreadyInstalledLabel: "Ya está instalada ✓", manualInstallHint: "Usa el menú de tu navegador y busca \"Instalar aplicación\" o \"Añadir a pantalla de inicio\".",
@@ -68,6 +69,7 @@ const es = {
 
 const en = {
 	strings: {
+		manualInstallHintIOS: "In Safari: tap the Share button (the square with an arrow pointing up), then choose \"Add to Home Screen\".",
 		btnPause: "Pause", btnResume: "Resume", btnAddFirstRevisit: "Add return visit",
 		mapUnavailable: "Could not load the map. Check your internet connection.",
 		installBannerTitle: "Install Revisits Web", installBannerHint: "Add it to your home screen to use it like an app.", btnInstallNow: "Install", btnNotNow: "Not now", headingInstall: "Install app", btnInstallApp: "Install app", alreadyInstalledLabel: "Already installed ✓", manualInstallHint: "Use your browser menu and look for \"Install app\" or \"Add to Home screen\".",
@@ -136,6 +138,7 @@ const en = {
 
 const de = {
 	strings: {
+		manualInstallHintIOS: "In Safari: Tippe auf die Teilen-Schaltfläche (das Quadrat mit dem Pfeil nach oben) und wähle dann „Zum Home-Bildschirm“.",
 		btnPause: "Pausieren", btnResume: "Fortsetzen", btnAddFirstRevisit: "Rückbesuch hinzufügen",
 		mapUnavailable: "Die Karte konnte nicht geladen werden. Überprüfe deine Internetverbindung.",
 		installBannerTitle: "Revisits Web installieren", installBannerHint: "Füge sie zu deinem Startbildschirm hinzu, um sie wie eine App zu nutzen.", btnInstallNow: "Installieren", btnNotNow: "Nicht jetzt", headingInstall: "App installieren", btnInstallApp: "App installieren", alreadyInstalledLabel: "Bereits installiert ✓", manualInstallHint: "Öffne das Browsermenü und suche nach „App installieren“ oder „Zum Startbildschirm hinzufügen“.",
@@ -204,6 +207,7 @@ const de = {
 
 const fr = {
 	strings: {
+		manualInstallHintIOS: "Dans Safari : appuie sur le bouton Partager (le carré avec une flèche vers le haut), puis choisis « Sur l’écran d’accueil ».",
 		btnPause: "Pause", btnResume: "Reprendre", btnAddFirstRevisit: "Ajouter une visite",
 		mapUnavailable: "Impossible de charger la carte. Vérifie ta connexion internet.",
 		installBannerTitle: "Installer Revisits Web", installBannerHint: "Ajoute-la à ton écran d’accueil pour l’utiliser comme une application.", btnInstallNow: "Installer", btnNotNow: "Pas maintenant", headingInstall: "Installer l’application", btnInstallApp: "Installer l’application", alreadyInstalledLabel: "Déjà installée ✓", manualInstallHint: "Utilise le menu de ton navigateur et cherche « Installer l’application » ou « Ajouter à l’écran d’accueil ».",
@@ -272,6 +276,7 @@ const fr = {
 
 const it = {
 	strings: {
+		manualInstallHintIOS: "In Safari: tocca il pulsante Condividi (il quadrato con la freccia verso l'alto), poi scegli \"Aggiungi a Home\".",
 		btnPause: "Pausa", btnResume: "Riprendi", btnAddFirstRevisit: "Aggiungi revisita",
 		mapUnavailable: "Impossibile caricare la mappa. Controlla la tua connessione internet.",
 		installBannerTitle: "Installa Revisits Web", installBannerHint: "Aggiungila alla schermata Home per usarla come un’app.", btnInstallNow: "Installa", btnNotNow: "Non ora", headingInstall: "Installa app", btnInstallApp: "Installa app", alreadyInstalledLabel: "Già installata ✓", manualInstallHint: "Usa il menu del browser e cerca \"Installa app\" o \"Aggiungi a schermata Home\".",
@@ -340,6 +345,7 @@ const it = {
 
 const pt = {
 	strings: {
+		manualInstallHintIOS: "No Safari: toca no botão Partilhar (o quadrado com uma seta para cima) e depois escolhe \"Adicionar ao ecrã principal\".",
 		btnPause: "Pausar", btnResume: "Retomar", btnAddFirstRevisit: "Adicionar revisita",
 		mapUnavailable: "Não foi possível carregar o mapa. Verifica a tua ligação à internet.",
 		installBannerTitle: "Instalar Revisits Web", installBannerHint: "Adiciona-a ao teu ecrã principal para a usares como uma app.", btnInstallNow: "Instalar", btnNotNow: "Agora não", headingInstall: "Instalar aplicação", btnInstallApp: "Instalar app", alreadyInstalledLabel: "Já instalada ✓", manualInstallHint: "Usa o menu do teu navegador e procura \"Instalar aplicação\" ou \"Adicionar ao ecrã principal\".",
@@ -408,6 +414,7 @@ const pt = {
 
 const nl = {
 	strings: {
+		manualInstallHintIOS: "In Safari: tik op de deelknop (het vierkant met een pijl omhoog) en kies dan \"Zet op beginscherm\".",
 		btnPause: "Pauzeren", btnResume: "Hervatten", btnAddFirstRevisit: "Nabezoek toevoegen",
 		mapUnavailable: "De kaart kon niet worden geladen. Controleer je internetverbinding.",
 		installBannerTitle: "Revisits Web installeren", installBannerHint: "Voeg het toe aan je startscherm om het als app te gebruiken.", btnInstallNow: "Installeren", btnNotNow: "Niet nu", headingInstall: "App installeren", btnInstallApp: "App installeren", alreadyInstalledLabel: "Al geïnstalleerd ✓", manualInstallHint: "Gebruik het browsermenu en zoek naar \"App installeren\" of \"Toevoegen aan startscherm\".",
@@ -476,6 +483,7 @@ const nl = {
 
 const el = {
 	strings: {
+		manualInstallHintIOS: "Στο Safari: πάτησε το κουμπί Κοινή χρήση (το τετράγωνο με το βέλος προς τα πάνω) και μετά επίλεξε «Προσθήκη στην αρχική οθόνη».",
 		btnPause: "Παύση", btnResume: "Συνέχιση", btnAddFirstRevisit: "Προσθήκη επανεπίσκεψης",
 		mapUnavailable: "Δεν ήταν δυνατή η φόρτωση του χάρτη. Έλεγξε τη σύνδεσή σου στο διαδίκτυο.",
 		installBannerTitle: "Εγκατάσταση Revisits Web", installBannerHint: "Πρόσθεσέ το στην αρχική οθόνη σου για να το χρησιμοποιείς σαν εφαρμογή.", btnInstallNow: "Εγκατάσταση", btnNotNow: "Όχι τώρα", headingInstall: "Εγκατάσταση εφαρμογής", btnInstallApp: "Εγκατάσταση εφαρμογής", alreadyInstalledLabel: "Έχει ήδη εγκατασταθεί ✓", manualInstallHint: "Χρησιμοποίησε το μενού του browser και αναζήτησε \"Εγκατάσταση εφαρμογής\" ή \"Προσθήκη στην αρχική οθόνη\".",
@@ -544,6 +552,7 @@ const el = {
 
 const pl = {
 	strings: {
+		manualInstallHintIOS: "W Safari: dotknij przycisku Udostępnij (kwadrat ze strzałką w górę), a następnie wybierz \"Dodaj do ekranu początkowego\".",
 		btnPause: "Wstrzymaj", btnResume: "Wznów", btnAddFirstRevisit: "Dodaj odwiedziny",
 		mapUnavailable: "Nie udało się wczytać mapy. Sprawdź swoje połączenie z internetem.",
 		installBannerTitle: "Zainstaluj Revisits Web", installBannerHint: "Dodaj ją do ekranu głównego, aby korzystać z niej jak z aplikacji.", btnInstallNow: "Zainstaluj", btnNotNow: "Nie teraz", headingInstall: "Zainstaluj aplikację", btnInstallApp: "Zainstaluj aplikację", alreadyInstalledLabel: "Już zainstalowana ✓", manualInstallHint: "Użyj menu przeglądarki i znajdź \"Zainstaluj aplikację\" lub \"Dodaj do ekranu głównego\".",
@@ -612,6 +621,7 @@ const pl = {
 
 const ru = {
 	strings: {
+		manualInstallHintIOS: "В Safari: нажмите кнопку «Поделиться» (квадрат со стрелкой вверх), затем выберите «На экран «Домой»».",
 		btnPause: "Пауза", btnResume: "Продолжить", btnAddFirstRevisit: "Добавить посещение",
 		mapUnavailable: "Не удалось загрузить карту. Проверьте подключение к интернету.",
 		installBannerTitle: "Установить Revisits Web", installBannerHint: "Добавьте его на главный экран, чтобы использовать как приложение.", btnInstallNow: "Установить", btnNotNow: "Не сейчас", headingInstall: "Установить приложение", btnInstallApp: "Установить приложение", alreadyInstalledLabel: "Уже установлено ✓", manualInstallHint: "Откройте меню браузера и найдите «Установить приложение» или «Добавить на главный экран».",
@@ -680,6 +690,7 @@ const ru = {
 
 const tr = {
 	strings: {
+		manualInstallHintIOS: "Safari'de: Paylaş düğmesine (yukarı ok işaretli kare) dokun, ardından \"Ana Ekrana Ekle\"yi seç.",
 		btnPause: "Duraklat", btnResume: "Devam et", btnAddFirstRevisit: "Tekrar ziyaret ekle",
 		mapUnavailable: "Harita yüklenemedi. İnternet bağlantını kontrol et.",
 		installBannerTitle: "Revisits Web’i yükle", installBannerHint: "Bir uygulama gibi kullanmak için ana ekranına ekle.", btnInstallNow: "Yükle", btnNotNow: "Şimdi değil", headingInstall: "Uygulamayı yükle", btnInstallApp: "Uygulamayı yükle", alreadyInstalledLabel: "Zaten yüklü ✓", manualInstallHint: "Tarayıcı menünü kullan ve \"Uygulamayı yükle\" veya \"Ana ekrana ekle\" seçeneğini ara.",
@@ -748,6 +759,7 @@ const tr = {
 
 const uk = {
 	strings: {
+		manualInstallHintIOS: "У Safari: торкніться кнопки «Поділитися» (квадрат зі стрілкою вгору), потім виберіть «На початковий екран».",
 		btnPause: "Пауза", btnResume: "Продовжити", btnAddFirstRevisit: "Додати відвідини",
 		mapUnavailable: "Не вдалося завантажити карту. Перевірте підключення до інтернету.",
 		installBannerTitle: "Встановити Revisits Web", installBannerHint: "Додайте його на головний екран, щоб використовувати як застосунок.", btnInstallNow: "Встановити", btnNotNow: "Не зараз", headingInstall: "Встановити застосунок", btnInstallApp: "Встановити застосунок", alreadyInstalledLabel: "Вже встановлено ✓", manualInstallHint: "Відкрийте меню браузера і знайдіть «Встановити застосунок» або «Додати на головний екран».",
@@ -816,6 +828,7 @@ const uk = {
 
 const vi = {
 	strings: {
+		manualInstallHintIOS: "Trong Safari: chạm vào nút Chia sẻ (hình vuông có mũi tên hướng lên), sau đó chọn \"Thêm vào MH chính\".",
 		btnPause: "Tạm dừng", btnResume: "Tiếp tục", btnAddFirstRevisit: "Thêm cuộc thăm lại",
 		mapUnavailable: "Không thể tải bản đồ. Hãy kiểm tra kết nối internet của bạn.",
 		installBannerTitle: "Cài đặt Revisits Web", installBannerHint: "Thêm vào màn hình chính để dùng như một ứng dụng.", btnInstallNow: "Cài đặt", btnNotNow: "Để sau", headingInstall: "Cài đặt ứng dụng", btnInstallApp: "Cài đặt ứng dụng", alreadyInstalledLabel: "Đã cài đặt ✓", manualInstallHint: "Dùng menu trình duyệt và tìm \"Cài đặt ứng dụng\" hoặc \"Thêm vào màn hình chính\".",
@@ -884,6 +897,7 @@ const vi = {
 
 const id = {
 	strings: {
+		manualInstallHintIOS: "Di Safari: ketuk tombol Bagikan (kotak dengan panah ke atas), lalu pilih \"Tambah ke Layar Utama\".",
 		btnPause: "Jeda", btnResume: "Lanjutkan", btnAddFirstRevisit: "Tambah kunjungan kembali",
 		mapUnavailable: "Tidak dapat memuat peta. Periksa koneksi internet Anda.",
 		installBannerTitle: "Instal Revisits Web", installBannerHint: "Tambahkan ke layar utama untuk menggunakannya seperti aplikasi.", btnInstallNow: "Instal", btnNotNow: "Nanti saja", headingInstall: "Instal aplikasi", btnInstallApp: "Instal aplikasi", alreadyInstalledLabel: "Sudah terinstal ✓", manualInstallHint: "Gunakan menu browser Anda dan cari \"Instal aplikasi\" atau \"Tambahkan ke layar utama\".",
@@ -952,6 +966,7 @@ const id = {
 
 const th = {
 	strings: {
+		manualInstallHintIOS: "ใน Safari: แตะปุ่มแชร์ (สี่เหลี่ยมที่มีลูกศรชี้ขึ้น) จากนั้นเลือก \"เพิ่มไปยังหน้าจอโฮม\"",
 		btnPause: "หยุดชั่วคราว", btnResume: "ดำเนินการต่อ", btnAddFirstRevisit: "เพิ่มการเยี่ยมเยียนซ้ำ",
 		mapUnavailable: "ไม่สามารถโหลดแผนที่ได้ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ตของคุณ",
 		installBannerTitle: "ติดตั้ง Revisits Web", installBannerHint: "เพิ่มลงในหน้าจอหลักเพื่อใช้งานเหมือนแอป", btnInstallNow: "ติดตั้ง", btnNotNow: "ไว้ทีหลัง", headingInstall: "ติดตั้งแอป", btnInstallApp: "ติดตั้งแอป", alreadyInstalledLabel: "ติดตั้งแล้ว ✓", manualInstallHint: "ใช้เมนูเบราว์เซอร์ของคุณและมองหา \"ติดตั้งแอป\" หรือ \"เพิ่มลงในหน้าจอหลัก\"",
@@ -1020,6 +1035,7 @@ const th = {
 
 const hi = {
 	strings: {
+		manualInstallHintIOS: "Safari में: शेयर बटन (ऊपर की ओर तीर वाला वर्ग) पर टैप करें, फिर \"होम स्क्रीन पर जोड़ें\" चुनें।",
 		btnPause: "रोकें", btnResume: "फिर से शुरू करें", btnAddFirstRevisit: "पुनः भेंट जोड़ें",
 		mapUnavailable: "मानचित्र लोड नहीं हो सका। कृपया अपना इंटरनेट कनेक्शन जांचें।",
 		installBannerTitle: "Revisits Web इंस्टॉल करें", installBannerHint: "इसे ऐप की तरह उपयोग करने के लिए अपनी होम स्क्रीन पर जोड़ें।", btnInstallNow: "इंस्टॉल करें", btnNotNow: "अभी नहीं", headingInstall: "ऐप इंस्टॉल करें", btnInstallApp: "ऐप इंस्टॉल करें", alreadyInstalledLabel: "पहले से इंस्टॉल है ✓", manualInstallHint: "अपने ब्राउज़र मेनू का उपयोग करें और \"ऐप इंस्टॉल करें\" या \"होम स्क्रीन पर जोड़ें\" खोजें।",
@@ -1088,6 +1104,7 @@ const hi = {
 
 const ja = {
 	strings: {
+		manualInstallHintIOS: "Safariで: 共有ボタン（上向き矢印の四角）をタップし、「ホーム画面に追加」を選択してください。",
 		btnPause: "一時停止", btnResume: "再開", btnAddFirstRevisit: "再訪問を追加",
 		mapUnavailable: "地図を読み込めませんでした。インターネット接続を確認してください。",
 		installBannerTitle: "Revisits Webをインストール", installBannerHint: "ホーム画面に追加してアプリのように使いましょう。", btnInstallNow: "インストール", btnNotNow: "今はしない", headingInstall: "アプリをインストール", btnInstallApp: "アプリをインストール", alreadyInstalledLabel: "インストール済み ✓", manualInstallHint: "ブラウザのメニューから「アプリをインストール」または「ホーム画面に追加」を探してください。",
@@ -1156,6 +1173,7 @@ const ja = {
 
 const ko = {
 	strings: {
+		manualInstallHintIOS: "Safari에서: 공유 버튼(위쪽 화살표가 있는 사각형)을 탭한 다음 \"홈 화면에 추가\"를 선택하세요.",
 		btnPause: "일시정지", btnResume: "재개", btnAddFirstRevisit: "재방문 추가",
 		mapUnavailable: "지도를 불러올 수 없습니다. 인터넷 연결을 확인하세요.",
 		installBannerTitle: "Revisits Web 설치", installBannerHint: "앱처럼 사용하려면 홈 화면에 추가하세요.", btnInstallNow: "설치", btnNotNow: "나중에", headingInstall: "앱 설치", btnInstallApp: "앱 설치", alreadyInstalledLabel: "이미 설치됨 ✓", manualInstallHint: "브라우저 메뉴에서 \"앱 설치\" 또는 \"홈 화면에 추가\"를 찾으세요.",

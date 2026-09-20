@@ -3,7 +3,7 @@ import { exportBackup, importBackup } from '../store.js';
 import { showToast } from '../ui.js';
 import { requestNotificationPermission } from '../notifications.js';
 import { t, getLanguage, setLanguage, LANGUAGES } from '../i18n.js';
-import { canPromptInstall, triggerInstall, isStandalone, onInstallStateChange } from '../install.js';
+import { canPromptInstall, triggerInstall, isStandalone, isIOS, onInstallStateChange } from '../install.js';
 
 export async function render(container) {
 	container.innerHTML = `
@@ -125,6 +125,9 @@ function installSectionHTML() {
 	}
 	if (canPromptInstall()) {
 		return `<button class="btn btn-primary" id="installAppBtn"><i class="fas fa-download"></i> ${t('btnInstallApp')}</button>`;
+	}
+	if (isIOS()) {
+		return `<p class="sub"><i class="fas fa-share-square"></i> ${t('manualInstallHintIOS')}</p>`;
 	}
 	return `<p class="sub">${t('manualInstallHint')}</p>`;
 }

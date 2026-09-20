@@ -27,6 +27,13 @@ export function isStandalone() {
 	return window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true;
 }
 
+export function isIOS() {
+	const ua = navigator.userAgent || '';
+	const isIOSDevice = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+	const isIPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+	return isIOSDevice || isIPadOS;
+}
+
 export function onInstallStateChange(callback) {
 	onStateChange = callback;
 }
