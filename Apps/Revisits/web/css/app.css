@@ -12,6 +12,19 @@
 	--border: #e3e8f0;
 	--radius: 14px;
 	--shadow: 0 6px 20px rgba(20, 40, 90, 0.08);
+	--elevation-1: 0 1px 3px rgba(0, 0, 0, 0.14), 0 1px 2px rgba(0, 0, 0, 0.10);
+	--elevation-3: 0 4px 8px rgba(0, 0, 0, 0.18), 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #121212;
+		--surface: #1e1e1e;
+		--text: #ececec;
+		--text-muted: #9aa2ad;
+		--border: #33383f;
+		--shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+	}
 }
 
 * {
@@ -30,6 +43,11 @@ body {
 	background: var(--bg);
 	color: var(--text);
 	padding-bottom: 72px;
+	transition: padding-bottom 0.15s ease;
+}
+
+body.has-install-banner {
+	padding-bottom: 220px;
 }
 
 button {
@@ -89,7 +107,7 @@ main {
 .card {
 	background: var(--surface);
 	border-radius: var(--radius);
-	box-shadow: var(--shadow);
+	box-shadow: var(--elevation-1);
 	padding: 16px;
 	margin-bottom: 16px;
 }
@@ -133,7 +151,7 @@ main {
 	border-radius: 10px;
 	padding: 10px 12px;
 	font-size: 15px;
-	background: #fff;
+	background: var(--surface);
 	color: var(--text);
 	width: 100%;
 }
@@ -156,6 +174,11 @@ main {
 	cursor: pointer;
 	background: var(--border);
 	color: var(--text);
+	transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn:active {
+	transform: scale(0.96);
 }
 
 .btn-primary {
@@ -189,9 +212,14 @@ main {
 	color: #fff;
 	font-size: 28px;
 	border: none;
-	box-shadow: var(--shadow);
+	box-shadow: var(--elevation-3);
 	cursor: pointer;
 	z-index: 15;
+	transition: transform 0.1s ease;
+}
+
+.fab:active {
+	transform: scale(0.94);
 }
 
 .tabbar {
@@ -203,15 +231,16 @@ main {
 	background: var(--surface);
 	border-top: 1px solid var(--border);
 	z-index: 20;
+	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .tabbar button {
 	flex: 1;
 	border: none;
 	background: none;
-	padding: 10px 0 8px;
+	padding: 8px 0 6px;
 	color: var(--text-muted);
-	font-size: 12px;
+	font-size: 11px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -220,7 +249,17 @@ main {
 }
 
 .tabbar button i {
-	font-size: 18px;
+	font-size: 16px;
+	width: 44px;
+	height: 22px;
+	line-height: 22px;
+	border-radius: 999px;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tabbar button.active i {
+	background: color-mix(in srgb, var(--brand) 18%, transparent);
+	color: var(--brand);
 }
 
 .tabbar button.active {
@@ -234,6 +273,12 @@ main {
 	padding: 12px 0;
 	border-bottom: 1px solid var(--border);
 	cursor: pointer;
+	transition: background-color 0.1s ease;
+	border-radius: 10px;
+}
+
+.list-item:active {
+	background-color: color-mix(in srgb, var(--text) 6%, transparent);
 }
 
 .list-item:last-child {
@@ -296,28 +341,32 @@ main {
 
 .segmented {
 	display: flex;
-	background: var(--border);
-	border-radius: 10px;
-	padding: 3px;
-	gap: 3px;
+	flex-wrap: wrap;
+	gap: 8px;
 }
 
 .segmented button {
 	flex: 1;
-	border: none;
-	background: none;
-	padding: 8px 0;
-	border-radius: 8px;
+	min-width: fit-content;
+	border: 1px solid var(--border);
+	background: transparent;
+	padding: 8px 14px;
+	border-radius: 999px;
 	font-size: 13px;
 	font-weight: 600;
 	color: var(--text-muted);
 	cursor: pointer;
+	transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease, transform 0.1s ease;
+}
+
+.segmented button:active {
+	transform: scale(0.96);
 }
 
 .segmented button.active {
-	background: #fff;
-	color: var(--brand);
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+	background: var(--brand);
+	border-color: var(--brand);
+	color: #fff;
 }
 
 .stat-grid {
@@ -449,7 +498,8 @@ main {
 }
 
 .modal-sheet {
-	background: #fff;
+	background: var(--surface);
+	color: var(--text);
 	width: 100%;
 	max-width: 720px;
 	max-height: 90vh;
@@ -521,4 +571,51 @@ main {
 
 .toast.show {
 	opacity: 1;
+}
+
+.territorios-map {
+	margin: -16px;
+	height: calc(100dvh - 220px);
+	min-height: 320px;
+	background: var(--bg);
+}
+
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+	background: var(--surface);
+	color: var(--text);
+}
+
+.install-banner {
+	position: fixed;
+	left: 12px;
+	right: 12px;
+	bottom: 148px;
+	z-index: 25;
+	background: var(--surface);
+	border-radius: var(--radius);
+	box-shadow: var(--elevation-3);
+	padding: 14px 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.install-banner-text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	font-size: 13px;
+	color: var(--text-muted);
+}
+
+.install-banner-text strong {
+	color: var(--text);
+	font-size: 15px;
+}
+
+.install-banner-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
 }

@@ -1,15 +1,18 @@
+import * as territoriosView from './views/territorios.js';
 import * as revisitsView from './views/revisits.js';
 import * as reportsView from './views/reports.js';
 import * as goalsView from './views/goals.js';
 import * as settingsView from './views/settingsView.js';
 import { settings } from './settings.js';
 import { initLanguage, onLanguageChange, getLanguage, t } from './i18n.js';
+import { initInstallPrompt } from './install.js';
 
 const TABS = [
-	{ id: 'revisitas', icon: 'fa-door-open', module: revisitsView, labelKey: 'tabRevisitas' },
-	{ id: 'informes', icon: 'fa-chart-simple', module: reportsView, labelKey: 'tabInformes' },
-	{ id: 'metas', icon: 'fa-bullseye', module: goalsView, labelKey: 'tabMetas' },
-	{ id: 'ajustes', icon: 'fa-gear', module: settingsView, labelKey: 'tabAjustes' }
+	{ id: 'territorios', icon: 'fa-map-marked-alt', module: territoriosView, labelKey: 'tabTerritorios' },
+	{ id: 'revisitas', icon: 'fa-book', module: revisitsView, labelKey: 'tabRevisitas' },
+	{ id: 'informes', icon: 'fa-chart-pie', module: reportsView, labelKey: 'tabInformes' },
+	{ id: 'metas', icon: 'fa-calendar-alt', module: goalsView, labelKey: 'tabMetas' },
+	{ id: 'ajustes', icon: 'fa-cog', module: settingsView, labelKey: 'tabAjustes' }
 ];
 
 let activeTab = 'revisitas';
@@ -73,6 +76,7 @@ async function bootstrap() {
 	buildShell();
 	wireFab();
 	await switchTab(activeTab);
+	initInstallPrompt();
 
 	if ('serviceWorker' in navigator) {
 		navigator.serviceWorker.register('./sw.js').catch((err) => {
