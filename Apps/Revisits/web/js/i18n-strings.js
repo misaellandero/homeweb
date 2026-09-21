@@ -66,7 +66,9 @@ const es = {
 		notificationsDeniedHint: 'Bloqueaste las notificaciones en el navegador. Actívalas desde la configuración del sitio para recibir recordatorios.',
 		headingSupport: 'Apoyar Revisits', supportHint: 'Si Revisits te ayuda en tu servicio, considera apoyar su desarrollo con una donación por PayPal.', btnSupport: 'Apoyar la app',
 		manualInstallHintSafariMac: 'En Safari (Mac): en el menú Archivo, elige "Añadir al Dock…", o usa el botón Compartir y selecciona "Añadir al Dock".',
-		headingOtherApps: 'Mis otras apps', otherAppsHint: 'Descubre más apps que he creado.', mapYouAreHere: 'Estás aquí'
+		headingOtherApps: 'Mis otras apps', otherAppsHint: 'Descubre más apps que he creado.', mapYouAreHere: 'Estás aquí',
+		btnExportToIOS: 'Exportar a iOS/Mac', installBannerAppleTitle: 'Revisits para iPhone, iPad y Mac', installBannerAppleHint: 'Obtén la app nativa completa desde el App Store.',
+		btnGetAppStore: 'Ver en App Store', updateBannerTitle: 'Nueva versión disponible', updateBannerHint: 'Actualiza para obtener las últimas mejoras.', btnUpdateNow: 'Actualizar'
 	},
 	personTypes: ['Ancianito', 'Ancianita', 'Señor', 'Señora', 'Joven', 'Adulto', 'Señorita', 'Niño', 'Niña', 'Mujer', 'Madre', 'Madre joven', 'Padre', 'Padre joven'],
 	sources: ['Biblia', 'Video', 'Publicación'],
@@ -144,7 +146,9 @@ const en = {
 		notificationsDeniedHint: 'You blocked notifications in your browser. Enable them from the site settings to get reminders.',
 		headingSupport: 'Support Revisits', supportHint: 'If Revisits helps with your ministry, consider supporting its development with a PayPal donation.', btnSupport: 'Support the app',
 		manualInstallHintSafariMac: 'In Safari (Mac): from the File menu choose "Add to Dock…", or use the Share button and select "Add to Dock".',
-		headingOtherApps: 'My other apps', otherAppsHint: 'Check out more apps I\'ve built.', mapYouAreHere: 'You are here'
+		headingOtherApps: 'My other apps', otherAppsHint: 'Check out more apps I\'ve built.', mapYouAreHere: 'You are here',
+		btnExportToIOS: 'Export to iOS/Mac', installBannerAppleTitle: 'Revisits for iPhone, iPad, and Mac', installBannerAppleHint: 'Get the full native app from the App Store.',
+		btnGetAppStore: 'View on App Store', updateBannerTitle: 'New version available', updateBannerHint: 'Update to get the latest improvements.', btnUpdateNow: 'Update'
 	},
 	personTypes: ['Elderly man', 'Elderly woman', 'Man', 'Woman', 'Young person', 'Adult', 'Young woman', 'Boy', 'Girl', 'Woman', 'Mother', 'Young mother', 'Father', 'Young father'],
 	sources: ['Bible', 'Video', 'Publication'],
@@ -222,7 +226,9 @@ const de = {
 		notificationsDeniedHint: 'Du hast Benachrichtigungen in deinem Browser blockiert. Aktiviere sie in den Website-Einstellungen, um Erinnerungen zu erhalten.',
 		headingSupport: 'Revisits unterstützen', supportHint: 'Wenn dir Revisits in deinem Dienst hilft, unterstütze die Entwicklung mit einer PayPal-Spende.', btnSupport: 'App unterstützen',
 		manualInstallHintSafariMac: 'In Safari (Mac): Wähle im Menü „Ablage“ die Option „Zum Dock hinzufügen …“ oder nutze die Teilen-Schaltfläche und wähle „Zum Dock hinzufügen“.',
-		headingOtherApps: 'Meine anderen Apps', otherAppsHint: 'Entdecke weitere Apps von mir.', mapYouAreHere: 'Du bist hier'
+		headingOtherApps: 'Meine anderen Apps', otherAppsHint: 'Entdecke weitere Apps von mir.', mapYouAreHere: 'Du bist hier',
+		btnExportToIOS: 'Für iOS/Mac exportieren', installBannerAppleTitle: 'Revisits für iPhone, iPad und Mac', installBannerAppleHint: 'Hol dir die vollständige native App im App Store.',
+		btnGetAppStore: 'Im App Store ansehen', updateBannerTitle: 'Neue Version verfügbar', updateBannerHint: 'Aktualisiere, um die neuesten Verbesserungen zu erhalten.', btnUpdateNow: 'Aktualisieren'
 	},
 	personTypes: ['Alter Mann', 'Alte Frau', 'Mann', 'Frau', 'Junge Person', 'Erwachsener', 'Junge Frau', 'Junge', 'Mädchen', 'Frau', 'Mutter', 'Junge Mutter', 'Vater', 'Junger Vater'],
 	sources: ['Bibel', 'Video', 'Publikation'],
@@ -300,7 +306,9 @@ const fr = {
 		notificationsDeniedHint: 'Tu as bloqué les notifications dans ton navigateur. Active-les dans les paramètres du site pour recevoir des rappels.',
 		headingSupport: 'Soutenir Revisits', supportHint: 'Si Revisits t’aide dans ton service, envisage de soutenir son développement avec un don via PayPal.', btnSupport: 'Soutenir l’app',
 		manualInstallHintSafariMac: 'Dans Safari (Mac) : dans le menu Fichier, choisis « Ajouter au Dock… », ou utilise le bouton Partager et sélectionne « Ajouter au Dock ».',
-		headingOtherApps: 'Mes autres apps', otherAppsHint: 'Découvre d’autres apps que j’ai créées.', mapYouAreHere: 'Tu es ici'
+		headingOtherApps: 'Mes autres apps', otherAppsHint: 'Découvre d’autres apps que j’ai créées.', mapYouAreHere: 'Tu es ici',
+		btnExportToIOS: 'Exporter vers iOS/Mac', installBannerAppleTitle: 'Revisits pour iPhone, iPad et Mac', installBannerAppleHint: 'Obtiens l’app native complète sur l’App Store.',
+		btnGetAppStore: 'Voir sur l’App Store', updateBannerTitle: 'Nouvelle version disponible', updateBannerHint: 'Mets à jour pour profiter des dernières améliorations.', btnUpdateNow: 'Mettre à jour'
 	},
 	personTypes: ['Homme âgé', 'Femme âgée', 'Homme', 'Femme', 'Jeune', 'Adulte', 'Jeune femme', 'Garçon', 'Fille', 'Femme', 'Mère', 'Jeune mère', 'Père', 'Jeune père'],
 	sources: ['Bible', 'Vidéo', 'Publication'],
@@ -378,7 +386,9 @@ const it = {
 		notificationsDeniedHint: 'Hai bloccato le notifiche nel browser. Attivale dalle impostazioni del sito per ricevere promemoria.',
 		headingSupport: 'Sostieni Revisits', supportHint: 'Se Revisits ti aiuta nel tuo servizio, considera di sostenere il suo sviluppo con una donazione tramite PayPal.', btnSupport: 'Sostieni l’app',
 		manualInstallHintSafariMac: 'In Safari (Mac): dal menu File scegli "Aggiungi al Dock…", oppure usa il pulsante Condividi e seleziona "Aggiungi al Dock".',
-		headingOtherApps: 'Le mie altre app', otherAppsHint: 'Scopri altre app che ho creato.', mapYouAreHere: 'Sei qui'
+		headingOtherApps: 'Le mie altre app', otherAppsHint: 'Scopri altre app che ho creato.', mapYouAreHere: 'Sei qui',
+		btnExportToIOS: 'Esporta per iOS/Mac', installBannerAppleTitle: 'Revisits per iPhone, iPad e Mac', installBannerAppleHint: 'Ottieni l’app nativa completa dall’App Store.',
+		btnGetAppStore: 'Vedi su App Store', updateBannerTitle: 'Nuova versione disponibile', updateBannerHint: 'Aggiorna per ottenere gli ultimi miglioramenti.', btnUpdateNow: 'Aggiorna'
 	},
 	personTypes: ['Uomo anziano', 'Donna anziana', 'Uomo', 'Donna', 'Giovane', 'Adulto', 'Signorina', 'Bambino', 'Bambina', 'Donna', 'Madre', 'Madre giovane', 'Padre', 'Padre giovane'],
 	sources: ['Bibbia', 'Video', 'Pubblicazione'],
@@ -456,7 +466,9 @@ const pt = {
 		notificationsDeniedHint: 'Bloqueaste as notificações no navegador. Ativa-as nas definições do site para receber lembretes.',
 		headingSupport: 'Apoiar o Revisits', supportHint: 'Se o Revisits te ajuda no teu serviço, considera apoiar o seu desenvolvimento com uma doação pelo PayPal.', btnSupport: 'Apoiar a app',
 		manualInstallHintSafariMac: 'No Safari (Mac): no menu Ficheiro, escolhe "Adicionar ao Dock…", ou usa o botão Partilhar e seleciona "Adicionar ao Dock".',
-		headingOtherApps: 'As minhas outras apps', otherAppsHint: 'Descobre mais apps que criei.', mapYouAreHere: 'Estás aqui'
+		headingOtherApps: 'As minhas outras apps', otherAppsHint: 'Descobre mais apps que criei.', mapYouAreHere: 'Estás aqui',
+		btnExportToIOS: 'Exportar para iOS/Mac', installBannerAppleTitle: 'Revisits para iPhone, iPad e Mac', installBannerAppleHint: 'Obtém a app nativa completa na App Store.',
+		btnGetAppStore: 'Ver na App Store', updateBannerTitle: 'Nova versão disponível', updateBannerHint: 'Atualiza para obteres as últimas melhorias.', btnUpdateNow: 'Atualizar'
 	},
 	personTypes: ['Homem idoso', 'Mulher idosa', 'Senhor', 'Senhora', 'Jovem', 'Adulto', 'Menina', 'Menino', 'Menina', 'Mulher', 'Mãe', 'Mãe jovem', 'Pai', 'Pai jovem'],
 	sources: ['Bíblia', 'Vídeo', 'Publicação'],
@@ -534,7 +546,9 @@ const nl = {
 		notificationsDeniedHint: 'Je hebt meldingen in je browser geblokkeerd. Schakel ze in via de sitemeldingen om herinneringen te ontvangen.',
 		headingSupport: 'Revisits ondersteunen', supportHint: 'Als Revisits je helpt in je dienst, overweeg de ontwikkeling te steunen met een donatie via PayPal.', btnSupport: 'App ondersteunen',
 		manualInstallHintSafariMac: 'In Safari (Mac): kies in het menu Archief "Toevoegen aan Dock…", of gebruik de deelknop en selecteer "Toevoegen aan Dock".',
-		headingOtherApps: 'Mijn andere apps', otherAppsHint: 'Ontdek meer apps die ik heb gemaakt.', mapYouAreHere: 'Je bent hier'
+		headingOtherApps: 'Mijn andere apps', otherAppsHint: 'Ontdek meer apps die ik heb gemaakt.', mapYouAreHere: 'Je bent hier',
+		btnExportToIOS: 'Exporteren naar iOS/Mac', installBannerAppleTitle: 'Revisits voor iPhone, iPad en Mac', installBannerAppleHint: 'Haal de volledige native app uit de App Store.',
+		btnGetAppStore: 'Bekijk in App Store', updateBannerTitle: 'Nieuwe versie beschikbaar', updateBannerHint: 'Werk bij voor de nieuwste verbeteringen.', btnUpdateNow: 'Bijwerken'
 	},
 	personTypes: ['Oudere man', 'Oudere vrouw', 'Meneer', 'Mevrouw', 'Jongere', 'Volwassene', 'Jongedame', 'Jongen', 'Meisje', 'Vrouw', 'Moeder', 'Jonge moeder', 'Vader', 'Jonge vader'],
 	sources: ['Bijbel', 'Video', 'Publicatie'],
@@ -612,7 +626,9 @@ const el = {
 		notificationsDeniedHint: 'Έχεις μπλοκάρει τις ειδοποιήσεις στον browser σου. Ενεργοποίησέ τις από τις ρυθμίσεις του ιστότοπου για να λαμβάνεις υπενθυμίσεις.',
 		headingSupport: 'Υποστήριξε το Revisits', supportHint: 'Αν το Revisits σε βοηθά στην υπηρεσία σου, σκέψου να υποστηρίξεις την ανάπτυξή του με μια δωρεά μέσω PayPal.', btnSupport: 'Υποστήριξε την εφαρμογή',
 		manualInstallHintSafariMac: 'Στο Safari (Mac): από το μενού Αρχείο επίλεξε «Προσθήκη στο Dock…» ή χρησιμοποίησε το κουμπί Κοινή χρήση και επίλεξε «Προσθήκη στο Dock».',
-		headingOtherApps: 'Οι άλλες μου εφαρμογές', otherAppsHint: 'Ανακάλυψε κι άλλες εφαρμογές που έχω δημιουργήσει.', mapYouAreHere: 'Είσαι εδώ'
+		headingOtherApps: 'Οι άλλες μου εφαρμογές', otherAppsHint: 'Ανακάλυψε κι άλλες εφαρμογές που έχω δημιουργήσει.', mapYouAreHere: 'Είσαι εδώ',
+		btnExportToIOS: 'Εξαγωγή για iOS/Mac', installBannerAppleTitle: 'Revisits για iPhone, iPad και Mac', installBannerAppleHint: 'Απόκτησε την πλήρη εγγενή εφαρμογή από το App Store.',
+		btnGetAppStore: 'Δες στο App Store', updateBannerTitle: 'Νέα έκδοση διαθέσιμη', updateBannerHint: 'Ενημέρωσε για να αποκτήσεις τις τελευταίες βελτιώσεις.', btnUpdateNow: 'Ενημέρωση'
 	},
 	personTypes: ['Ηλικιωμένος', 'Ηλικιωμένη', 'Κύριος', 'Κυρία', 'Νέος/Νέα', 'Ενήλικας', 'Δεσποινίδα', 'Αγόρι', 'Κορίτσι', 'Γυναίκα', 'Μητέρα', 'Νεαρή μητέρα', 'Πατέρας', 'Νεαρός πατέρας'],
 	sources: ['Αγία Γραφή', 'Βίντεο', 'Έκδοση'],
@@ -690,7 +706,9 @@ const pl = {
 		notificationsDeniedHint: 'Zablokowałeś powiadomienia w przeglądarce. Włącz je w ustawieniach witryny, aby otrzymywać przypomnienia.',
 		headingSupport: 'Wesprzyj Revisits', supportHint: 'Jeśli Revisits pomaga Ci w służbie, rozważ wsparcie jego rozwoju darowizną przez PayPal.', btnSupport: 'Wesprzyj aplikację',
 		manualInstallHintSafariMac: 'W Safari (Mac): w menu Plik wybierz "Dodaj do Docka…" lub użyj przycisku Udostępnij i wybierz "Dodaj do Docka".',
-		headingOtherApps: 'Moje inne aplikacje', otherAppsHint: 'Odkryj więcej aplikacji, które stworzyłem.', mapYouAreHere: 'Jesteś tutaj'
+		headingOtherApps: 'Moje inne aplikacje', otherAppsHint: 'Odkryj więcej aplikacji, które stworzyłem.', mapYouAreHere: 'Jesteś tutaj',
+		btnExportToIOS: 'Eksportuj do iOS/Mac', installBannerAppleTitle: 'Revisits na iPhone, iPad i Mac', installBannerAppleHint: 'Pobierz pełną natywną aplikację ze sklepu App Store.',
+		btnGetAppStore: 'Zobacz w App Store', updateBannerTitle: 'Dostępna nowa wersja', updateBannerHint: 'Zaktualizuj, aby uzyskać najnowsze udoskonalenia.', btnUpdateNow: 'Aktualizuj'
 	},
 	personTypes: ['Starszy mężczyzna', 'Starsza kobieta', 'Pan', 'Pani', 'Młoda osoba', 'Dorosły', 'Panienka', 'Chłopiec', 'Dziewczynka', 'Kobieta', 'Matka', 'Młoda matka', 'Ojciec', 'Młody ojciec'],
 	sources: ['Biblia', 'Film', 'Publikacja'],
@@ -768,7 +786,9 @@ const ru = {
 		notificationsDeniedHint: 'Вы заблокировали уведомления в браузере. Включите их в настройках сайта, чтобы получать напоминания.',
 		headingSupport: 'Поддержать Revisits', supportHint: 'Если Revisits помогает вам в служении, рассмотрите возможность поддержать его разработку пожертвованием через PayPal.', btnSupport: 'Поддержать приложение',
 		manualInstallHintSafariMac: 'В Safari (Mac): в меню «Файл» выберите «Добавить в Dock…» или используйте кнопку «Поделиться» и выберите «Добавить в Dock».',
-		headingOtherApps: 'Мои другие приложения', otherAppsHint: 'Посмотрите другие приложения, которые я создал.', mapYouAreHere: 'Вы здесь'
+		headingOtherApps: 'Мои другие приложения', otherAppsHint: 'Посмотрите другие приложения, которые я создал.', mapYouAreHere: 'Вы здесь',
+		btnExportToIOS: 'Экспорт для iOS/Mac', installBannerAppleTitle: 'Revisits для iPhone, iPad и Mac', installBannerAppleHint: 'Получите полноценное нативное приложение в App Store.',
+		btnGetAppStore: 'Посмотреть в App Store', updateBannerTitle: 'Доступна новая версия', updateBannerHint: 'Обновите, чтобы получить последние улучшения.', btnUpdateNow: 'Обновить'
 	},
 	personTypes: ['Пожилой мужчина', 'Пожилая женщина', 'Мужчина', 'Женщина', 'Молодой человек', 'Взрослый', 'Девушка', 'Мальчик', 'Девочка', 'Женщина', 'Мать', 'Молодая мать', 'Отец', 'Молодой отец'],
 	sources: ['Библия', 'Видео', 'Публикация'],
@@ -846,7 +866,9 @@ const tr = {
 		notificationsDeniedHint: 'Tarayıcında bildirimleri engelledin. Hatırlatıcı almak için site ayarlarından etkinleştir.',
 		headingSupport: 'Revisits’i destekle', supportHint: 'Revisits hizmetinde sana yardımcı oluyorsa, PayPal üzerinden bağış yaparak gelişimini destekleyebilirsin.', btnSupport: 'Uygulamayı destekle',
 		manualInstallHintSafariMac: 'Safari\'de (Mac): Dosya menüsünden "Dock\'a Ekle…" seçeneğini seç veya Paylaş düğmesini kullanıp "Dock\'a Ekle"yi seç.',
-		headingOtherApps: 'Diğer uygulamalarım', otherAppsHint: 'Geliştirdiğim diğer uygulamaları keşfet.', mapYouAreHere: 'Buradasın'
+		headingOtherApps: 'Diğer uygulamalarım', otherAppsHint: 'Geliştirdiğim diğer uygulamaları keşfet.', mapYouAreHere: 'Buradasın',
+		btnExportToIOS: 'iOS/Mac için dışa aktar', installBannerAppleTitle: 'iPhone, iPad ve Mac için Revisits', installBannerAppleHint: 'Tam özellikli yerel uygulamayı App Store’dan edin.',
+		btnGetAppStore: 'App Store’da görüntüle', updateBannerTitle: 'Yeni sürüm mevcut', updateBannerHint: 'En son iyileştirmeleri almak için güncelle.', btnUpdateNow: 'Güncelle'
 	},
 	personTypes: ['Yaşlı adam', 'Yaşlı kadın', 'Bey', 'Hanım', 'Genç', 'Yetişkin', 'Genç bayan', 'Erkek çocuk', 'Kız çocuk', 'Kadın', 'Anne', 'Genç anne', 'Baba', 'Genç baba'],
 	sources: ['Mukaddes Kitap', 'Video', 'Yayın'],
@@ -924,7 +946,9 @@ const uk = {
 		notificationsDeniedHint: 'Ви заблокували сповіщення в браузері. Увімкніть їх у налаштуваннях сайту, щоб отримувати нагадування.',
 		headingSupport: 'Підтримати Revisits', supportHint: 'Якщо Revisits допомагає вам у служінні, розгляньте можливість підтримати його розробку пожертвою через PayPal.', btnSupport: 'Підтримати застосунок',
 		manualInstallHintSafariMac: 'У Safari (Mac): у меню «Файл» виберіть «Додати до Dock…» або скористайтеся кнопкою «Поділитися» та виберіть «Додати до Dock».',
-		headingOtherApps: 'Мої інші застосунки', otherAppsHint: 'Перегляньте інші застосунки, які я створив.', mapYouAreHere: 'Ви тут'
+		headingOtherApps: 'Мої інші застосунки', otherAppsHint: 'Перегляньте інші застосунки, які я створив.', mapYouAreHere: 'Ви тут',
+		btnExportToIOS: 'Експортувати для iOS/Mac', installBannerAppleTitle: 'Revisits для iPhone, iPad і Mac', installBannerAppleHint: 'Отримайте повноцінний нативний застосунок в App Store.',
+		btnGetAppStore: 'Переглянути в App Store', updateBannerTitle: 'Доступна нова версія', updateBannerHint: 'Оновіть, щоб отримати останні покращення.', btnUpdateNow: 'Оновити'
 	},
 	personTypes: ['Літній чоловік', 'Літня жінка', 'Чоловік', 'Жінка', 'Молода людина', 'Дорослий', 'Панночка', 'Хлопчик', 'Дівчинка', 'Жінка', 'Мати', 'Молода мати', 'Батько', 'Молодий батько'],
 	sources: ['Біблія', 'Відео', 'Публікація'],
@@ -1002,7 +1026,9 @@ const vi = {
 		notificationsDeniedHint: 'Bạn đã chặn thông báo trong trình duyệt. Hãy bật lại trong cài đặt trang web để nhận nhắc nhở.',
 		headingSupport: 'Ủng hộ Revisits', supportHint: 'Nếu Revisits giúp ích cho thánh chức của bạn, hãy cân nhắc ủng hộ việc phát triển ứng dụng bằng cách quyên góp qua PayPal.', btnSupport: 'Ủng hộ ứng dụng',
 		manualInstallHintSafariMac: 'Trong Safari (Mac): từ menu File, chọn "Thêm vào Dock…", hoặc dùng nút Chia sẻ và chọn "Thêm vào Dock".',
-		headingOtherApps: 'Các ứng dụng khác của tôi', otherAppsHint: 'Khám phá thêm các ứng dụng tôi đã tạo.', mapYouAreHere: 'Bạn đang ở đây'
+		headingOtherApps: 'Các ứng dụng khác của tôi', otherAppsHint: 'Khám phá thêm các ứng dụng tôi đã tạo.', mapYouAreHere: 'Bạn đang ở đây',
+		btnExportToIOS: 'Xuất cho iOS/Mac', installBannerAppleTitle: 'Revisits cho iPhone, iPad và Mac', installBannerAppleHint: 'Nhận ứng dụng gốc đầy đủ từ App Store.',
+		btnGetAppStore: 'Xem trên App Store', updateBannerTitle: 'Có phiên bản mới', updateBannerHint: 'Cập nhật để nhận các cải tiến mới nhất.', btnUpdateNow: 'Cập nhật'
 	},
 	personTypes: ['Ông cụ', 'Bà cụ', 'Ông', 'Bà', 'Người trẻ', 'Người lớn', 'Cô gái trẻ', 'Bé trai', 'Bé gái', 'Phụ nữ', 'Người mẹ', 'Mẹ trẻ', 'Người cha', 'Cha trẻ'],
 	sources: ['Kinh Thánh', 'Video', 'Ấn phẩm'],
@@ -1080,7 +1106,9 @@ const id = {
 		notificationsDeniedHint: 'Anda memblokir notifikasi di browser. Aktifkan dari pengaturan situs untuk menerima pengingat.',
 		headingSupport: 'Dukung Revisits', supportHint: 'Jika Revisits membantu dinas Anda, pertimbangkan untuk mendukung pengembangannya dengan donasi melalui PayPal.', btnSupport: 'Dukung aplikasi',
 		manualInstallHintSafariMac: 'Di Safari (Mac): dari menu File pilih "Tambahkan ke Dock…", atau gunakan tombol Bagikan dan pilih "Tambahkan ke Dock".',
-		headingOtherApps: 'Aplikasi saya yang lain', otherAppsHint: 'Lihat aplikasi lain yang telah saya buat.', mapYouAreHere: 'Anda di sini'
+		headingOtherApps: 'Aplikasi saya yang lain', otherAppsHint: 'Lihat aplikasi lain yang telah saya buat.', mapYouAreHere: 'Anda di sini',
+		btnExportToIOS: 'Ekspor ke iOS/Mac', installBannerAppleTitle: 'Revisits untuk iPhone, iPad, dan Mac', installBannerAppleHint: 'Dapatkan aplikasi native lengkap dari App Store.',
+		btnGetAppStore: 'Lihat di App Store', updateBannerTitle: 'Versi baru tersedia', updateBannerHint: 'Perbarui untuk mendapatkan peningkatan terbaru.', btnUpdateNow: 'Perbarui'
 	},
 	personTypes: ['Pria tua', 'Wanita tua', 'Bapak', 'Ibu', 'Orang muda', 'Dewasa', 'Nona', 'Anak laki-laki', 'Anak perempuan', 'Wanita', 'Ibu', 'Ibu muda', 'Ayah', 'Ayah muda'],
 	sources: ['Alkitab', 'Video', 'Publikasi'],
@@ -1158,7 +1186,9 @@ const th = {
 		notificationsDeniedHint: 'คุณได้บล็อกการแจ้งเตือนในเบราว์เซอร์ โปรดเปิดใช้งานจากการตั้งค่าไซต์เพื่อรับการแจ้งเตือน',
 		headingSupport: 'สนับสนุน Revisits', supportHint: 'หาก Revisits ช่วยในงานรับใช้ของคุณ โปรดพิจารณาสนับสนุนการพัฒนาด้วยการบริจาคผ่าน PayPal', btnSupport: 'สนับสนุนแอป',
 		manualInstallHintSafariMac: 'ใน Safari (Mac): จากเมนู File เลือก "เพิ่มลงใน Dock…" หรือใช้ปุ่มแชร์แล้วเลือก "เพิ่มลงใน Dock"',
-		headingOtherApps: 'แอปอื่นๆ ของฉัน', otherAppsHint: 'ดูแอปอื่นๆ ที่ฉันสร้างขึ้น', mapYouAreHere: 'คุณอยู่ที่นี่'
+		headingOtherApps: 'แอปอื่นๆ ของฉัน', otherAppsHint: 'ดูแอปอื่นๆ ที่ฉันสร้างขึ้น', mapYouAreHere: 'คุณอยู่ที่นี่',
+		btnExportToIOS: 'ส่งออกไปยัง iOS/Mac', installBannerAppleTitle: 'Revisits สำหรับ iPhone, iPad และ Mac', installBannerAppleHint: 'รับแอปเนทีฟฉบับเต็มจาก App Store',
+		btnGetAppStore: 'ดูใน App Store', updateBannerTitle: 'มีเวอร์ชันใหม่', updateBannerHint: 'อัปเดตเพื่อรับการปรับปรุงล่าสุด', btnUpdateNow: 'อัปเดต'
 	},
 	personTypes: ['ชายสูงอายุ', 'หญิงสูงอายุ', 'ชาย', 'หญิง', 'วัยรุ่น', 'ผู้ใหญ่', 'สาวน้อย', 'เด็กชาย', 'เด็กหญิง', 'ผู้หญิง', 'มารดา', 'มารดาสาว', 'บิดา', 'บิดาหนุ่ม'],
 	sources: ['คัมภีร์ไบเบิล', 'วิดีโอ', 'สิ่งพิมพ์'],
@@ -1236,7 +1266,9 @@ const hi = {
 		notificationsDeniedHint: 'आपने अपने ब्राउज़र में सूचनाएं अवरुद्ध कर दी हैं। अनुस्मारक पाने के लिए साइट सेटिंग्स से उन्हें सक्षम करें।',
 		headingSupport: 'Revisits का समर्थन करें', supportHint: 'यदि Revisits आपकी सेवा में मदद करता है, तो PayPal के ज़रिए दान देकर इसके विकास का समर्थन करने पर विचार करें।', btnSupport: 'ऐप का समर्थन करें',
 		manualInstallHintSafariMac: 'Safari (Mac) में: File मेनू से "Add to Dock…" चुनें, या शेयर बटन का उपयोग करें और "Add to Dock" चुनें।',
-		headingOtherApps: 'मेरे अन्य ऐप्स', otherAppsHint: 'मेरे बनाए अन्य ऐप्स देखें।', mapYouAreHere: 'आप यहाँ हैं'
+		headingOtherApps: 'मेरे अन्य ऐप्स', otherAppsHint: 'मेरे बनाए अन्य ऐप्स देखें।', mapYouAreHere: 'आप यहाँ हैं',
+		btnExportToIOS: 'iOS/Mac के लिए एक्सपोर्ट करें', installBannerAppleTitle: 'iPhone, iPad और Mac के लिए Revisits', installBannerAppleHint: 'App Store से पूरा नेटिव ऐप प्राप्त करें।',
+		btnGetAppStore: 'App Store पर देखें', updateBannerTitle: 'नया वर्शन उपलब्ध है', updateBannerHint: 'नवीनतम सुधार पाने के लिए अपडेट करें।', btnUpdateNow: 'अपडेट करें'
 	},
 	personTypes: ['बुज़ुर्ग पुरुष', 'बुज़ुर्ग महिला', 'श्रीमान', 'श्रीमती', 'युवा', 'वयस्क', 'युवती', 'लड़का', 'लड़की', 'महिला', 'माँ', 'युवा माँ', 'पिता', 'युवा पिता'],
 	sources: ['बाइबल', 'वीडियो', 'प्रकाशन'],
@@ -1314,7 +1346,9 @@ const ja = {
 		notificationsDeniedHint: 'ブラウザで通知をブロックしています。リマインダーを受け取るにはサイトの設定から通知を有効にしてください。',
 		headingSupport: 'Revisitsを支援', supportHint: 'Revisitsが奉仕に役立っている場合は、PayPalでの寄付で開発を支援することをご検討ください。', btnSupport: 'アプリを支援',
 		manualInstallHintSafariMac: 'Safari（Mac）で：「ファイル」メニューから「Dockに追加…」を選択するか、共有ボタンから「Dockに追加」を選択してください。',
-		headingOtherApps: '私の他のアプリ', otherAppsHint: '私が作った他のアプリをチェックしてください。', mapYouAreHere: '現在地'
+		headingOtherApps: '私の他のアプリ', otherAppsHint: '私が作った他のアプリをチェックしてください。', mapYouAreHere: '現在地',
+		btnExportToIOS: 'iOS/Mac用にエクスポート', installBannerAppleTitle: 'iPhone、iPad、Mac向けRevisits', installBannerAppleHint: 'App Storeで完全なネイティブアプリを入手してください。',
+		btnGetAppStore: 'App Storeで見る', updateBannerTitle: '新しいバージョンがあります', updateBannerHint: '最新の改善を取得するには更新してください。', btnUpdateNow: '更新'
 	},
 	personTypes: ['高齢の男性', '高齢の女性', '男性', '女性', '若者', '成人', '若い女性', '男の子', '女の子', '女性', '母親', '若い母親', '父親', '若い父親'],
 	sources: ['聖書', '動画', '出版物'],
@@ -1392,7 +1426,9 @@ const ko = {
 		notificationsDeniedHint: '브라우저에서 알림을 차단했습니다. 알림을 받으려면 사이트 설정에서 알림을 활성화하세요.',
 		headingSupport: 'Revisits 후원하기', supportHint: 'Revisits가 봉사에 도움이 된다면, PayPal을 통해 기부하여 개발을 후원하는 것을 고려해 보세요.', btnSupport: '앱 후원하기',
 		manualInstallHintSafariMac: 'Safari(Mac)에서: 파일 메뉴에서 "Dock에 추가..."를 선택하거나 공유 버튼을 사용해 "Dock에 추가"를 선택하세요.',
-		headingOtherApps: '내 다른 앱', otherAppsHint: '제가 만든 다른 앱들을 확인해 보세요.', mapYouAreHere: '현재 위치'
+		headingOtherApps: '내 다른 앱', otherAppsHint: '제가 만든 다른 앱들을 확인해 보세요.', mapYouAreHere: '현재 위치',
+		btnExportToIOS: 'iOS/Mac용으로 내보내기', installBannerAppleTitle: 'iPhone, iPad, Mac용 Revisits', installBannerAppleHint: 'App Store에서 완전한 네이티브 앱을 받아보세요.',
+		btnGetAppStore: 'App Store에서 보기', updateBannerTitle: '새 버전 사용 가능', updateBannerHint: '최신 개선 사항을 받으려면 업데이트하세요.', btnUpdateNow: '업데이트'
 	},
 	personTypes: ['노인 남성', '노인 여성', '남성', '여성', '청년', '성인', '젊은 여성', '남자아이', '여자아이', '여성', '어머니', '젊은 어머니', '아버지', '젊은 아버지'],
 	sources: ['성경', '동영상', '출판물'],
