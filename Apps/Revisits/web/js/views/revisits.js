@@ -6,6 +6,7 @@ import { checkDueReminders } from '../notifications.js';
 import { t, personTypeLabel, sourceLabel, sourceRefLabel, visitTypeLabel } from '../i18n.js';
 import * as geo from '../geo.js';
 import { exportRevisitToIOS } from '../revisitExport.js';
+import { importRevisitFromFile } from '../revisitImport.js';
 
 let currentFilter = 'todos';
 let currentSearch = '';
@@ -20,6 +21,10 @@ export async function render(container) {
 		<div class="card">
 			<div class="row wrap" style="margin-bottom:10px;">
 				<input type="search" id="revisitSearch" placeholder="${escapeHTML(t('searchPlaceholder'))}" style="flex:1; min-width:160px; border:1px solid var(--border); border-radius:10px; padding:8px 12px; background:var(--surface); color:var(--text);" value="${escapeHTML(currentSearch)}">
+				<label class="icon-btn" title="${escapeHTML(t('btnImportFromIOS'))}" style="cursor:pointer;">
+					<i class="fas fa-upload"></i>
+					<input type="file" id="importRevisitInput" accept=".revisits" hidden>
+				</label>
 			</div>
 			<div class="segmented" id="revisitFilters">
 				<button data-filter="todos" class="${currentFilter === 'todos' ? 'active' : ''}">${t('filterAll')}</button>
@@ -51,6 +56,20 @@ export async function render(container) {
 	container.querySelector('#revisitSearch').addEventListener('input', (e) => {
 		currentSearch = e.target.value;
 		render(container);
+	});
+
+	container.querySelector('#importRevisitInput').addEventListener('change', async (e) => {
+		const file = e.target.files[0];
+		e.target.value = '';
+		if (!file) return;
+		try {
+			await importRevisitFromFile(file);
+			showToast(t('toastRevisitImported'));
+			render(container);
+		} catch (err) {
+			console.error(err);
+			showToast(t('toastRevisitImportError'));
+		}
 	});
 
 	container.querySelectorAll('#revisitFilters button').forEach((btn) => {

@@ -8,11 +8,11 @@ import { canPromptInstall, triggerInstall, isStandalone, isIOS, isSafari, onInst
 const PAYPAL_DONATE_URL = 'https://paypal.me/landercorp';
 
 const OTHER_APPS = [
-	{ name: 'PetPal', icon: '../../PetPal/assets/images/icon.png', url: 'https://misaellandero.com/Apps/PetPal/index.html' },
-	{ name: 'CaffeinateBar', icon: '../../CaffeinateBar/assets/images/icon.png', url: 'https://misaellandero.com/Apps/CaffeinateBar/index.html' },
-	{ name: 'KeyClean', icon: '../../KeyClean/assets/images/icon.png', url: 'https://misaellandero.com/Apps/KeyClean/index.html' },
+	{ name: '+Cota', icon: 'assets/art/other-apps/cota-icon.webp', url: 'https://misaellandero.com/Apps/Cota/index.html' },
+	{ name: 'DebtMe', icon: '../../DebtMe/sistema/images/portfolio-icon-light.png', url: 'https://misaellandero.com/Apps/DebtMe/index_debtMe.html' },
 	{ name: 'Loxi', icon: '../../Loxi/assets/images/icon.png', url: 'https://misaellandero.com/Apps/Loxi/index.html' },
-	{ name: 'Fox vs Hunters', icon: '../../Fox%20vs%20Hunters/assets/images/icon.png', url: 'https://misaellandero.com/Apps/Fox%20vs%20Hunters/index.html' }
+	{ name: 'Fox vs Hunters', icon: '../../Fox%20vs%20Hunters/assets/images/portfolio-icon-light.png', url: 'https://misaellandero.com/Apps/Fox%20vs%20Hunters/index.html' },
+	{ name: 'Caffeinate Bar', icon: '../../CaffeinateBar/assets/images/icon.png', url: 'https://misaellandero.com/Apps/CaffeinateBar/index.html' }
 ];
 
 export async function render(container) {

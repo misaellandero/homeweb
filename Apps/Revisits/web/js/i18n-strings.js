@@ -68,7 +68,8 @@ const es = {
 		manualInstallHintSafariMac: 'En Safari (Mac): en el menú Archivo, elige "Añadir al Dock…", o usa el botón Compartir y selecciona "Añadir al Dock".',
 		headingOtherApps: 'Mis otras apps', otherAppsHint: 'Descubre más apps que he creado.', mapYouAreHere: 'Estás aquí',
 		btnExportToIOS: 'Exportar a iOS/Mac', installBannerAppleTitle: 'Revisits para iPhone, iPad y Mac', installBannerAppleHint: 'Obtén la app nativa completa desde el App Store.',
-		btnGetAppStore: 'Ver en App Store', updateBannerTitle: 'Nueva versión disponible', updateBannerHint: 'Actualiza para obtener las últimas mejoras.', btnUpdateNow: 'Actualizar'
+		btnGetAppStore: 'Ver en App Store', updateBannerTitle: 'Nueva versión disponible', updateBannerHint: 'Actualiza para obtener las últimas mejoras.', btnUpdateNow: 'Actualizar',
+		btnImportFromIOS: 'Importar de iOS/Mac', toastRevisitImported: 'Revisita importada', toastRevisitImportError: 'No se pudo importar el archivo (.revisits inválido)'
 	},
 	personTypes: ['Ancianito', 'Ancianita', 'Señor', 'Señora', 'Joven', 'Adulto', 'Señorita', 'Niño', 'Niña', 'Mujer', 'Madre', 'Madre joven', 'Padre', 'Padre joven'],
 	sources: ['Biblia', 'Video', 'Publicación'],
@@ -148,7 +149,8 @@ const en = {
 		manualInstallHintSafariMac: 'In Safari (Mac): from the File menu choose "Add to Dock…", or use the Share button and select "Add to Dock".',
 		headingOtherApps: 'My other apps', otherAppsHint: 'Check out more apps I\'ve built.', mapYouAreHere: 'You are here',
 		btnExportToIOS: 'Export to iOS/Mac', installBannerAppleTitle: 'Revisits for iPhone, iPad, and Mac', installBannerAppleHint: 'Get the full native app from the App Store.',
-		btnGetAppStore: 'View on App Store', updateBannerTitle: 'New version available', updateBannerHint: 'Update to get the latest improvements.', btnUpdateNow: 'Update'
+		btnGetAppStore: 'View on App Store', updateBannerTitle: 'New version available', updateBannerHint: 'Update to get the latest improvements.', btnUpdateNow: 'Update',
+		btnImportFromIOS: 'Import from iOS/Mac', toastRevisitImported: 'Return visit imported', toastRevisitImportError: 'Could not import the file (invalid .revisits)'
 	},
 	personTypes: ['Elderly man', 'Elderly woman', 'Man', 'Woman', 'Young person', 'Adult', 'Young woman', 'Boy', 'Girl', 'Woman', 'Mother', 'Young mother', 'Father', 'Young father'],
 	sources: ['Bible', 'Video', 'Publication'],
@@ -228,7 +230,8 @@ const de = {
 		manualInstallHintSafariMac: 'In Safari (Mac): Wähle im Menü „Ablage“ die Option „Zum Dock hinzufügen …“ oder nutze die Teilen-Schaltfläche und wähle „Zum Dock hinzufügen“.',
 		headingOtherApps: 'Meine anderen Apps', otherAppsHint: 'Entdecke weitere Apps von mir.', mapYouAreHere: 'Du bist hier',
 		btnExportToIOS: 'Für iOS/Mac exportieren', installBannerAppleTitle: 'Revisits für iPhone, iPad und Mac', installBannerAppleHint: 'Hol dir die vollständige native App im App Store.',
-		btnGetAppStore: 'Im App Store ansehen', updateBannerTitle: 'Neue Version verfügbar', updateBannerHint: 'Aktualisiere, um die neuesten Verbesserungen zu erhalten.', btnUpdateNow: 'Aktualisieren'
+		btnGetAppStore: 'Im App Store ansehen', updateBannerTitle: 'Neue Version verfügbar', updateBannerHint: 'Aktualisiere, um die neuesten Verbesserungen zu erhalten.', btnUpdateNow: 'Aktualisieren',
+		btnImportFromIOS: 'Von iOS/Mac importieren', toastRevisitImported: 'Rückbesuch importiert', toastRevisitImportError: 'Datei konnte nicht importiert werden (ungültige .revisits-Datei)'
 	},
 	personTypes: ['Alter Mann', 'Alte Frau', 'Mann', 'Frau', 'Junge Person', 'Erwachsener', 'Junge Frau', 'Junge', 'Mädchen', 'Frau', 'Mutter', 'Junge Mutter', 'Vater', 'Junger Vater'],
 	sources: ['Bibel', 'Video', 'Publikation'],
@@ -308,7 +311,8 @@ const fr = {
 		manualInstallHintSafariMac: 'Dans Safari (Mac) : dans le menu Fichier, choisis « Ajouter au Dock… », ou utilise le bouton Partager et sélectionne « Ajouter au Dock ».',
 		headingOtherApps: 'Mes autres apps', otherAppsHint: 'Découvre d’autres apps que j’ai créées.', mapYouAreHere: 'Tu es ici',
 		btnExportToIOS: 'Exporter vers iOS/Mac', installBannerAppleTitle: 'Revisits pour iPhone, iPad et Mac', installBannerAppleHint: 'Obtiens l’app native complète sur l’App Store.',
-		btnGetAppStore: 'Voir sur l’App Store', updateBannerTitle: 'Nouvelle version disponible', updateBannerHint: 'Mets à jour pour profiter des dernières améliorations.', btnUpdateNow: 'Mettre à jour'
+		btnGetAppStore: 'Voir sur l’App Store', updateBannerTitle: 'Nouvelle version disponible', updateBannerHint: 'Mets à jour pour profiter des dernières améliorations.', btnUpdateNow: 'Mettre à jour',
+		btnImportFromIOS: 'Importer depuis iOS/Mac', toastRevisitImported: 'Nouvelle visite importée', toastRevisitImportError: 'Impossible d’importer le fichier (.revisits invalide)'
 	},
 	personTypes: ['Homme âgé', 'Femme âgée', 'Homme', 'Femme', 'Jeune', 'Adulte', 'Jeune femme', 'Garçon', 'Fille', 'Femme', 'Mère', 'Jeune mère', 'Père', 'Jeune père'],
 	sources: ['Bible', 'Vidéo', 'Publication'],
@@ -388,7 +392,8 @@ const it = {
 		manualInstallHintSafariMac: 'In Safari (Mac): dal menu File scegli "Aggiungi al Dock…", oppure usa il pulsante Condividi e seleziona "Aggiungi al Dock".',
 		headingOtherApps: 'Le mie altre app', otherAppsHint: 'Scopri altre app che ho creato.', mapYouAreHere: 'Sei qui',
 		btnExportToIOS: 'Esporta per iOS/Mac', installBannerAppleTitle: 'Revisits per iPhone, iPad e Mac', installBannerAppleHint: 'Ottieni l’app nativa completa dall’App Store.',
-		btnGetAppStore: 'Vedi su App Store', updateBannerTitle: 'Nuova versione disponibile', updateBannerHint: 'Aggiorna per ottenere gli ultimi miglioramenti.', btnUpdateNow: 'Aggiorna'
+		btnGetAppStore: 'Vedi su App Store', updateBannerTitle: 'Nuova versione disponibile', updateBannerHint: 'Aggiorna per ottenere gli ultimi miglioramenti.', btnUpdateNow: 'Aggiorna',
+		btnImportFromIOS: 'Importa da iOS/Mac', toastRevisitImported: 'Revisita importata', toastRevisitImportError: 'Impossibile importare il file (.revisits non valido)'
 	},
 	personTypes: ['Uomo anziano', 'Donna anziana', 'Uomo', 'Donna', 'Giovane', 'Adulto', 'Signorina', 'Bambino', 'Bambina', 'Donna', 'Madre', 'Madre giovane', 'Padre', 'Padre giovane'],
 	sources: ['Bibbia', 'Video', 'Pubblicazione'],
@@ -468,7 +473,8 @@ const pt = {
 		manualInstallHintSafariMac: 'No Safari (Mac): no menu Ficheiro, escolhe "Adicionar ao Dock…", ou usa o botão Partilhar e seleciona "Adicionar ao Dock".',
 		headingOtherApps: 'As minhas outras apps', otherAppsHint: 'Descobre mais apps que criei.', mapYouAreHere: 'Estás aqui',
 		btnExportToIOS: 'Exportar para iOS/Mac', installBannerAppleTitle: 'Revisits para iPhone, iPad e Mac', installBannerAppleHint: 'Obtém a app nativa completa na App Store.',
-		btnGetAppStore: 'Ver na App Store', updateBannerTitle: 'Nova versão disponível', updateBannerHint: 'Atualiza para obteres as últimas melhorias.', btnUpdateNow: 'Atualizar'
+		btnGetAppStore: 'Ver na App Store', updateBannerTitle: 'Nova versão disponível', updateBannerHint: 'Atualiza para obteres as últimas melhorias.', btnUpdateNow: 'Atualizar',
+		btnImportFromIOS: 'Importar do iOS/Mac', toastRevisitImported: 'Revisita importada', toastRevisitImportError: 'Não foi possível importar o ficheiro (.revisits inválido)'
 	},
 	personTypes: ['Homem idoso', 'Mulher idosa', 'Senhor', 'Senhora', 'Jovem', 'Adulto', 'Menina', 'Menino', 'Menina', 'Mulher', 'Mãe', 'Mãe jovem', 'Pai', 'Pai jovem'],
 	sources: ['Bíblia', 'Vídeo', 'Publicação'],
@@ -548,7 +554,8 @@ const nl = {
 		manualInstallHintSafariMac: 'In Safari (Mac): kies in het menu Archief "Toevoegen aan Dock…", of gebruik de deelknop en selecteer "Toevoegen aan Dock".',
 		headingOtherApps: 'Mijn andere apps', otherAppsHint: 'Ontdek meer apps die ik heb gemaakt.', mapYouAreHere: 'Je bent hier',
 		btnExportToIOS: 'Exporteren naar iOS/Mac', installBannerAppleTitle: 'Revisits voor iPhone, iPad en Mac', installBannerAppleHint: 'Haal de volledige native app uit de App Store.',
-		btnGetAppStore: 'Bekijk in App Store', updateBannerTitle: 'Nieuwe versie beschikbaar', updateBannerHint: 'Werk bij voor de nieuwste verbeteringen.', btnUpdateNow: 'Bijwerken'
+		btnGetAppStore: 'Bekijk in App Store', updateBannerTitle: 'Nieuwe versie beschikbaar', updateBannerHint: 'Werk bij voor de nieuwste verbeteringen.', btnUpdateNow: 'Bijwerken',
+		btnImportFromIOS: 'Importeren vanuit iOS/Mac', toastRevisitImported: 'Nabezoek geïmporteerd', toastRevisitImportError: 'Kon het bestand niet importeren (ongeldig .revisits-bestand)'
 	},
 	personTypes: ['Oudere man', 'Oudere vrouw', 'Meneer', 'Mevrouw', 'Jongere', 'Volwassene', 'Jongedame', 'Jongen', 'Meisje', 'Vrouw', 'Moeder', 'Jonge moeder', 'Vader', 'Jonge vader'],
 	sources: ['Bijbel', 'Video', 'Publicatie'],
@@ -628,7 +635,8 @@ const el = {
 		manualInstallHintSafariMac: 'Στο Safari (Mac): από το μενού Αρχείο επίλεξε «Προσθήκη στο Dock…» ή χρησιμοποίησε το κουμπί Κοινή χρήση και επίλεξε «Προσθήκη στο Dock».',
 		headingOtherApps: 'Οι άλλες μου εφαρμογές', otherAppsHint: 'Ανακάλυψε κι άλλες εφαρμογές που έχω δημιουργήσει.', mapYouAreHere: 'Είσαι εδώ',
 		btnExportToIOS: 'Εξαγωγή για iOS/Mac', installBannerAppleTitle: 'Revisits για iPhone, iPad και Mac', installBannerAppleHint: 'Απόκτησε την πλήρη εγγενή εφαρμογή από το App Store.',
-		btnGetAppStore: 'Δες στο App Store', updateBannerTitle: 'Νέα έκδοση διαθέσιμη', updateBannerHint: 'Ενημέρωσε για να αποκτήσεις τις τελευταίες βελτιώσεις.', btnUpdateNow: 'Ενημέρωση'
+		btnGetAppStore: 'Δες στο App Store', updateBannerTitle: 'Νέα έκδοση διαθέσιμη', updateBannerHint: 'Ενημέρωσε για να αποκτήσεις τις τελευταίες βελτιώσεις.', btnUpdateNow: 'Ενημέρωση',
+		btnImportFromIOS: 'Εισαγωγή από iOS/Mac', toastRevisitImported: 'Η επανεπίσκεψη εισήχθη', toastRevisitImportError: 'Δεν ήταν δυνατή η εισαγωγή του αρχείου (μη έγκυρο .revisits)'
 	},
 	personTypes: ['Ηλικιωμένος', 'Ηλικιωμένη', 'Κύριος', 'Κυρία', 'Νέος/Νέα', 'Ενήλικας', 'Δεσποινίδα', 'Αγόρι', 'Κορίτσι', 'Γυναίκα', 'Μητέρα', 'Νεαρή μητέρα', 'Πατέρας', 'Νεαρός πατέρας'],
 	sources: ['Αγία Γραφή', 'Βίντεο', 'Έκδοση'],
@@ -708,7 +716,8 @@ const pl = {
 		manualInstallHintSafariMac: 'W Safari (Mac): w menu Plik wybierz "Dodaj do Docka…" lub użyj przycisku Udostępnij i wybierz "Dodaj do Docka".',
 		headingOtherApps: 'Moje inne aplikacje', otherAppsHint: 'Odkryj więcej aplikacji, które stworzyłem.', mapYouAreHere: 'Jesteś tutaj',
 		btnExportToIOS: 'Eksportuj do iOS/Mac', installBannerAppleTitle: 'Revisits na iPhone, iPad i Mac', installBannerAppleHint: 'Pobierz pełną natywną aplikację ze sklepu App Store.',
-		btnGetAppStore: 'Zobacz w App Store', updateBannerTitle: 'Dostępna nowa wersja', updateBannerHint: 'Zaktualizuj, aby uzyskać najnowsze udoskonalenia.', btnUpdateNow: 'Aktualizuj'
+		btnGetAppStore: 'Zobacz w App Store', updateBannerTitle: 'Dostępna nowa wersja', updateBannerHint: 'Zaktualizuj, aby uzyskać najnowsze udoskonalenia.', btnUpdateNow: 'Aktualizuj',
+		btnImportFromIOS: 'Importuj z iOS/Mac', toastRevisitImported: 'Odwiedziny zaimportowane', toastRevisitImportError: 'Nie udało się zaimportować pliku (nieprawidłowy plik .revisits)'
 	},
 	personTypes: ['Starszy mężczyzna', 'Starsza kobieta', 'Pan', 'Pani', 'Młoda osoba', 'Dorosły', 'Panienka', 'Chłopiec', 'Dziewczynka', 'Kobieta', 'Matka', 'Młoda matka', 'Ojciec', 'Młody ojciec'],
 	sources: ['Biblia', 'Film', 'Publikacja'],
@@ -788,7 +797,8 @@ const ru = {
 		manualInstallHintSafariMac: 'В Safari (Mac): в меню «Файл» выберите «Добавить в Dock…» или используйте кнопку «Поделиться» и выберите «Добавить в Dock».',
 		headingOtherApps: 'Мои другие приложения', otherAppsHint: 'Посмотрите другие приложения, которые я создал.', mapYouAreHere: 'Вы здесь',
 		btnExportToIOS: 'Экспорт для iOS/Mac', installBannerAppleTitle: 'Revisits для iPhone, iPad и Mac', installBannerAppleHint: 'Получите полноценное нативное приложение в App Store.',
-		btnGetAppStore: 'Посмотреть в App Store', updateBannerTitle: 'Доступна новая версия', updateBannerHint: 'Обновите, чтобы получить последние улучшения.', btnUpdateNow: 'Обновить'
+		btnGetAppStore: 'Посмотреть в App Store', updateBannerTitle: 'Доступна новая версия', updateBannerHint: 'Обновите, чтобы получить последние улучшения.', btnUpdateNow: 'Обновить',
+		btnImportFromIOS: 'Импорт с iOS/Mac', toastRevisitImported: 'Повторное посещение импортировано', toastRevisitImportError: 'Не удалось импортировать файл (недействительный .revisits)'
 	},
 	personTypes: ['Пожилой мужчина', 'Пожилая женщина', 'Мужчина', 'Женщина', 'Молодой человек', 'Взрослый', 'Девушка', 'Мальчик', 'Девочка', 'Женщина', 'Мать', 'Молодая мать', 'Отец', 'Молодой отец'],
 	sources: ['Библия', 'Видео', 'Публикация'],
@@ -868,7 +878,8 @@ const tr = {
 		manualInstallHintSafariMac: 'Safari\'de (Mac): Dosya menüsünden "Dock\'a Ekle…" seçeneğini seç veya Paylaş düğmesini kullanıp "Dock\'a Ekle"yi seç.',
 		headingOtherApps: 'Diğer uygulamalarım', otherAppsHint: 'Geliştirdiğim diğer uygulamaları keşfet.', mapYouAreHere: 'Buradasın',
 		btnExportToIOS: 'iOS/Mac için dışa aktar', installBannerAppleTitle: 'iPhone, iPad ve Mac için Revisits', installBannerAppleHint: 'Tam özellikli yerel uygulamayı App Store’dan edin.',
-		btnGetAppStore: 'App Store’da görüntüle', updateBannerTitle: 'Yeni sürüm mevcut', updateBannerHint: 'En son iyileştirmeleri almak için güncelle.', btnUpdateNow: 'Güncelle'
+		btnGetAppStore: 'App Store’da görüntüle', updateBannerTitle: 'Yeni sürüm mevcut', updateBannerHint: 'En son iyileştirmeleri almak için güncelle.', btnUpdateNow: 'Güncelle',
+		btnImportFromIOS: 'iOS/Mac\'ten içe aktar', toastRevisitImported: 'Tekrar ziyaret içe aktarıldı', toastRevisitImportError: 'Dosya içe aktarılamadı (geçersiz .revisits)'
 	},
 	personTypes: ['Yaşlı adam', 'Yaşlı kadın', 'Bey', 'Hanım', 'Genç', 'Yetişkin', 'Genç bayan', 'Erkek çocuk', 'Kız çocuk', 'Kadın', 'Anne', 'Genç anne', 'Baba', 'Genç baba'],
 	sources: ['Mukaddes Kitap', 'Video', 'Yayın'],
@@ -948,7 +959,8 @@ const uk = {
 		manualInstallHintSafariMac: 'У Safari (Mac): у меню «Файл» виберіть «Додати до Dock…» або скористайтеся кнопкою «Поділитися» та виберіть «Додати до Dock».',
 		headingOtherApps: 'Мої інші застосунки', otherAppsHint: 'Перегляньте інші застосунки, які я створив.', mapYouAreHere: 'Ви тут',
 		btnExportToIOS: 'Експортувати для iOS/Mac', installBannerAppleTitle: 'Revisits для iPhone, iPad і Mac', installBannerAppleHint: 'Отримайте повноцінний нативний застосунок в App Store.',
-		btnGetAppStore: 'Переглянути в App Store', updateBannerTitle: 'Доступна нова версія', updateBannerHint: 'Оновіть, щоб отримати останні покращення.', btnUpdateNow: 'Оновити'
+		btnGetAppStore: 'Переглянути в App Store', updateBannerTitle: 'Доступна нова версія', updateBannerHint: 'Оновіть, щоб отримати останні покращення.', btnUpdateNow: 'Оновити',
+		btnImportFromIOS: 'Імпорт з iOS/Mac', toastRevisitImported: 'Повторні відвідини імпортовано', toastRevisitImportError: 'Не вдалося імпортувати файл (недійсний .revisits)'
 	},
 	personTypes: ['Літній чоловік', 'Літня жінка', 'Чоловік', 'Жінка', 'Молода людина', 'Дорослий', 'Панночка', 'Хлопчик', 'Дівчинка', 'Жінка', 'Мати', 'Молода мати', 'Батько', 'Молодий батько'],
 	sources: ['Біблія', 'Відео', 'Публікація'],
@@ -1028,7 +1040,8 @@ const vi = {
 		manualInstallHintSafariMac: 'Trong Safari (Mac): từ menu File, chọn "Thêm vào Dock…", hoặc dùng nút Chia sẻ và chọn "Thêm vào Dock".',
 		headingOtherApps: 'Các ứng dụng khác của tôi', otherAppsHint: 'Khám phá thêm các ứng dụng tôi đã tạo.', mapYouAreHere: 'Bạn đang ở đây',
 		btnExportToIOS: 'Xuất cho iOS/Mac', installBannerAppleTitle: 'Revisits cho iPhone, iPad và Mac', installBannerAppleHint: 'Nhận ứng dụng gốc đầy đủ từ App Store.',
-		btnGetAppStore: 'Xem trên App Store', updateBannerTitle: 'Có phiên bản mới', updateBannerHint: 'Cập nhật để nhận các cải tiến mới nhất.', btnUpdateNow: 'Cập nhật'
+		btnGetAppStore: 'Xem trên App Store', updateBannerTitle: 'Có phiên bản mới', updateBannerHint: 'Cập nhật để nhận các cải tiến mới nhất.', btnUpdateNow: 'Cập nhật',
+		btnImportFromIOS: 'Nhập từ iOS/Mac', toastRevisitImported: 'Đã nhập cuộc thăm lại', toastRevisitImportError: 'Không thể nhập tệp (.revisits không hợp lệ)'
 	},
 	personTypes: ['Ông cụ', 'Bà cụ', 'Ông', 'Bà', 'Người trẻ', 'Người lớn', 'Cô gái trẻ', 'Bé trai', 'Bé gái', 'Phụ nữ', 'Người mẹ', 'Mẹ trẻ', 'Người cha', 'Cha trẻ'],
 	sources: ['Kinh Thánh', 'Video', 'Ấn phẩm'],
@@ -1108,7 +1121,8 @@ const id = {
 		manualInstallHintSafariMac: 'Di Safari (Mac): dari menu File pilih "Tambahkan ke Dock…", atau gunakan tombol Bagikan dan pilih "Tambahkan ke Dock".',
 		headingOtherApps: 'Aplikasi saya yang lain', otherAppsHint: 'Lihat aplikasi lain yang telah saya buat.', mapYouAreHere: 'Anda di sini',
 		btnExportToIOS: 'Ekspor ke iOS/Mac', installBannerAppleTitle: 'Revisits untuk iPhone, iPad, dan Mac', installBannerAppleHint: 'Dapatkan aplikasi native lengkap dari App Store.',
-		btnGetAppStore: 'Lihat di App Store', updateBannerTitle: 'Versi baru tersedia', updateBannerHint: 'Perbarui untuk mendapatkan peningkatan terbaru.', btnUpdateNow: 'Perbarui'
+		btnGetAppStore: 'Lihat di App Store', updateBannerTitle: 'Versi baru tersedia', updateBannerHint: 'Perbarui untuk mendapatkan peningkatan terbaru.', btnUpdateNow: 'Perbarui',
+		btnImportFromIOS: 'Impor dari iOS/Mac', toastRevisitImported: 'Kunjungan kembali diimpor', toastRevisitImportError: 'Tidak dapat mengimpor file (.revisits tidak valid)'
 	},
 	personTypes: ['Pria tua', 'Wanita tua', 'Bapak', 'Ibu', 'Orang muda', 'Dewasa', 'Nona', 'Anak laki-laki', 'Anak perempuan', 'Wanita', 'Ibu', 'Ibu muda', 'Ayah', 'Ayah muda'],
 	sources: ['Alkitab', 'Video', 'Publikasi'],
@@ -1188,7 +1202,8 @@ const th = {
 		manualInstallHintSafariMac: 'ใน Safari (Mac): จากเมนู File เลือก "เพิ่มลงใน Dock…" หรือใช้ปุ่มแชร์แล้วเลือก "เพิ่มลงใน Dock"',
 		headingOtherApps: 'แอปอื่นๆ ของฉัน', otherAppsHint: 'ดูแอปอื่นๆ ที่ฉันสร้างขึ้น', mapYouAreHere: 'คุณอยู่ที่นี่',
 		btnExportToIOS: 'ส่งออกไปยัง iOS/Mac', installBannerAppleTitle: 'Revisits สำหรับ iPhone, iPad และ Mac', installBannerAppleHint: 'รับแอปเนทีฟฉบับเต็มจาก App Store',
-		btnGetAppStore: 'ดูใน App Store', updateBannerTitle: 'มีเวอร์ชันใหม่', updateBannerHint: 'อัปเดตเพื่อรับการปรับปรุงล่าสุด', btnUpdateNow: 'อัปเดต'
+		btnGetAppStore: 'ดูใน App Store', updateBannerTitle: 'มีเวอร์ชันใหม่', updateBannerHint: 'อัปเดตเพื่อรับการปรับปรุงล่าสุด', btnUpdateNow: 'อัปเดต',
+		btnImportFromIOS: 'นำเข้าจาก iOS/Mac', toastRevisitImported: 'นำเข้าการเยี่ยมเยียนซ้ำแล้ว', toastRevisitImportError: 'ไม่สามารถนำเข้าไฟล์ได้ (.revisits ไม่ถูกต้อง)'
 	},
 	personTypes: ['ชายสูงอายุ', 'หญิงสูงอายุ', 'ชาย', 'หญิง', 'วัยรุ่น', 'ผู้ใหญ่', 'สาวน้อย', 'เด็กชาย', 'เด็กหญิง', 'ผู้หญิง', 'มารดา', 'มารดาสาว', 'บิดา', 'บิดาหนุ่ม'],
 	sources: ['คัมภีร์ไบเบิล', 'วิดีโอ', 'สิ่งพิมพ์'],
@@ -1268,7 +1283,8 @@ const hi = {
 		manualInstallHintSafariMac: 'Safari (Mac) में: File मेनू से "Add to Dock…" चुनें, या शेयर बटन का उपयोग करें और "Add to Dock" चुनें।',
 		headingOtherApps: 'मेरे अन्य ऐप्स', otherAppsHint: 'मेरे बनाए अन्य ऐप्स देखें।', mapYouAreHere: 'आप यहाँ हैं',
 		btnExportToIOS: 'iOS/Mac के लिए एक्सपोर्ट करें', installBannerAppleTitle: 'iPhone, iPad और Mac के लिए Revisits', installBannerAppleHint: 'App Store से पूरा नेटिव ऐप प्राप्त करें।',
-		btnGetAppStore: 'App Store पर देखें', updateBannerTitle: 'नया वर्शन उपलब्ध है', updateBannerHint: 'नवीनतम सुधार पाने के लिए अपडेट करें।', btnUpdateNow: 'अपडेट करें'
+		btnGetAppStore: 'App Store पर देखें', updateBannerTitle: 'नया वर्शन उपलब्ध है', updateBannerHint: 'नवीनतम सुधार पाने के लिए अपडेट करें।', btnUpdateNow: 'अपडेट करें',
+		btnImportFromIOS: 'iOS/Mac से आयात करें', toastRevisitImported: 'पुनः भेंट आयात की गई', toastRevisitImportError: 'फ़ाइल आयात नहीं हो सकी (अमान्य .revisits)'
 	},
 	personTypes: ['बुज़ुर्ग पुरुष', 'बुज़ुर्ग महिला', 'श्रीमान', 'श्रीमती', 'युवा', 'वयस्क', 'युवती', 'लड़का', 'लड़की', 'महिला', 'माँ', 'युवा माँ', 'पिता', 'युवा पिता'],
 	sources: ['बाइबल', 'वीडियो', 'प्रकाशन'],
@@ -1348,7 +1364,8 @@ const ja = {
 		manualInstallHintSafariMac: 'Safari（Mac）で：「ファイル」メニューから「Dockに追加…」を選択するか、共有ボタンから「Dockに追加」を選択してください。',
 		headingOtherApps: '私の他のアプリ', otherAppsHint: '私が作った他のアプリをチェックしてください。', mapYouAreHere: '現在地',
 		btnExportToIOS: 'iOS/Mac用にエクスポート', installBannerAppleTitle: 'iPhone、iPad、Mac向けRevisits', installBannerAppleHint: 'App Storeで完全なネイティブアプリを入手してください。',
-		btnGetAppStore: 'App Storeで見る', updateBannerTitle: '新しいバージョンがあります', updateBannerHint: '最新の改善を取得するには更新してください。', btnUpdateNow: '更新'
+		btnGetAppStore: 'App Storeで見る', updateBannerTitle: '新しいバージョンがあります', updateBannerHint: '最新の改善を取得するには更新してください。', btnUpdateNow: '更新',
+		btnImportFromIOS: 'iOS/Macからインポート', toastRevisitImported: '再訪問をインポートしました', toastRevisitImportError: 'ファイルをインポートできませんでした（無効な.revisitsファイル）'
 	},
 	personTypes: ['高齢の男性', '高齢の女性', '男性', '女性', '若者', '成人', '若い女性', '男の子', '女の子', '女性', '母親', '若い母親', '父親', '若い父親'],
 	sources: ['聖書', '動画', '出版物'],
@@ -1428,7 +1445,8 @@ const ko = {
 		manualInstallHintSafariMac: 'Safari(Mac)에서: 파일 메뉴에서 "Dock에 추가..."를 선택하거나 공유 버튼을 사용해 "Dock에 추가"를 선택하세요.',
 		headingOtherApps: '내 다른 앱', otherAppsHint: '제가 만든 다른 앱들을 확인해 보세요.', mapYouAreHere: '현재 위치',
 		btnExportToIOS: 'iOS/Mac용으로 내보내기', installBannerAppleTitle: 'iPhone, iPad, Mac용 Revisits', installBannerAppleHint: 'App Store에서 완전한 네이티브 앱을 받아보세요.',
-		btnGetAppStore: 'App Store에서 보기', updateBannerTitle: '새 버전 사용 가능', updateBannerHint: '최신 개선 사항을 받으려면 업데이트하세요.', btnUpdateNow: '업데이트'
+		btnGetAppStore: 'App Store에서 보기', updateBannerTitle: '새 버전 사용 가능', updateBannerHint: '최신 개선 사항을 받으려면 업데이트하세요.', btnUpdateNow: '업데이트',
+		btnImportFromIOS: 'iOS/Mac에서 가져오기', toastRevisitImported: '재방문을 가져왔습니다', toastRevisitImportError: '파일을 가져올 수 없습니다 (잘못된 .revisits 파일)'
 	},
 	personTypes: ['노인 남성', '노인 여성', '남성', '여성', '청년', '성인', '젊은 여성', '남자아이', '여자아이', '여성', '어머니', '젊은 어머니', '아버지', '젊은 아버지'],
 	sources: ['성경', '동영상', '출판물'],

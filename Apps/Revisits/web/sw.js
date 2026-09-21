@@ -1,4 +1,4 @@
-const CACHE_NAME = 'revisits-web-v5';
+const CACHE_NAME = 'revisits-web-v6';
 const APP_SHELL = [
 	'./',
 	'./index.html',
@@ -17,6 +17,7 @@ const APP_SHELL = [
 	'./js/i18n-strings.js',
 	'./js/geo.js',
 	'./js/revisitExport.js',
+	'./js/revisitImport.js',
 	'./js/views/revisits.js',
 	'./js/views/reports.js',
 	'./js/views/goals.js',
@@ -39,7 +40,8 @@ const APP_SHELL = [
 	'./assets/art/houses/casa_revisita_3.png',
 	'./assets/art/houses/casa_revisita_4.png',
 	'./assets/art/houses/casa_revisita_5.png',
-	'./assets/art/houses/casa_revisita_6.png'
+	'./assets/art/houses/casa_revisita_6.png',
+	'./assets/art/other-apps/cota-icon.webp'
 ];
 
 self.addEventListener('install', (event) => {
