@@ -2,9 +2,12 @@ import * as store from '../store.js';
 import { t, visitTypeLabel } from '../i18n.js';
 import { escapeHTML } from '../utils.js';
 import { openDetail, openNewRevisitForm } from './revisits.js';
+import { getCurrentPosition } from '../geo.js';
 
 let map = null;
 let markersLayer = null;
+let userLocationLayer = null;
+let userLocationRequested = false;
 
 export async function render(container) {
 	if (typeof L === 'undefined') {
@@ -18,7 +21,7 @@ export async function render(container) {
 	if (!container.querySelector('#territoriosMap')) {
 		container.innerHTML = `
 			<div id="territoriosMap" class="territorios-map"></div>
-			<div id="territoriosEmpty" class="empty-state" style="display:none;"></div>
+			<div id="territoriosEmpty" class="territorios-empty-overlay" style="display:none;"></div>
 		`;
 	}
 
@@ -26,7 +29,6 @@ export async function render(container) {
 	const mapEl = container.querySelector('#territoriosMap');
 
 	if (!located.length) {
-		mapEl.style.display = 'none';
 		emptyEl.style.display = 'flex';
 		emptyEl.innerHTML = `
 			<p>${escapeHTML(t('emptyTerritorios'))}</p>
@@ -36,19 +38,18 @@ export async function render(container) {
 			document.querySelector('#app-tabbar button[data-tab="revisitas"]')?.click();
 			openNewRevisitForm();
 		});
-		return;
+	} else {
+		emptyEl.style.display = 'none';
 	}
 
-	mapEl.style.display = 'block';
-	emptyEl.style.display = 'none';
-
 	if (!map) {
-		map = L.map(mapEl, { zoomControl: true });
+		map = L.map(mapEl, { zoomControl: true }).setView([20, 0], 2);
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 			maxZoom: 19
 		}).addTo(map);
 		markersLayer = L.layerGroup().addTo(map);
+		userLocationLayer = L.layerGroup().addTo(map);
 	}
 
 	markersLayer.clearLayers();
@@ -84,8 +85,37 @@ export async function render(container) {
 		map.invalidateSize();
 		if (bounds.length === 1) {
 			map.setView(bounds[0], 15);
-		} else {
+		} else if (bounds.length > 1) {
 			map.fitBounds(bounds, { padding: [30, 30] });
 		}
+	});
+
+	locateUser(bounds);
+}
+
+function locateUser(revisitBounds) {
+	if (userLocationRequested) return;
+	userLocationRequested = true;
+
+	getCurrentPosition().then(({ lat, lng }) => {
+		userLocationLayer.clearLayers();
+		L.circleMarker([lat, lng], {
+			radius: 8,
+			color: '#fff',
+			weight: 3,
+			fillColor: '#4285f4',
+			fillOpacity: 1
+		}).bindPopup(escapeHTML(t('mapYouAreHere'))).addTo(userLocationLayer);
+
+		requestAnimationFrame(() => {
+			map.invalidateSize();
+			if (revisitBounds.length) {
+				map.fitBounds([...revisitBounds, [lat, lng]], { padding: [30, 30] });
+			} else {
+				map.setView([lat, lng], 14);
+			}
+		});
+	}).catch(() => {
+		/* permission denied, unsupported, or timed out — keep whatever view we already have */
 	});
 }
