@@ -8,6 +8,25 @@ let map = null;
 let markersLayer = null;
 let userLocationLayer = null;
 let userLocationRequested = false;
+let resizeListenersBound = false;
+
+function sizeMap(mapEl) {
+	if (!mapEl) return;
+	const tabbar = document.getElementById('app-tabbar');
+	const top = mapEl.getBoundingClientRect().top;
+	const tabbarHeight = tabbar?.offsetHeight || 0;
+	const height = Math.max(320, window.innerHeight - top - tabbarHeight);
+	mapEl.style.height = `${height}px`;
+	map?.invalidateSize();
+}
+
+function bindResizeListeners() {
+	if (resizeListenersBound) return;
+	resizeListenersBound = true;
+	const resize = () => sizeMap(document.getElementById('territoriosMap'));
+	window.addEventListener('resize', resize);
+	window.addEventListener('revisits:layoutchange', resize);
+}
 
 export async function render(container) {
 	if (typeof L === 'undefined') {
@@ -41,6 +60,9 @@ export async function render(container) {
 	} else {
 		emptyEl.style.display = 'none';
 	}
+
+	sizeMap(mapEl);
+	bindResizeListeners();
 
 	if (!map) {
 		map = L.map(mapEl, { zoomControl: true }).setView([20, 0], 2);

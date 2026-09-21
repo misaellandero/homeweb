@@ -123,8 +123,8 @@ function renderInstallBanner() {
 		`;
 	}
 
-	document.body.append(banner);
-	document.body.classList.add('has-install-banner');
+	document.querySelector('.app-header')?.after(banner);
+	window.dispatchEvent(new Event('revisits:layoutchange'));
 
 	banner.querySelector('#installBannerDismiss').addEventListener('click', dismiss);
 	banner.querySelector('#installBannerInstall')?.addEventListener('click', triggerInstall);
@@ -133,7 +133,7 @@ function renderInstallBanner() {
 function hideBanner() {
 	document.getElementById('installBanner')?.remove();
 	document.getElementById('updateBanner')?.remove();
-	document.body.classList.remove('has-install-banner');
+	window.dispatchEvent(new Event('revisits:layoutchange'));
 }
 
 // ---------- Service worker update banner ----------
@@ -167,7 +167,7 @@ function showUpdateBanner() {
 			<button class="btn btn-primary" id="updateBannerBtn"><i class="fas fa-sync-alt"></i> ${t('btnUpdateNow')}</button>
 		</div>
 	`;
-	document.body.append(banner);
-	document.body.classList.add('has-install-banner');
+	document.querySelector('.app-header')?.after(banner);
+	window.dispatchEvent(new Event('revisits:layoutchange'));
 	banner.querySelector('#updateBannerBtn').addEventListener('click', () => location.reload());
 }
