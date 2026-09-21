@@ -64,8 +64,9 @@ const es = {
 		notifDueMultipleTitle: 'Recordatorios de revisitas', notifDueMultipleBody: 'Tienes {{count}} revisitas programadas para hoy o antes.',
 		notifTimerGoalTitle: 'Meta de tiempo alcanzada', notifTimerGoalBody: 'Has cubierto el tiempo programado ⌛️',
 		notificationsDeniedHint: 'Bloqueaste las notificaciones en el navegador. Actívalas desde la configuración del sitio para recibir recordatorios.',
-		headingSupport: 'Apoyar Revisits', supportHint: 'Si Revisits te ayuda en tu servicio, considera apoyar su desarrollo con una propina en la app de iOS/Mac.', btnSupport: 'Apoyar la app',
-		manualInstallHintSafariMac: 'En Safari (Mac): en el menú Archivo, elige "Añadir al Dock…", o usa el botón Compartir y selecciona "Añadir al Dock".'
+		headingSupport: 'Apoyar Revisits', supportHint: 'Si Revisits te ayuda en tu servicio, considera apoyar su desarrollo con una donación por PayPal.', btnSupport: 'Apoyar la app',
+		manualInstallHintSafariMac: 'En Safari (Mac): en el menú Archivo, elige "Añadir al Dock…", o usa el botón Compartir y selecciona "Añadir al Dock".',
+		headingOtherApps: 'Mis otras apps', otherAppsHint: 'Descubre más apps que he creado.', mapYouAreHere: 'Estás aquí'
 	},
 	personTypes: ['Ancianito', 'Ancianita', 'Señor', 'Señora', 'Joven', 'Adulto', 'Señorita', 'Niño', 'Niña', 'Mujer', 'Madre', 'Madre joven', 'Padre', 'Padre joven'],
 	sources: ['Biblia', 'Video', 'Publicación'],
@@ -141,8 +142,9 @@ const en = {
 		notifDueMultipleTitle: 'Return visit reminders', notifDueMultipleBody: 'You have {{count}} return visits due today or earlier.',
 		notifTimerGoalTitle: 'Time goal reached', notifTimerGoalBody: 'You’ve covered your scheduled time ⌛️',
 		notificationsDeniedHint: 'You blocked notifications in your browser. Enable them from the site settings to get reminders.',
-		headingSupport: 'Support Revisits', supportHint: 'If Revisits helps with your ministry, consider supporting its development with a tip in the iOS/Mac app.', btnSupport: 'Support the app',
-		manualInstallHintSafariMac: 'In Safari (Mac): from the File menu choose "Add to Dock…", or use the Share button and select "Add to Dock".'
+		headingSupport: 'Support Revisits', supportHint: 'If Revisits helps with your ministry, consider supporting its development with a PayPal donation.', btnSupport: 'Support the app',
+		manualInstallHintSafariMac: 'In Safari (Mac): from the File menu choose "Add to Dock…", or use the Share button and select "Add to Dock".',
+		headingOtherApps: 'My other apps', otherAppsHint: 'Check out more apps I\'ve built.', mapYouAreHere: 'You are here'
 	},
 	personTypes: ['Elderly man', 'Elderly woman', 'Man', 'Woman', 'Young person', 'Adult', 'Young woman', 'Boy', 'Girl', 'Woman', 'Mother', 'Young mother', 'Father', 'Young father'],
 	sources: ['Bible', 'Video', 'Publication'],
@@ -218,8 +220,9 @@ const de = {
 		notifDueMultipleTitle: 'Erinnerungen an Rückbesuche', notifDueMultipleBody: 'Du hast {{count}} fällige Rückbesuche für heute oder früher.',
 		notifTimerGoalTitle: 'Zeitziel erreicht', notifTimerGoalBody: 'Du hast deine geplante Zeit erreicht ⌛️',
 		notificationsDeniedHint: 'Du hast Benachrichtigungen in deinem Browser blockiert. Aktiviere sie in den Website-Einstellungen, um Erinnerungen zu erhalten.',
-		headingSupport: 'Revisits unterstützen', supportHint: 'Wenn dir Revisits in deinem Dienst hilft, unterstütze die Entwicklung mit einem Trinkgeld in der iOS/Mac-App.', btnSupport: 'App unterstützen',
-		manualInstallHintSafariMac: 'In Safari (Mac): Wähle im Menü „Ablage“ die Option „Zum Dock hinzufügen …“ oder nutze die Teilen-Schaltfläche und wähle „Zum Dock hinzufügen“.'
+		headingSupport: 'Revisits unterstützen', supportHint: 'Wenn dir Revisits in deinem Dienst hilft, unterstütze die Entwicklung mit einer PayPal-Spende.', btnSupport: 'App unterstützen',
+		manualInstallHintSafariMac: 'In Safari (Mac): Wähle im Menü „Ablage“ die Option „Zum Dock hinzufügen …“ oder nutze die Teilen-Schaltfläche und wähle „Zum Dock hinzufügen“.',
+		headingOtherApps: 'Meine anderen Apps', otherAppsHint: 'Entdecke weitere Apps von mir.', mapYouAreHere: 'Du bist hier'
 	},
 	personTypes: ['Alter Mann', 'Alte Frau', 'Mann', 'Frau', 'Junge Person', 'Erwachsener', 'Junge Frau', 'Junge', 'Mädchen', 'Frau', 'Mutter', 'Junge Mutter', 'Vater', 'Junger Vater'],
 	sources: ['Bibel', 'Video', 'Publikation'],
@@ -295,8 +298,9 @@ const fr = {
 		notifDueMultipleTitle: 'Rappels de nouvelles visites', notifDueMultipleBody: 'Tu as {{count}} nouvelles visites prévues pour aujourd’hui ou avant.',
 		notifTimerGoalTitle: 'Objectif de temps atteint', notifTimerGoalBody: 'Tu as couvert le temps prévu ⌛️',
 		notificationsDeniedHint: 'Tu as bloqué les notifications dans ton navigateur. Active-les dans les paramètres du site pour recevoir des rappels.',
-		headingSupport: 'Soutenir Revisits', supportHint: 'Si Revisits t’aide dans ton service, envisage de soutenir son développement avec un pourboire dans l’app iOS/Mac.', btnSupport: 'Soutenir l’app',
-		manualInstallHintSafariMac: 'Dans Safari (Mac) : dans le menu Fichier, choisis « Ajouter au Dock… », ou utilise le bouton Partager et sélectionne « Ajouter au Dock ».'
+		headingSupport: 'Soutenir Revisits', supportHint: 'Si Revisits t’aide dans ton service, envisage de soutenir son développement avec un don via PayPal.', btnSupport: 'Soutenir l’app',
+		manualInstallHintSafariMac: 'Dans Safari (Mac) : dans le menu Fichier, choisis « Ajouter au Dock… », ou utilise le bouton Partager et sélectionne « Ajouter au Dock ».',
+		headingOtherApps: 'Mes autres apps', otherAppsHint: 'Découvre d’autres apps que j’ai créées.', mapYouAreHere: 'Tu es ici'
 	},
 	personTypes: ['Homme âgé', 'Femme âgée', 'Homme', 'Femme', 'Jeune', 'Adulte', 'Jeune femme', 'Garçon', 'Fille', 'Femme', 'Mère', 'Jeune mère', 'Père', 'Jeune père'],
 	sources: ['Bible', 'Vidéo', 'Publication'],
@@ -372,8 +376,9 @@ const it = {
 		notifDueMultipleTitle: 'Promemoria revisite', notifDueMultipleBody: 'Hai {{count}} revisite previste per oggi o prima.',
 		notifTimerGoalTitle: 'Obiettivo di tempo raggiunto', notifTimerGoalBody: 'Hai coperto il tempo programmato ⌛️',
 		notificationsDeniedHint: 'Hai bloccato le notifiche nel browser. Attivale dalle impostazioni del sito per ricevere promemoria.',
-		headingSupport: 'Sostieni Revisits', supportHint: 'Se Revisits ti aiuta nel tuo servizio, considera di sostenere il suo sviluppo con una mancia nell’app iOS/Mac.', btnSupport: 'Sostieni l’app',
-		manualInstallHintSafariMac: 'In Safari (Mac): dal menu File scegli "Aggiungi al Dock…", oppure usa il pulsante Condividi e seleziona "Aggiungi al Dock".'
+		headingSupport: 'Sostieni Revisits', supportHint: 'Se Revisits ti aiuta nel tuo servizio, considera di sostenere il suo sviluppo con una donazione tramite PayPal.', btnSupport: 'Sostieni l’app',
+		manualInstallHintSafariMac: 'In Safari (Mac): dal menu File scegli "Aggiungi al Dock…", oppure usa il pulsante Condividi e seleziona "Aggiungi al Dock".',
+		headingOtherApps: 'Le mie altre app', otherAppsHint: 'Scopri altre app che ho creato.', mapYouAreHere: 'Sei qui'
 	},
 	personTypes: ['Uomo anziano', 'Donna anziana', 'Uomo', 'Donna', 'Giovane', 'Adulto', 'Signorina', 'Bambino', 'Bambina', 'Donna', 'Madre', 'Madre giovane', 'Padre', 'Padre giovane'],
 	sources: ['Bibbia', 'Video', 'Pubblicazione'],
@@ -449,8 +454,9 @@ const pt = {
 		notifDueMultipleTitle: 'Lembretes de revisitas', notifDueMultipleBody: 'Tens {{count}} revisitas previstas para hoje ou antes.',
 		notifTimerGoalTitle: 'Meta de tempo atingida', notifTimerGoalBody: 'Cobriste o tempo programado ⌛️',
 		notificationsDeniedHint: 'Bloqueaste as notificações no navegador. Ativa-as nas definições do site para receber lembretes.',
-		headingSupport: 'Apoiar o Revisits', supportHint: 'Se o Revisits te ajuda no teu serviço, considera apoiar o seu desenvolvimento com uma gorjeta na app iOS/Mac.', btnSupport: 'Apoiar a app',
-		manualInstallHintSafariMac: 'No Safari (Mac): no menu Ficheiro, escolhe "Adicionar ao Dock…", ou usa o botão Partilhar e seleciona "Adicionar ao Dock".'
+		headingSupport: 'Apoiar o Revisits', supportHint: 'Se o Revisits te ajuda no teu serviço, considera apoiar o seu desenvolvimento com uma doação pelo PayPal.', btnSupport: 'Apoiar a app',
+		manualInstallHintSafariMac: 'No Safari (Mac): no menu Ficheiro, escolhe "Adicionar ao Dock…", ou usa o botão Partilhar e seleciona "Adicionar ao Dock".',
+		headingOtherApps: 'As minhas outras apps', otherAppsHint: 'Descobre mais apps que criei.', mapYouAreHere: 'Estás aqui'
 	},
 	personTypes: ['Homem idoso', 'Mulher idosa', 'Senhor', 'Senhora', 'Jovem', 'Adulto', 'Menina', 'Menino', 'Menina', 'Mulher', 'Mãe', 'Mãe jovem', 'Pai', 'Pai jovem'],
 	sources: ['Bíblia', 'Vídeo', 'Publicação'],
@@ -526,8 +532,9 @@ const nl = {
 		notifDueMultipleTitle: 'Herinneringen nabezoeken', notifDueMultipleBody: 'Je hebt {{count}} nabezoeken gepland voor vandaag of eerder.',
 		notifTimerGoalTitle: 'Tijddoel behaald', notifTimerGoalBody: 'Je hebt je geplande tijd gehaald ⌛️',
 		notificationsDeniedHint: 'Je hebt meldingen in je browser geblokkeerd. Schakel ze in via de sitemeldingen om herinneringen te ontvangen.',
-		headingSupport: 'Revisits ondersteunen', supportHint: 'Als Revisits je helpt in je dienst, overweeg de ontwikkeling te steunen met een fooi in de iOS/Mac-app.', btnSupport: 'App ondersteunen',
-		manualInstallHintSafariMac: 'In Safari (Mac): kies in het menu Archief "Toevoegen aan Dock…", of gebruik de deelknop en selecteer "Toevoegen aan Dock".'
+		headingSupport: 'Revisits ondersteunen', supportHint: 'Als Revisits je helpt in je dienst, overweeg de ontwikkeling te steunen met een donatie via PayPal.', btnSupport: 'App ondersteunen',
+		manualInstallHintSafariMac: 'In Safari (Mac): kies in het menu Archief "Toevoegen aan Dock…", of gebruik de deelknop en selecteer "Toevoegen aan Dock".',
+		headingOtherApps: 'Mijn andere apps', otherAppsHint: 'Ontdek meer apps die ik heb gemaakt.', mapYouAreHere: 'Je bent hier'
 	},
 	personTypes: ['Oudere man', 'Oudere vrouw', 'Meneer', 'Mevrouw', 'Jongere', 'Volwassene', 'Jongedame', 'Jongen', 'Meisje', 'Vrouw', 'Moeder', 'Jonge moeder', 'Vader', 'Jonge vader'],
 	sources: ['Bijbel', 'Video', 'Publicatie'],
@@ -603,8 +610,9 @@ const el = {
 		notifDueMultipleTitle: 'Υπενθυμίσεις επανεπισκέψεων', notifDueMultipleBody: 'Έχεις {{count}} επανεπισκέψεις για σήμερα ή νωρίτερα.',
 		notifTimerGoalTitle: 'Στόχος χρόνου επιτεύχθηκε', notifTimerGoalBody: 'Κάλυψες τον προγραμματισμένο χρόνο ⌛️',
 		notificationsDeniedHint: 'Έχεις μπλοκάρει τις ειδοποιήσεις στον browser σου. Ενεργοποίησέ τις από τις ρυθμίσεις του ιστότοπου για να λαμβάνεις υπενθυμίσεις.',
-		headingSupport: 'Υποστήριξε το Revisits', supportHint: 'Αν το Revisits σε βοηθά στην υπηρεσία σου, σκέψου να υποστηρίξεις την ανάπτυξή του με ένα φιλοδώρημα στην εφαρμογή iOS/Mac.', btnSupport: 'Υποστήριξε την εφαρμογή',
-		manualInstallHintSafariMac: 'Στο Safari (Mac): από το μενού Αρχείο επίλεξε «Προσθήκη στο Dock…» ή χρησιμοποίησε το κουμπί Κοινή χρήση και επίλεξε «Προσθήκη στο Dock».'
+		headingSupport: 'Υποστήριξε το Revisits', supportHint: 'Αν το Revisits σε βοηθά στην υπηρεσία σου, σκέψου να υποστηρίξεις την ανάπτυξή του με μια δωρεά μέσω PayPal.', btnSupport: 'Υποστήριξε την εφαρμογή',
+		manualInstallHintSafariMac: 'Στο Safari (Mac): από το μενού Αρχείο επίλεξε «Προσθήκη στο Dock…» ή χρησιμοποίησε το κουμπί Κοινή χρήση και επίλεξε «Προσθήκη στο Dock».',
+		headingOtherApps: 'Οι άλλες μου εφαρμογές', otherAppsHint: 'Ανακάλυψε κι άλλες εφαρμογές που έχω δημιουργήσει.', mapYouAreHere: 'Είσαι εδώ'
 	},
 	personTypes: ['Ηλικιωμένος', 'Ηλικιωμένη', 'Κύριος', 'Κυρία', 'Νέος/Νέα', 'Ενήλικας', 'Δεσποινίδα', 'Αγόρι', 'Κορίτσι', 'Γυναίκα', 'Μητέρα', 'Νεαρή μητέρα', 'Πατέρας', 'Νεαρός πατέρας'],
 	sources: ['Αγία Γραφή', 'Βίντεο', 'Έκδοση'],
@@ -680,8 +688,9 @@ const pl = {
 		notifDueMultipleTitle: 'Przypomnienia o odwiedzinach', notifDueMultipleBody: 'Masz {{count}} odwiedzin zaplanowanych na dziś lub wcześniej.',
 		notifTimerGoalTitle: 'Cel czasowy osiągnięty', notifTimerGoalBody: 'Osiągnąłeś zaplanowany czas ⌛️',
 		notificationsDeniedHint: 'Zablokowałeś powiadomienia w przeglądarce. Włącz je w ustawieniach witryny, aby otrzymywać przypomnienia.',
-		headingSupport: 'Wesprzyj Revisits', supportHint: 'Jeśli Revisits pomaga Ci w służbie, rozważ wsparcie jego rozwoju napiwkiem w aplikacji iOS/Mac.', btnSupport: 'Wesprzyj aplikację',
-		manualInstallHintSafariMac: 'W Safari (Mac): w menu Plik wybierz "Dodaj do Docka…" lub użyj przycisku Udostępnij i wybierz "Dodaj do Docka".'
+		headingSupport: 'Wesprzyj Revisits', supportHint: 'Jeśli Revisits pomaga Ci w służbie, rozważ wsparcie jego rozwoju darowizną przez PayPal.', btnSupport: 'Wesprzyj aplikację',
+		manualInstallHintSafariMac: 'W Safari (Mac): w menu Plik wybierz "Dodaj do Docka…" lub użyj przycisku Udostępnij i wybierz "Dodaj do Docka".',
+		headingOtherApps: 'Moje inne aplikacje', otherAppsHint: 'Odkryj więcej aplikacji, które stworzyłem.', mapYouAreHere: 'Jesteś tutaj'
 	},
 	personTypes: ['Starszy mężczyzna', 'Starsza kobieta', 'Pan', 'Pani', 'Młoda osoba', 'Dorosły', 'Panienka', 'Chłopiec', 'Dziewczynka', 'Kobieta', 'Matka', 'Młoda matka', 'Ojciec', 'Młody ojciec'],
 	sources: ['Biblia', 'Film', 'Publikacja'],
@@ -757,8 +766,9 @@ const ru = {
 		notifDueMultipleTitle: 'Напоминания о посещениях', notifDueMultipleBody: 'У вас {{count}} посещений, запланированных на сегодня или раньше.',
 		notifTimerGoalTitle: 'Цель по времени достигнута', notifTimerGoalBody: 'Вы покрыли запланированное время ⌛️',
 		notificationsDeniedHint: 'Вы заблокировали уведомления в браузере. Включите их в настройках сайта, чтобы получать напоминания.',
-		headingSupport: 'Поддержать Revisits', supportHint: 'Если Revisits помогает вам в служении, рассмотрите возможность поддержать его разработку чаевыми в приложении iOS/Mac.', btnSupport: 'Поддержать приложение',
-		manualInstallHintSafariMac: 'В Safari (Mac): в меню «Файл» выберите «Добавить в Dock…» или используйте кнопку «Поделиться» и выберите «Добавить в Dock».'
+		headingSupport: 'Поддержать Revisits', supportHint: 'Если Revisits помогает вам в служении, рассмотрите возможность поддержать его разработку пожертвованием через PayPal.', btnSupport: 'Поддержать приложение',
+		manualInstallHintSafariMac: 'В Safari (Mac): в меню «Файл» выберите «Добавить в Dock…» или используйте кнопку «Поделиться» и выберите «Добавить в Dock».',
+		headingOtherApps: 'Мои другие приложения', otherAppsHint: 'Посмотрите другие приложения, которые я создал.', mapYouAreHere: 'Вы здесь'
 	},
 	personTypes: ['Пожилой мужчина', 'Пожилая женщина', 'Мужчина', 'Женщина', 'Молодой человек', 'Взрослый', 'Девушка', 'Мальчик', 'Девочка', 'Женщина', 'Мать', 'Молодая мать', 'Отец', 'Молодой отец'],
 	sources: ['Библия', 'Видео', 'Публикация'],
@@ -834,8 +844,9 @@ const tr = {
 		notifDueMultipleTitle: 'Tekrar ziyaret hatırlatıcıları', notifDueMultipleBody: 'Bugün veya öncesi için {{count}} tekrar ziyaretin var.',
 		notifTimerGoalTitle: 'Zaman hedefine ulaşıldı', notifTimerGoalBody: 'Planlanan süreyi tamamladın ⌛️',
 		notificationsDeniedHint: 'Tarayıcında bildirimleri engelledin. Hatırlatıcı almak için site ayarlarından etkinleştir.',
-		headingSupport: 'Revisits’i destekle', supportHint: 'Revisits hizmetinde sana yardımcı oluyorsa, iOS/Mac uygulamasında bahşiş vererek gelişimini destekleyebilirsin.', btnSupport: 'Uygulamayı destekle',
-		manualInstallHintSafariMac: 'Safari\'de (Mac): Dosya menüsünden "Dock\'a Ekle…" seçeneğini seç veya Paylaş düğmesini kullanıp "Dock\'a Ekle"yi seç.'
+		headingSupport: 'Revisits’i destekle', supportHint: 'Revisits hizmetinde sana yardımcı oluyorsa, PayPal üzerinden bağış yaparak gelişimini destekleyebilirsin.', btnSupport: 'Uygulamayı destekle',
+		manualInstallHintSafariMac: 'Safari\'de (Mac): Dosya menüsünden "Dock\'a Ekle…" seçeneğini seç veya Paylaş düğmesini kullanıp "Dock\'a Ekle"yi seç.',
+		headingOtherApps: 'Diğer uygulamalarım', otherAppsHint: 'Geliştirdiğim diğer uygulamaları keşfet.', mapYouAreHere: 'Buradasın'
 	},
 	personTypes: ['Yaşlı adam', 'Yaşlı kadın', 'Bey', 'Hanım', 'Genç', 'Yetişkin', 'Genç bayan', 'Erkek çocuk', 'Kız çocuk', 'Kadın', 'Anne', 'Genç anne', 'Baba', 'Genç baba'],
 	sources: ['Mukaddes Kitap', 'Video', 'Yayın'],
@@ -911,8 +922,9 @@ const uk = {
 		notifDueMultipleTitle: 'Нагадування про відвідини', notifDueMultipleBody: 'У вас {{count}} відвідин, запланованих на сьогодні або раніше.',
 		notifTimerGoalTitle: 'Ціль за часом досягнута', notifTimerGoalBody: 'Ви покрили запланований час ⌛️',
 		notificationsDeniedHint: 'Ви заблокували сповіщення в браузері. Увімкніть їх у налаштуваннях сайту, щоб отримувати нагадування.',
-		headingSupport: 'Підтримати Revisits', supportHint: 'Якщо Revisits допомагає вам у служінні, розгляньте можливість підтримати його розробку чайовими в застосунку iOS/Mac.', btnSupport: 'Підтримати застосунок',
-		manualInstallHintSafariMac: 'У Safari (Mac): у меню «Файл» виберіть «Додати до Dock…» або скористайтеся кнопкою «Поділитися» та виберіть «Додати до Dock».'
+		headingSupport: 'Підтримати Revisits', supportHint: 'Якщо Revisits допомагає вам у служінні, розгляньте можливість підтримати його розробку пожертвою через PayPal.', btnSupport: 'Підтримати застосунок',
+		manualInstallHintSafariMac: 'У Safari (Mac): у меню «Файл» виберіть «Додати до Dock…» або скористайтеся кнопкою «Поділитися» та виберіть «Додати до Dock».',
+		headingOtherApps: 'Мої інші застосунки', otherAppsHint: 'Перегляньте інші застосунки, які я створив.', mapYouAreHere: 'Ви тут'
 	},
 	personTypes: ['Літній чоловік', 'Літня жінка', 'Чоловік', 'Жінка', 'Молода людина', 'Дорослий', 'Панночка', 'Хлопчик', 'Дівчинка', 'Жінка', 'Мати', 'Молода мати', 'Батько', 'Молодий батько'],
 	sources: ['Біблія', 'Відео', 'Публікація'],
@@ -988,8 +1000,9 @@ const vi = {
 		notifDueMultipleTitle: 'Nhắc nhở thăm lại', notifDueMultipleBody: 'Bạn có {{count}} cuộc thăm lại đến hạn hôm nay hoặc trước đó.',
 		notifTimerGoalTitle: 'Đã đạt chỉ tiêu thời gian', notifTimerGoalBody: 'Bạn đã hoàn thành thời gian đã lên lịch ⌛️',
 		notificationsDeniedHint: 'Bạn đã chặn thông báo trong trình duyệt. Hãy bật lại trong cài đặt trang web để nhận nhắc nhở.',
-		headingSupport: 'Ủng hộ Revisits', supportHint: 'Nếu Revisits giúp ích cho thánh chức của bạn, hãy cân nhắc ủng hộ việc phát triển ứng dụng bằng cách boa trong ứng dụng iOS/Mac.', btnSupport: 'Ủng hộ ứng dụng',
-		manualInstallHintSafariMac: 'Trong Safari (Mac): từ menu File, chọn "Thêm vào Dock…", hoặc dùng nút Chia sẻ và chọn "Thêm vào Dock".'
+		headingSupport: 'Ủng hộ Revisits', supportHint: 'Nếu Revisits giúp ích cho thánh chức của bạn, hãy cân nhắc ủng hộ việc phát triển ứng dụng bằng cách quyên góp qua PayPal.', btnSupport: 'Ủng hộ ứng dụng',
+		manualInstallHintSafariMac: 'Trong Safari (Mac): từ menu File, chọn "Thêm vào Dock…", hoặc dùng nút Chia sẻ và chọn "Thêm vào Dock".',
+		headingOtherApps: 'Các ứng dụng khác của tôi', otherAppsHint: 'Khám phá thêm các ứng dụng tôi đã tạo.', mapYouAreHere: 'Bạn đang ở đây'
 	},
 	personTypes: ['Ông cụ', 'Bà cụ', 'Ông', 'Bà', 'Người trẻ', 'Người lớn', 'Cô gái trẻ', 'Bé trai', 'Bé gái', 'Phụ nữ', 'Người mẹ', 'Mẹ trẻ', 'Người cha', 'Cha trẻ'],
 	sources: ['Kinh Thánh', 'Video', 'Ấn phẩm'],
@@ -1065,8 +1078,9 @@ const id = {
 		notifDueMultipleTitle: 'Pengingat kunjungan kembali', notifDueMultipleBody: 'Anda memiliki {{count}} kunjungan kembali yang jatuh tempo hari ini atau sebelumnya.',
 		notifTimerGoalTitle: 'Target waktu tercapai', notifTimerGoalBody: 'Anda telah mencapai waktu yang dijadwalkan ⌛️',
 		notificationsDeniedHint: 'Anda memblokir notifikasi di browser. Aktifkan dari pengaturan situs untuk menerima pengingat.',
-		headingSupport: 'Dukung Revisits', supportHint: 'Jika Revisits membantu dinas Anda, pertimbangkan untuk mendukung pengembangannya dengan memberi tip di aplikasi iOS/Mac.', btnSupport: 'Dukung aplikasi',
-		manualInstallHintSafariMac: 'Di Safari (Mac): dari menu File pilih "Tambahkan ke Dock…", atau gunakan tombol Bagikan dan pilih "Tambahkan ke Dock".'
+		headingSupport: 'Dukung Revisits', supportHint: 'Jika Revisits membantu dinas Anda, pertimbangkan untuk mendukung pengembangannya dengan donasi melalui PayPal.', btnSupport: 'Dukung aplikasi',
+		manualInstallHintSafariMac: 'Di Safari (Mac): dari menu File pilih "Tambahkan ke Dock…", atau gunakan tombol Bagikan dan pilih "Tambahkan ke Dock".',
+		headingOtherApps: 'Aplikasi saya yang lain', otherAppsHint: 'Lihat aplikasi lain yang telah saya buat.', mapYouAreHere: 'Anda di sini'
 	},
 	personTypes: ['Pria tua', 'Wanita tua', 'Bapak', 'Ibu', 'Orang muda', 'Dewasa', 'Nona', 'Anak laki-laki', 'Anak perempuan', 'Wanita', 'Ibu', 'Ibu muda', 'Ayah', 'Ayah muda'],
 	sources: ['Alkitab', 'Video', 'Publikasi'],
@@ -1142,8 +1156,9 @@ const th = {
 		notifDueMultipleTitle: 'การแจ้งเตือนเยี่ยมเยียนซ้ำ', notifDueMultipleBody: 'คุณมี {{count}} การเยี่ยมเยียนซ้ำที่ถึงกำหนดวันนี้หรือก่อนหน้า',
 		notifTimerGoalTitle: 'บรรลุเป้าหมายเวลาแล้ว', notifTimerGoalBody: 'คุณครอบคลุมเวลาที่กำหนดไว้แล้ว ⌛️',
 		notificationsDeniedHint: 'คุณได้บล็อกการแจ้งเตือนในเบราว์เซอร์ โปรดเปิดใช้งานจากการตั้งค่าไซต์เพื่อรับการแจ้งเตือน',
-		headingSupport: 'สนับสนุน Revisits', supportHint: 'หาก Revisits ช่วยในงานรับใช้ของคุณ โปรดพิจารณาสนับสนุนการพัฒนาด้วยการให้ทิปในแอป iOS/Mac', btnSupport: 'สนับสนุนแอป',
-		manualInstallHintSafariMac: 'ใน Safari (Mac): จากเมนู File เลือก "เพิ่มลงใน Dock…" หรือใช้ปุ่มแชร์แล้วเลือก "เพิ่มลงใน Dock"'
+		headingSupport: 'สนับสนุน Revisits', supportHint: 'หาก Revisits ช่วยในงานรับใช้ของคุณ โปรดพิจารณาสนับสนุนการพัฒนาด้วยการบริจาคผ่าน PayPal', btnSupport: 'สนับสนุนแอป',
+		manualInstallHintSafariMac: 'ใน Safari (Mac): จากเมนู File เลือก "เพิ่มลงใน Dock…" หรือใช้ปุ่มแชร์แล้วเลือก "เพิ่มลงใน Dock"',
+		headingOtherApps: 'แอปอื่นๆ ของฉัน', otherAppsHint: 'ดูแอปอื่นๆ ที่ฉันสร้างขึ้น', mapYouAreHere: 'คุณอยู่ที่นี่'
 	},
 	personTypes: ['ชายสูงอายุ', 'หญิงสูงอายุ', 'ชาย', 'หญิง', 'วัยรุ่น', 'ผู้ใหญ่', 'สาวน้อย', 'เด็กชาย', 'เด็กหญิง', 'ผู้หญิง', 'มารดา', 'มารดาสาว', 'บิดา', 'บิดาหนุ่ม'],
 	sources: ['คัมภีร์ไบเบิล', 'วิดีโอ', 'สิ่งพิมพ์'],
@@ -1219,8 +1234,9 @@ const hi = {
 		notifDueMultipleTitle: 'पुनः भेंट अनुस्मारक', notifDueMultipleBody: 'आपकी {{count}} पुनः भेंट आज या उससे पहले देय हैं।',
 		notifTimerGoalTitle: 'समय लक्ष्य पूरा हुआ', notifTimerGoalBody: 'आपने अपना निर्धारित समय पूरा कर लिया है ⌛️',
 		notificationsDeniedHint: 'आपने अपने ब्राउज़र में सूचनाएं अवरुद्ध कर दी हैं। अनुस्मारक पाने के लिए साइट सेटिंग्स से उन्हें सक्षम करें।',
-		headingSupport: 'Revisits का समर्थन करें', supportHint: 'यदि Revisits आपकी सेवा में मदद करता है, तो iOS/Mac ऐप में टिप देकर इसके विकास का समर्थन करने पर विचार करें।', btnSupport: 'ऐप का समर्थन करें',
-		manualInstallHintSafariMac: 'Safari (Mac) में: File मेनू से "Add to Dock…" चुनें, या शेयर बटन का उपयोग करें और "Add to Dock" चुनें।'
+		headingSupport: 'Revisits का समर्थन करें', supportHint: 'यदि Revisits आपकी सेवा में मदद करता है, तो PayPal के ज़रिए दान देकर इसके विकास का समर्थन करने पर विचार करें।', btnSupport: 'ऐप का समर्थन करें',
+		manualInstallHintSafariMac: 'Safari (Mac) में: File मेनू से "Add to Dock…" चुनें, या शेयर बटन का उपयोग करें और "Add to Dock" चुनें।',
+		headingOtherApps: 'मेरे अन्य ऐप्स', otherAppsHint: 'मेरे बनाए अन्य ऐप्स देखें।', mapYouAreHere: 'आप यहाँ हैं'
 	},
 	personTypes: ['बुज़ुर्ग पुरुष', 'बुज़ुर्ग महिला', 'श्रीमान', 'श्रीमती', 'युवा', 'वयस्क', 'युवती', 'लड़का', 'लड़की', 'महिला', 'माँ', 'युवा माँ', 'पिता', 'युवा पिता'],
 	sources: ['बाइबल', 'वीडियो', 'प्रकाशन'],
@@ -1296,8 +1312,9 @@ const ja = {
 		notifDueMultipleTitle: '再訪問のリマインダー', notifDueMultipleBody: '本日またはそれ以前が期限の再訪問が{{count}}件あります。',
 		notifTimerGoalTitle: '時間の目標を達成', notifTimerGoalBody: '予定していた時間を達成しました ⌛️',
 		notificationsDeniedHint: 'ブラウザで通知をブロックしています。リマインダーを受け取るにはサイトの設定から通知を有効にしてください。',
-		headingSupport: 'Revisitsを支援', supportHint: 'Revisitsが奉仕に役立っている場合は、iOS/Macアプリでチップを送って開発を支援することをご検討ください。', btnSupport: 'アプリを支援',
-		manualInstallHintSafariMac: 'Safari（Mac）で：「ファイル」メニューから「Dockに追加…」を選択するか、共有ボタンから「Dockに追加」を選択してください。'
+		headingSupport: 'Revisitsを支援', supportHint: 'Revisitsが奉仕に役立っている場合は、PayPalでの寄付で開発を支援することをご検討ください。', btnSupport: 'アプリを支援',
+		manualInstallHintSafariMac: 'Safari（Mac）で：「ファイル」メニューから「Dockに追加…」を選択するか、共有ボタンから「Dockに追加」を選択してください。',
+		headingOtherApps: '私の他のアプリ', otherAppsHint: '私が作った他のアプリをチェックしてください。', mapYouAreHere: '現在地'
 	},
 	personTypes: ['高齢の男性', '高齢の女性', '男性', '女性', '若者', '成人', '若い女性', '男の子', '女の子', '女性', '母親', '若い母親', '父親', '若い父親'],
 	sources: ['聖書', '動画', '出版物'],
@@ -1373,8 +1390,9 @@ const ko = {
 		notifDueMultipleTitle: '재방문 알림', notifDueMultipleBody: '오늘 또는 그 이전이 기한인 재방문이 {{count}}건 있습니다.',
 		notifTimerGoalTitle: '시간 목표 달성', notifTimerGoalBody: '예정된 시간을 완료했습니다 ⌛️',
 		notificationsDeniedHint: '브라우저에서 알림을 차단했습니다. 알림을 받으려면 사이트 설정에서 알림을 활성화하세요.',
-		headingSupport: 'Revisits 후원하기', supportHint: 'Revisits가 봉사에 도움이 된다면, iOS/Mac 앱에서 팁을 통해 개발을 후원하는 것을 고려해 보세요.', btnSupport: '앱 후원하기',
-		manualInstallHintSafariMac: 'Safari(Mac)에서: 파일 메뉴에서 "Dock에 추가..."를 선택하거나 공유 버튼을 사용해 "Dock에 추가"를 선택하세요.'
+		headingSupport: 'Revisits 후원하기', supportHint: 'Revisits가 봉사에 도움이 된다면, PayPal을 통해 기부하여 개발을 후원하는 것을 고려해 보세요.', btnSupport: '앱 후원하기',
+		manualInstallHintSafariMac: 'Safari(Mac)에서: 파일 메뉴에서 "Dock에 추가..."를 선택하거나 공유 버튼을 사용해 "Dock에 추가"를 선택하세요.',
+		headingOtherApps: '내 다른 앱', otherAppsHint: '제가 만든 다른 앱들을 확인해 보세요.', mapYouAreHere: '현재 위치'
 	},
 	personTypes: ['노인 남성', '노인 여성', '남성', '여성', '청년', '성인', '젊은 여성', '남자아이', '여자아이', '여성', '어머니', '젊은 어머니', '아버지', '젊은 아버지'],
 	sources: ['성경', '동영상', '출판물'],

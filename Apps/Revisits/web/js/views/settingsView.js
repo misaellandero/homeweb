@@ -5,7 +5,15 @@ import { requestNotificationPermission } from '../notifications.js';
 import { t, getLanguage, setLanguage, LANGUAGES } from '../i18n.js';
 import { canPromptInstall, triggerInstall, isStandalone, isIOS, isSafari, onInstallStateChange } from '../install.js';
 
-const APP_STORE_URL = 'https://apps.apple.com/mx/app/revisits/id1513271477';
+const PAYPAL_DONATE_URL = 'https://paypal.me/landercorp';
+
+const OTHER_APPS = [
+	{ name: 'PetPal', icon: '../../PetPal/assets/images/icon.png', url: 'https://misaellandero.com/Apps/PetPal/index.html' },
+	{ name: 'CaffeinateBar', icon: '../../CaffeinateBar/assets/images/icon.png', url: 'https://misaellandero.com/Apps/CaffeinateBar/index.html' },
+	{ name: 'KeyClean', icon: '../../KeyClean/assets/images/icon.png', url: 'https://misaellandero.com/Apps/KeyClean/index.html' },
+	{ name: 'Loxi', icon: '../../Loxi/assets/images/icon.png', url: 'https://misaellandero.com/Apps/Loxi/index.html' },
+	{ name: 'Fox vs Hunters', icon: '../../Fox%20vs%20Hunters/assets/images/icon.png', url: 'https://misaellandero.com/Apps/Fox%20vs%20Hunters/index.html' }
+];
 
 export async function render(container) {
 	container.innerHTML = `
@@ -14,7 +22,20 @@ export async function render(container) {
 			<div>
 				<h2>${t('headingSupport')}</h2>
 				<p>${t('supportHint')}</p>
-				<a class="btn btn-block" id="supportBtn" href="${APP_STORE_URL}" target="_blank" rel="noopener">${t('btnSupport')}</a>
+				<a class="btn btn-block" id="supportBtn" href="${PAYPAL_DONATE_URL}" target="_blank" rel="noopener">${t('btnSupport')}</a>
+			</div>
+		</div>
+
+		<div class="card">
+			<h2>${t('headingOtherApps')}</h2>
+			<p class="sub" style="margin-top:-4px;">${t('otherAppsHint')}</p>
+			<div class="other-apps-row">
+				${OTHER_APPS.map((app) => `
+					<a class="other-app-tile" href="${app.url}" target="_blank" rel="noopener">
+						<img src="${app.icon}" alt="${escapeAttr(app.name)}" loading="lazy">
+						<span>${escapeAttr(app.name)}</span>
+					</a>
+				`).join('')}
 			</div>
 		</div>
 

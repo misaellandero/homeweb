@@ -198,6 +198,43 @@ main {
 	color: #d1495b;
 }
 
+.other-apps-row {
+	display: flex;
+	gap: 14px;
+	overflow-x: auto;
+	padding-bottom: 4px;
+}
+
+.other-app-tile {
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 6px;
+	width: 72px;
+	text-decoration: none;
+	color: var(--text);
+	text-align: center;
+}
+
+.other-app-tile img {
+	width: 56px;
+	height: 56px;
+	border-radius: var(--shape-lg);
+	box-shadow: var(--elevation-1);
+	object-fit: cover;
+}
+
+.other-app-tile span {
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+.other-app-tile:active img {
+	transform: scale(0.94);
+}
+
 .install-card-header {
 	display: flex;
 	align-items: center;
@@ -800,11 +837,37 @@ main {
 	opacity: 1;
 }
 
+#view-territorios {
+	position: relative;
+}
+
 .territorios-map {
 	margin: -16px;
 	height: calc(100dvh - 220px);
 	min-height: 320px;
 	background: var(--bg);
+}
+
+.territorios-empty-overlay {
+	position: absolute;
+	left: 16px;
+	right: 16px;
+	bottom: 20px;
+	z-index: 12;
+	background: var(--surface);
+	border-radius: var(--shape-lg);
+	box-shadow: var(--elevation-3);
+	padding: 20px 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	text-align: center;
+	color: var(--text-muted);
+}
+
+.territorios-empty-overlay p {
+	margin: 0;
 }
 
 .leaflet-popup-content-wrapper,
