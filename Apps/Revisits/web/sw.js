@@ -1,4 +1,4 @@
-const CACHE_NAME = 'revisits-web-v4';
+const CACHE_NAME = 'revisits-web-v5';
 const APP_SHELL = [
 	'./',
 	'./index.html',
@@ -16,6 +16,7 @@ const APP_SHELL = [
 	'./js/i18n.js',
 	'./js/i18n-strings.js',
 	'./js/geo.js',
+	'./js/revisitExport.js',
 	'./js/views/revisits.js',
 	'./js/views/reports.js',
 	'./js/views/goals.js',

@@ -5,6 +5,7 @@ import { PEOPLE_EMOJI, VISIT_TYPES, SOURCES_EMOJI, houseImage, randomHouseIcon }
 import { checkDueReminders } from '../notifications.js';
 import { t, personTypeLabel, sourceLabel, sourceRefLabel, visitTypeLabel } from '../i18n.js';
 import * as geo from '../geo.js';
+import { exportRevisitToIOS } from '../revisitExport.js';
 
 let currentFilter = 'todos';
 let currentSearch = '';
@@ -452,6 +453,7 @@ export async function openDetail(id) {
 			<button class="btn btn-ghost" id="editRevisitBtn"><i class="fas fa-pen"></i> ${t('edit')}</button>
 			<button class="btn btn-primary" id="addVisitBtn"><i class="fas fa-plus"></i> ${t('btnNewVisit')}</button>
 		</div>
+		<button class="btn btn-ghost" id="exportToIOSBtn" style="margin-bottom:14px;"><i class="fas fa-download"></i> ${t('btnExportToIOS')}</button>
 		<h2 style="font-size:14px;">${t('headingVisitHistory')}</h2>
 		<div id="visitHistory">
 			${visits.length ? '' : `<div class="empty-state">${escapeHTML(t('emptyVisitHistory'))}</div>`}
@@ -465,6 +467,7 @@ export async function openDetail(id) {
 
 	sheet.querySelector('#editRevisitBtn').addEventListener('click', () => openForm(revisit));
 	sheet.querySelector('#addVisitBtn').addEventListener('click', () => openVisitForm(revisit));
+	sheet.querySelector('#exportToIOSBtn').addEventListener('click', () => exportRevisitToIOS(revisit.id));
 }
 
 function renderVisitLogItem(visit) {
