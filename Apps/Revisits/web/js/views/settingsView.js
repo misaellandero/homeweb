@@ -109,11 +109,12 @@ export async function render(container) {
 			</div>
 			<div style="border-top:1px solid var(--border); margin:16px 0 12px;"></div>
 			<p class="sub">${t('nativeBackupHint')}</p>
+			<p class="sub" style="margin-top:-4px;"><i class="fas fa-info-circle"></i> ${t('nativeBackupPackageHint')}</p>
 			<div class="row" style="gap:10px; flex-wrap:wrap;">
 				<button class="btn" id="exportNativeBtn"><i class="fas fa-mobile-alt"></i> ${t('btnExportNative')}</button>
 				<label class="btn" style="cursor:pointer;">
 					<i class="fas fa-mobile-alt"></i> ${t('btnImportNative')}
-					<input type="file" id="importNativeInput" accept=".sqlite,.sqlite-wal" multiple hidden>
+					<input type="file" id="importNativeInput" accept=".sqlite,.sqlite-wal,.sqlite-shm,.zip,.revisitsbackup" multiple hidden>
 				</label>
 			</div>
 		</div>
@@ -201,14 +202,18 @@ export async function render(container) {
 		e.target.value = '';
 		if (!files.length) return;
 		if (!confirm(t('confirmImport'))) return;
+		const { importFullBackupFiles, BackupFormatError } = await import('../backupImport.js');
 		try {
-			const { importFullBackupFiles } = await import('../backupImport.js');
 			await importFullBackupFiles(files);
 			showToast(t('toastImported'));
 			render(container);
 		} catch (err) {
 			console.error(err);
-			showToast(t('toastImportError'));
+			if (err instanceof BackupFormatError) {
+				alert(t('nativeBackupPackageHint'));
+			} else {
+				showToast(t('toastImportError'));
+			}
 		}
 	});
 

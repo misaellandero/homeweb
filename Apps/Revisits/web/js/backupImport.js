@@ -3,6 +3,7 @@ import { fromSwiftDate } from './swiftDate.js';
 import { loadSqlJs } from './sqlite.js';
 import { mergeWal } from './walmerge.js';
 import { idFromBlob, personTypeFromNative, visitTypeFromNative } from './coreDataMapping.js';
+import { readZipEntries } from './zipReader.js';
 
 function rowsOf(db, sql) {
 	const res = db.exec(sql);
@@ -102,12 +103,44 @@ export function parseFullBackupBytes(db) {
 	return { territories, revisits, visits, services, dayGoals, reports, medals };
 }
 
-export async function importFullBackupFiles(files) {
-	const mainFile = files.find((f) => /\.sqlite$/i.test(f.name)) || files[0];
-	const walFile = files.find((f) => /\.sqlite-wal$/i.test(f.name));
+// Thrown when the selected file(s) can't be read as a backup at all — the UI
+// shows this error's message (with recovery instructions) instead of a
+// generic "couldn't read the file" toast.
+export class BackupFormatError extends Error {}
 
-	const mainBytes = new Uint8Array(await mainFile.arrayBuffer());
-	const walBytes = walFile ? new Uint8Array(await walFile.arrayBuffer()) : null;
+async function extractFromZip(zipFile) {
+	const zipBytes = new Uint8Array(await zipFile.arrayBuffer());
+	let entries;
+	try {
+		entries = await readZipEntries(zipBytes, /\.sqlite(-wal)?$/i);
+	} catch (err) {
+		throw new BackupFormatError('unreadablePackage');
+	}
+	const mainEntry = [...entries].find(([name]) => /\.sqlite$/i.test(name));
+	const walEntry = [...entries].find(([name]) => /\.sqlite-wal$/i.test(name));
+	if (!mainEntry) throw new BackupFormatError('unreadablePackage');
+	return { mainBytes: mainEntry[1], walBytes: walEntry ? walEntry[1] : null };
+}
+
+export async function importFullBackupFiles(files) {
+	// A single .zip or .revisitsbackup selection: the native app's backup is a
+	// macOS/iOS "package" (a directory bundle containing Revisits.sqlite /
+	// -wal / -shm) — browsers can't read package internals directly, so this
+	// only works when the user zipped it themselves (Finder: right-click the
+	// .revisitsbackup file → Comprimir). A raw .revisitsbackup selection is
+	// accepted too in case it happens to arrive zip-shaped, but otherwise
+	// throws BackupFormatError with recovery instructions for the UI to show.
+	let mainBytes;
+	let walBytes;
+	if (files.length === 1 && /\.(zip|revisitsbackup)$/i.test(files[0].name)) {
+		({ mainBytes, walBytes } = await extractFromZip(files[0]));
+	} else {
+		const mainFile = files.find((f) => /\.sqlite$/i.test(f.name)) || files[0];
+		const walFile = files.find((f) => /\.sqlite-wal$/i.test(f.name));
+		mainBytes = new Uint8Array(await mainFile.arrayBuffer());
+		walBytes = walFile ? new Uint8Array(await walFile.arrayBuffer()) : null;
+	}
+
 	const merged = walBytes ? mergeWal(mainBytes, walBytes) : mainBytes;
 
 	const SQL = await loadSqlJs();

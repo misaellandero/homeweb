@@ -72,6 +72,7 @@ const es = {
 		btnGetAppStore: 'Ver en App Store', updateBannerTitle: 'Nueva versión disponible', updateBannerHint: 'Actualiza para obtener las últimas mejoras.', btnUpdateNow: 'Actualizar',
 		btnImportFromIOS: 'Importar de iOS/Mac', toastRevisitImported: 'Revisita importada', toastRevisitImportError: 'No se pudo importar el archivo (.revisits inválido)',
 		nativeBackupHint: 'Exporta o importa un respaldo completo compatible con la app de iOS/Mac (archivo .sqlite del respaldo nativo).',
+		nativeBackupPackageHint: 'El archivo .revisitsbackup es un paquete de macOS/iOS que el navegador no puede leer directamente. En Finder, clic derecho sobre él y elige "Comprimir" para crear un .zip que sí puedes seleccionar aquí, o elige "Mostrar contenido del paquete" y selecciona los archivos .sqlite y .sqlite-wal directamente.',
 		btnExportNative: 'Exportar para iOS/Mac', btnImportNative: 'Importar de iOS/Mac', workingHint: 'Procesando…', toastExportError: 'No se pudo generar el respaldo'
 	},
 	personTypes: ['Ancianito', 'Ancianita', 'Señor', 'Señora', 'Joven', 'Adulto', 'Señorita', 'Niño', 'Niña', 'Mujer', 'Madre', 'Madre joven', 'Padre', 'Padre joven'],
@@ -156,6 +157,7 @@ const en = {
 		btnGetAppStore: 'View on App Store', updateBannerTitle: 'New version available', updateBannerHint: 'Update to get the latest improvements.', btnUpdateNow: 'Update',
 		btnImportFromIOS: 'Import from iOS/Mac', toastRevisitImported: 'Return visit imported', toastRevisitImportError: 'Could not import the file (invalid .revisits)',
 		nativeBackupHint: 'Export or import a full backup compatible with the iOS/Mac app (the native backup\'s .sqlite file).',
+		nativeBackupPackageHint: 'The .revisitsbackup file is a macOS/iOS package that the browser can\'t read directly. In Finder, right-click it and choose "Compress" to create a .zip you can select here, or choose "Show Package Contents" and pick the .sqlite and .sqlite-wal files directly.',
 		btnExportNative: 'Export for iOS/Mac', btnImportNative: 'Import from iOS/Mac', workingHint: 'Working…', toastExportError: 'Could not generate the backup'
 	},
 	personTypes: ['Elderly man', 'Elderly woman', 'Man', 'Woman', 'Young person', 'Adult', 'Young woman', 'Boy', 'Girl', 'Woman', 'Mother', 'Young mother', 'Father', 'Young father'],
@@ -240,6 +242,7 @@ const de = {
 		btnGetAppStore: 'Im App Store ansehen', updateBannerTitle: 'Neue Version verfügbar', updateBannerHint: 'Aktualisiere, um die neuesten Verbesserungen zu erhalten.', btnUpdateNow: 'Aktualisieren',
 		btnImportFromIOS: 'Von iOS/Mac importieren', toastRevisitImported: 'Rückbesuch importiert', toastRevisitImportError: 'Datei konnte nicht importiert werden (ungültige .revisits-Datei)',
 		nativeBackupHint: 'Exportiere oder importiere ein vollständiges Backup, das mit der iOS/Mac-App kompatibel ist (die .sqlite-Datei des nativen Backups).',
+		nativeBackupPackageHint: 'Die Datei .revisitsbackup ist ein macOS/iOS-Paket, das der Browser nicht direkt lesen kann. Klicke im Finder mit der rechten Maustaste darauf und wähle "Komprimieren", um eine .zip-Datei zu erstellen, die du hier auswählen kannst, oder wähle "Paketinhalt anzeigen" und wähle die Dateien .sqlite und .sqlite-wal direkt aus.',
 		btnExportNative: 'Für iOS/Mac exportieren', btnImportNative: 'Von iOS/Mac importieren', workingHint: 'Wird verarbeitet…', toastExportError: 'Sicherung konnte nicht erstellt werden'
 	},
 	personTypes: ['Alter Mann', 'Alte Frau', 'Mann', 'Frau', 'Junge Person', 'Erwachsener', 'Junge Frau', 'Junge', 'Mädchen', 'Frau', 'Mutter', 'Junge Mutter', 'Vater', 'Junger Vater'],
@@ -324,6 +327,7 @@ const fr = {
 		btnGetAppStore: 'Voir sur l’App Store', updateBannerTitle: 'Nouvelle version disponible', updateBannerHint: 'Mets à jour pour profiter des dernières améliorations.', btnUpdateNow: 'Mettre à jour',
 		btnImportFromIOS: 'Importer depuis iOS/Mac', toastRevisitImported: 'Nouvelle visite importée', toastRevisitImportError: 'Impossible d’importer le fichier (.revisits invalide)',
 		nativeBackupHint: 'Exporte ou importe une sauvegarde complète compatible avec l’app iOS/Mac (le fichier .sqlite de la sauvegarde native).',
+		nativeBackupPackageHint: 'Le fichier .revisitsbackup est un package macOS/iOS que le navigateur ne peut pas lire directement. Dans le Finder, clic droit dessus et choisissez "Compresser" pour créer un .zip sélectionnable ici, ou choisissez "Afficher le contenu du paquet" et sélectionnez directement les fichiers .sqlite et .sqlite-wal.',
 		btnExportNative: 'Exporter pour iOS/Mac', btnImportNative: 'Importer depuis iOS/Mac', workingHint: 'Traitement en cours…', toastExportError: 'Impossible de générer la sauvegarde'
 	},
 	personTypes: ['Homme âgé', 'Femme âgée', 'Homme', 'Femme', 'Jeune', 'Adulte', 'Jeune femme', 'Garçon', 'Fille', 'Femme', 'Mère', 'Jeune mère', 'Père', 'Jeune père'],
@@ -408,6 +412,7 @@ const it = {
 		btnGetAppStore: 'Vedi su App Store', updateBannerTitle: 'Nuova versione disponibile', updateBannerHint: 'Aggiorna per ottenere gli ultimi miglioramenti.', btnUpdateNow: 'Aggiorna',
 		btnImportFromIOS: 'Importa da iOS/Mac', toastRevisitImported: 'Revisita importata', toastRevisitImportError: 'Impossibile importare il file (.revisits non valido)',
 		nativeBackupHint: 'Esporta o importa un backup completo compatibile con l’app iOS/Mac (il file .sqlite del backup nativo).',
+		nativeBackupPackageHint: 'Il file .revisitsbackup è un pacchetto macOS/iOS che il browser non può leggere direttamente. Nel Finder, clic destro su di esso e scegli "Comprimi" per creare uno .zip selezionabile qui, oppure scegli "Mostra contenuto pacchetto" e seleziona direttamente i file .sqlite e .sqlite-wal.',
 		btnExportNative: 'Esporta per iOS/Mac', btnImportNative: 'Importa da iOS/Mac', workingHint: 'Elaborazione…', toastExportError: 'Impossibile generare il backup'
 	},
 	personTypes: ['Uomo anziano', 'Donna anziana', 'Uomo', 'Donna', 'Giovane', 'Adulto', 'Signorina', 'Bambino', 'Bambina', 'Donna', 'Madre', 'Madre giovane', 'Padre', 'Padre giovane'],
@@ -492,6 +497,7 @@ const pt = {
 		btnGetAppStore: 'Ver na App Store', updateBannerTitle: 'Nova versão disponível', updateBannerHint: 'Atualiza para obteres as últimas melhorias.', btnUpdateNow: 'Atualizar',
 		btnImportFromIOS: 'Importar do iOS/Mac', toastRevisitImported: 'Revisita importada', toastRevisitImportError: 'Não foi possível importar o ficheiro (.revisits inválido)',
 		nativeBackupHint: 'Exporta ou importa uma cópia de segurança completa compatível com a app iOS/Mac (o ficheiro .sqlite da cópia nativa).',
+		nativeBackupPackageHint: 'O ficheiro .revisitsbackup é um pacote macOS/iOS que o navegador não consegue ler diretamente. No Finder, clique com o botão direito nele e escolha "Comprimir" para criar um .zip que possa selecionar aqui, ou escolha "Mostrar Conteúdo do Pacote" e selecione diretamente os ficheiros .sqlite e .sqlite-wal.',
 		btnExportNative: 'Exportar para iOS/Mac', btnImportNative: 'Importar do iOS/Mac', workingHint: 'A processar…', toastExportError: 'Não foi possível gerar a cópia de segurança'
 	},
 	personTypes: ['Homem idoso', 'Mulher idosa', 'Senhor', 'Senhora', 'Jovem', 'Adulto', 'Menina', 'Menino', 'Menina', 'Mulher', 'Mãe', 'Mãe jovem', 'Pai', 'Pai jovem'],
@@ -576,6 +582,7 @@ const nl = {
 		btnGetAppStore: 'Bekijk in App Store', updateBannerTitle: 'Nieuwe versie beschikbaar', updateBannerHint: 'Werk bij voor de nieuwste verbeteringen.', btnUpdateNow: 'Bijwerken',
 		btnImportFromIOS: 'Importeren vanuit iOS/Mac', toastRevisitImported: 'Nabezoek geïmporteerd', toastRevisitImportError: 'Kon het bestand niet importeren (ongeldig .revisits-bestand)',
 		nativeBackupHint: 'Exporteer of importeer een volledige back-up die compatibel is met de iOS/Mac-app (het .sqlite-bestand van de native back-up).',
+		nativeBackupPackageHint: 'Het bestand .revisitsbackup is een macOS/iOS-pakket dat de browser niet rechtstreeks kan lezen. Klik in Finder met de rechtermuisknop erop en kies "Comprimeren" om een .zip te maken die je hier kunt selecteren, of kies "Pakketinhoud tonen" en selecteer de bestanden .sqlite en .sqlite-wal rechtstreeks.',
 		btnExportNative: 'Exporteren voor iOS/Mac', btnImportNative: 'Importeren vanuit iOS/Mac', workingHint: 'Bezig…', toastExportError: 'Kon de back-up niet maken'
 	},
 	personTypes: ['Oudere man', 'Oudere vrouw', 'Meneer', 'Mevrouw', 'Jongere', 'Volwassene', 'Jongedame', 'Jongen', 'Meisje', 'Vrouw', 'Moeder', 'Jonge moeder', 'Vader', 'Jonge vader'],
@@ -660,6 +667,7 @@ const el = {
 		btnGetAppStore: 'Δες στο App Store', updateBannerTitle: 'Νέα έκδοση διαθέσιμη', updateBannerHint: 'Ενημέρωσε για να αποκτήσεις τις τελευταίες βελτιώσεις.', btnUpdateNow: 'Ενημέρωση',
 		btnImportFromIOS: 'Εισαγωγή από iOS/Mac', toastRevisitImported: 'Η επανεπίσκεψη εισήχθη', toastRevisitImportError: 'Δεν ήταν δυνατή η εισαγωγή του αρχείου (μη έγκυρο .revisits)',
 		nativeBackupHint: 'Εξήγαγε ή εισήγαγε ένα πλήρες αντίγραφο ασφαλείας συμβατό με την εφαρμογή iOS/Mac (το αρχείο .sqlite του εγγενούς αντιγράφου).',
+		nativeBackupPackageHint: 'Το αρχείο .revisitsbackup είναι ένα πακέτο macOS/iOS που ο browser δεν μπορεί να διαβάσει απευθείας. Στο Finder, κάνε δεξί κλικ πάνω του και επίλεξε "Συμπίεση" για να δημιουργήσεις ένα .zip που μπορείς να επιλέξεις εδώ, ή επίλεξε "Εμφάνιση περιεχομένων πακέτου" και επίλεξε απευθείας τα αρχεία .sqlite και .sqlite-wal.',
 		btnExportNative: 'Εξαγωγή για iOS/Mac', btnImportNative: 'Εισαγωγή από iOS/Mac', workingHint: 'Επεξεργασία…', toastExportError: 'Δεν ήταν δυνατή η δημιουργία του αντιγράφου ασφαλείας'
 	},
 	personTypes: ['Ηλικιωμένος', 'Ηλικιωμένη', 'Κύριος', 'Κυρία', 'Νέος/Νέα', 'Ενήλικας', 'Δεσποινίδα', 'Αγόρι', 'Κορίτσι', 'Γυναίκα', 'Μητέρα', 'Νεαρή μητέρα', 'Πατέρας', 'Νεαρός πατέρας'],
@@ -744,6 +752,7 @@ const pl = {
 		btnGetAppStore: 'Zobacz w App Store', updateBannerTitle: 'Dostępna nowa wersja', updateBannerHint: 'Zaktualizuj, aby uzyskać najnowsze udoskonalenia.', btnUpdateNow: 'Aktualizuj',
 		btnImportFromIOS: 'Importuj z iOS/Mac', toastRevisitImported: 'Odwiedziny zaimportowane', toastRevisitImportError: 'Nie udało się zaimportować pliku (nieprawidłowy plik .revisits)',
 		nativeBackupHint: 'Wyeksportuj lub zaimportuj pełną kopię zapasową zgodną z aplikacją iOS/Mac (plik .sqlite natywnej kopii).',
+		nativeBackupPackageHint: 'Plik .revisitsbackup to pakiet macOS/iOS, którego przeglądarka nie może odczytać bezpośrednio. W Finderze kliknij go prawym przyciskiem i wybierz "Kompresuj", aby utworzyć plik .zip, który można tu wybrać, albo wybierz "Pokaż zawartość pakietu" i wybierz bezpośrednio pliki .sqlite oraz .sqlite-wal.',
 		btnExportNative: 'Eksportuj do iOS/Mac', btnImportNative: 'Importuj z iOS/Mac', workingHint: 'Przetwarzanie…', toastExportError: 'Nie udało się utworzyć kopii zapasowej'
 	},
 	personTypes: ['Starszy mężczyzna', 'Starsza kobieta', 'Pan', 'Pani', 'Młoda osoba', 'Dorosły', 'Panienka', 'Chłopiec', 'Dziewczynka', 'Kobieta', 'Matka', 'Młoda matka', 'Ojciec', 'Młody ojciec'],
@@ -828,6 +837,7 @@ const ru = {
 		btnGetAppStore: 'Посмотреть в App Store', updateBannerTitle: 'Доступна новая версия', updateBannerHint: 'Обновите, чтобы получить последние улучшения.', btnUpdateNow: 'Обновить',
 		btnImportFromIOS: 'Импорт с iOS/Mac', toastRevisitImported: 'Повторное посещение импортировано', toastRevisitImportError: 'Не удалось импортировать файл (недействительный .revisits)',
 		nativeBackupHint: 'Экспортируйте или импортируйте полную резервную копию, совместимую с приложением iOS/Mac (файл .sqlite нативной резервной копии).',
+		nativeBackupPackageHint: 'Файл .revisitsbackup — это пакет macOS/iOS, который браузер не может прочитать напрямую. В Finder щёлкните по нему правой кнопкой и выберите "Сжать", чтобы создать .zip, который можно выбрать здесь, либо выберите "Показать содержимое пакета" и выберите файлы .sqlite и .sqlite-wal напрямую.',
 		btnExportNative: 'Экспорт для iOS/Mac', btnImportNative: 'Импорт с iOS/Mac', workingHint: 'Обработка…', toastExportError: 'Не удалось создать резервную копию'
 	},
 	personTypes: ['Пожилой мужчина', 'Пожилая женщина', 'Мужчина', 'Женщина', 'Молодой человек', 'Взрослый', 'Девушка', 'Мальчик', 'Девочка', 'Женщина', 'Мать', 'Молодая мать', 'Отец', 'Молодой отец'],
@@ -912,6 +922,7 @@ const tr = {
 		btnGetAppStore: 'App Store’da görüntüle', updateBannerTitle: 'Yeni sürüm mevcut', updateBannerHint: 'En son iyileştirmeleri almak için güncelle.', btnUpdateNow: 'Güncelle',
 		btnImportFromIOS: 'iOS/Mac\'ten içe aktar', toastRevisitImported: 'Tekrar ziyaret içe aktarıldı', toastRevisitImportError: 'Dosya içe aktarılamadı (geçersiz .revisits)',
 		nativeBackupHint: 'iOS/Mac uygulamasıyla uyumlu tam bir yedeği dışa veya içe aktar (yerel yedeğin .sqlite dosyası).',
+		nativeBackupPackageHint: '.revisitsbackup dosyası, tarayıcının doğrudan okuyamadığı bir macOS/iOS paketidir. Finder\'da dosyaya sağ tıklayıp buradan seçebileceğin bir .zip oluşturmak için "Sıkıştır"ı seç, ya da "Paket İçeriğini Göster"i seçip .sqlite ve .sqlite-wal dosyalarını doğrudan seç.',
 		btnExportNative: 'iOS/Mac için dışa aktar', btnImportNative: 'iOS/Mac\'ten içe aktar', workingHint: 'İşleniyor…', toastExportError: 'Yedek oluşturulamadı'
 	},
 	personTypes: ['Yaşlı adam', 'Yaşlı kadın', 'Bey', 'Hanım', 'Genç', 'Yetişkin', 'Genç bayan', 'Erkek çocuk', 'Kız çocuk', 'Kadın', 'Anne', 'Genç anne', 'Baba', 'Genç baba'],
@@ -996,6 +1007,8 @@ const uk = {
 		btnGetAppStore: 'Переглянути в App Store', updateBannerTitle: 'Доступна нова версія', updateBannerHint: 'Оновіть, щоб отримати останні покращення.', btnUpdateNow: 'Оновити',
 		btnImportFromIOS: 'Імпорт з iOS/Mac', toastRevisitImported: 'Повторні відвідини імпортовано', toastRevisitImportError: 'Не вдалося імпортувати файл (недійсний .revisits)',
 		nativeBackupHint: 'Експортуйте або імпортуйте повну резервну копію, сумісну з застосунком iOS/Mac (файл .sqlite нативної резервної копії).',
+		nativeBackupPackageHint: 'Tệp .revisitsbackup là một gói macOS/iOS mà trình duyệt không thể đọc trực tiếp. Trong Finder, nhấp chuột phải vào tệp và chọn "Nén" để tạo tệp .zip có thể chọn ở đây, hoặc chọn "Hiện Nội dung Gói" rồi chọn trực tiếp các tệp .sqlite và .sqlite-wal.',
+		nativeBackupPackageHint: 'Файл .revisitsbackup — це пакет macOS/iOS, який браузер не може прочитати напряму. У Finder клацніть правою кнопкою миші й виберіть "Стиснути", щоб створити .zip, який можна вибрати тут, або виберіть "Показати вміст пакета" і виберіть файли .sqlite та .sqlite-wal напряму.',
 		btnExportNative: 'Експортувати для iOS/Mac', btnImportNative: 'Імпорт з iOS/Mac', workingHint: 'Обробка…', toastExportError: 'Не вдалося створити резервну копію'
 	},
 	personTypes: ['Літній чоловік', 'Літня жінка', 'Чоловік', 'Жінка', 'Молода людина', 'Дорослий', 'Панночка', 'Хлопчик', 'Дівчинка', 'Жінка', 'Мати', 'Молода мати', 'Батько', 'Молодий батько'],
@@ -1080,6 +1093,7 @@ const vi = {
 		btnGetAppStore: 'Xem trên App Store', updateBannerTitle: 'Có phiên bản mới', updateBannerHint: 'Cập nhật để nhận các cải tiến mới nhất.', btnUpdateNow: 'Cập nhật',
 		btnImportFromIOS: 'Nhập từ iOS/Mac', toastRevisitImported: 'Đã nhập cuộc thăm lại', toastRevisitImportError: 'Không thể nhập tệp (.revisits không hợp lệ)',
 		nativeBackupHint: 'Xuất hoặc nhập bản sao lưu đầy đủ tương thích với ứng dụng iOS/Mac (tệp .sqlite của bản sao lưu gốc).',
+		nativeBackupPackageHint: 'File .revisitsbackup adalah paket macOS/iOS yang tidak bisa dibaca langsung oleh browser. Di Finder, klik kanan lalu pilih "Compress" untuk membuat file .zip yang bisa dipilih di sini, atau pilih "Show Package Contents" lalu pilih langsung file .sqlite dan .sqlite-wal.',
 		btnExportNative: 'Xuất cho iOS/Mac', btnImportNative: 'Nhập từ iOS/Mac', workingHint: 'Đang xử lý…', toastExportError: 'Không thể tạo bản sao lưu'
 	},
 	personTypes: ['Ông cụ', 'Bà cụ', 'Ông', 'Bà', 'Người trẻ', 'Người lớn', 'Cô gái trẻ', 'Bé trai', 'Bé gái', 'Phụ nữ', 'Người mẹ', 'Mẹ trẻ', 'Người cha', 'Cha trẻ'],
@@ -1164,6 +1178,7 @@ const id = {
 		btnGetAppStore: 'Lihat di App Store', updateBannerTitle: 'Versi baru tersedia', updateBannerHint: 'Perbarui untuk mendapatkan peningkatan terbaru.', btnUpdateNow: 'Perbarui',
 		btnImportFromIOS: 'Impor dari iOS/Mac', toastRevisitImported: 'Kunjungan kembali diimpor', toastRevisitImportError: 'Tidak dapat mengimpor file (.revisits tidak valid)',
 		nativeBackupHint: 'Ekspor atau impor cadangan lengkap yang kompatibel dengan aplikasi iOS/Mac (file .sqlite dari cadangan native).',
+		nativeBackupPackageHint: 'ไฟล์ .revisitsbackup เป็นแพ็กเกจ macOS/iOS ที่เบราว์เซอร์ไม่สามารถอ่านได้โดยตรง ใน Finder คลิกขวาที่ไฟล์แล้วเลือก "บีบอัด" เพื่อสร้างไฟล์ .zip ที่เลือกได้ที่นี่ หรือเลือก "แสดงเนื้อหาแพ็กเกจ" แล้วเลือกไฟล์ .sqlite และ .sqlite-wal โดยตรง',
 		btnExportNative: 'Ekspor untuk iOS/Mac', btnImportNative: 'Impor dari iOS/Mac', workingHint: 'Memproses…', toastExportError: 'Tidak dapat membuat cadangan'
 	},
 	personTypes: ['Pria tua', 'Wanita tua', 'Bapak', 'Ibu', 'Orang muda', 'Dewasa', 'Nona', 'Anak laki-laki', 'Anak perempuan', 'Wanita', 'Ibu', 'Ibu muda', 'Ayah', 'Ayah muda'],
@@ -1248,6 +1263,7 @@ const th = {
 		btnGetAppStore: 'ดูใน App Store', updateBannerTitle: 'มีเวอร์ชันใหม่', updateBannerHint: 'อัปเดตเพื่อรับการปรับปรุงล่าสุด', btnUpdateNow: 'อัปเดต',
 		btnImportFromIOS: 'นำเข้าจาก iOS/Mac', toastRevisitImported: 'นำเข้าการเยี่ยมเยียนซ้ำแล้ว', toastRevisitImportError: 'ไม่สามารถนำเข้าไฟล์ได้ (.revisits ไม่ถูกต้อง)',
 		nativeBackupHint: 'ส่งออกหรือนำเข้าข้อมูลสำรองแบบเต็มที่ใช้ร่วมกับแอป iOS/Mac ได้ (ไฟล์ .sqlite ของข้อมูลสำรองแบบเนทีฟ)',
+		nativeBackupPackageHint: '.revisitsbackup फ़ाइल एक macOS/iOS पैकेज है जिसे ब्राउज़र सीधे नहीं पढ़ सकता। Finder में उस पर राइट-क्लिक करें और "Compress" चुनें ताकि एक .zip बने जिसे आप यहाँ चुन सकें, या "Show Package Contents" चुनें और .sqlite व .sqlite-wal फ़ाइलों को सीधे चुनें।',
 		btnExportNative: 'ส่งออกสำหรับ iOS/Mac', btnImportNative: 'นำเข้าจาก iOS/Mac', workingHint: 'กำลังประมวลผล…', toastExportError: 'ไม่สามารถสร้างข้อมูลสำรองได้'
 	},
 	personTypes: ['ชายสูงอายุ', 'หญิงสูงอายุ', 'ชาย', 'หญิง', 'วัยรุ่น', 'ผู้ใหญ่', 'สาวน้อย', 'เด็กชาย', 'เด็กหญิง', 'ผู้หญิง', 'มารดา', 'มารดาสาว', 'บิดา', 'บิดาหนุ่ม'],
@@ -1332,6 +1348,7 @@ const hi = {
 		btnGetAppStore: 'App Store पर देखें', updateBannerTitle: 'नया वर्शन उपलब्ध है', updateBannerHint: 'नवीनतम सुधार पाने के लिए अपडेट करें।', btnUpdateNow: 'अपडेट करें',
 		btnImportFromIOS: 'iOS/Mac से आयात करें', toastRevisitImported: 'पुनः भेंट आयात की गई', toastRevisitImportError: 'फ़ाइल आयात नहीं हो सकी (अमान्य .revisits)',
 		nativeBackupHint: 'iOS/Mac ऐप के साथ संगत पूरा बैकअप एक्सपोर्ट या आयात करें (नेटिव बैकअप की .sqlite फ़ाइल)।',
+		nativeBackupPackageHint: '.revisitsbackupファイルはブラウザが直接読み取れないmacOS/iOSのパッケージです。Finderでファイルを右クリックし、「圧縮」を選んでここで選択できる.zipを作成するか、「パッケージの内容を表示」を選んで.sqliteと.sqlite-walファイルを直接選択してください。',
 		btnExportNative: 'iOS/Mac के लिए एक्सपोर्ट करें', btnImportNative: 'iOS/Mac से आयात करें', workingHint: 'प्रोसेस हो रहा है…', toastExportError: 'बैकअप नहीं बनाया जा सका'
 	},
 	personTypes: ['बुज़ुर्ग पुरुष', 'बुज़ुर्ग महिला', 'श्रीमान', 'श्रीमती', 'युवा', 'वयस्क', 'युवती', 'लड़का', 'लड़की', 'महिला', 'माँ', 'युवा माँ', 'पिता', 'युवा पिता'],
@@ -1416,6 +1433,7 @@ const ja = {
 		btnGetAppStore: 'App Storeで見る', updateBannerTitle: '新しいバージョンがあります', updateBannerHint: '最新の改善を取得するには更新してください。', btnUpdateNow: '更新',
 		btnImportFromIOS: 'iOS/Macからインポート', toastRevisitImported: '再訪問をインポートしました', toastRevisitImportError: 'ファイルをインポートできませんでした（無効な.revisitsファイル）',
 		nativeBackupHint: 'iOS/Macアプリと互換性のある完全なバックアップをエクスポートまたはインポートします（ネイティブバックアップの.sqliteファイル）。',
+		nativeBackupPackageHint: '.revisitsbackup 파일은 브라우저가 직접 읽을 수 없는 macOS/iOS 패키지입니다. Finder에서 마우스 오른쪽 버튼으로 클릭한 후 "압축"을 선택해 여기서 선택할 수 있는 .zip 파일을 만들거나, "패키지 내용 보기"를 선택해 .sqlite 및 .sqlite-wal 파일을 직접 선택하세요.',
 		btnExportNative: 'iOS/Mac用にエクスポート', btnImportNative: 'iOS/Macからインポート', workingHint: '処理中…', toastExportError: 'バックアップを作成できませんでした'
 	},
 	personTypes: ['高齢の男性', '高齢の女性', '男性', '女性', '若者', '成人', '若い女性', '男の子', '女の子', '女性', '母親', '若い母親', '父親', '若い父親'],
