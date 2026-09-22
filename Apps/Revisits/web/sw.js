@@ -1,4 +1,4 @@
-const CACHE_NAME = 'revisits-web-v8';
+const CACHE_NAME = 'revisits-web-v9';
 const APP_SHELL = [
 	'./',
 	'./index.html',
@@ -48,7 +48,8 @@ const APP_SHELL = [
 	'./js/sqlite.js',
 	'./js/coreDataMapping.js',
 	'./js/backupExport.js',
-	'./js/backupImport.js'
+	'./js/backupImport.js',
+	'./js/zipReader.js'
 ];
 
 self.addEventListener('install', (event) => {
