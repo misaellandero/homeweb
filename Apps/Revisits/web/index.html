@@ -2,7 +2,13 @@
 <html lang="es">
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+	<script>
+		try {
+			var scale = JSON.parse(localStorage.getItem('revisits.fontScale'));
+			if (scale) document.documentElement.style.setProperty('--app-scale', scale);
+		} catch (e) { /* private mode / storage unavailable */ }
+	</script>
 	<title>Revisits Web</title>
 	<meta name="description" content="Your ministry companion! Lleva el control de tus revisitas, estudios biblicos e informes de tiempo, guardado en este dispositivo.">
 	<meta name="theme-color" content="#235ee7">

@@ -3,7 +3,7 @@ import * as revisitsView from './views/revisits.js';
 import * as reportsView from './views/reports.js';
 import * as goalsView from './views/goals.js';
 import * as settingsView from './views/settingsView.js';
-import { settings } from './settings.js';
+import { settings, applyFontScale } from './settings.js';
 import { initLanguage, onLanguageChange, getLanguage, t } from './i18n.js';
 import { initInstallPrompt } from './install.js';
 
@@ -65,6 +65,7 @@ function wireFab() {
 }
 
 async function bootstrap() {
+	applyFontScale();
 	initLanguage(settings.language);
 	onLanguageChange(async (code) => {
 		settings.language = code;
