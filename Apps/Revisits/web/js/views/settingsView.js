@@ -90,6 +90,15 @@ export async function render(container) {
 					<input type="file" id="importInput" accept="application/json" hidden>
 				</label>
 			</div>
+			<div style="border-top:1px solid var(--border); margin:16px 0 12px;"></div>
+			<p class="sub">${t('nativeBackupHint')}</p>
+			<div class="row" style="gap:10px; flex-wrap:wrap;">
+				<button class="btn" id="exportNativeBtn"><i class="fas fa-mobile-alt"></i> ${t('btnExportNative')}</button>
+				<label class="btn" style="cursor:pointer;">
+					<i class="fas fa-mobile-alt"></i> ${t('btnImportNative')}
+					<input type="file" id="importNativeInput" accept=".sqlite,.sqlite-wal" multiple hidden>
+				</label>
+			</div>
 		</div>
 
 		<div class="card">
@@ -139,6 +148,39 @@ export async function render(container) {
 			if (!confirm(t('confirmImport'))) return;
 			await importBackup(json);
 			showToast(t('toastImported'));
+		} catch (err) {
+			console.error(err);
+			showToast(t('toastImportError'));
+		}
+	});
+
+	container.querySelector('#exportNativeBtn').addEventListener('click', async () => {
+		const btn = container.querySelector('#exportNativeBtn');
+		const originalHTML = btn.innerHTML;
+		btn.disabled = true;
+		btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${escapeAttr(t('workingHint'))}`;
+		try {
+			const { downloadFullBackup } = await import('../backupExport.js');
+			await downloadFullBackup();
+		} catch (err) {
+			console.error(err);
+			showToast(t('toastExportError'));
+		} finally {
+			btn.disabled = false;
+			btn.innerHTML = originalHTML;
+		}
+	});
+
+	container.querySelector('#importNativeInput').addEventListener('change', async (e) => {
+		const files = Array.from(e.target.files);
+		e.target.value = '';
+		if (!files.length) return;
+		if (!confirm(t('confirmImport'))) return;
+		try {
+			const { importFullBackupFiles } = await import('../backupImport.js');
+			await importFullBackupFiles(files);
+			showToast(t('toastImported'));
+			render(container);
 		} catch (err) {
 			console.error(err);
 			showToast(t('toastImportError'));

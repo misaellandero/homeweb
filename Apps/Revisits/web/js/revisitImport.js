@@ -1,17 +1,7 @@
 import * as store from './store.js';
 import { DICT } from './i18n-strings.js';
 import { PEOPLE_EMOJI, randomHouseIcon } from './constants.js';
-
-const SWIFT_REFERENCE_OFFSET = 978307200; // seconds between the Unix epoch and 2001-01-01T00:00:00Z
-
-function fromSwiftDate(swiftSeconds) {
-	if (swiftSeconds == null) return null;
-	const date = new Date((swiftSeconds + SWIFT_REFERENCE_OFFSET) * 1000);
-	if (Number.isNaN(date.getTime())) return null;
-	const offset = date.getTimezoneOffset();
-	const local = new Date(date.getTime() - offset * 60000);
-	return local.toISOString().slice(0, 10);
-}
+import { fromSwiftDate } from './swiftDate.js';
 
 function personTypeFromNative(type) {
 	if (!type) return null;
