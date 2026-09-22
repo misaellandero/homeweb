@@ -1,4 +1,4 @@
-import { settings } from '../settings.js';
+import { settings, applyFontScale } from '../settings.js';
 import { exportBackup, importBackup } from '../store.js';
 import { showToast } from '../ui.js';
 import { requestNotificationPermission } from '../notifications.js';
@@ -6,6 +6,13 @@ import { t, getLanguage, setLanguage, LANGUAGES } from '../i18n.js';
 import { canPromptInstall, triggerInstall, isStandalone, isIOS, isSafari, onInstallStateChange } from '../install.js';
 
 const PAYPAL_DONATE_URL = 'https://paypal.me/landercorp';
+
+const FONT_SCALES = [
+	{ value: 0.9, key: 'fontSizeSmall' },
+	{ value: 1, key: 'fontSizeNormal' },
+	{ value: 1.15, key: 'fontSizeLarge' },
+	{ value: 1.3, key: 'fontSizeXLarge' }
+];
 
 const OTHER_APPS = [
 	{ name: '+Cota', icon: 'assets/art/other-apps/cota-icon.webp', url: 'https://misaellandero.com/Apps/Cota/index.html' },
@@ -52,6 +59,16 @@ export async function render(container) {
 			<select id="languageSelect" style="width:100%; border:1px solid var(--border); border-radius:10px; padding:10px 12px; font-size:15px; background:var(--surface); color:var(--text);">
 				${LANGUAGES.map((l) => `<option value="${l.code}" ${getLanguage() === l.code ? 'selected' : ''}>${escapeAttr(l.name)}</option>`).join('')}
 			</select>
+		</div>
+
+		<div class="card">
+			<h2>${t('headingFontSize')}</h2>
+			<p class="sub" style="margin-top:-4px;">${t('fontSizeHint')}</p>
+			<div class="row" style="gap:8px; flex-wrap:wrap;">
+				${FONT_SCALES.map((fs) => `
+					<button class="btn font-scale-btn ${settings.fontScale === fs.value ? 'btn-primary' : ''}" data-scale="${fs.value}">${t(fs.key)}</button>
+				`).join('')}
+			</div>
 		</div>
 
 		<div class="card">
@@ -116,6 +133,14 @@ export async function render(container) {
 
 	container.querySelector('#languageSelect').addEventListener('change', (e) => {
 		setLanguage(e.target.value);
+	});
+
+	container.querySelectorAll('.font-scale-btn').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			settings.fontScale = Number(btn.dataset.scale);
+			applyFontScale();
+			render(container);
+		});
 	});
 
 	container.querySelector('#toggleCountPubs').addEventListener('change', (e) => { settings.countPubs = e.target.checked; });

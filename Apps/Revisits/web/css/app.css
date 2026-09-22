@@ -52,10 +52,13 @@
 	/* Type scale (size / weight / line-height via the `font` shorthand). */
 	--type-headline: 700 24px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	--type-title-lg: 700 17px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-	--type-title-sm: 700 13px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--type-title-sm: 700 14px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	--type-label-lg: 700 13px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-	--type-label-sm: 700 11px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	--type-label-sm: 700 12px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	--type-display: 800 46px/1.05 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+	/* User-adjustable overall UI scale (font-size setting), applied via `zoom` on <body>. */
+	--app-scale: 1;
 
 	/* Motion — a gentle overshoot ("spring") curve for press feedback and
 	   sheet entrances is the most recognizable Expressive motion trait. */
@@ -85,13 +88,15 @@ body {
 	margin: 0;
 	padding: 0;
 	height: 100%;
+	touch-action: manipulation;
 }
 
 body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	background: var(--bg);
 	color: var(--text);
-	padding-bottom: 72px;
+	padding-bottom: calc(72px + env(safe-area-inset-bottom));
+	zoom: var(--app-scale, 1);
 }
 
 button {
@@ -106,7 +111,7 @@ a {
 	display: flex;
 	align-items: center;
 	gap: 12px;
-	padding: 16px 20px;
+	padding: calc(16px + env(safe-area-inset-top)) calc(20px + env(safe-area-inset-right)) 16px calc(20px + env(safe-area-inset-left));
 	background: linear-gradient(90deg, var(--brand-start) 0%, var(--brand-end) 100%);
 	color: #fff;
 	position: sticky;
@@ -434,8 +439,8 @@ main {
 
 .fab {
 	position: fixed;
-	right: 20px;
-	bottom: 84px;
+	right: calc(20px + env(safe-area-inset-right));
+	bottom: calc(84px + env(safe-area-inset-bottom));
 	width: 60px;
 	height: 60px;
 	display: flex;
@@ -467,6 +472,7 @@ main {
 	border-top: 1px solid var(--border);
 	z-index: 20;
 	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+	padding-bottom: env(safe-area-inset-bottom);
 }
 
 .tabbar button {
@@ -837,6 +843,10 @@ main {
 }
 
 .territorios-map {
+	/* Counter the ancestor's --app-scale zoom: 100vw/left/margin math below
+	   must resolve against the true viewport, not a zoomed one, or the
+	   full-bleed edge-to-edge map drifts off-screen at any scale but 1. */
+	zoom: calc(1 / var(--app-scale, 1));
 	width: 100vw;
 	position: relative;
 	left: 50%;

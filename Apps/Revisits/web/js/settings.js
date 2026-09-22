@@ -34,8 +34,15 @@ export const settings = {
 	set notificationsEnabled(v) { setJSON('notificationsEnabled', !!v); },
 
 	get language() { return getJSON('language', null); },
-	set language(v) { setJSON('language', v); }
+	set language(v) { setJSON('language', v); },
+
+	get fontScale() { return getJSON('fontScale', 1); },
+	set fontScale(v) { setJSON('fontScale', v); }
 };
+
+export function applyFontScale() {
+	document.documentElement.style.setProperty('--app-scale', settings.fontScale);
+}
 
 export function getTimerState() {
 	return getJSON('timerState', null);
