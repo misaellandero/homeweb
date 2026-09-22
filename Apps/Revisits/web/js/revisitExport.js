@@ -1,15 +1,8 @@
 import * as store from './store.js';
 import { DICT } from './i18n-strings.js';
+import { toSwiftDate } from './swiftDate.js';
 
 const FILE_EXTENSION = 'revisits';
-const SWIFT_REFERENCE_OFFSET = 978307200; // seconds between the Unix epoch and 2001-01-01T00:00:00Z
-
-function toSwiftDate(isoDateOnly) {
-	if (!isoDateOnly) return null;
-	const date = new Date(`${isoDateOnly.slice(0, 10)}T00:00:00`);
-	if (Number.isNaN(date.getTime())) return null;
-	return Math.round(date.getTime() / 1000) - SWIFT_REFERENCE_OFFSET;
-}
 
 function personTypeToNative(personType) {
 	if (personType == null) return null;

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'revisits-web-v6';
+const CACHE_NAME = 'revisits-web-v7';
 const APP_SHELL = [
 	'./',
 	'./index.html',
@@ -41,7 +41,14 @@ const APP_SHELL = [
 	'./assets/art/houses/casa_revisita_4.png',
 	'./assets/art/houses/casa_revisita_5.png',
 	'./assets/art/houses/casa_revisita_6.png',
-	'./assets/art/other-apps/cota-icon.webp'
+	'./assets/art/other-apps/cota-icon.webp',
+	'./assets/data/revisits-template.sqlite',
+	'./js/swiftDate.js',
+	'./js/walmerge.js',
+	'./js/sqlite.js',
+	'./js/coreDataMapping.js',
+	'./js/backupExport.js',
+	'./js/backupImport.js'
 ];
 
 self.addEventListener('install', (event) => {

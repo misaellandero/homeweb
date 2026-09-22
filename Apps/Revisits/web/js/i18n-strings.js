@@ -69,7 +69,9 @@ const es = {
 		headingOtherApps: 'Mis otras apps', otherAppsHint: 'Descubre más apps que he creado.', mapYouAreHere: 'Estás aquí',
 		btnExportToIOS: 'Exportar a iOS/Mac', installBannerAppleTitle: 'Revisits para iPhone, iPad y Mac', installBannerAppleHint: 'Obtén la app nativa completa desde el App Store.',
 		btnGetAppStore: 'Ver en App Store', updateBannerTitle: 'Nueva versión disponible', updateBannerHint: 'Actualiza para obtener las últimas mejoras.', btnUpdateNow: 'Actualizar',
-		btnImportFromIOS: 'Importar de iOS/Mac', toastRevisitImported: 'Revisita importada', toastRevisitImportError: 'No se pudo importar el archivo (.revisits inválido)'
+		btnImportFromIOS: 'Importar de iOS/Mac', toastRevisitImported: 'Revisita importada', toastRevisitImportError: 'No se pudo importar el archivo (.revisits inválido)',
+		nativeBackupHint: 'Exporta o importa un respaldo completo compatible con la app de iOS/Mac (archivo .sqlite del respaldo nativo).',
+		btnExportNative: 'Exportar para iOS/Mac', btnImportNative: 'Importar de iOS/Mac', workingHint: 'Procesando…', toastExportError: 'No se pudo generar el respaldo'
 	},
 	personTypes: ['Ancianito', 'Ancianita', 'Señor', 'Señora', 'Joven', 'Adulto', 'Señorita', 'Niño', 'Niña', 'Mujer', 'Madre', 'Madre joven', 'Padre', 'Padre joven'],
 	sources: ['Biblia', 'Video', 'Publicación'],
@@ -150,7 +152,9 @@ const en = {
 		headingOtherApps: 'My other apps', otherAppsHint: 'Check out more apps I\'ve built.', mapYouAreHere: 'You are here',
 		btnExportToIOS: 'Export to iOS/Mac', installBannerAppleTitle: 'Revisits for iPhone, iPad, and Mac', installBannerAppleHint: 'Get the full native app from the App Store.',
 		btnGetAppStore: 'View on App Store', updateBannerTitle: 'New version available', updateBannerHint: 'Update to get the latest improvements.', btnUpdateNow: 'Update',
-		btnImportFromIOS: 'Import from iOS/Mac', toastRevisitImported: 'Return visit imported', toastRevisitImportError: 'Could not import the file (invalid .revisits)'
+		btnImportFromIOS: 'Import from iOS/Mac', toastRevisitImported: 'Return visit imported', toastRevisitImportError: 'Could not import the file (invalid .revisits)',
+		nativeBackupHint: 'Export or import a full backup compatible with the iOS/Mac app (the native backup\'s .sqlite file).',
+		btnExportNative: 'Export for iOS/Mac', btnImportNative: 'Import from iOS/Mac', workingHint: 'Working…', toastExportError: 'Could not generate the backup'
 	},
 	personTypes: ['Elderly man', 'Elderly woman', 'Man', 'Woman', 'Young person', 'Adult', 'Young woman', 'Boy', 'Girl', 'Woman', 'Mother', 'Young mother', 'Father', 'Young father'],
 	sources: ['Bible', 'Video', 'Publication'],
@@ -231,7 +235,9 @@ const de = {
 		headingOtherApps: 'Meine anderen Apps', otherAppsHint: 'Entdecke weitere Apps von mir.', mapYouAreHere: 'Du bist hier',
 		btnExportToIOS: 'Für iOS/Mac exportieren', installBannerAppleTitle: 'Revisits für iPhone, iPad und Mac', installBannerAppleHint: 'Hol dir die vollständige native App im App Store.',
 		btnGetAppStore: 'Im App Store ansehen', updateBannerTitle: 'Neue Version verfügbar', updateBannerHint: 'Aktualisiere, um die neuesten Verbesserungen zu erhalten.', btnUpdateNow: 'Aktualisieren',
-		btnImportFromIOS: 'Von iOS/Mac importieren', toastRevisitImported: 'Rückbesuch importiert', toastRevisitImportError: 'Datei konnte nicht importiert werden (ungültige .revisits-Datei)'
+		btnImportFromIOS: 'Von iOS/Mac importieren', toastRevisitImported: 'Rückbesuch importiert', toastRevisitImportError: 'Datei konnte nicht importiert werden (ungültige .revisits-Datei)',
+		nativeBackupHint: 'Exportiere oder importiere ein vollständiges Backup, das mit der iOS/Mac-App kompatibel ist (die .sqlite-Datei des nativen Backups).',
+		btnExportNative: 'Für iOS/Mac exportieren', btnImportNative: 'Von iOS/Mac importieren', workingHint: 'Wird verarbeitet…', toastExportError: 'Sicherung konnte nicht erstellt werden'
 	},
 	personTypes: ['Alter Mann', 'Alte Frau', 'Mann', 'Frau', 'Junge Person', 'Erwachsener', 'Junge Frau', 'Junge', 'Mädchen', 'Frau', 'Mutter', 'Junge Mutter', 'Vater', 'Junger Vater'],
 	sources: ['Bibel', 'Video', 'Publikation'],
@@ -312,7 +318,9 @@ const fr = {
 		headingOtherApps: 'Mes autres apps', otherAppsHint: 'Découvre d’autres apps que j’ai créées.', mapYouAreHere: 'Tu es ici',
 		btnExportToIOS: 'Exporter vers iOS/Mac', installBannerAppleTitle: 'Revisits pour iPhone, iPad et Mac', installBannerAppleHint: 'Obtiens l’app native complète sur l’App Store.',
 		btnGetAppStore: 'Voir sur l’App Store', updateBannerTitle: 'Nouvelle version disponible', updateBannerHint: 'Mets à jour pour profiter des dernières améliorations.', btnUpdateNow: 'Mettre à jour',
-		btnImportFromIOS: 'Importer depuis iOS/Mac', toastRevisitImported: 'Nouvelle visite importée', toastRevisitImportError: 'Impossible d’importer le fichier (.revisits invalide)'
+		btnImportFromIOS: 'Importer depuis iOS/Mac', toastRevisitImported: 'Nouvelle visite importée', toastRevisitImportError: 'Impossible d’importer le fichier (.revisits invalide)',
+		nativeBackupHint: 'Exporte ou importe une sauvegarde complète compatible avec l’app iOS/Mac (le fichier .sqlite de la sauvegarde native).',
+		btnExportNative: 'Exporter pour iOS/Mac', btnImportNative: 'Importer depuis iOS/Mac', workingHint: 'Traitement en cours…', toastExportError: 'Impossible de générer la sauvegarde'
 	},
 	personTypes: ['Homme âgé', 'Femme âgée', 'Homme', 'Femme', 'Jeune', 'Adulte', 'Jeune femme', 'Garçon', 'Fille', 'Femme', 'Mère', 'Jeune mère', 'Père', 'Jeune père'],
 	sources: ['Bible', 'Vidéo', 'Publication'],
@@ -393,7 +401,9 @@ const it = {
 		headingOtherApps: 'Le mie altre app', otherAppsHint: 'Scopri altre app che ho creato.', mapYouAreHere: 'Sei qui',
 		btnExportToIOS: 'Esporta per iOS/Mac', installBannerAppleTitle: 'Revisits per iPhone, iPad e Mac', installBannerAppleHint: 'Ottieni l’app nativa completa dall’App Store.',
 		btnGetAppStore: 'Vedi su App Store', updateBannerTitle: 'Nuova versione disponibile', updateBannerHint: 'Aggiorna per ottenere gli ultimi miglioramenti.', btnUpdateNow: 'Aggiorna',
-		btnImportFromIOS: 'Importa da iOS/Mac', toastRevisitImported: 'Revisita importata', toastRevisitImportError: 'Impossibile importare il file (.revisits non valido)'
+		btnImportFromIOS: 'Importa da iOS/Mac', toastRevisitImported: 'Revisita importata', toastRevisitImportError: 'Impossibile importare il file (.revisits non valido)',
+		nativeBackupHint: 'Esporta o importa un backup completo compatibile con l’app iOS/Mac (il file .sqlite del backup nativo).',
+		btnExportNative: 'Esporta per iOS/Mac', btnImportNative: 'Importa da iOS/Mac', workingHint: 'Elaborazione…', toastExportError: 'Impossibile generare il backup'
 	},
 	personTypes: ['Uomo anziano', 'Donna anziana', 'Uomo', 'Donna', 'Giovane', 'Adulto', 'Signorina', 'Bambino', 'Bambina', 'Donna', 'Madre', 'Madre giovane', 'Padre', 'Padre giovane'],
 	sources: ['Bibbia', 'Video', 'Pubblicazione'],
@@ -474,7 +484,9 @@ const pt = {
 		headingOtherApps: 'As minhas outras apps', otherAppsHint: 'Descobre mais apps que criei.', mapYouAreHere: 'Estás aqui',
 		btnExportToIOS: 'Exportar para iOS/Mac', installBannerAppleTitle: 'Revisits para iPhone, iPad e Mac', installBannerAppleHint: 'Obtém a app nativa completa na App Store.',
 		btnGetAppStore: 'Ver na App Store', updateBannerTitle: 'Nova versão disponível', updateBannerHint: 'Atualiza para obteres as últimas melhorias.', btnUpdateNow: 'Atualizar',
-		btnImportFromIOS: 'Importar do iOS/Mac', toastRevisitImported: 'Revisita importada', toastRevisitImportError: 'Não foi possível importar o ficheiro (.revisits inválido)'
+		btnImportFromIOS: 'Importar do iOS/Mac', toastRevisitImported: 'Revisita importada', toastRevisitImportError: 'Não foi possível importar o ficheiro (.revisits inválido)',
+		nativeBackupHint: 'Exporta ou importa uma cópia de segurança completa compatível com a app iOS/Mac (o ficheiro .sqlite da cópia nativa).',
+		btnExportNative: 'Exportar para iOS/Mac', btnImportNative: 'Importar do iOS/Mac', workingHint: 'A processar…', toastExportError: 'Não foi possível gerar a cópia de segurança'
 	},
 	personTypes: ['Homem idoso', 'Mulher idosa', 'Senhor', 'Senhora', 'Jovem', 'Adulto', 'Menina', 'Menino', 'Menina', 'Mulher', 'Mãe', 'Mãe jovem', 'Pai', 'Pai jovem'],
 	sources: ['Bíblia', 'Vídeo', 'Publicação'],
@@ -555,7 +567,9 @@ const nl = {
 		headingOtherApps: 'Mijn andere apps', otherAppsHint: 'Ontdek meer apps die ik heb gemaakt.', mapYouAreHere: 'Je bent hier',
 		btnExportToIOS: 'Exporteren naar iOS/Mac', installBannerAppleTitle: 'Revisits voor iPhone, iPad en Mac', installBannerAppleHint: 'Haal de volledige native app uit de App Store.',
 		btnGetAppStore: 'Bekijk in App Store', updateBannerTitle: 'Nieuwe versie beschikbaar', updateBannerHint: 'Werk bij voor de nieuwste verbeteringen.', btnUpdateNow: 'Bijwerken',
-		btnImportFromIOS: 'Importeren vanuit iOS/Mac', toastRevisitImported: 'Nabezoek geïmporteerd', toastRevisitImportError: 'Kon het bestand niet importeren (ongeldig .revisits-bestand)'
+		btnImportFromIOS: 'Importeren vanuit iOS/Mac', toastRevisitImported: 'Nabezoek geïmporteerd', toastRevisitImportError: 'Kon het bestand niet importeren (ongeldig .revisits-bestand)',
+		nativeBackupHint: 'Exporteer of importeer een volledige back-up die compatibel is met de iOS/Mac-app (het .sqlite-bestand van de native back-up).',
+		btnExportNative: 'Exporteren voor iOS/Mac', btnImportNative: 'Importeren vanuit iOS/Mac', workingHint: 'Bezig…', toastExportError: 'Kon de back-up niet maken'
 	},
 	personTypes: ['Oudere man', 'Oudere vrouw', 'Meneer', 'Mevrouw', 'Jongere', 'Volwassene', 'Jongedame', 'Jongen', 'Meisje', 'Vrouw', 'Moeder', 'Jonge moeder', 'Vader', 'Jonge vader'],
 	sources: ['Bijbel', 'Video', 'Publicatie'],
@@ -636,7 +650,9 @@ const el = {
 		headingOtherApps: 'Οι άλλες μου εφαρμογές', otherAppsHint: 'Ανακάλυψε κι άλλες εφαρμογές που έχω δημιουργήσει.', mapYouAreHere: 'Είσαι εδώ',
 		btnExportToIOS: 'Εξαγωγή για iOS/Mac', installBannerAppleTitle: 'Revisits για iPhone, iPad και Mac', installBannerAppleHint: 'Απόκτησε την πλήρη εγγενή εφαρμογή από το App Store.',
 		btnGetAppStore: 'Δες στο App Store', updateBannerTitle: 'Νέα έκδοση διαθέσιμη', updateBannerHint: 'Ενημέρωσε για να αποκτήσεις τις τελευταίες βελτιώσεις.', btnUpdateNow: 'Ενημέρωση',
-		btnImportFromIOS: 'Εισαγωγή από iOS/Mac', toastRevisitImported: 'Η επανεπίσκεψη εισήχθη', toastRevisitImportError: 'Δεν ήταν δυνατή η εισαγωγή του αρχείου (μη έγκυρο .revisits)'
+		btnImportFromIOS: 'Εισαγωγή από iOS/Mac', toastRevisitImported: 'Η επανεπίσκεψη εισήχθη', toastRevisitImportError: 'Δεν ήταν δυνατή η εισαγωγή του αρχείου (μη έγκυρο .revisits)',
+		nativeBackupHint: 'Εξήγαγε ή εισήγαγε ένα πλήρες αντίγραφο ασφαλείας συμβατό με την εφαρμογή iOS/Mac (το αρχείο .sqlite του εγγενούς αντιγράφου).',
+		btnExportNative: 'Εξαγωγή για iOS/Mac', btnImportNative: 'Εισαγωγή από iOS/Mac', workingHint: 'Επεξεργασία…', toastExportError: 'Δεν ήταν δυνατή η δημιουργία του αντιγράφου ασφαλείας'
 	},
 	personTypes: ['Ηλικιωμένος', 'Ηλικιωμένη', 'Κύριος', 'Κυρία', 'Νέος/Νέα', 'Ενήλικας', 'Δεσποινίδα', 'Αγόρι', 'Κορίτσι', 'Γυναίκα', 'Μητέρα', 'Νεαρή μητέρα', 'Πατέρας', 'Νεαρός πατέρας'],
 	sources: ['Αγία Γραφή', 'Βίντεο', 'Έκδοση'],
@@ -717,7 +733,9 @@ const pl = {
 		headingOtherApps: 'Moje inne aplikacje', otherAppsHint: 'Odkryj więcej aplikacji, które stworzyłem.', mapYouAreHere: 'Jesteś tutaj',
 		btnExportToIOS: 'Eksportuj do iOS/Mac', installBannerAppleTitle: 'Revisits na iPhone, iPad i Mac', installBannerAppleHint: 'Pobierz pełną natywną aplikację ze sklepu App Store.',
 		btnGetAppStore: 'Zobacz w App Store', updateBannerTitle: 'Dostępna nowa wersja', updateBannerHint: 'Zaktualizuj, aby uzyskać najnowsze udoskonalenia.', btnUpdateNow: 'Aktualizuj',
-		btnImportFromIOS: 'Importuj z iOS/Mac', toastRevisitImported: 'Odwiedziny zaimportowane', toastRevisitImportError: 'Nie udało się zaimportować pliku (nieprawidłowy plik .revisits)'
+		btnImportFromIOS: 'Importuj z iOS/Mac', toastRevisitImported: 'Odwiedziny zaimportowane', toastRevisitImportError: 'Nie udało się zaimportować pliku (nieprawidłowy plik .revisits)',
+		nativeBackupHint: 'Wyeksportuj lub zaimportuj pełną kopię zapasową zgodną z aplikacją iOS/Mac (plik .sqlite natywnej kopii).',
+		btnExportNative: 'Eksportuj do iOS/Mac', btnImportNative: 'Importuj z iOS/Mac', workingHint: 'Przetwarzanie…', toastExportError: 'Nie udało się utworzyć kopii zapasowej'
 	},
 	personTypes: ['Starszy mężczyzna', 'Starsza kobieta', 'Pan', 'Pani', 'Młoda osoba', 'Dorosły', 'Panienka', 'Chłopiec', 'Dziewczynka', 'Kobieta', 'Matka', 'Młoda matka', 'Ojciec', 'Młody ojciec'],
 	sources: ['Biblia', 'Film', 'Publikacja'],
@@ -798,7 +816,9 @@ const ru = {
 		headingOtherApps: 'Мои другие приложения', otherAppsHint: 'Посмотрите другие приложения, которые я создал.', mapYouAreHere: 'Вы здесь',
 		btnExportToIOS: 'Экспорт для iOS/Mac', installBannerAppleTitle: 'Revisits для iPhone, iPad и Mac', installBannerAppleHint: 'Получите полноценное нативное приложение в App Store.',
 		btnGetAppStore: 'Посмотреть в App Store', updateBannerTitle: 'Доступна новая версия', updateBannerHint: 'Обновите, чтобы получить последние улучшения.', btnUpdateNow: 'Обновить',
-		btnImportFromIOS: 'Импорт с iOS/Mac', toastRevisitImported: 'Повторное посещение импортировано', toastRevisitImportError: 'Не удалось импортировать файл (недействительный .revisits)'
+		btnImportFromIOS: 'Импорт с iOS/Mac', toastRevisitImported: 'Повторное посещение импортировано', toastRevisitImportError: 'Не удалось импортировать файл (недействительный .revisits)',
+		nativeBackupHint: 'Экспортируйте или импортируйте полную резервную копию, совместимую с приложением iOS/Mac (файл .sqlite нативной резервной копии).',
+		btnExportNative: 'Экспорт для iOS/Mac', btnImportNative: 'Импорт с iOS/Mac', workingHint: 'Обработка…', toastExportError: 'Не удалось создать резервную копию'
 	},
 	personTypes: ['Пожилой мужчина', 'Пожилая женщина', 'Мужчина', 'Женщина', 'Молодой человек', 'Взрослый', 'Девушка', 'Мальчик', 'Девочка', 'Женщина', 'Мать', 'Молодая мать', 'Отец', 'Молодой отец'],
 	sources: ['Библия', 'Видео', 'Публикация'],
@@ -879,7 +899,9 @@ const tr = {
 		headingOtherApps: 'Diğer uygulamalarım', otherAppsHint: 'Geliştirdiğim diğer uygulamaları keşfet.', mapYouAreHere: 'Buradasın',
 		btnExportToIOS: 'iOS/Mac için dışa aktar', installBannerAppleTitle: 'iPhone, iPad ve Mac için Revisits', installBannerAppleHint: 'Tam özellikli yerel uygulamayı App Store’dan edin.',
 		btnGetAppStore: 'App Store’da görüntüle', updateBannerTitle: 'Yeni sürüm mevcut', updateBannerHint: 'En son iyileştirmeleri almak için güncelle.', btnUpdateNow: 'Güncelle',
-		btnImportFromIOS: 'iOS/Mac\'ten içe aktar', toastRevisitImported: 'Tekrar ziyaret içe aktarıldı', toastRevisitImportError: 'Dosya içe aktarılamadı (geçersiz .revisits)'
+		btnImportFromIOS: 'iOS/Mac\'ten içe aktar', toastRevisitImported: 'Tekrar ziyaret içe aktarıldı', toastRevisitImportError: 'Dosya içe aktarılamadı (geçersiz .revisits)',
+		nativeBackupHint: 'iOS/Mac uygulamasıyla uyumlu tam bir yedeği dışa veya içe aktar (yerel yedeğin .sqlite dosyası).',
+		btnExportNative: 'iOS/Mac için dışa aktar', btnImportNative: 'iOS/Mac\'ten içe aktar', workingHint: 'İşleniyor…', toastExportError: 'Yedek oluşturulamadı'
 	},
 	personTypes: ['Yaşlı adam', 'Yaşlı kadın', 'Bey', 'Hanım', 'Genç', 'Yetişkin', 'Genç bayan', 'Erkek çocuk', 'Kız çocuk', 'Kadın', 'Anne', 'Genç anne', 'Baba', 'Genç baba'],
 	sources: ['Mukaddes Kitap', 'Video', 'Yayın'],
@@ -960,7 +982,9 @@ const uk = {
 		headingOtherApps: 'Мої інші застосунки', otherAppsHint: 'Перегляньте інші застосунки, які я створив.', mapYouAreHere: 'Ви тут',
 		btnExportToIOS: 'Експортувати для iOS/Mac', installBannerAppleTitle: 'Revisits для iPhone, iPad і Mac', installBannerAppleHint: 'Отримайте повноцінний нативний застосунок в App Store.',
 		btnGetAppStore: 'Переглянути в App Store', updateBannerTitle: 'Доступна нова версія', updateBannerHint: 'Оновіть, щоб отримати останні покращення.', btnUpdateNow: 'Оновити',
-		btnImportFromIOS: 'Імпорт з iOS/Mac', toastRevisitImported: 'Повторні відвідини імпортовано', toastRevisitImportError: 'Не вдалося імпортувати файл (недійсний .revisits)'
+		btnImportFromIOS: 'Імпорт з iOS/Mac', toastRevisitImported: 'Повторні відвідини імпортовано', toastRevisitImportError: 'Не вдалося імпортувати файл (недійсний .revisits)',
+		nativeBackupHint: 'Експортуйте або імпортуйте повну резервну копію, сумісну з застосунком iOS/Mac (файл .sqlite нативної резервної копії).',
+		btnExportNative: 'Експортувати для iOS/Mac', btnImportNative: 'Імпорт з iOS/Mac', workingHint: 'Обробка…', toastExportError: 'Не вдалося створити резервну копію'
 	},
 	personTypes: ['Літній чоловік', 'Літня жінка', 'Чоловік', 'Жінка', 'Молода людина', 'Дорослий', 'Панночка', 'Хлопчик', 'Дівчинка', 'Жінка', 'Мати', 'Молода мати', 'Батько', 'Молодий батько'],
 	sources: ['Біблія', 'Відео', 'Публікація'],
@@ -1041,7 +1065,9 @@ const vi = {
 		headingOtherApps: 'Các ứng dụng khác của tôi', otherAppsHint: 'Khám phá thêm các ứng dụng tôi đã tạo.', mapYouAreHere: 'Bạn đang ở đây',
 		btnExportToIOS: 'Xuất cho iOS/Mac', installBannerAppleTitle: 'Revisits cho iPhone, iPad và Mac', installBannerAppleHint: 'Nhận ứng dụng gốc đầy đủ từ App Store.',
 		btnGetAppStore: 'Xem trên App Store', updateBannerTitle: 'Có phiên bản mới', updateBannerHint: 'Cập nhật để nhận các cải tiến mới nhất.', btnUpdateNow: 'Cập nhật',
-		btnImportFromIOS: 'Nhập từ iOS/Mac', toastRevisitImported: 'Đã nhập cuộc thăm lại', toastRevisitImportError: 'Không thể nhập tệp (.revisits không hợp lệ)'
+		btnImportFromIOS: 'Nhập từ iOS/Mac', toastRevisitImported: 'Đã nhập cuộc thăm lại', toastRevisitImportError: 'Không thể nhập tệp (.revisits không hợp lệ)',
+		nativeBackupHint: 'Xuất hoặc nhập bản sao lưu đầy đủ tương thích với ứng dụng iOS/Mac (tệp .sqlite của bản sao lưu gốc).',
+		btnExportNative: 'Xuất cho iOS/Mac', btnImportNative: 'Nhập từ iOS/Mac', workingHint: 'Đang xử lý…', toastExportError: 'Không thể tạo bản sao lưu'
 	},
 	personTypes: ['Ông cụ', 'Bà cụ', 'Ông', 'Bà', 'Người trẻ', 'Người lớn', 'Cô gái trẻ', 'Bé trai', 'Bé gái', 'Phụ nữ', 'Người mẹ', 'Mẹ trẻ', 'Người cha', 'Cha trẻ'],
 	sources: ['Kinh Thánh', 'Video', 'Ấn phẩm'],
@@ -1122,7 +1148,9 @@ const id = {
 		headingOtherApps: 'Aplikasi saya yang lain', otherAppsHint: 'Lihat aplikasi lain yang telah saya buat.', mapYouAreHere: 'Anda di sini',
 		btnExportToIOS: 'Ekspor ke iOS/Mac', installBannerAppleTitle: 'Revisits untuk iPhone, iPad, dan Mac', installBannerAppleHint: 'Dapatkan aplikasi native lengkap dari App Store.',
 		btnGetAppStore: 'Lihat di App Store', updateBannerTitle: 'Versi baru tersedia', updateBannerHint: 'Perbarui untuk mendapatkan peningkatan terbaru.', btnUpdateNow: 'Perbarui',
-		btnImportFromIOS: 'Impor dari iOS/Mac', toastRevisitImported: 'Kunjungan kembali diimpor', toastRevisitImportError: 'Tidak dapat mengimpor file (.revisits tidak valid)'
+		btnImportFromIOS: 'Impor dari iOS/Mac', toastRevisitImported: 'Kunjungan kembali diimpor', toastRevisitImportError: 'Tidak dapat mengimpor file (.revisits tidak valid)',
+		nativeBackupHint: 'Ekspor atau impor cadangan lengkap yang kompatibel dengan aplikasi iOS/Mac (file .sqlite dari cadangan native).',
+		btnExportNative: 'Ekspor untuk iOS/Mac', btnImportNative: 'Impor dari iOS/Mac', workingHint: 'Memproses…', toastExportError: 'Tidak dapat membuat cadangan'
 	},
 	personTypes: ['Pria tua', 'Wanita tua', 'Bapak', 'Ibu', 'Orang muda', 'Dewasa', 'Nona', 'Anak laki-laki', 'Anak perempuan', 'Wanita', 'Ibu', 'Ibu muda', 'Ayah', 'Ayah muda'],
 	sources: ['Alkitab', 'Video', 'Publikasi'],
@@ -1203,7 +1231,9 @@ const th = {
 		headingOtherApps: 'แอปอื่นๆ ของฉัน', otherAppsHint: 'ดูแอปอื่นๆ ที่ฉันสร้างขึ้น', mapYouAreHere: 'คุณอยู่ที่นี่',
 		btnExportToIOS: 'ส่งออกไปยัง iOS/Mac', installBannerAppleTitle: 'Revisits สำหรับ iPhone, iPad และ Mac', installBannerAppleHint: 'รับแอปเนทีฟฉบับเต็มจาก App Store',
 		btnGetAppStore: 'ดูใน App Store', updateBannerTitle: 'มีเวอร์ชันใหม่', updateBannerHint: 'อัปเดตเพื่อรับการปรับปรุงล่าสุด', btnUpdateNow: 'อัปเดต',
-		btnImportFromIOS: 'นำเข้าจาก iOS/Mac', toastRevisitImported: 'นำเข้าการเยี่ยมเยียนซ้ำแล้ว', toastRevisitImportError: 'ไม่สามารถนำเข้าไฟล์ได้ (.revisits ไม่ถูกต้อง)'
+		btnImportFromIOS: 'นำเข้าจาก iOS/Mac', toastRevisitImported: 'นำเข้าการเยี่ยมเยียนซ้ำแล้ว', toastRevisitImportError: 'ไม่สามารถนำเข้าไฟล์ได้ (.revisits ไม่ถูกต้อง)',
+		nativeBackupHint: 'ส่งออกหรือนำเข้าข้อมูลสำรองแบบเต็มที่ใช้ร่วมกับแอป iOS/Mac ได้ (ไฟล์ .sqlite ของข้อมูลสำรองแบบเนทีฟ)',
+		btnExportNative: 'ส่งออกสำหรับ iOS/Mac', btnImportNative: 'นำเข้าจาก iOS/Mac', workingHint: 'กำลังประมวลผล…', toastExportError: 'ไม่สามารถสร้างข้อมูลสำรองได้'
 	},
 	personTypes: ['ชายสูงอายุ', 'หญิงสูงอายุ', 'ชาย', 'หญิง', 'วัยรุ่น', 'ผู้ใหญ่', 'สาวน้อย', 'เด็กชาย', 'เด็กหญิง', 'ผู้หญิง', 'มารดา', 'มารดาสาว', 'บิดา', 'บิดาหนุ่ม'],
 	sources: ['คัมภีร์ไบเบิล', 'วิดีโอ', 'สิ่งพิมพ์'],
@@ -1284,7 +1314,9 @@ const hi = {
 		headingOtherApps: 'मेरे अन्य ऐप्स', otherAppsHint: 'मेरे बनाए अन्य ऐप्स देखें।', mapYouAreHere: 'आप यहाँ हैं',
 		btnExportToIOS: 'iOS/Mac के लिए एक्सपोर्ट करें', installBannerAppleTitle: 'iPhone, iPad और Mac के लिए Revisits', installBannerAppleHint: 'App Store से पूरा नेटिव ऐप प्राप्त करें।',
 		btnGetAppStore: 'App Store पर देखें', updateBannerTitle: 'नया वर्शन उपलब्ध है', updateBannerHint: 'नवीनतम सुधार पाने के लिए अपडेट करें।', btnUpdateNow: 'अपडेट करें',
-		btnImportFromIOS: 'iOS/Mac से आयात करें', toastRevisitImported: 'पुनः भेंट आयात की गई', toastRevisitImportError: 'फ़ाइल आयात नहीं हो सकी (अमान्य .revisits)'
+		btnImportFromIOS: 'iOS/Mac से आयात करें', toastRevisitImported: 'पुनः भेंट आयात की गई', toastRevisitImportError: 'फ़ाइल आयात नहीं हो सकी (अमान्य .revisits)',
+		nativeBackupHint: 'iOS/Mac ऐप के साथ संगत पूरा बैकअप एक्सपोर्ट या आयात करें (नेटिव बैकअप की .sqlite फ़ाइल)।',
+		btnExportNative: 'iOS/Mac के लिए एक्सपोर्ट करें', btnImportNative: 'iOS/Mac से आयात करें', workingHint: 'प्रोसेस हो रहा है…', toastExportError: 'बैकअप नहीं बनाया जा सका'
 	},
 	personTypes: ['बुज़ुर्ग पुरुष', 'बुज़ुर्ग महिला', 'श्रीमान', 'श्रीमती', 'युवा', 'वयस्क', 'युवती', 'लड़का', 'लड़की', 'महिला', 'माँ', 'युवा माँ', 'पिता', 'युवा पिता'],
 	sources: ['बाइबल', 'वीडियो', 'प्रकाशन'],
@@ -1365,7 +1397,9 @@ const ja = {
 		headingOtherApps: '私の他のアプリ', otherAppsHint: '私が作った他のアプリをチェックしてください。', mapYouAreHere: '現在地',
 		btnExportToIOS: 'iOS/Mac用にエクスポート', installBannerAppleTitle: 'iPhone、iPad、Mac向けRevisits', installBannerAppleHint: 'App Storeで完全なネイティブアプリを入手してください。',
 		btnGetAppStore: 'App Storeで見る', updateBannerTitle: '新しいバージョンがあります', updateBannerHint: '最新の改善を取得するには更新してください。', btnUpdateNow: '更新',
-		btnImportFromIOS: 'iOS/Macからインポート', toastRevisitImported: '再訪問をインポートしました', toastRevisitImportError: 'ファイルをインポートできませんでした（無効な.revisitsファイル）'
+		btnImportFromIOS: 'iOS/Macからインポート', toastRevisitImported: '再訪問をインポートしました', toastRevisitImportError: 'ファイルをインポートできませんでした（無効な.revisitsファイル）',
+		nativeBackupHint: 'iOS/Macアプリと互換性のある完全なバックアップをエクスポートまたはインポートします（ネイティブバックアップの.sqliteファイル）。',
+		btnExportNative: 'iOS/Mac用にエクスポート', btnImportNative: 'iOS/Macからインポート', workingHint: '処理中…', toastExportError: 'バックアップを作成できませんでした'
 	},
 	personTypes: ['高齢の男性', '高齢の女性', '男性', '女性', '若者', '成人', '若い女性', '男の子', '女の子', '女性', '母親', '若い母親', '父親', '若い父親'],
 	sources: ['聖書', '動画', '出版物'],
@@ -1446,7 +1480,9 @@ const ko = {
 		headingOtherApps: '내 다른 앱', otherAppsHint: '제가 만든 다른 앱들을 확인해 보세요.', mapYouAreHere: '현재 위치',
 		btnExportToIOS: 'iOS/Mac용으로 내보내기', installBannerAppleTitle: 'iPhone, iPad, Mac용 Revisits', installBannerAppleHint: 'App Store에서 완전한 네이티브 앱을 받아보세요.',
 		btnGetAppStore: 'App Store에서 보기', updateBannerTitle: '새 버전 사용 가능', updateBannerHint: '최신 개선 사항을 받으려면 업데이트하세요.', btnUpdateNow: '업데이트',
-		btnImportFromIOS: 'iOS/Mac에서 가져오기', toastRevisitImported: '재방문을 가져왔습니다', toastRevisitImportError: '파일을 가져올 수 없습니다 (잘못된 .revisits 파일)'
+		btnImportFromIOS: 'iOS/Mac에서 가져오기', toastRevisitImported: '재방문을 가져왔습니다', toastRevisitImportError: '파일을 가져올 수 없습니다 (잘못된 .revisits 파일)',
+		nativeBackupHint: 'iOS/Mac 앱과 호환되는 전체 백업을 내보내거나 가져오세요 (네이티브 백업의 .sqlite 파일).',
+		btnExportNative: 'iOS/Mac용으로 내보내기', btnImportNative: 'iOS/Mac에서 가져오기', workingHint: '처리 중…', toastExportError: '백업을 생성할 수 없습니다'
 	},
 	personTypes: ['노인 남성', '노인 여성', '남성', '여성', '청년', '성인', '젊은 여성', '남자아이', '여자아이', '여성', '어머니', '젊은 어머니', '아버지', '젊은 아버지'],
 	sources: ['성경', '동영상', '출판물'],
