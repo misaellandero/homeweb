@@ -21138,3 +21138,233 @@ input.datetimepicker[data-color="yellow"]+.bootstrap-datetimepicker-widget.dropd
     background: rgba(255, 255, 255, 0.8);
   }
 }
+
+/* Main portfolio responsive theme fixes */
+@media screen and (max-width: 991px) {
+  .landing-page > .navbar.fixed-top,
+  .landing-page > .navbar.navbar-transparent.fixed-top {
+    overflow: visible;
+  }
+
+  .landing-page > .navbar.fixed-top > .container {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-translate {
+    width: 100%;
+    align-items: center;
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse,
+  .landing-page > .navbar.fixed-top .navbar-collapse.collapse,
+  .landing-page > .navbar.fixed-top .navbar-collapse.collapsing,
+  .landing-page > .navbar.fixed-top .navbar-collapse.show {
+    position: absolute !important;
+    top: calc(100% + 10px) !important;
+    right: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-height: calc(100vh - 96px);
+    margin: 0 !important;
+    overflow-y: auto;
+    transform: none !important;
+    -webkit-transform: none !important;
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse.collapse:not(.show) {
+    display: none;
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse.show,
+  .landing-page > .navbar.fixed-top .navbar-collapse.collapsing {
+    display: block;
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 18px;
+    background: rgba(15, 17, 22, 0.9);
+    -webkit-backdrop-filter: saturate(180%) blur(22px);
+    backdrop-filter: saturate(180%) blur(22px);
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.32);
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse-header .collapse-brand a,
+  .landing-page > .navbar.fixed-top .navbar-collapse-header .collapse-close .navbar-toggler,
+  .landing-page > .navbar.fixed-top .navbar-collapse .navbar-nav .nav-item .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse-header .collapse-close .navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse .navbar-nav {
+    padding-top: 2px;
+    width: 100%;
+    align-items: stretch;
+    flex-direction: column !important;
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse .navbar-nav .nav-item {
+    width: 100%;
+    transform: none !important;
+    -webkit-transform: none !important;
+    animation: none !important;
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse .navbar-nav .nav-item .nav-link {
+    float: none;
+    margin: 0;
+    padding: 10px 12px;
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 991px) and (prefers-color-scheme: light) {
+  .landing-page > .navbar.fixed-top .navbar-collapse.show,
+  .landing-page > .navbar.fixed-top .navbar-collapse.collapsing {
+    border-color: rgba(20, 22, 25, 0.12);
+    background: rgba(255, 255, 255, 0.98);
+    color: #20232a;
+    box-shadow: 0 18px 42px rgba(20, 22, 25, 0.16);
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse-header .collapse-brand a,
+  .landing-page > .navbar.fixed-top .navbar-collapse-header .collapse-close .navbar-toggler,
+  .landing-page > .navbar.fixed-top .navbar-collapse .navbar-nav .nav-item .nav-link {
+    color: #20232a !important;
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse .navbar-nav .nav-item .nav-link:hover,
+  .landing-page > .navbar.fixed-top .navbar-collapse .navbar-nav .nav-item .nav-link:focus {
+    color: rgba(20, 22, 25, 1) !important;
+    background-color: rgba(20, 22, 25, 0.07);
+  }
+
+  .landing-page > .navbar.fixed-top .navbar-collapse-header .collapse-close .navbar-toggler {
+    background-color: rgba(20, 22, 25, 0.08);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  body.landing-page,
+  body.register-page.landing-page {
+    background: #f6f7fb;
+    color: #20232a;
+  }
+
+  .landing-page .section,
+  .landing-page .section-coins,
+  .landing-page .servicios,
+  .landing-page .main {
+    color: #20232a;
+  }
+
+  .landing-page .page-header,
+  .landing-page .page-header p.text-white {
+    color: #20232a !important;
+  }
+
+  .landing-page .page-header .btn-neutral {
+    color: #20232a;
+  }
+
+  .landing-page .page-header .btn-neutral:hover,
+  .landing-page .page-header .btn-neutral:focus {
+    color: #111317;
+  }
+
+  .landing-page .page-header .apple-platform-icon {
+    filter: invert(1) saturate(0.8) contrast(1.1);
+    opacity: 0.84;
+  }
+
+  .landing-page .page-header .text-blue,
+  .landing-page .page-header .text-green,
+  .landing-page .page-header .text-success,
+  .landing-page .page-header .category.text-success {
+    color: #278570 !important;
+  }
+
+  .landing-page .section-coins h1,
+  .landing-page .servicios .title,
+  .landing-page .servicios .title h1,
+  .landing-page .servicios .title h2,
+  .landing-page .servicios .title h3,
+  .landing-page .servicios .title h4,
+  .landing-page .servicios .title h5,
+  .landing-page .servicios .title p {
+    color: #20232a !important;
+  }
+
+  .landing-page .section-coins .card.card-coin,
+  .landing-page .card-home {
+    border-color: rgba(35, 41, 58, 0.16);
+    background: rgba(255, 255, 255, 0.88);
+    color: #20232a;
+    box-shadow: 0 20px 60px rgba(35, 41, 58, 0.1);
+  }
+
+  .landing-page .servicios,
+  .landing-page .servicios.main {
+    background: #f6f7fb !important;
+  }
+
+  .landing-page .servicios img.rounded {
+    box-shadow: 0 18px 44px rgba(35, 41, 58, 0.12);
+  }
+
+  .landing-page .servicios a {
+    color: #0d7667;
+  }
+
+  .landing-page .servicios a:hover,
+  .landing-page .servicios a:focus {
+    color: #085f55;
+  }
+
+  .landing-page .section-coins .card.card-coin h1,
+  .landing-page .section-coins .card.card-coin h2,
+  .landing-page .section-coins .card.card-coin h3,
+  .landing-page .section-coins .card.card-coin h4,
+  .landing-page .section-coins .card.card-coin h5,
+  .landing-page .section-coins .card.card-coin h6,
+  .landing-page .section-coins .card.card-coin p,
+  .landing-page .section-coins .card.card-coin span,
+  .landing-page .section-coins .card.card-coin .list-group-item,
+  .landing-page .card-home h1,
+  .landing-page .card-home h2,
+  .landing-page .card-home h3,
+  .landing-page .card-home h4,
+  .landing-page .card-home h5,
+  .landing-page .card-home h6,
+  .landing-page .card-home p {
+    color: #20232a !important;
+  }
+
+  .landing-page .section-coins .card.card-coin span,
+  .landing-page .section-coins .card.card-coin p,
+  .landing-page .section-coins .card.card-coin .list-group-item,
+  .landing-page .card-home h3 {
+    color: #4f5868 !important;
+  }
+
+  .landing-page .badge-store-pending {
+    border-color: rgba(35, 41, 58, 0.26);
+    color: #20232a;
+  }
+
+  .landing-page .badge-store-pending:hover,
+  .landing-page .badge-store-pending:focus {
+    background-color: rgba(35, 41, 58, 0.07);
+    color: #20232a;
+  }
+
+  .landing-page .footer,
+  .landing-page .footer.text-white,
+  .landing-page .footer .text-white {
+    color: rgba(255, 255, 255, 0.86) !important;
+  }
+}
