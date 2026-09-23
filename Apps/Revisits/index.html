@@ -140,12 +140,17 @@
 																<img src="assets/images/hero26.png" class="img-fluid" width="800em" alt="">
 																<P>Return visits is a tool to help you keep track of your Bible studies as well as your time reports.
 																</P>
-																<p> 
+																<p>
 																	<a href="https://apps.apple.com/mx/app/revisits/id1513271477">
 																		<img src="assets/images/AppStore.png" class="img-fluid" heigth="150em00em" alt="">
 																	</a>
 																</p>
-																
+																<p>
+																	<button type="button" id="webVersionBtn" class="btn btn-primary" style="background: linear-gradient(90deg, #235ee7 0%, #4ae7fa 100%); border: none; padding: 12px 28px; border-radius: 30px; font-weight: 600;">
+																		<i class="fas fa-globe"></i> Use on the Web
+																	</button>
+																</p>
+
 																<br>
 																<br>
 													
@@ -478,10 +483,27 @@
 					</div>
 				</div>
 				
-			</footer>	
-			<!-- End footer Area -->	
+			</footer>
+			<!-- End footer Area -->
 
-			
+			<!-- Web install instructions modal -->
+			<div class="modal fade" id="webInstallModal" tabindex="-1" role="dialog" aria-labelledby="webInstallModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="webInstallModalLabel">Install Revisits Web</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body" id="webInstallModalBody"></div>
+						<div class="modal-footer">
+							<a href="web/index.html" class="btn btn-primary" id="openRevisitsWebLink">Open Revisits Web</a>
+							<button type="button" class="btn btn-secondary" id="webInstallCloseBtn" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
 
 		</body>
 		<input id="fb_appID" type="text" value="<?php echo $datosTienda[0]['fb_appId'];?>" hidden="true">
@@ -550,7 +572,8 @@
         fg: '#eceeef',
         text: 'Thumbnail'
       });
-    </script> 
+    </script>
+    <script src="assets/js/web-install.js"></script>
 </body>
 </html>
  

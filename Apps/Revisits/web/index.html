@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+	<script>
+		try {
+			var scale = JSON.parse(localStorage.getItem('revisits.fontScale'));
+			if (scale) document.documentElement.style.setProperty('--app-scale', scale);
+		} catch (e) { /* private mode / storage unavailable */ }
+	</script>
+	<title>Revisits Web</title>
+	<meta name="description" content="Your ministry companion! Lleva el control de tus revisitas, estudios biblicos e informes de tiempo, guardado en este dispositivo.">
+	<meta name="theme-color" content="#235ee7">
+	<link rel="manifest" href="manifest.json">
+	<link rel="icon" href="icons/icon-192.png">
+	<link rel="apple-touch-icon" href="icons/icon-192.png">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+	<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+	<header class="app-header">
+		<img src="icons/icon-192.png" alt="">
+		<h1>Revisits</h1>
+		<a class="back-link" id="site-link" href="../index.html">Sitio</a>
+	</header>
+
+	<main id="app-main"></main>
+
+	<button id="app-fab" class="fab" aria-label="Agregar">+</button>
+	<nav id="app-tabbar" class="tabbar"></nav>
+
+	<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+	<script type="module" src="js/app.js"></script>
+</body>
+</html>

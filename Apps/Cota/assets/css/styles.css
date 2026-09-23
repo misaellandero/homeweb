@@ -174,7 +174,7 @@ h1 {
 
 .platform-choice {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
   gap: 8px;
   margin: 0 0 14px;
   padding: 0;
@@ -290,6 +290,58 @@ h1 {
 
 .form-note[data-status="error"] {
   color: rgba(255, 179, 189, 0.95);
+}
+
+.waitlist-stats {
+  width: min(100%, 560px);
+  margin-top: 18px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+}
+
+.stats-total {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.stats-total strong {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-right: 6px;
+}
+
+.stats-platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stats-platforms li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.stats-key {
+  color: rgba(248, 247, 251, 0.68);
+}
+
+.stats-value {
+  color: #fff;
 }
 
 .sr-only {
