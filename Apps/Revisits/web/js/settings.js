@@ -37,7 +37,10 @@ export const settings = {
 	set language(v) { setJSON('language', v); },
 
 	get fontScale() { return getJSON('fontScale', 1); },
-	set fontScale(v) { setJSON('fontScale', v); }
+	set fontScale(v) { setJSON('fontScale', v); },
+
+	get onboardingCompleted() { return getJSON('onboardingCompleted', false); },
+	set onboardingCompleted(v) { setJSON('onboardingCompleted', !!v); }
 };
 
 export function applyFontScale() {
