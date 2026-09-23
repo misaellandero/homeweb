@@ -15,7 +15,7 @@ const FONT_SCALES = [
 ];
 
 const OTHER_APPS = [
-	{ name: '+Cota', icon: 'assets/art/other-apps/cota-icon.webp', url: 'https://misaellandero.com/Apps/Cota/index.html' },
+	{ name: '+Cota', icon: '../../Cota/assets/images/cota-icon-light.png', url: 'https://misaellandero.com/Apps/Cota/index.html' },
 	{ name: 'DebtMe', icon: '../../DebtMe/sistema/images/portfolio-icon-light.png', url: 'https://misaellandero.com/Apps/DebtMe/index_debtMe.html' },
 	{ name: 'Loxi', icon: '../../Loxi/assets/images/icon.png', url: 'https://misaellandero.com/Apps/Loxi/index.html' },
 	{ name: 'Fox vs Hunters', icon: '../../Fox%20vs%20Hunters/assets/images/portfolio-icon-light.png', url: 'https://misaellandero.com/Apps/Fox%20vs%20Hunters/index.html' },
@@ -52,6 +52,10 @@ export async function render(container) {
 				<h2>${t('headingInstall')}</h2>
 			</div>
 			${installSectionHTML()}
+		</div>
+
+		<div class="card">
+			<button type="button" class="btn btn-block" id="replayOnboardingBtn"><i class="fas fa-play-circle"></i> ${t('btnReplayOnboarding')}</button>
 		</div>
 
 		<div class="card">
@@ -125,6 +129,11 @@ export async function render(container) {
 
 	container.querySelector('#languageSelect').addEventListener('change', (e) => {
 		setLanguage(e.target.value);
+	});
+
+	container.querySelector('#replayOnboardingBtn').addEventListener('click', async () => {
+		const { showOnboarding } = await import('../onboarding.js');
+		showOnboarding();
 	});
 
 	container.querySelectorAll('.font-scale-btn').forEach((btn) => {

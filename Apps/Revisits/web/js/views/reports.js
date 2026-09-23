@@ -222,10 +222,10 @@ function renderTimer(container, services, timerState) {
 
 		countersEl.innerHTML = fields.map((f) => `
 			<div class="stat-tile" style="min-width:84px;">
-				<div class="row" style="justify-content:center; gap:8px;">
-					<button class="icon-btn" data-key="${f.key}" data-delta="-1">-</button>
+				<div class="stepper" style="justify-content:center;">
+					<button type="button" class="stepper-btn" data-key="${f.key}" data-delta="-1" aria-label="-"><i class="fas fa-minus"></i></button>
 					<div class="value" data-counter="${f.key}">${counters[f.key] || 0}</div>
-					<button class="icon-btn" data-key="${f.key}" data-delta="1">+</button>
+					<button type="button" class="stepper-btn" data-key="${f.key}" data-delta="1" aria-label="+"><i class="fas fa-plus"></i></button>
 				</div>
 				<div class="label">${f.label}</div>
 			</div>
@@ -292,26 +292,11 @@ function renderTimer(container, services, timerState) {
 				});
 			});
 		} else {
-			const PRESETS = presets();
 			controls.innerHTML = `
-				<div class="segmented" id="presetSeg" style="flex-wrap:wrap;">
-					${PRESETS.map((p, i) => `<button type="button" data-i="${i}">${p.label}</button>`).join('')}
-				</div>
+				<button type="button" class="btn btn-primary btn-block btn-lg" id="startTimerBtn"><i class="fas fa-play"></i> ${t('btnStart')}</button>
 			`;
-			controls.querySelectorAll('#presetSeg button').forEach((btn) => {
-				btn.addEventListener('click', () => {
-					const preset = PRESETS[Number(btn.dataset.i)];
-					setTimerState({
-						active: true,
-						running: true,
-						startTime: new Date().toISOString(),
-						accumulatedMs: 0,
-						presetSeconds: preset.seconds,
-						serviceId: services[0]?.id || null
-					});
-					if (preset.seconds) scheduleTimerGoalNotification(preset.seconds);
-					render(container);
-				});
+			controls.querySelector('#startTimerBtn').addEventListener('click', () => {
+				openTimerPresetMenu(container, services);
 			});
 		}
 	}
@@ -333,6 +318,31 @@ function renderTimer(container, services, timerState) {
 	} else {
 		display.textContent = '00:00:00';
 	}
+}
+
+function openTimerPresetMenu(container, services) {
+	const PRESETS = presets();
+	const sheet = openModal(t('timerMenuTitle'), `
+		<div class="row" style="flex-direction:column; gap:8px;">
+			${PRESETS.map((p, i) => `<button type="button" class="btn btn-block timer-preset-btn" data-i="${i}"><i class="fas ${p.seconds ? 'fa-clock' : 'fa-infinity'}"></i> ${p.label}</button>`).join('')}
+		</div>
+	`);
+	sheet.querySelectorAll('.timer-preset-btn').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const preset = PRESETS[Number(btn.dataset.i)];
+			setTimerState({
+				active: true,
+				running: true,
+				startTime: new Date().toISOString(),
+				accumulatedMs: 0,
+				presetSeconds: preset.seconds,
+				serviceId: services[0]?.id || null
+			});
+			if (preset.seconds) scheduleTimerGoalNotification(preset.seconds);
+			closeModal();
+			render(container);
+		});
+	});
 }
 
 function elapsedMs(state) {

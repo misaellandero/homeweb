@@ -6,6 +6,7 @@ import * as settingsView from './views/settingsView.js';
 import { settings, applyFontScale } from './settings.js';
 import { initLanguage, onLanguageChange, getLanguage, t } from './i18n.js';
 import { initInstallPrompt } from './install.js';
+import { maybeShowOnboarding } from './onboarding.js';
 
 const TABS = [
 	{ id: 'territorios', icon: 'fa-map-marked-alt', module: territoriosView, labelKey: 'tabTerritorios' },
@@ -78,6 +79,7 @@ async function bootstrap() {
 	wireFab();
 	await switchTab(activeTab);
 	initInstallPrompt();
+	maybeShowOnboarding();
 
 	if ('serviceWorker' in navigator) {
 		navigator.serviceWorker.register('./sw.js').catch((err) => {

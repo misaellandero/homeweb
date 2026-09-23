@@ -91,6 +91,16 @@ body {
 	touch-action: manipulation;
 }
 
+/* Explicit reinforcement on every interactive control, not just the html/body
+   ancestor rule above — some WebKit versions have inconsistent touch-action
+   propagation to elements inserted into the DOM after first layout (modals,
+   re-rendered lists), which is exactly where the steppers/toggles live. */
+button,
+.btn,
+[role="button"] {
+	touch-action: manipulation;
+}
+
 body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 	background: var(--bg);
@@ -739,6 +749,131 @@ main {
 	margin-top: 4px;
 }
 
+.onboarding-overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(15, 23, 42, 0.72);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
+	z-index: 50;
+}
+
+.onboarding-card {
+	position: relative;
+	background: var(--surface);
+	color: var(--text);
+	width: 100%;
+	max-width: 420px;
+	max-height: 90vh;
+	overflow-y: auto;
+	border-radius: var(--shape-xl);
+	box-shadow: var(--elevation-3);
+	padding: 56px 24px 28px;
+	text-align: center;
+	animation: modal-sheet-in 0.35s var(--easing-spring);
+}
+
+.onboarding-back,
+.onboarding-skip {
+	position: absolute;
+	top: 14px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: var(--text-muted);
+	font-size: 14px;
+	font-weight: 600;
+	padding: 8px 10px;
+}
+
+.onboarding-back {
+	left: 8px;
+	font-size: 16px;
+}
+
+.onboarding-skip {
+	right: 8px;
+}
+
+.onboarding-icon {
+	width: 84px;
+	height: 84px;
+	border-radius: var(--shape-lg);
+	box-shadow: var(--elevation-1);
+	margin-bottom: 16px;
+}
+
+.onboarding-badge {
+	width: 72px;
+	height: 72px;
+	margin: 0 auto 16px;
+	border-radius: var(--shape-full);
+	background: linear-gradient(135deg, var(--brand-start) 0%, var(--brand-end) 100%);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 30px;
+}
+
+.onboarding-body h2 {
+	margin: 0 0 6px;
+	font: var(--type-title-lg);
+}
+
+.onboarding-tagline {
+	margin: 0 0 12px;
+	font-weight: 700;
+	color: var(--brand);
+}
+
+.onboarding-text {
+	margin: 0 0 18px;
+	color: var(--text-muted);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.onboarding-status {
+	font-size: 13px;
+	font-weight: 600;
+	margin: -6px 0 14px;
+}
+
+.onboarding-status.success {
+	color: var(--success);
+}
+
+.onboarding-status.warning {
+	color: var(--warning);
+}
+
+.onboarding-body .btn + .btn {
+	margin-top: 10px;
+}
+
+.onboarding-dots {
+	display: flex;
+	justify-content: center;
+	gap: 6px;
+	margin-top: 20px;
+}
+
+.onboarding-dot {
+	width: 6px;
+	height: 6px;
+	border-radius: var(--shape-full);
+	background: var(--border);
+	transition: width 0.25s var(--easing-standard), background-color 0.25s ease;
+}
+
+.onboarding-dot.active {
+	width: 18px;
+	background: var(--brand);
+}
+
 .modal-backdrop {
 	position: fixed;
 	inset: 0;
@@ -847,6 +982,12 @@ main {
 	   must resolve against the true viewport, not a zoomed one, or the
 	   full-bleed edge-to-edge map drifts off-screen at any scale but 1. */
 	zoom: calc(1 / var(--app-scale, 1));
+	/* Leaflet's own panes/controls use z-index up to 1000; without this the
+	   map has no stacking context of its own, so those values compare
+	   directly against the app chrome's (header 10, fab 15, tabbar 20) and
+	   win, covering them. Giving the map its own low z-index creates a
+	   local stacking context that caps Leaflet's internal z-indices inside it. */
+	z-index: 1;
 	width: 100vw;
 	position: relative;
 	left: 50%;

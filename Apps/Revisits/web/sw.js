@@ -1,4 +1,4 @@
-const CACHE_NAME = 'revisits-web-v10';
+const CACHE_NAME = 'revisits-web-v11';
 const APP_SHELL = [
 	'./',
 	'./index.html',
@@ -12,6 +12,7 @@ const APP_SHELL = [
 	'./js/settings.js',
 	'./js/notifications.js',
 	'./js/install.js',
+	'./js/onboarding.js',
 	'./js/ui.js',
 	'./js/i18n.js',
 	'./js/i18n-strings.js',
@@ -41,7 +42,6 @@ const APP_SHELL = [
 	'./assets/art/houses/casa_revisita_4.png',
 	'./assets/art/houses/casa_revisita_5.png',
 	'./assets/art/houses/casa_revisita_6.png',
-	'./assets/art/other-apps/cota-icon.webp',
 	'./assets/data/revisits-template.sqlite',
 	'./js/swiftDate.js',
 	'./js/walmerge.js',

@@ -255,7 +255,7 @@ function updateTotalsHTML(sheet) {
 	`;
 }
 
-async function openServiceForm(service) {
+export async function openServiceForm(service) {
 	const dayGoals = service ? await store.listDayGoals(service.id) : [];
 	const goalsByDay = Array.from({ length: 7 }, (_, i) => dayGoals.find((g) => g.day === i)?.goal || 0);
 
