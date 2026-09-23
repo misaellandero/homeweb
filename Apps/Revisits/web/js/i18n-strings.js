@@ -52,7 +52,7 @@ const es = {
 		headingNotifications: 'Notificaciones', notificationsHint: 'Recordatorios de revisitas y del temporizador funcionan mientras Revisits Web esté abierta o instalada.',
 		btnEnableNotifications: 'Activar notificaciones', notificationsEnabledLabel: 'Notificaciones activadas',
 		headingBackup: 'Respaldo de datos', backupHint: 'Tus datos se guardan solo en este dispositivo (IndexedDB). Exporta un respaldo antes de borrar el navegador o cambiar de dispositivo.',
-		btnExport: 'Exportar respaldo', btnImport: 'Importar respaldo',
+ 
 		confirmImport: 'Esto reemplazará todos tus datos actuales con los del respaldo. ¿Continuar?',
 		toastImported: 'Respaldo importado', toastImportError: 'No se pudo leer el archivo de respaldo',
 		headingDangerZone: 'Zona de riesgo', btnResetAll: 'Borrar todos los datos',
@@ -72,8 +72,7 @@ const es = {
 		btnGetAppStore: 'Ver en App Store', updateBannerTitle: 'Nueva versión disponible', updateBannerHint: 'Actualiza para obtener las últimas mejoras.', btnUpdateNow: 'Actualizar',
 		btnImportFromIOS: 'Importar de iOS/Mac', toastRevisitImported: 'Revisita importada', toastRevisitImportError: 'No se pudo importar el archivo (.revisits inválido)',
 		nativeBackupHint: 'Exporta o importa un respaldo completo compatible con la app de iOS/Mac (archivo .sqlite del respaldo nativo).',
-		nativeBackupPackageHint: 'El archivo .revisitsbackup es un paquete de macOS/iOS que el navegador no puede leer directamente. En Finder, clic derecho sobre él y elige "Comprimir" para crear un .zip que sí puedes seleccionar aquí, o elige "Mostrar contenido del paquete" y selecciona los archivos .sqlite y .sqlite-wal directamente.',
-		btnExportNative: 'Exportar para iOS/Mac', btnImportNative: 'Importar de iOS/Mac', workingHint: 'Procesando…', toastExportError: 'No se pudo generar el respaldo'
+		btnExportNative: 'Exportar respaldo', btnImportNative: 'Importar respaldo', workingHint: 'Procesando…', toastExportError: 'No se pudo generar el respaldo'
 	},
 	personTypes: ['Ancianito', 'Ancianita', 'Señor', 'Señora', 'Joven', 'Adulto', 'Señorita', 'Niño', 'Niña', 'Mujer', 'Madre', 'Madre joven', 'Padre', 'Padre joven'],
 	sources: ['Biblia', 'Video', 'Publicación'],
@@ -137,7 +136,7 @@ const en = {
 		headingNotifications: 'Notifications', notificationsHint: 'Return-visit and timer reminders work while Revisits Web is open or installed.',
 		btnEnableNotifications: 'Enable notifications', notificationsEnabledLabel: 'Notifications enabled',
 		headingBackup: 'Data backup', backupHint: 'Your data is stored only on this device (IndexedDB). Export a backup before clearing your browser or switching devices.',
-		btnExport: 'Export backup', btnImport: 'Import backup',
+ 
 		confirmImport: 'This will replace all your current data with the backup’s. Continue?',
 		toastImported: 'Backup imported', toastImportError: 'Could not read the backup file',
 		headingDangerZone: 'Danger zone', btnResetAll: 'Delete all data',
@@ -157,8 +156,7 @@ const en = {
 		btnGetAppStore: 'View on App Store', updateBannerTitle: 'New version available', updateBannerHint: 'Update to get the latest improvements.', btnUpdateNow: 'Update',
 		btnImportFromIOS: 'Import from iOS/Mac', toastRevisitImported: 'Return visit imported', toastRevisitImportError: 'Could not import the file (invalid .revisits)',
 		nativeBackupHint: 'Export or import a full backup compatible with the iOS/Mac app (the native backup\'s .sqlite file).',
-		nativeBackupPackageHint: 'The .revisitsbackup file is a macOS/iOS package that the browser can\'t read directly. In Finder, right-click it and choose "Compress" to create a .zip you can select here, or choose "Show Package Contents" and pick the .sqlite and .sqlite-wal files directly.',
-		btnExportNative: 'Export for iOS/Mac', btnImportNative: 'Import from iOS/Mac', workingHint: 'Working…', toastExportError: 'Could not generate the backup'
+		btnExportNative: 'Export backup', btnImportNative: 'Import backup', workingHint: 'Working…', toastExportError: 'Could not generate the backup'
 	},
 	personTypes: ['Elderly man', 'Elderly woman', 'Man', 'Woman', 'Young person', 'Adult', 'Young woman', 'Boy', 'Girl', 'Woman', 'Mother', 'Young mother', 'Father', 'Young father'],
 	sources: ['Bible', 'Video', 'Publication'],
@@ -222,7 +220,7 @@ const de = {
 		headingNotifications: 'Benachrichtigungen', notificationsHint: 'Erinnerungen für Rückbesuche und den Timer funktionieren, während Revisits Web geöffnet oder installiert ist.',
 		btnEnableNotifications: 'Benachrichtigungen aktivieren', notificationsEnabledLabel: 'Benachrichtigungen aktiviert',
 		headingBackup: 'Datensicherung', backupHint: 'Deine Daten werden nur auf diesem Gerät gespeichert (IndexedDB). Erstelle eine Sicherung, bevor du den Browser leerst oder das Gerät wechselst.',
-		btnExport: 'Sicherung exportieren', btnImport: 'Sicherung importieren',
+ 
 		confirmImport: 'Dadurch werden alle aktuellen Daten durch die der Sicherung ersetzt. Fortfahren?',
 		toastImported: 'Sicherung importiert', toastImportError: 'Sicherungsdatei konnte nicht gelesen werden',
 		headingDangerZone: 'Gefahrenzone', btnResetAll: 'Alle Daten löschen',
@@ -242,8 +240,7 @@ const de = {
 		btnGetAppStore: 'Im App Store ansehen', updateBannerTitle: 'Neue Version verfügbar', updateBannerHint: 'Aktualisiere, um die neuesten Verbesserungen zu erhalten.', btnUpdateNow: 'Aktualisieren',
 		btnImportFromIOS: 'Von iOS/Mac importieren', toastRevisitImported: 'Rückbesuch importiert', toastRevisitImportError: 'Datei konnte nicht importiert werden (ungültige .revisits-Datei)',
 		nativeBackupHint: 'Exportiere oder importiere ein vollständiges Backup, das mit der iOS/Mac-App kompatibel ist (die .sqlite-Datei des nativen Backups).',
-		nativeBackupPackageHint: 'Die Datei .revisitsbackup ist ein macOS/iOS-Paket, das der Browser nicht direkt lesen kann. Klicke im Finder mit der rechten Maustaste darauf und wähle "Komprimieren", um eine .zip-Datei zu erstellen, die du hier auswählen kannst, oder wähle "Paketinhalt anzeigen" und wähle die Dateien .sqlite und .sqlite-wal direkt aus.',
-		btnExportNative: 'Für iOS/Mac exportieren', btnImportNative: 'Von iOS/Mac importieren', workingHint: 'Wird verarbeitet…', toastExportError: 'Sicherung konnte nicht erstellt werden'
+		btnExportNative: 'Sicherung exportieren', btnImportNative: 'Sicherung importieren', workingHint: 'Wird verarbeitet…', toastExportError: 'Sicherung konnte nicht erstellt werden'
 	},
 	personTypes: ['Alter Mann', 'Alte Frau', 'Mann', 'Frau', 'Junge Person', 'Erwachsener', 'Junge Frau', 'Junge', 'Mädchen', 'Frau', 'Mutter', 'Junge Mutter', 'Vater', 'Junger Vater'],
 	sources: ['Bibel', 'Video', 'Publikation'],
@@ -307,7 +304,7 @@ const fr = {
 		headingNotifications: 'Notifications', notificationsHint: 'Les rappels de visites et du minuteur fonctionnent tant que Revisits Web est ouverte ou installée.',
 		btnEnableNotifications: 'Activer les notifications', notificationsEnabledLabel: 'Notifications activées',
 		headingBackup: 'Sauvegarde des données', backupHint: 'Tes données sont stockées uniquement sur cet appareil (IndexedDB). Exporte une sauvegarde avant d’effacer le navigateur ou de changer d’appareil.',
-		btnExport: 'Exporter une sauvegarde', btnImport: 'Importer une sauvegarde',
+ 
 		confirmImport: 'Cela remplacera toutes tes données actuelles par celles de la sauvegarde. Continuer ?',
 		toastImported: 'Sauvegarde importée', toastImportError: 'Impossible de lire le fichier de sauvegarde',
 		headingDangerZone: 'Zone de danger', btnResetAll: 'Supprimer toutes les données',
@@ -327,8 +324,7 @@ const fr = {
 		btnGetAppStore: 'Voir sur l’App Store', updateBannerTitle: 'Nouvelle version disponible', updateBannerHint: 'Mets à jour pour profiter des dernières améliorations.', btnUpdateNow: 'Mettre à jour',
 		btnImportFromIOS: 'Importer depuis iOS/Mac', toastRevisitImported: 'Nouvelle visite importée', toastRevisitImportError: 'Impossible d’importer le fichier (.revisits invalide)',
 		nativeBackupHint: 'Exporte ou importe une sauvegarde complète compatible avec l’app iOS/Mac (le fichier .sqlite de la sauvegarde native).',
-		nativeBackupPackageHint: 'Le fichier .revisitsbackup est un package macOS/iOS que le navigateur ne peut pas lire directement. Dans le Finder, clic droit dessus et choisissez "Compresser" pour créer un .zip sélectionnable ici, ou choisissez "Afficher le contenu du paquet" et sélectionnez directement les fichiers .sqlite et .sqlite-wal.',
-		btnExportNative: 'Exporter pour iOS/Mac', btnImportNative: 'Importer depuis iOS/Mac', workingHint: 'Traitement en cours…', toastExportError: 'Impossible de générer la sauvegarde'
+		btnExportNative: 'Exporter une sauvegarde', btnImportNative: 'Importer une sauvegarde', workingHint: 'Traitement en cours…', toastExportError: 'Impossible de générer la sauvegarde'
 	},
 	personTypes: ['Homme âgé', 'Femme âgée', 'Homme', 'Femme', 'Jeune', 'Adulte', 'Jeune femme', 'Garçon', 'Fille', 'Femme', 'Mère', 'Jeune mère', 'Père', 'Jeune père'],
 	sources: ['Bible', 'Vidéo', 'Publication'],
@@ -392,7 +388,7 @@ const it = {
 		headingNotifications: 'Notifiche', notificationsHint: 'I promemoria di revisite e del timer funzionano finché Revisits Web è aperta o installata.',
 		btnEnableNotifications: 'Attiva notifiche', notificationsEnabledLabel: 'Notifiche attivate',
 		headingBackup: 'Backup dei dati', backupHint: 'I tuoi dati sono salvati solo su questo dispositivo (IndexedDB). Esporta un backup prima di cancellare il browser o cambiare dispositivo.',
-		btnExport: 'Esporta backup', btnImport: 'Importa backup',
+ 
 		confirmImport: 'Questo sostituirà tutti i tuoi dati attuali con quelli del backup. Continuare?',
 		toastImported: 'Backup importato', toastImportError: 'Impossibile leggere il file di backup',
 		headingDangerZone: 'Zona pericolosa', btnResetAll: 'Elimina tutti i dati',
@@ -412,8 +408,7 @@ const it = {
 		btnGetAppStore: 'Vedi su App Store', updateBannerTitle: 'Nuova versione disponibile', updateBannerHint: 'Aggiorna per ottenere gli ultimi miglioramenti.', btnUpdateNow: 'Aggiorna',
 		btnImportFromIOS: 'Importa da iOS/Mac', toastRevisitImported: 'Revisita importata', toastRevisitImportError: 'Impossibile importare il file (.revisits non valido)',
 		nativeBackupHint: 'Esporta o importa un backup completo compatibile con l’app iOS/Mac (il file .sqlite del backup nativo).',
-		nativeBackupPackageHint: 'Il file .revisitsbackup è un pacchetto macOS/iOS che il browser non può leggere direttamente. Nel Finder, clic destro su di esso e scegli "Comprimi" per creare uno .zip selezionabile qui, oppure scegli "Mostra contenuto pacchetto" e seleziona direttamente i file .sqlite e .sqlite-wal.',
-		btnExportNative: 'Esporta per iOS/Mac', btnImportNative: 'Importa da iOS/Mac', workingHint: 'Elaborazione…', toastExportError: 'Impossibile generare il backup'
+		btnExportNative: 'Esporta backup', btnImportNative: 'Importa backup', workingHint: 'Elaborazione…', toastExportError: 'Impossibile generare il backup'
 	},
 	personTypes: ['Uomo anziano', 'Donna anziana', 'Uomo', 'Donna', 'Giovane', 'Adulto', 'Signorina', 'Bambino', 'Bambina', 'Donna', 'Madre', 'Madre giovane', 'Padre', 'Padre giovane'],
 	sources: ['Bibbia', 'Video', 'Pubblicazione'],
@@ -477,7 +472,7 @@ const pt = {
 		headingNotifications: 'Notificações', notificationsHint: 'Os lembretes de revisitas e do temporizador funcionam enquanto a Revisits Web estiver aberta ou instalada.',
 		btnEnableNotifications: 'Ativar notificações', notificationsEnabledLabel: 'Notificações ativadas',
 		headingBackup: 'Cópia de segurança', backupHint: 'Os teus dados são guardados apenas neste dispositivo (IndexedDB). Exporta uma cópia de segurança antes de limpar o navegador ou mudar de dispositivo.',
-		btnExport: 'Exportar cópia de segurança', btnImport: 'Importar cópia de segurança',
+ 
 		confirmImport: 'Isto substituirá todos os teus dados atuais pelos da cópia de segurança. Continuar?',
 		toastImported: 'Cópia de segurança importada', toastImportError: 'Não foi possível ler o ficheiro de cópia de segurança',
 		headingDangerZone: 'Zona de risco', btnResetAll: 'Apagar todos os dados',
@@ -497,8 +492,7 @@ const pt = {
 		btnGetAppStore: 'Ver na App Store', updateBannerTitle: 'Nova versão disponível', updateBannerHint: 'Atualiza para obteres as últimas melhorias.', btnUpdateNow: 'Atualizar',
 		btnImportFromIOS: 'Importar do iOS/Mac', toastRevisitImported: 'Revisita importada', toastRevisitImportError: 'Não foi possível importar o ficheiro (.revisits inválido)',
 		nativeBackupHint: 'Exporta ou importa uma cópia de segurança completa compatível com a app iOS/Mac (o ficheiro .sqlite da cópia nativa).',
-		nativeBackupPackageHint: 'O ficheiro .revisitsbackup é um pacote macOS/iOS que o navegador não consegue ler diretamente. No Finder, clique com o botão direito nele e escolha "Comprimir" para criar um .zip que possa selecionar aqui, ou escolha "Mostrar Conteúdo do Pacote" e selecione diretamente os ficheiros .sqlite e .sqlite-wal.',
-		btnExportNative: 'Exportar para iOS/Mac', btnImportNative: 'Importar do iOS/Mac', workingHint: 'A processar…', toastExportError: 'Não foi possível gerar a cópia de segurança'
+		btnExportNative: 'Exportar cópia de segurança', btnImportNative: 'Importar cópia de segurança', workingHint: 'A processar…', toastExportError: 'Não foi possível gerar a cópia de segurança'
 	},
 	personTypes: ['Homem idoso', 'Mulher idosa', 'Senhor', 'Senhora', 'Jovem', 'Adulto', 'Menina', 'Menino', 'Menina', 'Mulher', 'Mãe', 'Mãe jovem', 'Pai', 'Pai jovem'],
 	sources: ['Bíblia', 'Vídeo', 'Publicação'],
@@ -562,7 +556,7 @@ const nl = {
 		headingNotifications: 'Meldingen', notificationsHint: 'Herinneringen voor nabezoeken en de timer werken zolang Revisits Web geopend of geïnstalleerd is.',
 		btnEnableNotifications: 'Meldingen inschakelen', notificationsEnabledLabel: 'Meldingen ingeschakeld',
 		headingBackup: 'Gegevensback-up', backupHint: 'Je gegevens worden alleen op dit apparaat opgeslagen (IndexedDB). Maak een back-up voordat je de browser wist of van apparaat wisselt.',
-		btnExport: 'Back-up exporteren', btnImport: 'Back-up importeren',
+ 
 		confirmImport: 'Dit vervangt al je huidige gegevens door die van de back-up. Doorgaan?',
 		toastImported: 'Back-up geïmporteerd', toastImportError: 'Kon het back-upbestand niet lezen',
 		headingDangerZone: 'Gevarenzone', btnResetAll: 'Alle gegevens verwijderen',
@@ -582,8 +576,7 @@ const nl = {
 		btnGetAppStore: 'Bekijk in App Store', updateBannerTitle: 'Nieuwe versie beschikbaar', updateBannerHint: 'Werk bij voor de nieuwste verbeteringen.', btnUpdateNow: 'Bijwerken',
 		btnImportFromIOS: 'Importeren vanuit iOS/Mac', toastRevisitImported: 'Nabezoek geïmporteerd', toastRevisitImportError: 'Kon het bestand niet importeren (ongeldig .revisits-bestand)',
 		nativeBackupHint: 'Exporteer of importeer een volledige back-up die compatibel is met de iOS/Mac-app (het .sqlite-bestand van de native back-up).',
-		nativeBackupPackageHint: 'Het bestand .revisitsbackup is een macOS/iOS-pakket dat de browser niet rechtstreeks kan lezen. Klik in Finder met de rechtermuisknop erop en kies "Comprimeren" om een .zip te maken die je hier kunt selecteren, of kies "Pakketinhoud tonen" en selecteer de bestanden .sqlite en .sqlite-wal rechtstreeks.',
-		btnExportNative: 'Exporteren voor iOS/Mac', btnImportNative: 'Importeren vanuit iOS/Mac', workingHint: 'Bezig…', toastExportError: 'Kon de back-up niet maken'
+		btnExportNative: 'Back-up exporteren', btnImportNative: 'Back-up importeren', workingHint: 'Bezig…', toastExportError: 'Kon de back-up niet maken'
 	},
 	personTypes: ['Oudere man', 'Oudere vrouw', 'Meneer', 'Mevrouw', 'Jongere', 'Volwassene', 'Jongedame', 'Jongen', 'Meisje', 'Vrouw', 'Moeder', 'Jonge moeder', 'Vader', 'Jonge vader'],
 	sources: ['Bijbel', 'Video', 'Publicatie'],
@@ -647,7 +640,7 @@ const el = {
 		headingNotifications: 'Ειδοποιήσεις', notificationsHint: 'Οι υπενθυμίσεις επανεπισκέψεων και χρονομέτρου λειτουργούν όσο το Revisits Web είναι ανοιχτό ή εγκατεστημένο.',
 		btnEnableNotifications: 'Ενεργοποίηση ειδοποιήσεων', notificationsEnabledLabel: 'Οι ειδοποιήσεις ενεργοποιήθηκαν',
 		headingBackup: 'Αντίγραφο ασφαλείας', backupHint: 'Τα δεδομένα σου αποθηκεύονται μόνο σε αυτή τη συσκευή (IndexedDB). Κάνε ένα αντίγραφο ασφαλείας πριν καθαρίσεις τον browser ή αλλάξεις συσκευή.',
-		btnExport: 'Εξαγωγή αντιγράφου', btnImport: 'Εισαγωγή αντιγράφου',
+ 
 		confirmImport: 'Αυτό θα αντικαταστήσει όλα τα τρέχοντα δεδομένα σου με αυτά του αντιγράφου. Συνέχεια;',
 		toastImported: 'Το αντίγραφο εισήχθη', toastImportError: 'Δεν ήταν δυνατή η ανάγνωση του αρχείου αντιγράφου',
 		headingDangerZone: 'Ζώνη κινδύνου', btnResetAll: 'Διαγραφή όλων των δεδομένων',
@@ -667,8 +660,7 @@ const el = {
 		btnGetAppStore: 'Δες στο App Store', updateBannerTitle: 'Νέα έκδοση διαθέσιμη', updateBannerHint: 'Ενημέρωσε για να αποκτήσεις τις τελευταίες βελτιώσεις.', btnUpdateNow: 'Ενημέρωση',
 		btnImportFromIOS: 'Εισαγωγή από iOS/Mac', toastRevisitImported: 'Η επανεπίσκεψη εισήχθη', toastRevisitImportError: 'Δεν ήταν δυνατή η εισαγωγή του αρχείου (μη έγκυρο .revisits)',
 		nativeBackupHint: 'Εξήγαγε ή εισήγαγε ένα πλήρες αντίγραφο ασφαλείας συμβατό με την εφαρμογή iOS/Mac (το αρχείο .sqlite του εγγενούς αντιγράφου).',
-		nativeBackupPackageHint: 'Το αρχείο .revisitsbackup είναι ένα πακέτο macOS/iOS που ο browser δεν μπορεί να διαβάσει απευθείας. Στο Finder, κάνε δεξί κλικ πάνω του και επίλεξε "Συμπίεση" για να δημιουργήσεις ένα .zip που μπορείς να επιλέξεις εδώ, ή επίλεξε "Εμφάνιση περιεχομένων πακέτου" και επίλεξε απευθείας τα αρχεία .sqlite και .sqlite-wal.',
-		btnExportNative: 'Εξαγωγή για iOS/Mac', btnImportNative: 'Εισαγωγή από iOS/Mac', workingHint: 'Επεξεργασία…', toastExportError: 'Δεν ήταν δυνατή η δημιουργία του αντιγράφου ασφαλείας'
+		btnExportNative: 'Εξαγωγή αντιγράφου', btnImportNative: 'Εισαγωγή αντιγράφου', workingHint: 'Επεξεργασία…', toastExportError: 'Δεν ήταν δυνατή η δημιουργία του αντιγράφου ασφαλείας'
 	},
 	personTypes: ['Ηλικιωμένος', 'Ηλικιωμένη', 'Κύριος', 'Κυρία', 'Νέος/Νέα', 'Ενήλικας', 'Δεσποινίδα', 'Αγόρι', 'Κορίτσι', 'Γυναίκα', 'Μητέρα', 'Νεαρή μητέρα', 'Πατέρας', 'Νεαρός πατέρας'],
 	sources: ['Αγία Γραφή', 'Βίντεο', 'Έκδοση'],
@@ -732,7 +724,7 @@ const pl = {
 		headingNotifications: 'Powiadomienia', notificationsHint: 'Przypomnienia o odwiedzinach i stoperze działają, gdy Revisits Web jest otwarte lub zainstalowane.',
 		btnEnableNotifications: 'Włącz powiadomienia', notificationsEnabledLabel: 'Powiadomienia włączone',
 		headingBackup: 'Kopia zapasowa danych', backupHint: 'Twoje dane są zapisywane tylko na tym urządzeniu (IndexedDB). Wyeksportuj kopię zapasową przed wyczyszczeniem przeglądarki lub zmianą urządzenia.',
-		btnExport: 'Eksportuj kopię zapasową', btnImport: 'Importuj kopię zapasową',
+ 
 		confirmImport: 'To zastąpi wszystkie Twoje obecne dane danymi z kopii zapasowej. Kontynuować?',
 		toastImported: 'Kopia zapasowa zaimportowana', toastImportError: 'Nie udało się odczytać pliku kopii zapasowej',
 		headingDangerZone: 'Strefa zagrożenia', btnResetAll: 'Usuń wszystkie dane',
@@ -752,8 +744,7 @@ const pl = {
 		btnGetAppStore: 'Zobacz w App Store', updateBannerTitle: 'Dostępna nowa wersja', updateBannerHint: 'Zaktualizuj, aby uzyskać najnowsze udoskonalenia.', btnUpdateNow: 'Aktualizuj',
 		btnImportFromIOS: 'Importuj z iOS/Mac', toastRevisitImported: 'Odwiedziny zaimportowane', toastRevisitImportError: 'Nie udało się zaimportować pliku (nieprawidłowy plik .revisits)',
 		nativeBackupHint: 'Wyeksportuj lub zaimportuj pełną kopię zapasową zgodną z aplikacją iOS/Mac (plik .sqlite natywnej kopii).',
-		nativeBackupPackageHint: 'Plik .revisitsbackup to pakiet macOS/iOS, którego przeglądarka nie może odczytać bezpośrednio. W Finderze kliknij go prawym przyciskiem i wybierz "Kompresuj", aby utworzyć plik .zip, który można tu wybrać, albo wybierz "Pokaż zawartość pakietu" i wybierz bezpośrednio pliki .sqlite oraz .sqlite-wal.',
-		btnExportNative: 'Eksportuj do iOS/Mac', btnImportNative: 'Importuj z iOS/Mac', workingHint: 'Przetwarzanie…', toastExportError: 'Nie udało się utworzyć kopii zapasowej'
+		btnExportNative: 'Eksportuj kopię zapasową', btnImportNative: 'Importuj kopię zapasową', workingHint: 'Przetwarzanie…', toastExportError: 'Nie udało się utworzyć kopii zapasowej'
 	},
 	personTypes: ['Starszy mężczyzna', 'Starsza kobieta', 'Pan', 'Pani', 'Młoda osoba', 'Dorosły', 'Panienka', 'Chłopiec', 'Dziewczynka', 'Kobieta', 'Matka', 'Młoda matka', 'Ojciec', 'Młody ojciec'],
 	sources: ['Biblia', 'Film', 'Publikacja'],
@@ -817,7 +808,7 @@ const ru = {
 		headingNotifications: 'Уведомления', notificationsHint: 'Напоминания о посещениях и таймере работают, пока Revisits Web открыт или установлен.',
 		btnEnableNotifications: 'Включить уведомления', notificationsEnabledLabel: 'Уведомления включены',
 		headingBackup: 'Резервная копия данных', backupHint: 'Ваши данные хранятся только на этом устройстве (IndexedDB). Экспортируйте резервную копию перед очисткой браузера или сменой устройства.',
-		btnExport: 'Экспортировать копию', btnImport: 'Импортировать копию',
+ 
 		confirmImport: 'Это заменит все ваши текущие данные данными из резервной копии. Продолжить?',
 		toastImported: 'Резервная копия импортирована', toastImportError: 'Не удалось прочитать файл резервной копии',
 		headingDangerZone: 'Опасная зона', btnResetAll: 'Удалить все данные',
@@ -837,8 +828,7 @@ const ru = {
 		btnGetAppStore: 'Посмотреть в App Store', updateBannerTitle: 'Доступна новая версия', updateBannerHint: 'Обновите, чтобы получить последние улучшения.', btnUpdateNow: 'Обновить',
 		btnImportFromIOS: 'Импорт с iOS/Mac', toastRevisitImported: 'Повторное посещение импортировано', toastRevisitImportError: 'Не удалось импортировать файл (недействительный .revisits)',
 		nativeBackupHint: 'Экспортируйте или импортируйте полную резервную копию, совместимую с приложением iOS/Mac (файл .sqlite нативной резервной копии).',
-		nativeBackupPackageHint: 'Файл .revisitsbackup — это пакет macOS/iOS, который браузер не может прочитать напрямую. В Finder щёлкните по нему правой кнопкой и выберите "Сжать", чтобы создать .zip, который можно выбрать здесь, либо выберите "Показать содержимое пакета" и выберите файлы .sqlite и .sqlite-wal напрямую.',
-		btnExportNative: 'Экспорт для iOS/Mac', btnImportNative: 'Импорт с iOS/Mac', workingHint: 'Обработка…', toastExportError: 'Не удалось создать резервную копию'
+		btnExportNative: 'Экспортировать копию', btnImportNative: 'Импортировать копию', workingHint: 'Обработка…', toastExportError: 'Не удалось создать резервную копию'
 	},
 	personTypes: ['Пожилой мужчина', 'Пожилая женщина', 'Мужчина', 'Женщина', 'Молодой человек', 'Взрослый', 'Девушка', 'Мальчик', 'Девочка', 'Женщина', 'Мать', 'Молодая мать', 'Отец', 'Молодой отец'],
 	sources: ['Библия', 'Видео', 'Публикация'],
@@ -902,7 +892,7 @@ const tr = {
 		headingNotifications: 'Bildirimler', notificationsHint: 'Ziyaret ve zamanlayıcı hatırlatıcıları, Revisits Web açık veya yüklü olduğu sürece çalışır.',
 		btnEnableNotifications: 'Bildirimleri etkinleştir', notificationsEnabledLabel: 'Bildirimler etkin',
 		headingBackup: 'Veri yedeği', backupHint: 'Verilerin yalnızca bu cihazda saklanır (IndexedDB). Tarayıcıyı temizlemeden veya cihaz değiştirmeden önce bir yedek dışa aktar.',
-		btnExport: 'Yedeği dışa aktar', btnImport: 'Yedeği içe aktar',
+ 
 		confirmImport: 'Bu, mevcut tüm verilerini yedekteki verilerle değiştirecek. Devam edilsin mi?',
 		toastImported: 'Yedek içe aktarıldı', toastImportError: 'Yedek dosyası okunamadı',
 		headingDangerZone: 'Tehlike bölgesi', btnResetAll: 'Tüm verileri sil',
@@ -922,8 +912,7 @@ const tr = {
 		btnGetAppStore: 'App Store’da görüntüle', updateBannerTitle: 'Yeni sürüm mevcut', updateBannerHint: 'En son iyileştirmeleri almak için güncelle.', btnUpdateNow: 'Güncelle',
 		btnImportFromIOS: 'iOS/Mac\'ten içe aktar', toastRevisitImported: 'Tekrar ziyaret içe aktarıldı', toastRevisitImportError: 'Dosya içe aktarılamadı (geçersiz .revisits)',
 		nativeBackupHint: 'iOS/Mac uygulamasıyla uyumlu tam bir yedeği dışa veya içe aktar (yerel yedeğin .sqlite dosyası).',
-		nativeBackupPackageHint: '.revisitsbackup dosyası, tarayıcının doğrudan okuyamadığı bir macOS/iOS paketidir. Finder\'da dosyaya sağ tıklayıp buradan seçebileceğin bir .zip oluşturmak için "Sıkıştır"ı seç, ya da "Paket İçeriğini Göster"i seçip .sqlite ve .sqlite-wal dosyalarını doğrudan seç.',
-		btnExportNative: 'iOS/Mac için dışa aktar', btnImportNative: 'iOS/Mac\'ten içe aktar', workingHint: 'İşleniyor…', toastExportError: 'Yedek oluşturulamadı'
+		btnExportNative: 'Yedeği dışa aktar', btnImportNative: 'Yedeği içe aktar', workingHint: 'İşleniyor…', toastExportError: 'Yedek oluşturulamadı'
 	},
 	personTypes: ['Yaşlı adam', 'Yaşlı kadın', 'Bey', 'Hanım', 'Genç', 'Yetişkin', 'Genç bayan', 'Erkek çocuk', 'Kız çocuk', 'Kadın', 'Anne', 'Genç anne', 'Baba', 'Genç baba'],
 	sources: ['Mukaddes Kitap', 'Video', 'Yayın'],
@@ -987,7 +976,7 @@ const uk = {
 		headingNotifications: 'Сповіщення', notificationsHint: 'Нагадування про відвідини й таймер працюють, поки Revisits Web відкрито або встановлено.',
 		btnEnableNotifications: 'Увімкнути сповіщення', notificationsEnabledLabel: 'Сповіщення увімкнено',
 		headingBackup: 'Резервна копія даних', backupHint: 'Ваші дані зберігаються лише на цьому пристрої (IndexedDB). Експортуйте резервну копію перед очищенням браузера або зміною пристрою.',
-		btnExport: 'Експортувати копію', btnImport: 'Імпортувати копію',
+ 
 		confirmImport: 'Це замінить усі ваші поточні дані даними з резервної копії. Продовжити?',
 		toastImported: 'Резервну копію імпортовано', toastImportError: 'Не вдалося прочитати файл резервної копії',
 		headingDangerZone: 'Небезпечна зона', btnResetAll: 'Видалити всі дані',
@@ -1007,9 +996,7 @@ const uk = {
 		btnGetAppStore: 'Переглянути в App Store', updateBannerTitle: 'Доступна нова версія', updateBannerHint: 'Оновіть, щоб отримати останні покращення.', btnUpdateNow: 'Оновити',
 		btnImportFromIOS: 'Імпорт з iOS/Mac', toastRevisitImported: 'Повторні відвідини імпортовано', toastRevisitImportError: 'Не вдалося імпортувати файл (недійсний .revisits)',
 		nativeBackupHint: 'Експортуйте або імпортуйте повну резервну копію, сумісну з застосунком iOS/Mac (файл .sqlite нативної резервної копії).',
-		nativeBackupPackageHint: 'Tệp .revisitsbackup là một gói macOS/iOS mà trình duyệt không thể đọc trực tiếp. Trong Finder, nhấp chuột phải vào tệp và chọn "Nén" để tạo tệp .zip có thể chọn ở đây, hoặc chọn "Hiện Nội dung Gói" rồi chọn trực tiếp các tệp .sqlite và .sqlite-wal.',
-		nativeBackupPackageHint: 'Файл .revisitsbackup — це пакет macOS/iOS, який браузер не може прочитати напряму. У Finder клацніть правою кнопкою миші й виберіть "Стиснути", щоб створити .zip, який можна вибрати тут, або виберіть "Показати вміст пакета" і виберіть файли .sqlite та .sqlite-wal напряму.',
-		btnExportNative: 'Експортувати для iOS/Mac', btnImportNative: 'Імпорт з iOS/Mac', workingHint: 'Обробка…', toastExportError: 'Не вдалося створити резервну копію'
+		btnExportNative: 'Експортувати копію', btnImportNative: 'Імпортувати копію', workingHint: 'Обробка…', toastExportError: 'Не вдалося створити резервну копію'
 	},
 	personTypes: ['Літній чоловік', 'Літня жінка', 'Чоловік', 'Жінка', 'Молода людина', 'Дорослий', 'Панночка', 'Хлопчик', 'Дівчинка', 'Жінка', 'Мати', 'Молода мати', 'Батько', 'Молодий батько'],
 	sources: ['Біблія', 'Відео', 'Публікація'],
@@ -1073,7 +1060,7 @@ const vi = {
 		headingNotifications: 'Thông báo', notificationsHint: 'Nhắc nhở về thăm lại và bộ đếm giờ hoạt động khi Revisits Web đang mở hoặc đã cài đặt.',
 		btnEnableNotifications: 'Bật thông báo', notificationsEnabledLabel: 'Đã bật thông báo',
 		headingBackup: 'Sao lưu dữ liệu', backupHint: 'Dữ liệu của bạn chỉ được lưu trên thiết bị này (IndexedDB). Hãy xuất bản sao lưu trước khi xóa trình duyệt hoặc đổi thiết bị.',
-		btnExport: 'Xuất bản sao lưu', btnImport: 'Nhập bản sao lưu',
+ 
 		confirmImport: 'Thao tác này sẽ thay thế toàn bộ dữ liệu hiện tại bằng dữ liệu từ bản sao lưu. Tiếp tục?',
 		toastImported: 'Đã nhập bản sao lưu', toastImportError: 'Không thể đọc tệp sao lưu',
 		headingDangerZone: 'Khu vực nguy hiểm', btnResetAll: 'Xóa tất cả dữ liệu',
@@ -1093,8 +1080,7 @@ const vi = {
 		btnGetAppStore: 'Xem trên App Store', updateBannerTitle: 'Có phiên bản mới', updateBannerHint: 'Cập nhật để nhận các cải tiến mới nhất.', btnUpdateNow: 'Cập nhật',
 		btnImportFromIOS: 'Nhập từ iOS/Mac', toastRevisitImported: 'Đã nhập cuộc thăm lại', toastRevisitImportError: 'Không thể nhập tệp (.revisits không hợp lệ)',
 		nativeBackupHint: 'Xuất hoặc nhập bản sao lưu đầy đủ tương thích với ứng dụng iOS/Mac (tệp .sqlite của bản sao lưu gốc).',
-		nativeBackupPackageHint: 'File .revisitsbackup adalah paket macOS/iOS yang tidak bisa dibaca langsung oleh browser. Di Finder, klik kanan lalu pilih "Compress" untuk membuat file .zip yang bisa dipilih di sini, atau pilih "Show Package Contents" lalu pilih langsung file .sqlite dan .sqlite-wal.',
-		btnExportNative: 'Xuất cho iOS/Mac', btnImportNative: 'Nhập từ iOS/Mac', workingHint: 'Đang xử lý…', toastExportError: 'Không thể tạo bản sao lưu'
+		btnExportNative: 'Xuất bản sao lưu', btnImportNative: 'Nhập bản sao lưu', workingHint: 'Đang xử lý…', toastExportError: 'Không thể tạo bản sao lưu'
 	},
 	personTypes: ['Ông cụ', 'Bà cụ', 'Ông', 'Bà', 'Người trẻ', 'Người lớn', 'Cô gái trẻ', 'Bé trai', 'Bé gái', 'Phụ nữ', 'Người mẹ', 'Mẹ trẻ', 'Người cha', 'Cha trẻ'],
 	sources: ['Kinh Thánh', 'Video', 'Ấn phẩm'],
@@ -1158,7 +1144,7 @@ const id = {
 		headingNotifications: 'Notifikasi', notificationsHint: 'Pengingat kunjungan kembali dan pengatur waktu berfungsi selama Revisits Web terbuka atau terpasang.',
 		btnEnableNotifications: 'Aktifkan notifikasi', notificationsEnabledLabel: 'Notifikasi diaktifkan',
 		headingBackup: 'Cadangan data', backupHint: 'Data Anda hanya disimpan di perangkat ini (IndexedDB). Ekspor cadangan sebelum menghapus data browser atau berganti perangkat.',
-		btnExport: 'Ekspor cadangan', btnImport: 'Impor cadangan',
+ 
 		confirmImport: 'Ini akan mengganti semua data Anda saat ini dengan data dari cadangan. Lanjutkan?',
 		toastImported: 'Cadangan diimpor', toastImportError: 'Tidak dapat membaca file cadangan',
 		headingDangerZone: 'Zona berbahaya', btnResetAll: 'Hapus semua data',
@@ -1178,8 +1164,7 @@ const id = {
 		btnGetAppStore: 'Lihat di App Store', updateBannerTitle: 'Versi baru tersedia', updateBannerHint: 'Perbarui untuk mendapatkan peningkatan terbaru.', btnUpdateNow: 'Perbarui',
 		btnImportFromIOS: 'Impor dari iOS/Mac', toastRevisitImported: 'Kunjungan kembali diimpor', toastRevisitImportError: 'Tidak dapat mengimpor file (.revisits tidak valid)',
 		nativeBackupHint: 'Ekspor atau impor cadangan lengkap yang kompatibel dengan aplikasi iOS/Mac (file .sqlite dari cadangan native).',
-		nativeBackupPackageHint: 'ไฟล์ .revisitsbackup เป็นแพ็กเกจ macOS/iOS ที่เบราว์เซอร์ไม่สามารถอ่านได้โดยตรง ใน Finder คลิกขวาที่ไฟล์แล้วเลือก "บีบอัด" เพื่อสร้างไฟล์ .zip ที่เลือกได้ที่นี่ หรือเลือก "แสดงเนื้อหาแพ็กเกจ" แล้วเลือกไฟล์ .sqlite และ .sqlite-wal โดยตรง',
-		btnExportNative: 'Ekspor untuk iOS/Mac', btnImportNative: 'Impor dari iOS/Mac', workingHint: 'Memproses…', toastExportError: 'Tidak dapat membuat cadangan'
+		btnExportNative: 'Ekspor cadangan', btnImportNative: 'Impor cadangan', workingHint: 'Memproses…', toastExportError: 'Tidak dapat membuat cadangan'
 	},
 	personTypes: ['Pria tua', 'Wanita tua', 'Bapak', 'Ibu', 'Orang muda', 'Dewasa', 'Nona', 'Anak laki-laki', 'Anak perempuan', 'Wanita', 'Ibu', 'Ibu muda', 'Ayah', 'Ayah muda'],
 	sources: ['Alkitab', 'Video', 'Publikasi'],
@@ -1243,7 +1228,7 @@ const th = {
 		headingNotifications: 'การแจ้งเตือน', notificationsHint: 'การเตือนความจำเรื่องการเยี่ยมและตัวจับเวลาทำงานตราบใดที่ Revisits Web เปิดอยู่หรือติดตั้งไว้',
 		btnEnableNotifications: 'เปิดใช้การแจ้งเตือน', notificationsEnabledLabel: 'เปิดใช้การแจ้งเตือนแล้ว',
 		headingBackup: 'สำรองข้อมูล', backupHint: 'ข้อมูลของคุณถูกเก็บไว้ในอุปกรณ์นี้เท่านั้น (IndexedDB) ส่งออกข้อมูลสำรองก่อนล้างเบราว์เซอร์หรือเปลี่ยนอุปกรณ์',
-		btnExport: 'ส่งออกข้อมูลสำรอง', btnImport: 'นำเข้าข้อมูลสำรอง',
+ 
 		confirmImport: 'การดำเนินการนี้จะแทนที่ข้อมูลปัจจุบันทั้งหมดด้วยข้อมูลสำรอง ดำเนินการต่อหรือไม่?',
 		toastImported: 'นำเข้าข้อมูลสำรองแล้ว', toastImportError: 'ไม่สามารถอ่านไฟล์สำรองได้',
 		headingDangerZone: 'โซนอันตราย', btnResetAll: 'ลบข้อมูลทั้งหมด',
@@ -1263,8 +1248,7 @@ const th = {
 		btnGetAppStore: 'ดูใน App Store', updateBannerTitle: 'มีเวอร์ชันใหม่', updateBannerHint: 'อัปเดตเพื่อรับการปรับปรุงล่าสุด', btnUpdateNow: 'อัปเดต',
 		btnImportFromIOS: 'นำเข้าจาก iOS/Mac', toastRevisitImported: 'นำเข้าการเยี่ยมเยียนซ้ำแล้ว', toastRevisitImportError: 'ไม่สามารถนำเข้าไฟล์ได้ (.revisits ไม่ถูกต้อง)',
 		nativeBackupHint: 'ส่งออกหรือนำเข้าข้อมูลสำรองแบบเต็มที่ใช้ร่วมกับแอป iOS/Mac ได้ (ไฟล์ .sqlite ของข้อมูลสำรองแบบเนทีฟ)',
-		nativeBackupPackageHint: '.revisitsbackup फ़ाइल एक macOS/iOS पैकेज है जिसे ब्राउज़र सीधे नहीं पढ़ सकता। Finder में उस पर राइट-क्लिक करें और "Compress" चुनें ताकि एक .zip बने जिसे आप यहाँ चुन सकें, या "Show Package Contents" चुनें और .sqlite व .sqlite-wal फ़ाइलों को सीधे चुनें।',
-		btnExportNative: 'ส่งออกสำหรับ iOS/Mac', btnImportNative: 'นำเข้าจาก iOS/Mac', workingHint: 'กำลังประมวลผล…', toastExportError: 'ไม่สามารถสร้างข้อมูลสำรองได้'
+		btnExportNative: 'ส่งออกข้อมูลสำรอง', btnImportNative: 'นำเข้าข้อมูลสำรอง', workingHint: 'กำลังประมวลผล…', toastExportError: 'ไม่สามารถสร้างข้อมูลสำรองได้'
 	},
 	personTypes: ['ชายสูงอายุ', 'หญิงสูงอายุ', 'ชาย', 'หญิง', 'วัยรุ่น', 'ผู้ใหญ่', 'สาวน้อย', 'เด็กชาย', 'เด็กหญิง', 'ผู้หญิง', 'มารดา', 'มารดาสาว', 'บิดา', 'บิดาหนุ่ม'],
 	sources: ['คัมภีร์ไบเบิล', 'วิดีโอ', 'สิ่งพิมพ์'],
@@ -1328,7 +1312,7 @@ const hi = {
 		headingNotifications: 'सूचनाएं', notificationsHint: 'जब तक Revisits Web खुला या इंस्टॉल है, तब तक भेंट और टाइमर अनुस्मारक काम करते हैं।',
 		btnEnableNotifications: 'सूचनाएं सक्षम करें', notificationsEnabledLabel: 'सूचनाएं सक्षम हैं',
 		headingBackup: 'डेटा बैकअप', backupHint: 'आपका डेटा केवल इस डिवाइस पर संग्रहीत है (IndexedDB)। ब्राउज़र साफ़ करने या डिवाइस बदलने से पहले बैकअप निर्यात करें।',
-		btnExport: 'बैकअप निर्यात करें', btnImport: 'बैकअप आयात करें',
+ 
 		confirmImport: 'इससे आपका सारा मौजूदा डेटा बैकअप के डेटा से बदल जाएगा। जारी रखें?',
 		toastImported: 'बैकअप आयात किया गया', toastImportError: 'बैकअप फ़ाइल नहीं पढ़ी जा सकी',
 		headingDangerZone: 'खतरे का क्षेत्र', btnResetAll: 'सारा डेटा हटाएँ',
@@ -1348,8 +1332,7 @@ const hi = {
 		btnGetAppStore: 'App Store पर देखें', updateBannerTitle: 'नया वर्शन उपलब्ध है', updateBannerHint: 'नवीनतम सुधार पाने के लिए अपडेट करें।', btnUpdateNow: 'अपडेट करें',
 		btnImportFromIOS: 'iOS/Mac से आयात करें', toastRevisitImported: 'पुनः भेंट आयात की गई', toastRevisitImportError: 'फ़ाइल आयात नहीं हो सकी (अमान्य .revisits)',
 		nativeBackupHint: 'iOS/Mac ऐप के साथ संगत पूरा बैकअप एक्सपोर्ट या आयात करें (नेटिव बैकअप की .sqlite फ़ाइल)।',
-		nativeBackupPackageHint: '.revisitsbackupファイルはブラウザが直接読み取れないmacOS/iOSのパッケージです。Finderでファイルを右クリックし、「圧縮」を選んでここで選択できる.zipを作成するか、「パッケージの内容を表示」を選んで.sqliteと.sqlite-walファイルを直接選択してください。',
-		btnExportNative: 'iOS/Mac के लिए एक्सपोर्ट करें', btnImportNative: 'iOS/Mac से आयात करें', workingHint: 'प्रोसेस हो रहा है…', toastExportError: 'बैकअप नहीं बनाया जा सका'
+		btnExportNative: 'बैकअप निर्यात करें', btnImportNative: 'बैकअप आयात करें', workingHint: 'प्रोसेस हो रहा है…', toastExportError: 'बैकअप नहीं बनाया जा सका'
 	},
 	personTypes: ['बुज़ुर्ग पुरुष', 'बुज़ुर्ग महिला', 'श्रीमान', 'श्रीमती', 'युवा', 'वयस्क', 'युवती', 'लड़का', 'लड़की', 'महिला', 'माँ', 'युवा माँ', 'पिता', 'युवा पिता'],
 	sources: ['बाइबल', 'वीडियो', 'प्रकाशन'],
@@ -1413,7 +1396,7 @@ const ja = {
 		headingNotifications: '通知', notificationsHint: 'Revisits Webが開いているかインストールされている間、再訪問とタイマーのリマインダーが機能します。',
 		btnEnableNotifications: '通知を有効にする', notificationsEnabledLabel: '通知が有効です',
 		headingBackup: 'データバックアップ', backupHint: 'データはこの端末（IndexedDB）にのみ保存されます。ブラウザを消去したり端末を変更したりする前にバックアップをエクスポートしてください。',
-		btnExport: 'バックアップをエクスポート', btnImport: 'バックアップをインポート',
+ 
 		confirmImport: '現在のすべてのデータがバックアップのデータに置き換えられます。続けますか？',
 		toastImported: 'バックアップをインポートしました', toastImportError: 'バックアップファイルを読み込めませんでした',
 		headingDangerZone: '危険な操作', btnResetAll: 'すべてのデータを削除',
@@ -1433,8 +1416,7 @@ const ja = {
 		btnGetAppStore: 'App Storeで見る', updateBannerTitle: '新しいバージョンがあります', updateBannerHint: '最新の改善を取得するには更新してください。', btnUpdateNow: '更新',
 		btnImportFromIOS: 'iOS/Macからインポート', toastRevisitImported: '再訪問をインポートしました', toastRevisitImportError: 'ファイルをインポートできませんでした（無効な.revisitsファイル）',
 		nativeBackupHint: 'iOS/Macアプリと互換性のある完全なバックアップをエクスポートまたはインポートします（ネイティブバックアップの.sqliteファイル）。',
-		nativeBackupPackageHint: '.revisitsbackup 파일은 브라우저가 직접 읽을 수 없는 macOS/iOS 패키지입니다. Finder에서 마우스 오른쪽 버튼으로 클릭한 후 "압축"을 선택해 여기서 선택할 수 있는 .zip 파일을 만들거나, "패키지 내용 보기"를 선택해 .sqlite 및 .sqlite-wal 파일을 직접 선택하세요.',
-		btnExportNative: 'iOS/Mac用にエクスポート', btnImportNative: 'iOS/Macからインポート', workingHint: '処理中…', toastExportError: 'バックアップを作成できませんでした'
+		btnExportNative: 'バックアップをエクスポート', btnImportNative: 'バックアップをインポート', workingHint: '処理中…', toastExportError: 'バックアップを作成できませんでした'
 	},
 	personTypes: ['高齢の男性', '高齢の女性', '男性', '女性', '若者', '成人', '若い女性', '男の子', '女の子', '女性', '母親', '若い母親', '父親', '若い父親'],
 	sources: ['聖書', '動画', '出版物'],
@@ -1498,7 +1480,7 @@ const ko = {
 		headingNotifications: '알림', notificationsHint: 'Revisits Web이 열려 있거나 설치되어 있는 동안 재방문 및 타이머 알림이 작동합니다.',
 		btnEnableNotifications: '알림 사용', notificationsEnabledLabel: '알림이 사용 설정됨',
 		headingBackup: '데이터 백업', backupHint: '데이터는 이 기기(IndexedDB)에만 저장됩니다. 브라우저를 지우거나 기기를 변경하기 전에 백업을 내보내세요.',
-		btnExport: '백업 내보내기', btnImport: '백업 가져오기',
+ 
 		confirmImport: '현재의 모든 데이터가 백업 데이터로 교체됩니다. 계속하시겠습니까?',
 		toastImported: '백업을 가져왔습니다', toastImportError: '백업 파일을 읽을 수 없습니다',
 		headingDangerZone: '위험 구역', btnResetAll: '모든 데이터 삭제',
@@ -1518,7 +1500,7 @@ const ko = {
 		btnGetAppStore: 'App Store에서 보기', updateBannerTitle: '새 버전 사용 가능', updateBannerHint: '최신 개선 사항을 받으려면 업데이트하세요.', btnUpdateNow: '업데이트',
 		btnImportFromIOS: 'iOS/Mac에서 가져오기', toastRevisitImported: '재방문을 가져왔습니다', toastRevisitImportError: '파일을 가져올 수 없습니다 (잘못된 .revisits 파일)',
 		nativeBackupHint: 'iOS/Mac 앱과 호환되는 전체 백업을 내보내거나 가져오세요 (네이티브 백업의 .sqlite 파일).',
-		btnExportNative: 'iOS/Mac용으로 내보내기', btnImportNative: 'iOS/Mac에서 가져오기', workingHint: '처리 중…', toastExportError: '백업을 생성할 수 없습니다'
+		btnExportNative: '백업 내보내기', btnImportNative: '백업 가져오기', workingHint: '처리 중…', toastExportError: '백업을 생성할 수 없습니다'
 	},
 	personTypes: ['노인 남성', '노인 여성', '남성', '여성', '청년', '성인', '젊은 여성', '남자아이', '여자아이', '여성', '어머니', '젊은 어머니', '아버지', '젊은 아버지'],
 	sources: ['성경', '동영상', '출판물'],

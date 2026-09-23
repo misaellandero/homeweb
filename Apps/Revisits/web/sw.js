@@ -1,4 +1,4 @@
-const CACHE_NAME = 'revisits-web-v9';
+const CACHE_NAME = 'revisits-web-v10';
 const APP_SHELL = [
 	'./',
 	'./index.html',
