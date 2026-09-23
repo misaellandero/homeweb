@@ -1,5 +1,5 @@
 import { settings, applyFontScale } from '../settings.js';
-import { exportBackup, importBackup } from '../store.js';
+import { importBackup } from '../store.js';
 import { showToast } from '../ui.js';
 import { requestNotificationPermission } from '../notifications.js';
 import { t, getLanguage, setLanguage, LANGUAGES } from '../i18n.js';
@@ -100,20 +100,11 @@ export async function render(container) {
 		<div class="card">
 			<h2>${t('headingBackup')}</h2>
 			<p class="sub">${t('backupHint')}</p>
+			<p class="sub" style="margin-top:-4px;">${t('nativeBackupHint')}</p>
 			<div class="row" style="gap:10px; flex-wrap:wrap;">
-				<button class="btn" id="exportBtn"><i class="fas fa-download"></i> ${t('btnExport')}</button>
+				<button class="btn" id="exportNativeBtn"><i class="fas fa-download"></i> ${t('btnExportNative')}</button>
 				<label class="btn" style="cursor:pointer;">
-					<i class="fas fa-upload"></i> ${t('btnImport')}
-					<input type="file" id="importInput" accept="application/json" hidden>
-				</label>
-			</div>
-			<div style="border-top:1px solid var(--border); margin:16px 0 12px;"></div>
-			<p class="sub">${t('nativeBackupHint')}</p>
-			<p class="sub" style="margin-top:-4px;"><i class="fas fa-info-circle"></i> ${t('nativeBackupPackageHint')}</p>
-			<div class="row" style="gap:10px; flex-wrap:wrap;">
-				<button class="btn" id="exportNativeBtn"><i class="fas fa-mobile-alt"></i> ${t('btnExportNative')}</button>
-				<label class="btn" style="cursor:pointer;">
-					<i class="fas fa-mobile-alt"></i> ${t('btnImportNative')}
+					<i class="fas fa-upload"></i> ${t('btnImportNative')}
 					<input type="file" id="importNativeInput" accept=".sqlite,.sqlite-wal,.sqlite-shm,.zip,.revisitsbackup" multiple hidden>
 				</label>
 			</div>
@@ -154,32 +145,6 @@ export async function render(container) {
 		render(container);
 	});
 
-	container.querySelector('#exportBtn').addEventListener('click', async () => {
-		const dump = await exportBackup();
-		const blob = new Blob([JSON.stringify(dump, null, 2)], { type: 'application/json' });
-		const url = URL.createObjectURL(blob);
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = `revisits-backup-${new Date().toISOString().slice(0, 10)}.json`;
-		a.click();
-		URL.revokeObjectURL(url);
-	});
-
-	container.querySelector('#importInput').addEventListener('change', async (e) => {
-		const file = e.target.files[0];
-		if (!file) return;
-		try {
-			const text = await file.text();
-			const json = JSON.parse(text);
-			if (!confirm(t('confirmImport'))) return;
-			await importBackup(json);
-			showToast(t('toastImported'));
-		} catch (err) {
-			console.error(err);
-			showToast(t('toastImportError'));
-		}
-	});
-
 	container.querySelector('#exportNativeBtn').addEventListener('click', async () => {
 		const btn = container.querySelector('#exportNativeBtn');
 		const originalHTML = btn.innerHTML;
@@ -202,18 +167,14 @@ export async function render(container) {
 		e.target.value = '';
 		if (!files.length) return;
 		if (!confirm(t('confirmImport'))) return;
-		const { importFullBackupFiles, BackupFormatError } = await import('../backupImport.js');
 		try {
+			const { importFullBackupFiles } = await import('../backupImport.js');
 			await importFullBackupFiles(files);
 			showToast(t('toastImported'));
 			render(container);
 		} catch (err) {
 			console.error(err);
-			if (err instanceof BackupFormatError) {
-				alert(t('nativeBackupPackageHint'));
-			} else {
-				showToast(t('toastImportError'));
-			}
+			showToast(t('toastImportError'));
 		}
 	});
 
