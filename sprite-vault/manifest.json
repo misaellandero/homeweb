@@ -1,10 +1,10 @@
 {
-  "checksum": "1648bd7ed79d94fc5fe1ed85265e1e3e10427ed46b190e937573a669c11c2499",
+  "checksum": "c753cd550d8aad249d094aa613109df48e843fcb5c29929ed748091901a05132",
   "imageBaseURL": "https://misaellandero.com/sprite-vault/images/",
   "schemaVersion": 1,
   "spritesENURL": "https://misaellandero.com/sprite-vault/sprites.en.json",
   "spritesESURL": "https://misaellandero.com/sprite-vault/sprites.es.json",
   "spritesURL": "https://misaellandero.com/sprite-vault/sprites.json",
-  "updatedAt": "2026-09-24T04:52:01.685057Z",
+  "updatedAt": "2026-09-24T17:12:01.377887Z",
   "version": 5
 }
