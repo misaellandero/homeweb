@@ -71,6 +71,8 @@ const translations = {
     errorStatus:
       "No pudimos conectar con Firebase ahora. Guardamos una copia local para no perder tu registro.",
     statsTotalLabel: "personas en la waitlist",
+    privacyLink: "Aviso de privacidad",
+    termsLink: "Términos de uso",
   },
   en: {
     documentTitle: "Cota Waitlist",
@@ -98,6 +100,8 @@ const translations = {
     errorStatus:
       "We could not connect to Firebase right now. A local copy was saved so your registration is not lost.",
     statsTotalLabel: "people on the waitlist",
+    privacyLink: "Privacy Policy",
+    termsLink: "Terms of Use",
   },
 };
 
