@@ -3,16 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Cota es la app para cuidar a tus mascotas en iOS, web y Android. Unete a la waitlist para enterarte de la beta." data-i18n-meta="description">
-    <title>Cota Waitlist</title>
+    <meta name="description" content="+Cota te ayuda a cuidar a tus mascotas todos los días: paseos, agua, comida, pipí, popó, vacunas, estética y recordatorios, en iPhone, iPad y Mac." data-i18n-meta="description">
+    <title>+Cota · Cuidado diario para tus mascotas</title>
     <link rel="icon" href="./assets/images/cota-icon-light.png" media="(prefers-color-scheme: light)">
     <link rel="icon" href="./assets/images/cota-icon-dark.png" media="(prefers-color-scheme: dark)">
     <link rel="apple-touch-icon" href="./assets/images/cota-icon-light.png">
     <link rel="stylesheet" href="./assets/css/styles.css">
-    <link rel="stylesheet" href="./assets/css/legal.css">
+    <link rel="stylesheet" href="./assets/css/landing.css">
   </head>
   <body>
     <main class="page-shell">
+      <!-- Hero -->
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-backdrop" aria-hidden="true"></div>
 
@@ -24,72 +25,177 @@
 
           <picture class="brand-icon">
             <source srcset="./assets/images/cota-icon-dark.png" media="(prefers-color-scheme: dark)">
-            <img src="./assets/images/cota-icon-light.png" alt="Cota app icon">
+            <img src="./assets/images/cota-icon-light.png" alt="+Cota app icon">
           </picture>
-          <p class="eyebrow" data-i18n="eyebrow">Cota para iOS, web y Android</p>
+          <p class="eyebrow" data-i18n="eyebrow">+Cota para iPhone, iPad y Mac</p>
           <h1 id="hero-title" data-i18n="heroTitle">Cuidado diario para tus mascotas, sin perder el ritmo.</h1>
           <p class="lede" data-i18n="lede">
-            Registra paseos, agua, comida, pipi, popo, vacunas y recordatorios. Estamos preparando la beta.
+            Registra paseos, agua, comida, pipí y popó; lleva sus vacunas y citas de estética, y recibe recordatorios a tiempo. Todo privado, en tu iPhone.
           </p>
 
-          <div class="platforms" aria-label="Plataformas" data-i18n-aria-label="platformsLabel">
-            <span>iOS</span>
-            <span>Web</span>
-            <span>Android</span>
+          <div class="cta-row">
+            <!-- Replace with Apple's official "Download on the App Store" badge once the app is live. -->
+            <a class="app-store-cta" href="https://apps.apple.com/app/id6792393567">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M16.37 12.53c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.19-1.73-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.6 2.25 2.74 2.21 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.7.71 2.87.69 1.18-.02 1.93-1.08 2.66-2.14.84-1.23 1.18-2.42 1.2-2.48-.03-.01-2.3-.88-2.32-3.49zM14.2 6.07c.61-.74 1.02-1.76.91-2.78-.88.04-1.94.59-2.57 1.32-.56.65-1.06 1.69-.93 2.69.98.08 1.98-.5 2.59-1.23z"/></svg>
+              <span data-i18n="appStoreCta">Descárgala en el App Store</span>
+            </a>
+            <p class="cta-note" data-i18n="appStoreNote">Muy pronto en el App Store · 7 días gratis</p>
           </div>
-
-          <form class="waitlist-form" id="waitlist-form">
-            <fieldset class="platform-choice">
-              <legend data-i18n="platformLegend">Quiero recibir noticias de</legend>
-              <label>
-                <input type="checkbox" name="platform" value="iOS">
-                <span>iOS app</span>
-              </label>
-              <label>
-                <input type="checkbox" name="platform" value="Web">
-                <span>Web app</span>
-              </label>
-              <label>
-                <input type="checkbox" name="platform" value="Android">
-                <span>Android app</span>
-              </label>
-              <label>
-                <input type="checkbox" name="platform" value="iOS Beta">
-                <span data-i18n="platformIosBeta">iOS beta (TestFlight)</span>
-              </label>
-              <label>
-                <input type="checkbox" name="platform" value="All" id="platform-all">
-                <span data-i18n="allPlatforms">Todas</span>
-              </label>
-            </fieldset>
-
-            <div class="form-row">
-              <label class="sr-only" for="email" data-i18n="emailLabel">Correo electronico</label>
-              <input id="email" name="email" type="email" autocomplete="email" placeholder="tu@email.com" data-i18n-placeholder="emailPlaceholder" required>
-              <button type="submit" data-i18n="submitButton">Unirme a la waitlist</button>
-            </div>
-          </form>
-          <p class="form-note" id="form-note" role="status" data-i18n="initialStatus">Te avisaremos cuando la beta esté lista para las plataformas que elijas.</p>
-
-          <div class="waitlist-stats" id="waitlist-stats" aria-live="polite">
-            <p class="stats-total">
-              <strong id="stats-total">0</strong>
-              <span data-i18n="statsTotalLabel">personas en la waitlist</span>
-            </p>
-            <ul class="stats-platforms">
-              <li><span class="stats-key">iOS</span><span class="stats-value" id="stats-ios">0</span></li>
-              <li><span class="stats-key">Web</span><span class="stats-value" id="stats-web">0</span></li>
-              <li><span class="stats-key">Android</span><span class="stats-value" id="stats-android">0</span></li>
-              <li><span class="stats-key" data-i18n="platformIosBeta">iOS beta (TestFlight)</span><span class="stats-value" id="stats-ios-beta">0</span></li>
-            </ul>
-          </div>
-
-          <nav class="site-legal-links" aria-label="Legal">
-            <a href="./privacy.html" data-i18n="privacyLink">Aviso de privacidad</a>
-            <a href="./terms.html" data-i18n="termsLink">Términos de uso</a>
-          </nav>
         </div>
       </section>
+
+      <!-- Features -->
+      <section class="landing-section" aria-labelledby="features-title">
+        <p class="section-eyebrow" data-i18n="featuresEyebrow">Funciones</p>
+        <h2 id="features-title" class="section-title" data-i18n="featuresTitle">Todo lo que tu mascota necesita, en un solo lugar</h2>
+        <p class="section-lede" data-i18n="featuresLede">Desde el primer paseo del día hasta su próxima vacuna, +Cota te ayuda a no olvidar nada.</p>
+
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">⭕️</div>
+            <h3 data-i18n="f1Title">Anillos diarios</h3>
+            <p data-i18n="f1Body">Paseos, pipí, popó y agua con metas para cada mascota. Registra con un toque o desde el widget.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">🦮</div>
+            <h3 data-i18n="f2Title">Paseos en vivo</h3>
+            <p data-i18n="f2Body">Traza la ruta, cuenta pasos y registra pipí, popó, agua y fotos, incluso desde la Dynamic Island.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">💉</div>
+            <h3 data-i18n="f3Title">Vacunas y salud</h3>
+            <p data-i18n="f3Body">Historial médico, recordatorios de vacunas y desparasitación, y escaneo de la cartilla de vacunación.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">✂️</div>
+            <h3 data-i18n="f4Title">Estética</h3>
+            <p data-i18n="f4Body">Baños, cortes y uñas con citas que se repiten solas cada pocas semanas.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">👑</div>
+            <h3 data-i18n="f5Title">Reino de Dominio</h3>
+            <p data-i18n="f5Body">Cada pipí durante un paseo conquista territorio en el mapa. ¿Qué tan grande es el reino de tu perro?</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">✨</div>
+            <h3 data-i18n="f6Title">Apple Intelligence</h3>
+            <p data-i18n="f6Body">Sugerencias de metas, revisión de alimentos y un asistente veterinario, procesados en tu dispositivo.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">📱</div>
+            <h3 data-i18n="f7Title">Widgets</h3>
+            <p data-i18n="f7Body">Anillos de actividad y próximos cuidados en tu pantalla de inicio y de bloqueo.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true">☁️</div>
+            <h3 data-i18n="f8Title">Sincronización privada</h3>
+            <p data-i18n="f8Body">Con Cota+, tus datos viajan entre tu iPhone, iPad y Mac por tu propio iCloud.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- Privacy -->
+      <section class="landing-section" aria-labelledby="privacy-title">
+        <div class="privacy-band">
+          <div>
+            <p class="section-eyebrow" data-i18n="privacyEyebrow">Privacidad</p>
+            <h2 id="privacy-title" class="section-title" data-i18n="privacyTitle">Los datos de tu mascota son tuyos</h2>
+            <a class="text-link" href="./privacy.html" data-i18n="privacyCta">Leer el aviso de privacidad</a>
+          </div>
+          <ul class="privacy-points">
+            <li data-i18n="privacyPoint1">Sin cuentas ni servidores propios para tus datos</li>
+            <li data-i18n="privacyPoint2">Sin anuncios y sin rastreo</li>
+            <li data-i18n="privacyPoint3">La IA funciona en tu dispositivo</li>
+            <li data-i18n="privacyPoint4">Sincronización solo por tu iCloud privado</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Cota+ -->
+      <section class="landing-section" aria-labelledby="plus-title">
+        <p class="section-eyebrow">Cota+</p>
+        <h2 id="plus-title" class="section-title" data-i18n="plusTitle">Empieza con 7 días gratis</h2>
+        <p class="section-lede" data-i18n="plusLede">Todas las funciones, mascotas ilimitadas y sincronización con iCloud. Elige el plan que te acomode.</p>
+
+        <div class="plans">
+          <article class="plan-card featured">
+            <span class="plan-badge" data-i18n="planBest">Mejor precio</span>
+            <h3 data-i18n="planAnnual">Anual</h3>
+            <p data-i18n="planAnnualBody">El mejor precio por mes. Incluye 7 días gratis.</p>
+          </article>
+          <article class="plan-card">
+            <h3 data-i18n="planMonthly">Mensual</h3>
+            <p data-i18n="planMonthlyBody">Paga mes a mes. Incluye 7 días gratis.</p>
+          </article>
+          <article class="plan-card">
+            <h3 data-i18n="planWeekly">Semanal</h3>
+            <p data-i18n="planWeeklyBody">Para probar por poco tiempo, sin compromiso.</p>
+          </article>
+        </div>
+        <p class="fine-print" data-i18n="plusFinePrint">Los precios se muestran en la app según tu país. La suscripción se renueva automáticamente; cancela cuando quieras desde los ajustes de tu cuenta de Apple.</p>
+      </section>
+
+      <!-- Waitlist (Android / Web) -->
+      <section class="landing-section waitlist-section" aria-labelledby="waitlist-title">
+        <p class="section-eyebrow" data-i18n="waitlistEyebrow">Lista de espera</p>
+        <h2 id="waitlist-title" class="section-title" data-i18n="waitlistTitle">¿Usas Android o prefieres la web?</h2>
+        <p class="section-lede" data-i18n="waitlistLede">Únete a la lista y te avisamos cuando +Cota llegue a tu plataforma.</p>
+
+        <form class="waitlist-form" id="waitlist-form">
+          <fieldset class="platform-choice">
+            <legend data-i18n="platformLegend">Quiero recibir noticias de</legend>
+            <label>
+              <input type="checkbox" name="platform" value="iOS">
+              <span>iOS app</span>
+            </label>
+            <label>
+              <input type="checkbox" name="platform" value="Web">
+              <span>Web app</span>
+            </label>
+            <label>
+              <input type="checkbox" name="platform" value="Android">
+              <span>Android app</span>
+            </label>
+            <label>
+              <input type="checkbox" name="platform" value="iOS Beta">
+              <span data-i18n="platformIosBeta">iOS beta (TestFlight)</span>
+            </label>
+            <label>
+              <input type="checkbox" name="platform" value="All" id="platform-all">
+              <span data-i18n="allPlatforms">Todas</span>
+            </label>
+          </fieldset>
+
+          <div class="form-row">
+            <label class="sr-only" for="email" data-i18n="emailLabel">Correo electronico</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="tu@email.com" data-i18n-placeholder="emailPlaceholder" required>
+            <button type="submit" data-i18n="submitButton">Unirme a la waitlist</button>
+          </div>
+        </form>
+        <p class="form-note" id="form-note" role="status" data-i18n="initialStatus">Te avisaremos cuando la beta esté lista para las plataformas que elijas.</p>
+
+        <div class="waitlist-stats" id="waitlist-stats" aria-live="polite">
+          <p class="stats-total">
+            <strong id="stats-total">0</strong>
+            <span data-i18n="statsTotalLabel">personas en la waitlist</span>
+          </p>
+          <ul class="stats-platforms">
+            <li><span class="stats-key">iOS</span><span class="stats-value" id="stats-ios">0</span></li>
+            <li><span class="stats-key">Web</span><span class="stats-value" id="stats-web">0</span></li>
+            <li><span class="stats-key">Android</span><span class="stats-value" id="stats-android">0</span></li>
+            <li><span class="stats-key" data-i18n="platformIosBeta">iOS beta (TestFlight)</span><span class="stats-value" id="stats-ios-beta">0</span></li>
+          </ul>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <span data-i18n="footerMadeBy">+Cota, hecha con cariño por Misael Landero</span>
+        <nav aria-label="Legal">
+          <a href="./privacy.html" data-i18n="privacyLink">Aviso de privacidad</a>
+          <a href="./terms.html" data-i18n="termsLink">Términos de uso</a>
+          <a href="mailto:hola@misaellandero.com" data-i18n="footerContact">Contacto</a>
+        </nav>
+      </footer>
     </main>
 
     <script type="module" src="./assets/js/waitlist.js"></script>
