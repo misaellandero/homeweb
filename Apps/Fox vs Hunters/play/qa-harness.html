@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QA Harness</title>
+  <link rel="stylesheet" href="app.css">
+  <script>
+    const params = new URLSearchParams(location.search);
+    const screen = params.get("screen") || "reveal";
+    const win = params.get("win") || "hunters";
+
+    const players = [
+      { id: "p1", name: "Ana", score: 100 },
+      { id: "p2", name: "Beto", score: 0 },
+      { id: "p3", name: "Carla", score: 150 }
+    ];
+
+    const baseSession = {
+      players,
+      round: 1,
+      totalRounds: 3,
+      categoryName: "Animales",
+      secretWord: "Elefante",
+      impostorIds: ["p2"],
+      revealIndex: 0,
+      revealedPlayerIds: [],
+      discussionSeconds: 180,
+      votingIndex: 0,
+      votes: {},
+      completed: false
+    };
+
+    const state = {
+      route: screen,
+      players: ["Ana", "Beto", "Carla"],
+      impostorCount: 1,
+      roundCount: 3,
+      discussionMinutes: 3,
+      categoryId: "animals",
+      customCategories: [],
+      session:
+        screen === "results"
+          ? {
+              ...baseSession,
+              completed: true,
+              huntersWin: win === "hunters",
+              voteTotals: { p1: 0, p2: 2, p3: 1 }
+            }
+          : baseSession
+    };
+
+    localStorage.setItem("foxHuntersPwaState.v1", JSON.stringify(state));
+    localStorage.setItem("foxHuntersPwaSettings.v1", JSON.stringify({ language: "en", sound: true }));
+  </script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <button class="icon-button" id="back-button" type="button" hidden aria-label="Back">‹</button>
+      <img class="app-logo" src="../assets/images/logo.png" alt="Fox Vs Hunters">
+      <div class="header-actions">
+        <button class="pill-button subtle" id="install-button" type="button" hidden data-i18n="install">Install</button>
+        <button class="icon-button" id="settings-button" type="button" aria-label="Settings">⚙</button>
+      </div>
+    </header>
+    <main id="app" class="screen-host" aria-live="polite"></main>
+    <dialog class="modal" id="settings-dialog">
+      <form method="dialog" class="modal-card">
+        <div class="modal-title-row">
+          <h2 data-i18n="settings">Settings</h2>
+          <button class="icon-button" type="submit" aria-label="Close">×</button>
+        </div>
+        <label class="field">
+          <span data-i18n="language">Language</span>
+          <select id="language-select">
+            <option value="auto">Auto</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+          </select>
+        </label>
+        <label class="toggle-row">
+          <span>
+            <strong data-i18n="sound">Sound</strong>
+            <small data-i18n="soundHint">Soft feedback during reveals and votes.</small>
+          </span>
+          <input id="sound-toggle" type="checkbox" checked>
+        </label>
+        <button class="danger-link" id="reset-button" type="button" data-i18n="resetData">Reset local data</button>
+      </form>
+    </dialog>
+  </div>
+  <script src="app.js" defer></script>
+</body>
+</html>

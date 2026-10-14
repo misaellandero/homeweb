@@ -1,4 +1,4 @@
-const CACHE_NAME = "fox-vs-hunters-pwa-v1";
+const CACHE_NAME = "fox-vs-hunters-pwa-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -8,8 +8,15 @@ const APP_SHELL = [
   "../assets/images/app-icon.png",
   "../assets/images/fox.png",
   "../assets/images/logo.png",
-  "../assets/images/living-room-bg.png",
-  "../assets/images/mascot.png"
+  "../assets/images/hero-bg.png",
+  "../assets/images/mascot.png",
+  "../assets/images/scoreboard.png",
+  "./audio/SfxCardReveal.m4a",
+  "./audio/SfxVoteAdvance1.m4a",
+  "./audio/SfxVoteAdvance2.m4a",
+  "./audio/SfxPlayerSelect.m4a",
+  "./audio/SfxVictoryFoxes.m4a",
+  "./audio/SfxVictoryHunters.m4a"
 ];
 
 self.addEventListener("install", (event) => {

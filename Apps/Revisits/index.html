@@ -54,6 +54,7 @@
 			 <link href="sistema/css/bootstrap.min.css" rel="stylesheet">
     
 			<link rel="stylesheet" href="watch/css/main_revisits.css">
+			<link rel="stylesheet" href="assets/css/revisits-hero.css">
    
     
     <!-- Bootstrap core CSS 
@@ -123,6 +124,15 @@
 		 
 					<div class="tab-content" id="myTabContent">
 							<div class="" id="inicio" role="tabpanel" aria-labelledby="inicio-tab">
+
+										<!-- Encabezado animado (mismo video del header de la App Store) -->
+										<section class="rv-hero" aria-label="Revisits">
+											<video class="rv-hero__video" autoplay muted loop playsinline preload="auto"
+												poster="assets/video/revisits-header-poster.jpg" aria-hidden="true">
+												<source src="assets/video/revisits-header-1280.mp4" type="video/mp4" media="(max-width: 900px)">
+												<source src="assets/video/revisits-header-1920.mp4" type="video/mp4">
+											</video>
+										</section>
 							
 										<div class="bd-example">
 										<div id="particles-js"></div>
@@ -562,6 +572,16 @@
 	<!-- particulas -->
 	<!-- scripts -->
 <script src="sistema/js/particulas/particles.js"></script>
+<script>
+  // Encabezado animado: si el usuario pidió reducir movimiento, se queda solo la imagen fija.
+  (function () {
+    var v = document.querySelector('.rv-hero__video');
+    if (!v) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      v.removeAttribute('autoplay'); v.pause(); v.preload = 'none';
+    }
+  })();
+</script>
 <script src="sistema/js/particulas/app.js"></script>
 <!-- stats.js -->
 <script src="sistema/js/particulas/lib/stats.js"></script>

@@ -215,6 +215,31 @@ function vibrate(pattern = 18) {
   }
 }
 
+const soundFiles = {
+  cardReveal: "audio/SfxCardReveal.m4a",
+  nextPlayer: "audio/SfxVoteAdvance1.m4a",
+  voteAdvance: "audio/SfxVoteAdvance2.m4a",
+  playerSelect: "audio/SfxPlayerSelect.m4a",
+  victoryFoxes: "audio/SfxVictoryFoxes.m4a",
+  victoryHunters: "audio/SfxVictoryHunters.m4a"
+};
+
+const soundPool = Object.fromEntries(
+  Object.entries(soundFiles).map(([name, src]) => [name, new Audio(src)])
+);
+
+function playSound(name) {
+  if (!settings.sound) {
+    return;
+  }
+  const sound = soundPool[name];
+  if (!sound) {
+    return;
+  }
+  sound.currentTime = 0;
+  sound.play().catch(() => {});
+}
+
 function setRoute(route) {
   clearTimer();
   state.route = route;
@@ -532,6 +557,7 @@ function renderReveal() {
 
   const reveal = button(t("holdReveal"), "primary-button", () => {});
   const next = button(session.revealIndex + 1 >= session.players.length ? t("discuss") : t("nextPlayer"), "secondary-button", () => {
+    playSound("nextPlayer");
     session.revealedPlayerIds = [...new Set([...session.revealedPlayerIds, player.id])];
     if (session.revealIndex + 1 >= session.players.length) {
       session.revealIndex = session.players.length - 1;
@@ -552,6 +578,7 @@ function renderReveal() {
     next.disabled = false;
     save();
     vibrate([10, 20, 10]);
+    playSound("cardReveal");
   };
   const hide = () => card.classList.remove("revealed");
 
@@ -633,6 +660,7 @@ function renderVoting() {
     row.type = "button";
     row.innerHTML = `<span class="avatar">${player.name.slice(0, 1).toUpperCase()}</span><span><strong class="row-title">${player.name}</strong></span><span>${selected.has(player.id) ? "✓" : ""}</span>`;
     row.addEventListener("click", () => {
+      playSound("playerSelect");
       if (selected.has(player.id)) {
         selected.delete(player.id);
       } else if (selected.size < session.impostorIds.length) {
@@ -649,8 +677,10 @@ function renderVoting() {
   const submit = button(t("castVote"), "primary-button", () => {
     vibrate(18);
     if (session.votingIndex + 1 >= session.players.length) {
+      playSound("voteAdvance");
       finishVoting();
     } else {
+      playSound("nextPlayer");
       session.votingIndex += 1;
       state.session = session;
       save();
@@ -662,8 +692,10 @@ function renderVoting() {
   screen.append(button(t("skipVote"), "secondary-button", () => {
     session.votes[voter.id] = [];
     if (session.votingIndex + 1 >= session.players.length) {
+      playSound("voteAdvance");
       finishVoting();
     } else {
+      playSound("nextPlayer");
       session.votingIndex += 1;
       save();
       render();
@@ -681,9 +713,10 @@ function renderResults() {
   const title = element("h1", "winner-title");
   title.textContent = session.huntersWin ? t("huntersWin") : t("foxesWin");
   const mascot = element("img", "result-mascot");
-  mascot.src = "../assets/images/fox.png";
+  mascot.src = "../assets/images/scoreboard.png";
   mascot.alt = "";
   screen.append(mascot, title);
+  playSound(session.huntersWin ? "victoryHunters" : "victoryFoxes");
   screen.append(infoCard(t("secretWord"), session.secretWord));
   screen.append(infoCard(t("hiddenFoxes"), session.players.filter((player) => session.impostorIds.includes(player.id)).map((player) => player.name).join(", ")));
 
