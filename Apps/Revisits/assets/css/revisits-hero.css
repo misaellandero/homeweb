@@ -32,3 +32,39 @@
 @media (prefers-reduced-motion: reduce) {
   .rv-hero__video { display: none; }
 }
+
+/* Botones de descarga sobre el video (arriba al centro, sobre el mapa, sin tapar a las hermanas) */
+.rv-hero__cta {
+  position: absolute;
+  top: clamp(14px, 5%, 48px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  width: max-content;
+  max-width: 94%;
+}
+.rv-hero__badge img {
+  display: block;
+  height: clamp(44px, 4.2vw, 60px);
+  width: auto;
+  filter: drop-shadow(0 6px 16px rgba(20, 40, 80, .28));
+}
+.rv-hero__web {
+  background: linear-gradient(90deg, #235ee7 0%, #4ae7fa 100%);
+  border: none;
+  padding: 0 26px;
+  height: clamp(44px, 4.2vw, 60px);
+  border-radius: 30px;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(20, 40, 80, .28);
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .rv-hero__cta { gap: 10px; }
+  .rv-hero__web { padding: 0 18px; font-size: 14px; }
+}

@@ -64,11 +64,7 @@
       --hero-icon-float: 0px;
       --hero-icon-tilt-x: 0deg;
       --hero-icon-tilt-y: 0deg;
-      --hero-icon-spin-axis-x: 0;
-      --hero-icon-spin-axis-y: 1;
-      --hero-icon-spin-axis-z: 0.2;
-      --hero-icon-spin: 0deg;
-      transform: perspective(520px) translate3d(0, var(--hero-icon-float), 0) rotateX(var(--hero-icon-tilt-x)) rotateY(var(--hero-icon-tilt-y)) rotate3d(var(--hero-icon-spin-axis-x), var(--hero-icon-spin-axis-y), var(--hero-icon-spin-axis-z), var(--hero-icon-spin));
+      transform: perspective(520px) translate3d(0, var(--hero-icon-float), 0) rotateX(var(--hero-icon-tilt-x)) rotateY(var(--hero-icon-tilt-y));
       transform-style: preserve-3d;
       will-change: transform;
       animation-name: float-hero-icon;
@@ -146,8 +142,8 @@
     <div class="container">
       <div class="navbar-translate">
         <a class="navbar-brand" href="#">
-          <img src="sistema/images/icono.jpg"  class="img-fluid rounded-circle shadow-lg icon-claro wow slideInLeft" data-wow-duration="6s"width="8%" alt="">
-          <img src="sistema/images/icono.jpg"  class="img-fluid rounded-circle shadow-lg icon-oscuro wow slideInLeft" data-wow-duration="6s" width="8%" alt="">
+          <img src="sistema/images/icono.jpg"  class="img-fluid rounded-circle shadow-lg icon-claro wow slideInLeft" data-wow-duration="0.35s" width="8%" alt="">
+          <img src="sistema/images/icono.jpg"  class="img-fluid rounded-circle shadow-lg icon-oscuro wow slideInLeft" data-wow-duration="0.35s" width="8%" alt="">
         </a>
         <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-bar bar1"></span>
@@ -172,20 +168,20 @@
           </div>
         </div>
         <ul class="navbar-nav"> 
-            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="2s">
+            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="0.35s">
                   <a class="nav-link" href="#Portafolio" ><i class="fa fa-laptop-code"></i> Portafolio</a>
             </li>
-            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="3s">
+            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="0.35s">
                   <a class="nav-link"  href="#SobreMi" ><i class="fa fa-smile-wink"></i> Me</a>
             </li>
-            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="4s">
+            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="0.35s">
                   <a class="nav-link" href="https://www.instagram.com/misaellandero"><i class="fab fa-instagram"></i> Instagram</a>
             </li>  
-            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="4s">
+            <li class="nav-item  p-0 wow slideInRight" data-wow-duration="0.35s">
                   <a class="nav-link" href="resume/index.html"><i class="fa fa-file-alt"></i> Resume</a>
             </li>
            <li class="nav-item p-0" >
-            <a class="nav-link btn btn-warning d-none d-lg-block text-white wow slideInRight pulse" data-wow-duration="5s"   href="#contacto" onclick="scrollToDownload()">
+            <a class="nav-link btn btn-warning d-none d-lg-block text-white wow slideInRight pulse" data-wow-duration="0.35s"   href="#contacto" onclick="scrollToDownload()">
               Get in touch
             </a>
           </li>
@@ -199,12 +195,12 @@
   
   <div class="page-header ">
       <div class="particles-container" id="particles-js"></div>
-      <img  src="blk-desing/assets/img/blob.png" class="path wow slideInRight">
-      <img src="blk-desing/assets/img/path2.png" class="path2 wow slideInLeft">
-      <img src="blk-desing/assets/img/triunghiuri.png" class="shapes triangle wow slideInUp">
-      <img src="blk-desing/assets/img/waves.png" class="shapes wave wow slideInDown">
-      <img src="blk-desing/assets/img/patrat.png" class="shapes squares wow slideInRight">
-      <img src="blk-desing/assets/img/cercuri.png" class="shapes circle wow slideInLeft">
+      <img data-wow-duration="0.4s"  src="blk-desing/assets/img/blob.png" class="path wow slideInRight">
+      <img data-wow-duration="0.4s" src="blk-desing/assets/img/path2.png" class="path2 wow slideInLeft">
+      <img data-wow-duration="0.4s" src="blk-desing/assets/img/triunghiuri.png" class="shapes triangle wow slideInUp">
+      <img data-wow-duration="0.4s" src="blk-desing/assets/img/waves.png" class="shapes wave wow slideInDown">
+      <img data-wow-duration="0.4s" src="blk-desing/assets/img/patrat.png" class="shapes squares wow slideInRight">
+      <img data-wow-duration="0.4s" src="blk-desing/assets/img/cercuri.png" class="shapes circle wow slideInLeft">
       <div class="hero-app-icons" aria-hidden="true">
         <img src="Apps/Cota/assets/images/cota-icon-light.png" class="hero-app-icon" style="top:17%; right:5%; width:52px; height:52px; animation-duration:7s; animation-delay:0s;" alt="">
         <img src="Apps/DebtMe/sistema/images/portfolio-icon-light.png" class="hero-app-icon" style="top:44%; right:3%; width:64px; height:64px; animation-duration:8.5s; animation-delay:.6s;" alt="">
@@ -221,37 +217,37 @@
         <div class="col-lg-12 col-md-12">
             <br>
             <br>
-            <h1 class="wow fadeInRight text-green" ><i class="fab fa-apple"></i> Developer </h1>
-            <img class="wow fadeInRight apple-platform-icon" width="10%" data-wow-duration="4s" src="sistema/images/imagen_promocional/icon-visionos-i.svg"  alt="visionOS icon" >
-            <img class="wow fadeInRight apple-platform-icon" height="10%" data-wow-duration="4s" src="sistema/images/imagen_promocional/icon-ios-i.svg"  alt="iOS icon" >
-            <img class="wow fadeInRight apple-platform-icon" width="15%" src="sistema/images/imagen_promocional/icon-mac-large.png"  alt="macOS icon" >
-            <img class="wow fadeInRight apple-platform-icon" width="5%" data-wow-duration="4s" src="sistema/images/imagen_promocional/icon-watch-large.png"  alt="watchOS icon" >
+            <h1 data-wow-duration="0.4s" class="wow fadeInRight text-green" ><i class="fab fa-apple"></i> Developer </h1>
+            <img data-wow-duration="0.4s" class="wow fadeInRight apple-platform-icon" width="10%" src="sistema/images/imagen_promocional/icon-visionos-i.svg"  alt="visionOS icon" >
+            <img data-wow-duration="0.4s" class="wow fadeInRight apple-platform-icon" height="10%" src="sistema/images/imagen_promocional/icon-ios-i.svg"  alt="iOS icon" >
+            <img data-wow-duration="0.4s" class="wow fadeInRight apple-platform-icon" width="15%" src="sistema/images/imagen_promocional/icon-mac-large.png"  alt="macOS icon" >
+            <img data-wow-duration="0.4s" class="wow fadeInRight apple-platform-icon" width="5%" src="sistema/images/imagen_promocional/icon-watch-large.png"  alt="watchOS icon" >
 
-            <img class="wow fadeInRight apple-platform-icon" height="10%" data-wow-duration="4s" src="sistema/images/imagen_promocional/icon-ipados-i.svg"  alt="iPadOS icon" >
-            <img class="wow fadeInRight apple-platform-icon" width="8%" data-wow-duration="4s" src="sistema/images/imagen_promocional/icon-appletv-large.png"  alt="tvOS icon" >
+            <img data-wow-duration="0.4s" class="wow fadeInRight apple-platform-icon" height="10%" src="sistema/images/imagen_promocional/icon-ipados-i.svg"  alt="iPadOS icon" >
+            <img data-wow-duration="0.4s" class="wow fadeInRight apple-platform-icon" width="8%" src="sistema/images/imagen_promocional/icon-appletv-large.png"  alt="tvOS icon" >
         
           </div>
           <div class="col-lg-6 col-md-6" >
             <div> 
               <br>
               <br>
-            <h4 class="wow slideInLeft text-blue" data-wow-duration="4s"><span >Swift, Objetive-C, UIKit and SwiftUI  <i class="fab fa-swift"></i></span></h4>
-            <p class="text-white mb-3 wow slideInLeft" data-wow-duration="5s">Hi, my name is Misael. I like to help companies grow their businesses. <strong>Creating elegant and inclusive websites and apps.</strong> </p>
+            <h4 data-wow-duration="0.4s" class="wow slideInLeft text-blue"><span >Swift, Objetive-C, UIKit and SwiftUI  <i class="fab fa-swift"></i></span></h4>
+            <p data-wow-duration="0.4s" class="text-white mb-3 wow slideInLeft">Hi, my name is Misael. I like to help companies grow their businesses. <strong>Creating elegant and inclusive websites and apps.</strong> </p>
             <div class="btn-wrapper mb-3">
-            <a href="#contacto" class="btn btn-success btn-link btn-sm wow slideInLeft" data-wow-duration="6s" > <p class="category text-success">Tell me about your project <i class="tim-icons icon-minimal-right"></i></p></a>
+            <a data-wow-duration="0.4s" href="#contacto" class="btn btn-success btn-link btn-sm wow slideInLeft" > <p class="category text-success">Tell me about your project <i class="tim-icons icon-minimal-right"></i></p></a>
             </div>
             </div>
 
             <div class="btn-wrapper">
             
               <div class="button-container">
-                <a href="https://twitter.com/MisaelLandero" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="3s">
+                <a data-wow-duration="0.4s" href="https://twitter.com/MisaelLandero" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp">
                   <i class="fab fa-twitter"></i>
                 </a>
-                <a href="https://www.instagram.com/misaellandero" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="2s"   >
+                <a data-wow-duration="0.4s" href="https://www.instagram.com/misaellandero" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp"   >
                   <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://www.linkedin.com/mwlite/in/francisco-misael-landero-ychante-07b6a9122" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp" data-wow-duration="1s">
+                <a data-wow-duration="0.4s" href="https://www.linkedin.com/mwlite/in/francisco-misael-landero-ychante-07b6a9122" class="btn btn-icon btn-simple btn-round btn-neutral wow zoomInUp">
                   <i class="fa fa-briefcase"></i>
                 </a>
               </div>
@@ -692,23 +688,11 @@
         return;
       }
 
+      // Los íconos solo se inclinan hacia el cursor (igual que los cuadros de la sección de contacto), sin girar.
       var states = icons.map(function (icon) {
-        return {
-          icon: icon,
-          tiltX: 0,
-          tiltY: 0,
-          targetTiltX: 0,
-          targetTiltY: 0,
-          axisX: 0,
-          axisY: 1,
-          axisZ: 0.2,
-          spin: 0,
-          spinVelocity: 0
-        };
+        return { icon: icon, tiltX: 0, tiltY: 0, targetTiltX: 0, targetTiltY: 0 };
       });
       var pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-      var lastPointer = { x: pointer.x, y: pointer.y, time: performance.now() };
-      var accumulatedDistance = 0;
       var ticking = false;
 
       function clamp(value, min, max) {
@@ -716,38 +700,8 @@
       }
 
       function onPointerMove(event) {
-        var now = performance.now();
-        var deltaTime = Math.max(now - lastPointer.time, 16);
-        var deltaX = event.clientX - lastPointer.x;
-        var deltaY = event.clientY - lastPointer.y;
-        var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        var speed = distance / deltaTime;
-        var direction = deltaX || deltaY ? Math.atan2(deltaY, deltaX) : 0;
-        var spinThreshold = 120;
-        var spinReady = accumulatedDistance + distance >= spinThreshold;
-        var impulse = spinReady ? clamp(speed * 12, 0, 12) : 0;
-
         pointer.x = event.clientX;
         pointer.y = event.clientY;
-
-        accumulatedDistance = spinReady ? 0 : accumulatedDistance + distance;
-
-        states.forEach(function (state, index) {
-          var directionWeight = Math.cos(direction - index * 0.55);
-          var axisX = -Math.sin(direction);
-          var axisY = Math.cos(direction);
-          var axisZ = clamp(speed * 0.28, 0.12, 0.55);
-
-          state.axisX += (axisX - state.axisX) * 0.35;
-          state.axisY += (axisY - state.axisY) * 0.35;
-          state.axisZ += (axisZ - state.axisZ) * 0.35;
-          state.spinVelocity += impulse * directionWeight;
-        });
-
-        lastPointer.x = event.clientX;
-        lastPointer.y = event.clientY;
-        lastPointer.time = now;
-
         if (!ticking) {
           ticking = true;
           requestAnimationFrame(updateIcons);
@@ -757,29 +711,18 @@
       function updateIcons() {
         states.forEach(function (state) {
           var rect = state.icon.getBoundingClientRect();
-          var centerX = rect.left + rect.width / 2;
-          var centerY = rect.top + rect.height / 2;
-          var distanceX = clamp((pointer.x - centerX) / window.innerWidth, -1, 1);
-          var distanceY = clamp((pointer.y - centerY) / window.innerHeight, -1, 1);
+          var distanceX = clamp((pointer.x - (rect.left + rect.width / 2)) / window.innerWidth, -1, 1);
+          var distanceY = clamp((pointer.y - (rect.top + rect.height / 2)) / window.innerHeight, -1, 1);
           state.targetTiltX = clamp(distanceY * -34, -24, 24);
           state.targetTiltY = clamp(distanceX * 42, -30, 30);
-
           state.tiltX += (state.targetTiltX - state.tiltX) * 0.1;
           state.tiltY += (state.targetTiltY - state.tiltY) * 0.1;
-          state.spin += state.spinVelocity;
-          state.spinVelocity *= 0.92;
-
           state.icon.style.setProperty('--hero-icon-tilt-x', state.tiltX.toFixed(2) + 'deg');
           state.icon.style.setProperty('--hero-icon-tilt-y', state.tiltY.toFixed(2) + 'deg');
-          state.icon.style.setProperty('--hero-icon-spin-axis-x', state.axisX.toFixed(3));
-          state.icon.style.setProperty('--hero-icon-spin-axis-y', state.axisY.toFixed(3));
-          state.icon.style.setProperty('--hero-icon-spin-axis-z', state.axisZ.toFixed(3));
-          state.icon.style.setProperty('--hero-icon-spin', state.spin.toFixed(2) + 'deg');
         });
 
         if (states.some(function (state) {
-          return Math.abs(state.spinVelocity) > 0.02 ||
-            Math.abs(state.targetTiltX - state.tiltX) > 0.02 ||
+          return Math.abs(state.targetTiltX - state.tiltX) > 0.02 ||
             Math.abs(state.targetTiltY - state.tiltY) > 0.02;
         })) {
           requestAnimationFrame(updateIcons);
