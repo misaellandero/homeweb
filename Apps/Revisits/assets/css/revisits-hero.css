@@ -55,16 +55,29 @@
   filter: drop-shadow(0 6px 16px rgba(20, 40, 80, .28));
 }
 .rv-hero__web {
-  background: linear-gradient(90deg, #235ee7 0%, #4ae7fa 100%);
-  border: none;
-  padding: 0 26px;
-  height: clamp(44px, 4.2vw, 60px);
-  border-radius: 30px;
-  font-weight: 600;
+  /* misma forma que el sello oficial de App Store: negro, borde gris fino, esquinas suaves, dos líneas */
+  --h: clamp(44px, 4.2vw, 60px);
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--h) * .2);
+  height: var(--h);
+  padding: 0 calc(var(--h) * .32) 0 calc(var(--h) * .24);
+  background: #000;
+  color: #fff;
+  border: 1px solid #a6a6a6;
+  border-radius: calc(var(--h) * .2);
   box-shadow: 0 6px 16px rgba(20, 40, 80, .28);
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  line-height: 1;
   white-space: nowrap;
 }
+.rv-hero__web:hover { background: #111; }
+.rv-hero__web:focus-visible { outline: 3px solid #4ae7fa; outline-offset: 2px; }
+.rv-hero__web .fa-globe { font-size: calc(var(--h) * .52); }
+.rv-hero__web-txt { display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.rv-hero__web-txt small { font-size: calc(var(--h) * .2); font-weight: 500; letter-spacing: .01em; }
+.rv-hero__web-txt strong { font-size: calc(var(--h) * .38); font-weight: 600; letter-spacing: -.01em; margin-top: 1px; }
 @media (max-width: 480px) {
   .rv-hero__cta { gap: 10px; }
-  .rv-hero__web { padding: 0 18px; font-size: 14px; }
 }

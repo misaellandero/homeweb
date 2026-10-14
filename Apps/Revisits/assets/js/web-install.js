@@ -148,7 +148,12 @@
 		var openAppLink = document.getElementById('openRevisitsWebLink');
 		var closeBtn = document.getElementById('webInstallCloseBtn');
 
-		if (btn) btn.innerHTML = '<i class="fas fa-globe"></i> ' + strings.btnLabel;
+		if (btn) {
+			// En el encabezado de Revisits el botón tiene forma de sello (dos líneas, como el de App Store)
+			btn.innerHTML = btn.classList.contains('rv-hero__web')
+				? '<i class="fas fa-globe"></i><span class="rv-hero__web-txt"><small>' + strings.btnLabel + '</small><strong>Revisits Web</strong></span>'
+				: '<i class="fas fa-globe"></i> ' + strings.btnLabel;
+		}
 		if (modalLabel) modalLabel.textContent = strings.modalTitle;
 		if (openAppLink) openAppLink.textContent = strings.openApp;
 		if (closeBtn) closeBtn.textContent = strings.close;
