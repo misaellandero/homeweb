@@ -131,6 +131,53 @@
     .badge-store-pending:focus {
       background-color: rgba(255, 255, 255, .08);
     }
+
+    /* Hero always fills the real viewport on every screen size — the shared
+       .page-header rule caps at max-height:999px, which on short/zoomed-out
+       viewports can let the portfolio section peek into view without
+       scrolling, making the "Ver Portafolio" button pointless. */
+    .landing-page .page-header {
+      min-height: 100vh;
+      min-height: 100dvh;
+      max-height: none;
+    }
+
+    /* Raised slightly above dead-center for better visual weight. */
+    .landing-page .page-header .content-center {
+      top: 44%;
+    }
+
+    .apple-platform-icons {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 14px;
+      margin: 14px 0 6px;
+    }
+
+    .apple-platform-icon {
+      width: auto;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .25));
+    }
+
+    /* Sized to a decreasing real-world scale, largest to smallest. */
+    .apple-platform-icon.icon-mac { height: 64px; }
+    .apple-platform-icon.icon-ipad { height: 48px; }
+    .apple-platform-icon.icon-visionos { height: 40px; }
+    .apple-platform-icon.icon-ios { height: 34px; }
+    .apple-platform-icon.icon-appletv { height: 26px; }
+    .apple-platform-icon.icon-watch { height: 22px; }
+
+    @media (max-width: 575.98px) {
+      .apple-platform-icons { gap: 10px; }
+      .apple-platform-icon.icon-mac { height: 50px; }
+      .apple-platform-icon.icon-ipad { height: 38px; }
+      .apple-platform-icon.icon-visionos { height: 32px; }
+      .apple-platform-icon.icon-ios { height: 27px; }
+      .apple-platform-icon.icon-appletv { height: 21px; }
+      .apple-platform-icon.icon-watch { height: 18px; }
+    }
   </style>
 
 </head>
@@ -216,24 +263,23 @@
         <div class="row row-grid justify-content-between align-items-center text-left">
         <div class="col-lg-12 col-md-12">
             <br>
-            <br>
             <h1 data-wow-duration="1.2s" class="wow fadeInRight text-green" ><i class="fab fa-apple"></i> Developer </h1>
-            <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon" width="10%" src="sistema/images/imagen_promocional/icon-visionos-i.svg"  alt="visionOS icon" >
-            <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon" height="10%" src="sistema/images/imagen_promocional/icon-ios-i.svg"  alt="iOS icon" >
-            <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon" width="15%" src="sistema/images/imagen_promocional/icon-mac-large.png"  alt="macOS icon" >
-            <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon" width="5%" src="sistema/images/imagen_promocional/icon-watch-large.png"  alt="watchOS icon" >
-
-            <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon" height="10%" src="sistema/images/imagen_promocional/icon-ipados-i.svg"  alt="iPadOS icon" >
-            <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon" width="8%" src="sistema/images/imagen_promocional/icon-appletv-large.png"  alt="tvOS icon" >
-        
+            <div class="apple-platform-icons">
+              <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon icon-mac" src="sistema/images/imagen_promocional/icon-mac-large.png" alt="macOS icon">
+              <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon icon-ipad" src="sistema/images/imagen_promocional/icon-ipados-i.svg" alt="iPadOS icon">
+              <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon icon-visionos" src="sistema/images/imagen_promocional/icon-visionos-i.svg" alt="visionOS icon">
+              <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon icon-ios" src="sistema/images/imagen_promocional/icon-ios-i.svg" alt="iOS icon">
+              <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon icon-appletv" src="sistema/images/imagen_promocional/icon-appletv-large.png" alt="tvOS icon">
+              <img data-wow-duration="1.2s" class="wow fadeInRight apple-platform-icon icon-watch" src="sistema/images/imagen_promocional/icon-watch-large.png" alt="watchOS icon">
+            </div>
           </div>
           <div class="col-lg-6 col-md-6" >
-            <div> 
-              <br>
+            <div>
               <br>
             <h4 data-wow-duration="1.2s" class="wow slideInLeft text-blue"><span >Swift, Objetive-C, UIKit and SwiftUI  <i class="fab fa-swift"></i></span></h4>
             <p data-wow-duration="1.2s" class="text-white mb-3 wow slideInLeft">Hi, my name is Misael. I like to help companies grow their businesses. <strong>Creating elegant and inclusive websites and apps.</strong> </p>
             <div class="btn-wrapper mb-3">
+            <a data-wow-duration="1.2s" href="#Portafolio" class="btn btn-success btn-round wow slideInLeft"><i class="fa fa-laptop-code"></i> Ver Portafolio</a>
             <a data-wow-duration="1.2s" href="#contacto" class="btn btn-success btn-link btn-sm wow slideInLeft" > <p class="category text-success">Tell me about your project <i class="tim-icons icon-minimal-right"></i></p></a>
             </div>
             </div>
