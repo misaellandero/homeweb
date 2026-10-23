@@ -1,0 +1,10 @@
+
+# Nunca publicar: secretos, volcados de BD, subidas de usuarios
+.env
+*.env
+*.sql
+*.sqlite
+**/comprobantes_pago/
+**/base_datos/
+*.p8
+*.p12
