@@ -1,6 +1,73 @@
 /* +Cota launch landing (index.html). Loaded after styles.css, which supplies the
    tokens, hero and waitlist form styles. */
 
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 10px clamp(16px, 5vw, 72px);
+  border-bottom: 1px solid var(--line);
+  background: rgba(5, 5, 8, 0.88);
+  backdrop-filter: blur(20px) saturate(1.3);
+}
+
+.site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-size: 1.1rem;
+  font-weight: 850;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-brand img {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 1.8vw, 24px);
+  min-width: 0;
+}
+
+.site-nav a {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--ink);
+}
+
+.site-nav a:focus-visible,
+.site-brand:focus-visible {
+  outline: 3px solid rgba(56, 167, 255, 0.45);
+  outline-offset: 4px;
+}
+
+.site-header .language-toggle {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.landing-section {
+  scroll-margin-top: 88px;
+}
+
 .cta-row {
   display: flex;
   flex-wrap: wrap;
@@ -68,6 +135,46 @@
   color: var(--muted);
   font-size: 1.08rem;
   line-height: 1.6;
+}
+
+.setup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.setup-card {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 100% 0, rgba(56, 167, 255, 0.13), transparent 44%),
+    rgba(255, 255, 255, 0.05);
+}
+
+.setup-number {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(56, 167, 255, 0.42);
+  border-radius: 12px;
+  color: #b7dcff;
+  font-size: 0.82rem;
+  font-weight: 850;
+  background: rgba(56, 167, 255, 0.14);
+}
+
+.setup-card h3 {
+  margin: 0 0 9px;
+  font-size: 1.08rem;
+}
+
+.setup-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .feature-grid {
@@ -221,6 +328,34 @@
 }
 
 @media (max-width: 760px) {
+  .site-header {
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    padding: 8px 16px;
+  }
+
+  .site-nav {
+    order: 3;
+    flex: 1 0 100%;
+    justify-content: flex-start;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 7px 0 2px;
+    scrollbar-width: none;
+  }
+
+  .site-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-nav a {
+    font-size: 0.84rem;
+  }
+
+  .site-header .language-toggle {
+    margin-left: auto;
+  }
+
   .app-store-cta {
     width: 100%;
     justify-content: center;
