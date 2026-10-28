@@ -237,3 +237,6 @@ Keep this concise. Record outcomes and decisions, not full chat transcripts.
 - Decisions:
 - Verification:
 - Follow-ups:
+
+## 2026-10-28 — Página de Baruch (Tron)
+- Nuevo `Apps/Baruch/` (index.html, privacy.html, terms.html; es/en con `?lang=`), basado en el estilo de `Apps/Cota/`. Assets propios (CSS copiado y ajustado a rojo Baruch, `language.js`, ícono y capturas). Verificado con Chrome headless (escritorio y cambio a inglés por localhost). Sin commit.

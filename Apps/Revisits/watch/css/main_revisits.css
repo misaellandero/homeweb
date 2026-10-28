@@ -3566,3 +3566,15 @@ h6 {
 .feature-body h4 {
   margin-bottom: 10px;
 }
+
+/* Features en modo oscuro: tarjetas oscuras con texto legible (antes: fondo blanco + texto blanco) */
+@media (prefers-color-scheme: dark) {
+  .feature-card {
+    background: #1c1c1e;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  }
+  .feature-card:hover { box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6); }
+  .feature-thumb { background: #1c1c1e; }
+  .feature-body h4 { color: #ffffff; }
+  .feature-body p { color: rgba(235, 235, 245, 0.75); }
+}

@@ -1,0 +1,389 @@
+/* Baruch landing (index.html), adapted from the +Cota landing. Loaded after styles.css, which supplies the
+   tokens, hero and waitlist form styles. */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 10px clamp(16px, 5vw, 72px);
+  border-bottom: 1px solid var(--line);
+  background: rgba(5, 5, 8, 0.88);
+  backdrop-filter: blur(20px) saturate(1.3);
+}
+
+.site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-size: 1.1rem;
+  font-weight: 850;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-brand img {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 1.8vw, 24px);
+  min-width: 0;
+}
+
+.site-nav a {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  color: var(--ink);
+}
+
+.site-nav a:focus-visible,
+.site-brand:focus-visible {
+  outline: 3px solid rgba(56, 167, 255, 0.45);
+  outline-offset: 4px;
+}
+
+.site-header .language-toggle {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.landing-section {
+  scroll-margin-top: 88px;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.app-store-cta {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 22px;
+  border-radius: 14px;
+  color: #050508;
+  font-weight: 800;
+  text-decoration: none;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.app-store-cta svg {
+  width: 20px;
+  height: 20px;
+}
+
+.app-store-cta:focus-visible {
+  outline: 3px solid rgba(56, 167, 255, 0.45);
+  outline-offset: 3px;
+}
+
+.cta-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.landing-section {
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: clamp(56px, 9vw, 110px) 16px 0;
+}
+
+.section-eyebrow {
+  margin: 0 0 12px;
+  color: var(--rose);
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.section-title {
+  max-width: 18ch;
+  margin: 0 0 16px;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.05;
+  font-weight: 850;
+}
+
+.section-lede {
+  max-width: 640px;
+  margin: 0 0 34px;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.6;
+}
+
+.setup-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.setup-card {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 100% 0, rgba(56, 167, 255, 0.13), transparent 44%),
+    rgba(255, 255, 255, 0.05);
+}
+
+.setup-number {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(56, 167, 255, 0.42);
+  border-radius: 12px;
+  color: #b7dcff;
+  font-size: 0.82rem;
+  font-weight: 850;
+  background: rgba(56, 167, 255, 0.14);
+}
+
+.setup-card h3 {
+  margin: 0 0 9px;
+  font-size: 1.08rem;
+}
+
+.setup-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.feature-card {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.feature-card .feature-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 14px;
+  border-radius: 13px;
+  font-size: 1.35rem;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.feature-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.08rem;
+}
+
+.feature-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.privacy-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+  align-items: center;
+  padding: clamp(24px, 4vw, 40px);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 12% 20%, rgba(56, 167, 255, 0.16), transparent 45%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.privacy-points {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.privacy-points li {
+  display: flex;
+  gap: 10px;
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.privacy-points li::before {
+  content: "✓";
+  color: #34d399;
+  font-weight: 900;
+}
+
+.text-link {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.plan-card {
+  position: relative;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.plan-card.featured {
+  border-color: var(--accent);
+  background: rgba(56, 167, 255, 0.1);
+}
+
+.plan-card h3 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+}
+
+.plan-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.plan-badge {
+  position: absolute;
+  top: -11px;
+  right: 16px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background: var(--accent-strong);
+}
+
+.fine-print {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.waitlist-section .waitlist-form {
+  max-width: 720px;
+}
+
+.site-footer {
+  max-width: 1080px;
+  margin: clamp(64px, 10vw, 110px) auto 0;
+  padding: 28px 16px 44px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.site-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.site-footer a {
+  color: var(--muted);
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    padding: 8px 16px;
+  }
+
+  .site-nav {
+    order: 3;
+    flex: 1 0 100%;
+    justify-content: flex-start;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 7px 0 2px;
+    scrollbar-width: none;
+  }
+
+  .site-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-nav a {
+    font-size: 0.84rem;
+  }
+
+  .site-header .language-toggle {
+    margin-left: auto;
+  }
+
+  .app-store-cta {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Baruch: screenshots shown as images instead of the hero backdrop. */
+.showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.showcase img {
+  width: 100%;
+  height: auto;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+}
+
+.disclaimer {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 760px) {
+  .showcase {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
