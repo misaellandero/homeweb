@@ -5,7 +5,23 @@
 const SUPPORTED = ["es", "en"];
 const STORAGE_KEY = "baruch-language";
 
+// Section anchors exist once per language; a hash like #privacy picks English.
+function languageOfHash() {
+  if (!location.hash) return null;
+  const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  const block = target?.closest("[data-lang-block]");
+  return block ? block.dataset.langBlock : null;
+}
+
+function scrollToHash() {
+  if (!location.hash) return;
+  const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (target && !target.closest("[hidden]")) target.scrollIntoView();
+}
+
 function initialLanguage() {
+  const fromHash = languageOfHash();
+  if (SUPPORTED.includes(fromHash)) return fromHash;
   const fromQuery = new URLSearchParams(location.search).get("lang");
   if (SUPPORTED.includes(fromQuery)) return fromQuery;
   try {
@@ -24,8 +40,7 @@ function applyLanguage(lang) {
   document.querySelectorAll("[data-language]").forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.language === lang));
   });
-  const title = document.querySelector(`[data-lang-block="${lang}"] h1`);
-  if (title) document.title = `${title.textContent} · Baruch`;
+  document.title = lang === "en" ? "Baruch · Congregation Secretary" : "Baruch · Secretario de congregación";
   try {
     localStorage.setItem(STORAGE_KEY, lang);
   } catch {}
@@ -36,3 +51,9 @@ document.querySelectorAll("[data-language]").forEach((button) => {
 });
 
 applyLanguage(initialLanguage());
+scrollToHash();
+window.addEventListener("hashchange", () => {
+  const lang = languageOfHash();
+  if (lang && lang !== document.documentElement.lang) applyLanguage(lang);
+  scrollToHash();
+});

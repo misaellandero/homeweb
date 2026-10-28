@@ -8,6 +8,7 @@
     <link rel="icon" href="./assets/images/baruch-icon.png">
     <link rel="apple-touch-icon" href="./assets/images/baruch-icon.png">
     <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/legal.css">
     <link rel="stylesheet" href="./assets/css/landing.css">
   </head>
   <body>
@@ -16,6 +17,18 @@
         <img src="./assets/images/baruch-icon.png" alt="">
         <span>Baruch</span>
       </a>
+      <nav class="site-nav" aria-label="Secciones" data-lang-block="es">
+        <a href="#funciones">Funciones</a>
+        <a href="#privacidad">Privacidad</a>
+        <a href="#terminos">Términos</a>
+        <a href="#soporte">Soporte</a>
+      </nav>
+      <nav class="site-nav" aria-label="Sections" data-lang-block="en" hidden>
+        <a href="#features">Features</a>
+        <a href="#privacy">Privacy</a>
+        <a href="#terms">Terms</a>
+        <a href="#support">Support</a>
+      </nav>
       <div class="language-toggle" aria-label="Idioma / Language">
         <button type="button" data-language="es" aria-pressed="true">ES</button>
         <button type="button" data-language="en" aria-pressed="false">EN</button>
@@ -48,7 +61,7 @@
         </div>
       </section>
 
-      <section class="landing-section" aria-labelledby="features-title-es">
+      <section class="landing-section" id="funciones" aria-labelledby="features-title-es">
         <p class="section-eyebrow">Funciones</p>
         <h2 id="features-title-es" class="section-title">Todo en un solo lugar</h2>
         <div class="feature-grid">
@@ -90,8 +103,8 @@
           <div>
             <p class="section-eyebrow">Privacidad</p>
             <h2 id="privacy-title-es" class="section-title">Los datos de tu congregación son tuyos</h2>
-            <a class="text-link" href="./privacy.html?lang=es">Leer el aviso de privacidad</a>
-            <a class="text-link" href="./terms.html?lang=es">Leer los términos de uso</a>
+            <a class="text-link" href="#privacidad">Leer el aviso de privacidad</a>
+            <a class="text-link" href="#terminos">Leer los términos de uso</a>
           </div>
           <ul class="privacy-points">
             <li>Sin cuentas ni servidores propios</li>
@@ -103,11 +116,97 @@
         <p class="disclaimer">Baruch es una herramienta independiente. No está afiliada ni respaldada por ninguna organización religiosa.</p>
       </section>
 
-      <footer class="site-footer">
+
+      <section class="landing-section legal-section" id="privacidad" aria-label="Aviso de privacidad">
+        <article class="legal-card">
+            <p class="eyebrow">Aviso de privacidad</p>
+            <h2 class="legal-title">Aviso de privacidad de Baruch</h2>
+            <p class="legal-updated">Última actualización: 28 de octubre de 2026</p>
+
+            <p>Baruch ayuda al secretario de congregación a llevar las tarjetas de publicador, los informes mensuales y los grupos. Este aviso explica qué información usa la app, dónde se guarda y qué control tienes sobre ella.</p>
+
+            <div class="legal-callout">
+              <p><strong>En resumen:</strong> Baruch no tiene cuentas de usuario ni servidores propios. Los datos se guardan en tus dispositivos y en tu iCloud privado. El desarrollador no puede verlos, no los vende y no los usa para publicidad. La app no incluye rastreo ni analítica de terceros.</p>
+            </div>
+
+            <h3>Responsable</h3>
+            <p>El responsable de este aviso es Francisco Misael Landero Ychante ("el desarrollador"). Contacto: <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a>.</p>
+
+            <h3>Información que tú agregas</h3>
+            <p>La app guarda solo lo que decides registrar o importar: datos de publicadores (por ejemplo nombre, fechas de nacimiento y bautismo, grupo, privilegios, teléfono y contacto de emergencia), informes mensuales de actividad, familias, notas y documentos adjuntos como PDF o imágenes.</p>
+
+            <h3>Dónde se guarda</h3>
+            <ul>
+              <li><strong>En tu dispositivo:</strong> todo se guarda localmente en tu iPhone, iPad o Mac.</li>
+              <li><strong>En tu iCloud:</strong> los datos se sincronizan entre tus dispositivos mediante la base de datos <em>privada</em> de iCloud (CloudKit) de tu Apple ID. Solo tú tienes acceso; el desarrollador no puede leerlos ni recuperarlos.</li>
+              <li>Puedes administrar o eliminar los datos de iCloud desde los Ajustes de tu dispositivo.</li>
+            </ul>
+
+            <h3>Importación de tarjetas y documentos</h3>
+            <p>Cuando importas un PDF, una foto o una hoja de cálculo, el texto se reconoce con Vision y se interpreta con los modelos de Apple Intelligence que funcionan <strong>en tu dispositivo</strong>. Ni los documentos ni el texto se envían al desarrollador ni a servicios de terceros. Nada se guarda hasta que revisas y confirmas el borrador.</p>
+
+            <h3>Contactos</h3>
+            <p>Solo si lo autorizas, Baruch vincula el contacto de emergencia de un publicador con un contacto de tu dispositivo para mantener su nombre y teléfono al día. Puedes retirar el permiso en cualquier momento desde Ajustes.</p>
+
+            <h3>Numbers (Mac)</h3>
+            <p>En Mac, con tu permiso, la app controla Numbers únicamente para convertir a Excel el archivo .numbers que elegiste importar.</p>
+
+            <h3>Respaldos y archivos exportados</h3>
+            <p>Los respaldos (JSON), PDF y hojas de cálculo que exportas son archivos que tú guardas donde elijas. Contienen datos personales de publicadores, así que guárdalos en un lugar seguro.</p>
+
+            <h3>Datos de otras personas</h3>
+            <p>Baruch guarda datos personales de terceros (los publicadores). Como usuario, eres responsable de tratarlos con cuidado, solo para los fines de tu labor y conforme a las normas de tu congregación y a las leyes de tu país.</p>
+
+            <h3>No vendemos tus datos</h3>
+            <p>Baruch no vende, alquila ni comparte información para publicidad, y no muestra anuncios.</p>
+
+            <h3>Tus derechos</h3>
+            <p>Como tus datos viven en tus dispositivos y en tu iCloud, puedes verlos, corregirlos o borrarlos directamente en la app o en los Ajustes de tu dispositivo. Para cualquier duda escribe a <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a>.</p>
+
+            <h3>Cambios a este aviso</h3>
+            <p>Si este aviso cambia, publicaremos la nueva versión en esta página con su fecha de actualización.</p>
+
+            <p>Más sobre privacidad en los servicios de Apple: <a href="https://www.apple.com/legal/privacy/">apple.com/legal/privacy</a>.</p>
+        </article>
+      </section>
+
+      <section class="landing-section legal-section" id="terminos" aria-label="Términos de uso">
+        <article class="legal-card">
+            <p class="eyebrow">Términos de uso</p>
+            <h2 class="legal-title">Términos de uso de Baruch</h2>
+            <p class="legal-updated">Última actualización: 28 de octubre de 2026</p>
+
+            <h3>Acuerdo</h3>
+            <p>Estos términos son un acuerdo entre tú y Francisco Misael Landero Ychante ("el desarrollador"). Al descargar o usar Baruch también aceptas el <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Contrato de licencia estándar de Apple (EULA)</a>, que aplica junto con estos términos.</p>
+
+            <h3>App independiente</h3>
+            <p>Baruch es una herramienta independiente. No está afiliada, patrocinada ni respaldada por ninguna organización religiosa. Los formularios y plantillas se reproducen solo para facilitar el trabajo del secretario.</p>
+
+            <h3>Uso de la app</h3>
+            <p>Baruch es gratuita y no requiere cuenta. Úsala de forma lícita y respetando la privacidad de las personas cuyos datos registras.</p>
+
+            <h3>Revisa la información</h3>
+            <p>El reconocimiento de texto y Apple Intelligence pueden equivocarse. Confirma siempre los datos importados, los totales y los informes antes de enviarlos o archivarlos.</p>
+
+            <h3>Tu información</h3>
+            <p>Eres responsable de lo que guardas en la app y de conservar tus respaldos. El desarrollador no tiene acceso a tus datos y no puede recuperarlos si se pierden.</p>
+
+            <h3>Sin garantía</h3>
+            <p>La app se ofrece "tal cual", sin garantías de ningún tipo. En la medida que lo permita la ley, el desarrollador no es responsable de pérdidas de datos ni de daños derivados del uso de la app.</p>
+
+            <h3>Cambios</h3>
+            <p>Podemos actualizar estos términos; la nueva versión se publicará en esta página con su fecha.</p>
+
+            <h3>Contacto</h3>
+            <p><a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a></p>
+        </article>
+      </section>
+
+      <footer class="site-footer" id="soporte">
         <span>Baruch, hecha por Misael Landero</span>
         <nav aria-label="Legal">
-          <a href="./privacy.html?lang=es">Aviso de privacidad</a>
-          <a href="./terms.html?lang=es">Términos de uso</a>
+          <a href="#privacidad">Aviso de privacidad</a>
+          <a href="#terminos">Términos de uso</a>
           <a href="mailto:hola@misaellandero.com">Contacto</a>
         </nav>
       </footer>
@@ -139,7 +238,7 @@
         </div>
       </section>
 
-      <section class="landing-section" aria-labelledby="features-title-en">
+      <section class="landing-section" id="features" aria-labelledby="features-title-en">
         <p class="section-eyebrow">Features</p>
         <h2 id="features-title-en" class="section-title">Everything in one place</h2>
         <div class="feature-grid">
@@ -181,8 +280,8 @@
           <div>
             <p class="section-eyebrow">Privacy</p>
             <h2 id="privacy-title-en" class="section-title">Your congregation's data is yours</h2>
-            <a class="text-link" href="./privacy.html?lang=en">Read the privacy policy</a>
-            <a class="text-link" href="./terms.html?lang=en">Read the terms of use</a>
+            <a class="text-link" href="#privacy">Read the privacy policy</a>
+            <a class="text-link" href="#terms">Read the terms of use</a>
           </div>
           <ul class="privacy-points">
             <li>No accounts and no servers of our own</li>
@@ -194,11 +293,97 @@
         <p class="disclaimer">Baruch is an independent tool. It is not affiliated with or endorsed by any religious organization.</p>
       </section>
 
-      <footer class="site-footer">
+
+      <section class="landing-section legal-section" id="privacy" aria-label="Privacy Policy">
+        <article class="legal-card">
+            <p class="eyebrow">Privacy Policy</p>
+            <h2 class="legal-title">Baruch Privacy Policy</h2>
+            <p class="legal-updated">Last updated: October 28, 2026</p>
+
+            <p>Baruch helps the congregation secretary keep publisher cards, monthly reports and groups. This policy explains what information the app uses, where it's stored, and what control you have over it.</p>
+
+            <div class="legal-callout">
+              <p><strong>In short:</strong> Baruch has no user accounts and no servers of its own. Your data is stored on your devices and in your private iCloud. The developer can't see it, doesn't sell it, and doesn't use it for advertising. The app includes no third-party tracking or analytics.</p>
+            </div>
+
+            <h3>Controller</h3>
+            <p>This policy is provided by Francisco Misael Landero Ychante ("the developer"). Contact: <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a>.</p>
+
+            <h3>Information you add</h3>
+            <p>The app stores only what you choose to record or import: publisher details (for example name, birth and baptism dates, group, privileges, phone number and emergency contact), monthly activity reports, families, notes, and attached documents such as PDFs or images.</p>
+
+            <h3>Where it's stored</h3>
+            <ul>
+              <li><strong>On your device:</strong> everything is stored locally on your iPhone, iPad or Mac.</li>
+              <li><strong>In your iCloud:</strong> data syncs between your devices through the <em>private</em> iCloud (CloudKit) database of your Apple ID. Only you can access it; the developer can't read or recover it.</li>
+              <li>You can manage or delete iCloud data from your device's Settings.</li>
+            </ul>
+
+            <h3>Importing cards and documents</h3>
+            <p>When you import a PDF, photo or spreadsheet, text is recognized with Vision and interpreted with Apple Intelligence models that run <strong>on your device</strong>. Neither the documents nor their text are sent to the developer or to third-party services. Nothing is saved until you review and confirm the draft.</p>
+
+            <h3>Contacts</h3>
+            <p>Only if you allow it, Baruch links a publisher's emergency contact with a contact on your device to keep the name and phone number up to date. You can revoke access at any time in Settings.</p>
+
+            <h3>Numbers (Mac)</h3>
+            <p>On Mac, with your permission, the app controls Numbers only to convert the .numbers file you chose to import into Excel.</p>
+
+            <h3>Backups and exported files</h3>
+            <p>Backups (JSON), PDFs and spreadsheets you export are files you save wherever you choose. They contain publishers' personal data, so keep them somewhere safe.</p>
+
+            <h3>Other people's data</h3>
+            <p>Baruch stores personal data about other people (the publishers). As the user, you are responsible for handling it carefully, only for the purposes of your work, and in line with your congregation's guidelines and your country's laws.</p>
+
+            <h3>We don't sell your data</h3>
+            <p>Baruch does not sell, rent, or share information for advertising, and it shows no ads.</p>
+
+            <h3>Your rights</h3>
+            <p>Because your data lives on your devices and in your iCloud, you can view, correct, or delete it directly in the app or in your device's Settings. For any questions write to <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a>.</p>
+
+            <h3>Changes to this policy</h3>
+            <p>If this policy changes, we'll publish the new version on this page with its update date.</p>
+
+            <p>More about privacy in Apple services: <a href="https://www.apple.com/legal/privacy/">apple.com/legal/privacy</a>.</p>
+        </article>
+      </section>
+
+      <section class="landing-section legal-section" id="terms" aria-label="Terms of Use">
+        <article class="legal-card">
+            <p class="eyebrow">Terms of Use</p>
+            <h2 class="legal-title">Baruch Terms of Use</h2>
+            <p class="legal-updated">Last updated: October 28, 2026</p>
+
+            <h3>Agreement</h3>
+            <p>These terms are an agreement between you and Francisco Misael Landero Ychante ("the developer"). By downloading or using Baruch you also accept <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Apple's Standard License Agreement (EULA)</a>, which applies together with these terms.</p>
+
+            <h3>Independent app</h3>
+            <p>Baruch is an independent tool. It is not affiliated with, sponsored or endorsed by any religious organization. Forms and templates are reproduced only to make the secretary's work easier.</p>
+
+            <h3>Using the app</h3>
+            <p>Baruch is free and requires no account. Use it lawfully and respect the privacy of the people whose data you record.</p>
+
+            <h3>Review the information</h3>
+            <p>Text recognition and Apple Intelligence can make mistakes. Always confirm imported data, totals and reports before sending or archiving them.</p>
+
+            <h3>Your information</h3>
+            <p>You are responsible for what you store in the app and for keeping your backups. The developer has no access to your data and can't recover it if it's lost.</p>
+
+            <h3>No warranty</h3>
+            <p>The app is provided "as is", without warranties of any kind. To the extent permitted by law, the developer isn't liable for data loss or damages arising from use of the app.</p>
+
+            <h3>Changes</h3>
+            <p>We may update these terms; the new version will be published on this page with its date.</p>
+
+            <h3>Contact</h3>
+            <p><a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a></p>
+        </article>
+      </section>
+
+      <footer class="site-footer" id="support">
         <span>Baruch, made by Misael Landero</span>
         <nav aria-label="Legal">
-          <a href="./privacy.html?lang=en">Privacy Policy</a>
-          <a href="./terms.html?lang=en">Terms of Use</a>
+          <a href="#privacy">Privacy Policy</a>
+          <a href="#terms">Terms of Use</a>
           <a href="mailto:hola@misaellandero.com">Contact</a>
         </nav>
       </footer>

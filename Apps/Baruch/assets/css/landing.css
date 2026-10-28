@@ -387,3 +387,30 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Privacy and terms live on the landing page as #privacidad/#privacy and #terminos/#terms. */
+.legal-section .legal-card {
+  max-width: none;
+}
+
+.legal-card .legal-title {
+  margin: 6px 0 4px;
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
+  line-height: 1.08;
+}
+
+.legal-card h3 {
+  margin: 30px 0 8px;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.site-footer {
+  scroll-margin-top: 88px;
+}
+
+/* overflow: hidden makes .page-shell a scroll container, so anchor jumps scrolled it
+   internally instead of the page. clip keeps the clipping without that. */
+.page-shell {
+  overflow: clip;
+}
