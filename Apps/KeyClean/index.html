@@ -19,6 +19,7 @@
     <div class="container">
       <a class="brand" href="#home"><img src="assets/images/icon.png" alt="Klenny icon"><span>Klenny</span></a>
       <nav aria-label="Main navigation">
+        <a href="#video">Video</a>
         <a href="#screenshots">Screenshots</a>
         <a href="#features">Features</a>
         <a href="#technical">Tech</a>
@@ -38,7 +39,7 @@
           <p class="lead">A native macOS utility that blocks accidental keyboard and trackpad input while you clean your Mac. Unlock safely when you are done.</p>
           <div class="cta-row">
             <span class="store-badge pending" title="Coming soon to the Mac App Store"><img src="assets/images/appstorebadge.svg" alt="Coming soon to the Mac App Store"></span>
-            <a class="btn" href="#screenshots">See it in action</a>
+            <a class="btn" href="#video">See it in action</a>
           </div>
           <ul class="trust-list"><li>One-time purchase</li><li>Everything included</li><li>No account</li><li>No tracking</li></ul>
         </div>
@@ -47,15 +48,39 @@
         </div>
       </div>
     </section>
+    <section class="section" id="video">
+      <div class="container">
+        <p class="eyebrow">Video</p>
+        <div class="media-head">
+          <h2 class="section-title">Lock, wipe, done.</h2>
+          <div class="media-lang" role="group" aria-label="Video and screenshot language">
+            <button type="button" data-media-lang-btn="en" aria-pressed="true">EN</button>
+            <button type="button" data-media-lang-btn="es" aria-pressed="false">ES</button>
+          </div>
+        </div>
+        <figure class="screen preview-video" data-media-lang="en">
+          <video src="assets/video/klenny-preview-en.mp4" poster="assets/images/screens/klenny-video-poster-en.jpg" width="1280" height="720" controls muted loop playsinline preload="none" aria-label="Klenny preview: locking a MacBook keyboard and trackpad, wiping the keys until every one turns green, then unlocking"></video>
+        </figure>
+        <figure class="screen preview-video" data-media-lang="es" hidden>
+          <video src="assets/video/klenny-preview-es.mp4" poster="assets/images/screens/klenny-video-poster-es.jpg" width="1280" height="720" controls muted loop playsinline preload="none" aria-label="Vista previa de Klenny: bloquear el teclado y el trackpad de una MacBook, limpiar hasta que todas las teclas estén en verde y desbloquear"></video>
+        </figure>
+      </div>
+    </section>
     <section class="section" id="screenshots">
       <div class="container">
         <p class="eyebrow">Screenshots</p>
         <h2 class="section-title">See every key you have cleaned.</h2>
-        <div class="screens">
+        <div class="screens" data-media-lang="en">
           <figure class="screen"><img src="assets/images/screens/klenny-mac-en-1.jpg" alt="Klenny window with a virtual keyboard and trackpad, ready to lock" loading="lazy" width="1440" height="900"></figure>
           <figure class="screen"><img src="assets/images/screens/klenny-mac-en-2.jpg" alt="Cleaning in progress: wiped keys glow green and a counter shows 47 of 70 keys" loading="lazy" width="1440" height="900"></figure>
           <figure class="screen"><img src="assets/images/screens/klenny-mac-en-3.jpg" alt="Settings menu with key sounds, Mac color finishes and key styles" loading="lazy" width="1440" height="900"></figure>
           <figure class="screen"><img src="assets/images/screens/klenny-mac-en-4.jpg" alt="Klenny menu in the macOS menu bar to lock and unlock in one click" loading="lazy" width="1440" height="900"></figure>
+        </div>
+        <div class="screens" data-media-lang="es" lang="es" hidden>
+          <figure class="screen"><img src="assets/images/screens/klenny-mac-es-1.jpg" alt="Ventana de Klenny con teclado y trackpad virtuales, lista para bloquear" loading="lazy" width="1440" height="900"></figure>
+          <figure class="screen"><img src="assets/images/screens/klenny-mac-es-2.jpg" alt="Limpieza en curso: las teclas limpias se ponen verdes y un contador marca 47 de 70" loading="lazy" width="1440" height="900"></figure>
+          <figure class="screen"><img src="assets/images/screens/klenny-mac-es-3.jpg" alt="Menú de ajustes con sonidos de teclas, colores del Mac y estilos de teclas" loading="lazy" width="1440" height="900"></figure>
+          <figure class="screen"><img src="assets/images/screens/klenny-mac-es-4.jpg" alt="Menú de Klenny en la barra de menús para bloquear y desbloquear en un clic" loading="lazy" width="1440" height="900"></figure>
         </div>
       </div>
     </section>
@@ -96,5 +121,6 @@
     </section>
   </main>
   <footer><div class="container footer-inner"><span>© <script>document.write(new Date().getFullYear());</script> Klenny.</span><span><a href="privacy.html">Privacy</a> · <a href="terms.html">License</a></span></div></footer>
+  <script src="../shared/media-lang.js" defer></script>
 </body>
 </html>

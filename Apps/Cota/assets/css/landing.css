@@ -361,3 +361,10 @@
     justify-content: center;
   }
 }
+
+/* Capturas de tienda: tira horizontal por idioma (sigue a <html lang>) */
+.shot-strip { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(200px, 240px); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px 2px 18px; margin: 24px 0 0; list-style: none; }
+.shot-strip li { scroll-snap-align: start; }
+.shot-strip img { display: block; width: 100%; height: auto; border-radius: 22px; border: 1px solid var(--line); }
+html[lang="en"] .shot-strip[data-shots="es"], html:not([lang="en"]) .shot-strip[data-shots="en"] { display: none; }
+@media (max-width: 640px) { .shot-strip { grid-auto-columns: 70%; } }

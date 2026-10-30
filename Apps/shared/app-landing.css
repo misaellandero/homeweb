@@ -147,3 +147,14 @@ footer { border-top: 1px solid var(--border); color: var(--muted); font-size: 13
   .btn { border-color: rgba(15, 23, 42, 0.16); background: rgba(255, 255, 255, 0.6); }
   .trust-list li { color: color-mix(in srgb, var(--accent) 72%, #000); }
 }
+
+/* Selector ES/EN de medios (media-lang.js) */
+.media-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
+.media-head .section-title { margin-bottom: 0; }
+.media-lang { display: inline-flex; padding: 4px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); }
+.media-lang button { min-width: 48px; padding: 8px 14px; border: 0; border-radius: 999px; color: var(--muted); background: transparent; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+.media-lang button[aria-pressed="true"] { color: #10131b; background: var(--accent); }
+.media-lang button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+[data-media-lang][hidden] { display: none !important; }
+.preview-video { margin: 0; }
+.preview-video video { display: block; width: 100%; height: auto; background: #000; }
