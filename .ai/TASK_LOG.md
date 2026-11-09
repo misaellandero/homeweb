@@ -241,3 +241,8 @@ Keep this concise. Record outcomes and decisions, not full chat transcripts.
 ## 2026-10-28 — Página de Baruch (Tron)
 - Nuevo `Apps/Baruch/` (index.html, privacy.html, terms.html; es/en con `?lang=`), basado en el estilo de `Apps/Cota/`. Assets propios (CSS copiado y ajustado a rojo Baruch, `language.js`, ícono y capturas). Verificado con Chrome headless (escritorio y cambio a inglés por localhost). Sin commit.
 - 2026-10-28 (cont.): por decisión de Misael, Baruch es una sola página: privacidad y términos viven en `Apps/Baruch/index.html` con anclas `#privacidad/#terminos` (es) y `#privacy/#terms` (en); `#funciones/#features`, `#soporte/#support`. Borrados privacy.html y terms.html. `language.js` elige idioma por el ancla y desplaza tras mostrar el bloque. `.page-shell` usa `overflow: clip`. Anclas verificadas con Chrome headless midiendo la posición (las capturas headless con ancla salen en negro también en Cota: artefacto).
+
+## 2026-11-09 — Press kit de Fox vs Hunters (Claude, issue #8)
+- Nuevo `Apps/Fox vs Hunters/presskit.html` (ES/EN con `Apps/shared/media-lang.js`), `assets/press/` (capturas ES/EN en JPG, ícono 1024, ZIP de 17 MB con arte y ficha) y estilos acotados al final de `assets/css/style.css`. Enlace "Press Kit" en el menú de la landing.
+- Verificado: enlaces locales sin faltantes (presskit.html e index.html); render con Chrome headless en 1280 px y 390 px (iframe) en ambos idiomas.
+- Pendiente: commit/push con aprobación; la landing aún dice "Currently in App Store review" aunque la app salió el 2026-09-07.
