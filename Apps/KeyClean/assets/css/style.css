@@ -33,3 +33,92 @@ body {
       linear-gradient(145deg, #fffaf0 0%, #fff5dc 48%, #fff1cc 100%);
   }
 }
+
+/* ---- Direct sales: language, download, install guide, FAQ ---- */
+[data-lang][hidden] { display: none !important; }
+html[lang="es"] .store-badge.pending::after { content: "Muy pronto"; }
+section[id], .faq > div[id] { scroll-margin-top: 84px; }
+.section-copy a, .feature-card p a:not(.btn), .faq a, .guide a, .fine-print a { color: var(--accent); }
+strong { color: var(--text); }
+
+.topbar nav { flex: 1; }
+.lang-toggle { flex-shrink: 0; }
+.lang-toggle button { min-width: 40px; padding: 6px 10px; }
+
+.feature-grid.two-up { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.spec-list { margin: 4px 0 12px; padding: 0; list-style: none; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.spec-list li::before { content: "✓ "; color: var(--accent); font-weight: 700; }
+.fine-print { margin-bottom: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+/* Install guide (in the page and inside the dialog) */
+.guide-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin: 0; padding: 0; list-style: none; counter-reset: guide; }
+.guide-step { counter-increment: guide; display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px solid var(--border); border-radius: 18px; background: linear-gradient(145deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035)), var(--card); }
+.guide-step h3 { display: flex; align-items: center; gap: 10px; margin: 0; font-size: 17px; line-height: 1.25; }
+.guide-step h3::before { content: counter(guide); flex: none; display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: #10131b; background: var(--accent); font-size: 14px; font-weight: 700; }
+.guide-step p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.guide-art { aspect-ratio: 16 / 11; border-radius: 14px; background: color-mix(in srgb, var(--accent) 10%, transparent); overflow: hidden; }
+.guide-art svg { display: block; width: 100%; height: 100%; }
+.ill-surface { fill: var(--card-strong); stroke: var(--border); }
+.ill-muted { fill: color-mix(in srgb, var(--text) 13%, transparent); }
+.ill-accent { fill: var(--accent); }
+.ill-stroke { fill: none; stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+.ill-dash { stroke-dasharray: 4 6; }
+.ill-ring { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+.ill-folder { fill: #5aa9f5; }
+.ill-knob { fill: #fff; }
+.ill-knob-stroke { fill: none; stroke: #fff; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.ill-pointer { fill: var(--text); stroke: var(--bg); stroke-width: 1.5; }
+.ill-text { fill: var(--text); font: 600 10px "Poppins", "Helvetica Neue", Arial, sans-serif; }
+.ill-title { font-size: 13px; font-weight: 700; }
+.ill-small { font-size: 8.5px; }
+.ill-mono { font-family: ui-monospace, Menlo, monospace; font-size: 9px; font-weight: 500; }
+.ill-on-accent { fill: #10131b; }
+
+/* Dialog shown after a download starts */
+.guide-dialog { width: min(860px, calc(100vw - 24px)); max-width: none; max-height: calc(100dvh - 24px); padding: 0; border: 1px solid var(--border); border-radius: 24px; color: var(--text); background: var(--bg); box-shadow: 0 40px 120px rgba(0,0,0,0.5); overflow: auto; overscroll-behavior: contain; }
+.guide-dialog::backdrop { background: rgba(0, 0, 0, 0.62); backdrop-filter: blur(6px); }
+html.guide-open { overflow: hidden; }
+.guide-dialog-head, .guide-dialog-foot { position: sticky; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 22px; background: var(--bg); }
+.guide-dialog-head { top: 0; align-items: flex-start; border-bottom: 1px solid var(--border); }
+.guide-dialog-head .eyebrow { margin-bottom: 4px; }
+.guide-dialog-head h2 { margin: 0; font-size: clamp(22px, 3vw, 30px); line-height: 1.15; }
+.guide-dialog-foot { bottom: 0; flex-wrap: wrap; border-top: 1px solid var(--border); }
+.guide-dialog-foot .btn { min-height: 46px; cursor: pointer; font: inherit; font-weight: 700; }
+.guide-dialog-body { padding: 18px 22px; }
+.guide-close { flex: none; width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 50%; color: var(--text); background: var(--card); font: inherit; font-size: 24px; line-height: 1; cursor: pointer; }
+.guide-close:focus-visible, .guide-dialog-foot .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.guide-dialog .guide-steps { grid-template-columns: 1fr; gap: 12px; }
+.guide-dialog .guide-step { display: grid; grid-template-columns: 220px minmax(0, 1fr); grid-template-rows: auto 1fr; column-gap: 18px; row-gap: 8px; align-items: start; }
+.guide-dialog .guide-art { grid-row: 1 / span 2; }
+
+.faq { display: grid; gap: 10px; max-width: 860px; }
+.faq details { border: 1px solid var(--border); border-radius: 16px; background: var(--card); }
+.faq summary { padding: 16px 20px; font-weight: 600; cursor: pointer; list-style-position: inside; }
+.faq summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 16px; }
+.faq details p { margin: 0; padding: 0 20px 18px; color: var(--muted); line-height: 1.6; }
+.faq details[open] { border-color: color-mix(in srgb, var(--accent) 34%, var(--border)); }
+
+@media (max-width: 920px) {
+  .feature-grid.two-up { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  /* Keep the sticky header to one row: icon, horizontally scrollable nav, language toggle. */
+  .topbar .container { flex-direction: row; align-items: center; gap: 10px; }
+  .topbar nav { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .topbar nav::-webkit-scrollbar { display: none; }
+  .topbar nav a { white-space: nowrap; }
+  .brand { flex-shrink: 0; }
+  .brand span { display: none; }
+  section[id], .faq > div[id] { scroll-margin-top: 72px; }
+  .faq summary { padding: 14px 16px; }
+  .faq details p { padding: 0 16px 16px; }
+  .guide-dialog { width: calc(100vw - 16px); max-height: calc(100dvh - 16px); border-radius: 18px; }
+  .guide-dialog-head, .guide-dialog-foot, .guide-dialog-body { padding-left: 14px; padding-right: 14px; }
+  .guide-dialog-foot .btn { width: 100%; }
+  .guide-dialog .guide-step { grid-template-columns: 1fr; }
+  .guide-dialog .guide-art { grid-row: auto; width: 100%; aspect-ratio: auto; height: 150px; }
+}
+
+/* Legal pages */
+.legal-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.legal-card ul { color: var(--muted); line-height: 1.6; padding-left: 20px; }

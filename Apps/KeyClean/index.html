@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" style="--accent:#ffc83d;--accent-2:#ffe08a;--bg:#0d0a04;--bg-soft:#1a1408;">
+<html lang="en" style="--accent:#ffc83d;--accent-2:#ffe08a;--bg:#0d0a04;--bg-soft:#1a1408;"
+  data-title-en="Klenny | Lock your keyboard to clean your Mac"
+  data-title-es="Klenny | Bloquea tu teclado para limpiar tu Mac">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Klenny is a native macOS menu bar utility that locks your keyboard and trackpad so you can clean your Mac safely.">
-  <meta name="keywords" content="Klenny, keyboard cleaner, macOS menu bar app, lock keyboard, clean Mac keyboard, SwiftUI app">
+  <meta name="description" content="Klenny is a native macOS menu bar utility that locks your keyboard and trackpad so you can clean your Mac safely."
+    data-content-en="Klenny is a native macOS menu bar utility that locks your keyboard and trackpad so you can clean your Mac safely."
+    data-content-es="Klenny es una utilidad nativa para la barra de menús de macOS que bloquea tu teclado y trackpad para que limpies tu Mac sin riesgos.">
+  <meta name="keywords" content="Klenny, keyboard cleaner, macOS menu bar app, lock keyboard, clean Mac keyboard, limpiar teclado Mac, bloquear teclado">
   <meta name="author" content="Misael Landero">
   <title>Klenny | Lock your keyboard to clean your Mac</title>
   <link rel="icon" href="assets/images/icon.png">
@@ -17,59 +21,209 @@
 <body>
   <header class="topbar" id="home">
     <div class="container">
-      <a class="brand" href="#home"><img src="assets/images/icon.png" alt="Klenny icon"><span>Klenny</span></a>
-      <nav aria-label="Main navigation">
+      <a class="brand" href="#home"><img src="assets/images/icon.png" alt="Klenny icon" data-alt-en="Klenny icon" data-alt-es="Ícono de Klenny"><span>Klenny</span></a>
+      <nav aria-label="Main navigation" data-lang="en">
+        <a href="#download">Download</a>
+        <a href="#install">Install</a>
         <a href="#video">Video</a>
-        <a href="#screenshots">Screenshots</a>
         <a href="#features">Features</a>
-        <a href="#technical">Tech</a>
-        <a href="#privacy">Privacy</a>
-        <a href="privacy.html">Privacy Notice</a>
+        <a href="#faq">FAQ</a>
+        <a href="#support">Support</a>
+        <a href="privacy.html">Privacy</a>
         <a href="terms.html">License</a>
       </nav>
+      <nav aria-label="Navegación principal" data-lang="es" lang="es" hidden>
+        <a href="#download">Descargar</a>
+        <a href="#install">Instalar</a>
+        <a href="#video">Video</a>
+        <a href="#features">Funciones</a>
+        <a href="#faq">Preguntas</a>
+        <a href="#support">Soporte</a>
+        <a href="privacy.html">Privacidad</a>
+        <a href="terms.html">Licencia</a>
+      </nav>
+      <div class="media-lang lang-toggle" role="group" aria-label="Language / Idioma">
+        <button type="button" data-lang-btn="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang-btn="es" aria-pressed="false">ES</button>
+      </div>
     </div>
   </header>
   <main>
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <div class="app-lockup"><img src="assets/images/icon.png" alt="Klenny app icon"><span>macOS menu bar utility</span></div>
+          <div class="app-lockup"><img src="assets/images/icon.png" alt="" ><span data-lang="en">macOS menu bar utility</span><span data-lang="es" lang="es" hidden>Utilidad para la barra de menús de macOS</span></div>
           <h1>Klenny</h1>
-          <p class="headline">Lock your keyboard.<br>Clean your Mac.</p>
-          <p class="lead">A native macOS utility that blocks accidental keyboard and trackpad input while you clean your Mac. Unlock safely when you are done.</p>
+          <p class="headline" data-lang="en">Lock your keyboard.<br>Clean your Mac.</p>
+          <p class="headline" data-lang="es" lang="es" hidden>Bloquea tu teclado.<br>Limpia tu Mac.</p>
+          <p class="lead" data-lang="en">A native macOS utility that blocks accidental keyboard and trackpad input while you clean your Mac. Unlock safely when you are done.</p>
+          <p class="lead" data-lang="es" lang="es" hidden>Una utilidad nativa de macOS que bloquea las pulsaciones accidentales del teclado y el trackpad mientras limpias tu Mac. Desbloquea con seguridad al terminar.</p>
           <div class="cta-row">
-            <span class="store-badge pending" title="Coming soon to the Mac App Store"><img src="assets/images/appstorebadge.svg" alt="Coming soon to the Mac App Store"></span>
-            <a class="btn" href="#video">See it in action</a>
+            <span class="store-badge pending" title="Coming soon to the Mac App Store" data-title-en="Coming soon to the Mac App Store" data-title-es="Muy pronto en la Mac App Store"><img src="assets/images/appstorebadge.svg" alt="Coming soon to the Mac App Store" data-alt-en="Coming soon to the Mac App Store" data-alt-es="Muy pronto en la Mac App Store"></span>
+            <a class="btn primary" href="#download" data-start-download><span data-lang="en">Download for Mac</span><span data-lang="es" lang="es" hidden>Descargar para Mac</span></a>
+            <a class="btn" href="#video"><span data-lang="en">See it in action</span><span data-lang="es" lang="es" hidden>Velo en acción</span></a>
           </div>
-          <ul class="trust-list"><li>One-time purchase</li><li>Everything included</li><li>No account</li><li>No tracking</li></ul>
+          <ul class="trust-list" data-lang="en"><li>One-time purchase</li><li>Everything included</li><li>No account</li><li>No tracking</li></ul>
+          <ul class="trust-list" data-lang="es" lang="es" hidden><li>Pago único</li><li>Todo incluido</li><li>Sin cuenta</li><li>Sin rastreo</li></ul>
         </div>
         <div class="hero-visual">
-          <img class="klenny-hero-shot" src="assets/images/screens/klenny-hero.png" alt="Klenny cleaning session: the keys you already wiped turn green while a progress bar counts them" width="1200" height="735">
+          <img class="klenny-hero-shot" src="assets/images/screens/klenny-hero.png" alt="Klenny cleaning session: the keys you already wiped turn green while a progress bar counts them" data-alt-en="Klenny cleaning session: the keys you already wiped turn green while a progress bar counts them" data-alt-es="Sesión de limpieza de Klenny: las teclas que ya limpiaste se ponen verdes y una barra cuenta el avance" width="1200" height="735">
         </div>
       </div>
     </section>
+
+    <!-- Download + purchase. The DMG URL lives ONLY in #dmg-link's href (one replacement per
+         release, see Apps/Klenny/downloads/README.md). klenny.js reads it for every other place. -->
+    <section class="section" id="download">
+      <div class="container">
+        <p class="eyebrow"><span data-lang="en">Download</span><span data-lang="es" lang="es" hidden>Descarga</span></p>
+        <h2 class="section-title"><span data-lang="en">Get Klenny for your Mac.</span><span data-lang="es" lang="es" hidden>Consigue Klenny para tu Mac.</span></h2>
+        <div class="feature-grid two-up">
+          <article class="feature-card">
+            <h3><span data-lang="en">Try it free</span><span data-lang="es" lang="es" hidden>Pruébalo gratis</span></h3>
+            <p data-lang="en">Download Klenny and do your first cleaning free. No account or credit card needed.</p>
+            <p data-lang="es" lang="es" hidden>Descarga Klenny y haz tu primera limpieza gratis. Sin cuenta ni tarjeta.</p>
+            <p><a class="btn primary" id="dmg-link" href="../Klenny/downloads/Klenny-1.0.dmg" download><span data-lang="en">Download Klenny</span><span data-lang="es" lang="es" hidden>Descargar Klenny</span></a></p>
+            <ul class="spec-list" data-lang="en">
+              <li>macOS 26.2 or later</li>
+              <li>Version <span data-dmg-version>1.0</span>, signed and notarized by Apple</li>
+              <li>Updates itself automatically</li>
+            </ul>
+            <ul class="spec-list" data-lang="es" lang="es" hidden>
+              <li>macOS 26.2 o posterior</li>
+              <li>Versión <span data-dmg-version>1.0</span>, firmada y notarizada por Apple</li>
+              <li>Se actualiza sola</li>
+            </ul>
+            <p class="fine-print"><a href="#install"><span data-lang="en">Step-by-step install guide</span><span data-lang="es" lang="es" hidden>Guía de instalación paso a paso</span></a></p>
+          </article>
+          <article class="feature-card" id="buy">
+            <h3><span data-lang="en">Buy a license</span><span data-lang="es" lang="es" hidden>Compra una licencia</span> · US$4.99</h3>
+            <p data-lang="en">One-time purchase, no subscription. One license key works on up to 3 Macs at a time and unlocks every feature, sound and finish, plus updates.</p>
+            <p data-lang="es" lang="es" hidden>Pago único, sin suscripción. Una llave de licencia funciona hasta en 3 Macs a la vez e incluye todas las funciones, sonidos y acabados, además de las actualizaciones.</p>
+            <p><a class="btn primary" href="https://buy.polar.sh/polar_cl_pT7glbsCOetxUwKNk4Aq39pi95WU2a7ntIgBu4S2TvJ" rel="noopener"><span data-lang="en">Buy Klenny</span><span data-lang="es" lang="es" hidden>Comprar Klenny</span></a></p>
+            <p class="fine-print" data-lang="en">Checkout by Polar, our merchant of record: it handles payment, invoices and taxes and emails you the key. <a href="#faq-refunds">7-day refunds</a>.</p>
+            <p class="fine-print" data-lang="es" lang="es" hidden>El pago lo procesa Polar, nuestro merchant of record: se encarga del cobro, la factura y los impuestos, y te envía la llave por correo. <a href="#faq-refunds">Reembolso en 7 días</a>.</p>
+          </article>
+        </div>
+        <p class="section-copy" data-lang="en">A Mac App Store version is coming soon. <a href="#faq-app-store">How the two versions differ</a>.</p>
+        <p class="section-copy" data-lang="es" lang="es" hidden>Muy pronto habrá una versión en la Mac App Store. <a href="#faq-app-store">En qué se diferencian</a>.</p>
+      </div>
+    </section>
+
+    <!-- Install guide. Shown here and, after a download starts, moved into #guide-dialog by klenny.js. -->
+    <section class="section" id="install">
+      <div class="container">
+        <p class="eyebrow"><span data-lang="en">Install</span><span data-lang="es" lang="es" hidden>Instalación</span></p>
+        <h2 class="section-title"><span data-lang="en">Up and running in five steps.</span><span data-lang="es" lang="es" hidden>Listo en cinco pasos.</span></h2>
+        <div class="guide" id="install-guide">
+          <ol class="guide-steps">
+            <li class="guide-step">
+              <div class="guide-art">
+                <svg viewBox="0 0 160 110" aria-hidden="true">
+                  <rect class="ill-surface" x="54" y="10" width="52" height="62" rx="10"/>
+                  <path class="ill-stroke" d="M80 20v20m-8-8 8 8 8-8"/>
+                  <rect class="ill-muted" x="64" y="48" width="32" height="14" rx="4"/>
+                  <circle class="ill-accent" cx="89" cy="55" r="2.5"/>
+                  <text class="ill-text" x="80" y="92" text-anchor="middle" data-dmg-file>Klenny-1.0.dmg</text>
+                </svg>
+              </div>
+              <h3><span data-lang="en">Open the download</span><span data-lang="es" lang="es" hidden>Abre la descarga</span></h3>
+              <p data-lang="en">Open <strong data-dmg-file>Klenny-1.0.dmg</strong> from your Downloads folder or your browser’s downloads list. A Klenny window opens.</p>
+              <p data-lang="es" lang="es" hidden>Abre <strong data-dmg-file>Klenny-1.0.dmg</strong> desde tu carpeta Descargas o la lista de descargas del navegador. Se abre una ventana de Klenny.</p>
+            </li>
+            <li class="guide-step">
+              <div class="guide-art">
+                <svg viewBox="0 0 160 110" aria-hidden="true">
+                  <rect class="ill-surface" x="8" y="8" width="144" height="94" rx="10"/>
+                  <circle class="ill-muted" cx="20" cy="19" r="3"/><circle class="ill-muted" cx="30" cy="19" r="3"/><circle class="ill-muted" cx="40" cy="19" r="3"/>
+                  <image href="assets/images/icon.png" x="22" y="36" width="36" height="36"/>
+                  <path class="ill-stroke ill-dash" d="M66 54h30"/>
+                  <path class="ill-stroke" d="M92 47l8 7-8 7"/>
+                  <path class="ill-folder" d="M106 40a4 4 0 0 1 4-4h10l4 4h14a4 4 0 0 1 4 4v24a4 4 0 0 1-4 4h-28a4 4 0 0 1-4-4z"/>
+                  <path class="ill-knob-stroke" d="M118 64l6-16 6 16m-9.5-5h7"/>
+                  <text class="ill-text" x="40" y="90" text-anchor="middle">Klenny</text>
+                  <text class="ill-text ill-small" x="122" y="90" text-anchor="middle" data-lang="en">Applications</text>
+                  <text class="ill-text ill-small" x="122" y="90" text-anchor="middle" data-lang="es" hidden>Aplicaciones</text>
+                </svg>
+              </div>
+              <h3><span data-lang="en">Drag Klenny to Applications</span><span data-lang="es" lang="es" hidden>Arrastra Klenny a Aplicaciones</span></h3>
+              <p data-lang="en">In that window, drag the Klenny icon along the arrow onto the <strong>Applications</strong> shortcut. Then eject the Klenny disk in Finder.</p>
+              <p data-lang="es" lang="es" hidden>En esa ventana, arrastra el ícono de Klenny siguiendo la flecha hasta el acceso directo a <strong>Aplicaciones</strong>. Después expulsa el disco de Klenny en Finder.</p>
+            </li>
+            <li class="guide-step">
+              <div class="guide-art">
+                <svg viewBox="0 0 160 110" aria-hidden="true">
+                  <rect class="ill-surface" x="8" y="8" width="144" height="94" rx="10"/>
+                  <rect class="ill-muted" x="8" y="8" width="34" height="94" rx="10"/>
+                  <rect class="ill-muted" x="54" y="22" width="22" height="22" rx="6"/>
+                  <rect class="ill-muted" x="86" y="22" width="22" height="22" rx="6"/>
+                  <rect class="ill-muted" x="118" y="22" width="22" height="22" rx="6"/>
+                  <rect class="ill-muted" x="54" y="58" width="22" height="22" rx="6"/>
+                  <rect class="ill-ring" x="83" y="55" width="28" height="28" rx="8"/>
+                  <image href="assets/images/icon.png" x="86" y="58" width="22" height="22"/>
+                  <rect class="ill-muted" x="118" y="58" width="22" height="22" rx="6"/>
+                  <path class="ill-pointer" d="M104 74l0 20 5-5 4 9 4-2-4-9h7z"/>
+                </svg>
+              </div>
+              <h3><span data-lang="en">Open Klenny</span><span data-lang="es" lang="es" hidden>Abre Klenny</span></h3>
+              <p data-lang="en">Open Klenny from your <strong>Applications</strong> folder. macOS asks once because it came from the internet: choose <strong>Open</strong>. Klenny is notarized by Apple and lives in the menu bar.</p>
+              <p data-lang="es" lang="es" hidden>Abre Klenny desde tu carpeta <strong>Aplicaciones</strong>. macOS pregunta una sola vez porque viene de internet: elige <strong>Abrir</strong>. Klenny está notarizada por Apple y vive en la barra de menús.</p>
+            </li>
+            <li class="guide-step">
+              <div class="guide-art">
+                <svg viewBox="0 0 160 110" aria-hidden="true">
+                  <rect class="ill-surface" x="8" y="8" width="144" height="94" rx="10"/>
+                  <text class="ill-text ill-title" x="20" y="30" data-lang="en">Accessibility</text>
+                  <text class="ill-text ill-title" x="20" y="30" data-lang="es" hidden>Accesibilidad</text>
+                  <rect class="ill-muted" x="18" y="44" width="124" height="34" rx="8"/>
+                  <image href="assets/images/icon.png" x="25" y="50" width="22" height="22"/>
+                  <text class="ill-text" x="54" y="65">Klenny</text>
+                  <rect class="ill-accent" x="106" y="52" width="28" height="18" rx="9"/>
+                  <circle class="ill-knob" cx="125" cy="61" r="7"/>
+                </svg>
+              </div>
+              <h3><span data-lang="en">Allow Accessibility</span><span data-lang="es" lang="es" hidden>Permite Accesibilidad</span></h3>
+              <p data-lang="en">When Klenny asks, click <strong>Accessibility Settings…</strong>, or go to <strong>System Settings › Privacy &amp; Security › Accessibility</strong> and turn on <strong>Klenny</strong>. <a href="#privacy">Why?</a></p>
+              <p data-lang="es" lang="es" hidden>Cuando Klenny lo pida, pulsa <strong>Ajustes de Accesibilidad…</strong>, o ve a <strong>Ajustes del Sistema › Privacidad y seguridad › Accesibilidad</strong> y activa <strong>Klenny</strong>. <a href="#privacy">¿Por qué?</a></p>
+            </li>
+            <li class="guide-step">
+              <div class="guide-art">
+                <svg viewBox="0 0 160 110" aria-hidden="true">
+                  <rect class="ill-muted" x="8" y="8" width="144" height="14" rx="4"/>
+                  <image href="assets/images/icon.png" x="126" y="9" width="12" height="12"/>
+                  <rect class="ill-surface" x="22" y="30" width="122" height="72" rx="10"/>
+                  <rect class="ill-muted" x="32" y="44" width="102" height="18" rx="5"/>
+                  <text class="ill-text ill-mono" x="40" y="57">KLENNY-••••-••••</text>
+                  <rect class="ill-accent" x="80" y="72" width="54" height="20" rx="6"/>
+                  <text class="ill-text ill-on-accent" x="107" y="86" text-anchor="middle" data-lang="en">Activate</text>
+                  <text class="ill-text ill-on-accent" x="107" y="86" text-anchor="middle" data-lang="es" hidden>Activar</text>
+                </svg>
+              </div>
+              <h3><span data-lang="en">Activate your key</span><span data-lang="es" lang="es" hidden>Activa tu llave</span></h3>
+              <p data-lang="en">Your first cleaning is free. To keep going, click the Klenny icon in the menu bar, choose <strong>Buy Klenny…</strong>, paste the key from your email and click <strong>Activate</strong>. No key yet? <a href="#buy">Buy one</a>.</p>
+              <p data-lang="es" lang="es" hidden>Tu primera limpieza es gratis. Para seguir, pulsa el ícono de Klenny en la barra de menús, elige <strong>Comprar Klenny…</strong>, pega la llave de tu correo y pulsa <strong>Activar</strong>. ¿Aún no tienes llave? <a href="#buy">Cómprala</a>.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="video">
       <div class="container">
         <p class="eyebrow">Video</p>
-        <div class="media-head">
-          <h2 class="section-title">Lock, wipe, done.</h2>
-          <div class="media-lang" role="group" aria-label="Video and screenshot language">
-            <button type="button" data-media-lang-btn="en" aria-pressed="true">EN</button>
-            <button type="button" data-media-lang-btn="es" aria-pressed="false">ES</button>
-          </div>
-        </div>
+        <h2 class="section-title"><span data-lang="en">Lock, wipe, done.</span><span data-lang="es" lang="es" hidden>Bloquea, limpia, listo.</span></h2>
         <figure class="screen preview-video" data-media-lang="en">
           <video src="assets/video/klenny-preview-en.mp4" poster="assets/images/screens/klenny-video-poster-en.jpg" width="1280" height="720" controls muted loop playsinline preload="none" aria-label="Klenny preview: locking a MacBook keyboard and trackpad, wiping the keys until every one turns green, then unlocking"></video>
         </figure>
-        <figure class="screen preview-video" data-media-lang="es" hidden>
+        <figure class="screen preview-video" data-media-lang="es" lang="es" hidden>
           <video src="assets/video/klenny-preview-es.mp4" poster="assets/images/screens/klenny-video-poster-es.jpg" width="1280" height="720" controls muted loop playsinline preload="none" aria-label="Vista previa de Klenny: bloquear el teclado y el trackpad de una MacBook, limpiar hasta que todas las teclas estén en verde y desbloquear"></video>
         </figure>
       </div>
     </section>
     <section class="section" id="screenshots">
       <div class="container">
-        <p class="eyebrow">Screenshots</p>
-        <h2 class="section-title">See every key you have cleaned.</h2>
+        <p class="eyebrow"><span data-lang="en">Screenshots</span><span data-lang="es" lang="es" hidden>Capturas</span></p>
+        <h2 class="section-title"><span data-lang="en">See every key you have cleaned.</span><span data-lang="es" lang="es" hidden>Mira cada tecla que ya limpiaste.</span></h2>
         <div class="screens" data-media-lang="en">
           <figure class="screen"><img src="assets/images/screens/klenny-mac-en-1.jpg" alt="Klenny window with a virtual keyboard and trackpad, ready to lock" loading="lazy" width="1440" height="900"></figure>
           <figure class="screen"><img src="assets/images/screens/klenny-mac-en-2.jpg" alt="Cleaning in progress: wiped keys glow green and a counter shows 47 of 70 keys" loading="lazy" width="1440" height="900"></figure>
@@ -86,41 +240,124 @@
     </section>
     <section class="section" id="features">
       <div class="container">
-        <p class="eyebrow">Features</p>
-        <h2 class="section-title">Built for quick, safe keyboard cleaning.</h2>
-        <div class="feature-grid">
+        <p class="eyebrow"><span data-lang="en">Features</span><span data-lang="es" lang="es" hidden>Funciones</span></p>
+        <h2 class="section-title"><span data-lang="en">Built for quick, safe keyboard cleaning.</span><span data-lang="es" lang="es" hidden>Hecho para limpiar el teclado rápido y sin riesgos.</span></h2>
+        <div class="feature-grid" data-lang="en">
           <article class="feature-card"><h3>Keyboard Lock</h3><p>Suppresses accidental key input while cleaning your keyboard.</p></article>
           <article class="feature-card"><h3>Trackpad Lock</h3><p>Helps avoid cursor movement and clicks while wiping your MacBook.</p></article>
           <article class="feature-card"><h3>Menu Bar Ready</h3><p>Start and stop cleaning mode from the macOS menu bar.</p></article>
-          <article class="feature-card"><h3>Safe Unlock</h3><p>Press Esc three times to unlock. Locking also ends on its own if your Mac sleeps or the screen locks.</p></article>
+          <article class="feature-card"><h3>Safe Unlock</h3><p>Press Esc three times to unlock. Locking also ends on its own if your Mac sleeps or the screen locks. Unlocking is never blocked, even without a license.</p></article>
           <article class="feature-card"><h3>Cleaning Progress</h3><p>Visual feedback helps you see what keys have been touched.</p></article>
           <article class="feature-card"><h3>Sounds &amp; Styles</h3><p>Optional key sounds and seven Mac finishes, including Midnight, Starlight, Gold and Sky Blue. All included with your purchase.</p></article>
+        </div>
+        <div class="feature-grid" data-lang="es" lang="es" hidden>
+          <article class="feature-card"><h3>Bloqueo de teclado</h3><p>Evita pulsaciones accidentales mientras limpias el teclado.</p></article>
+          <article class="feature-card"><h3>Bloqueo de trackpad</h3><p>Evita que el cursor se mueva o haga clic mientras limpias tu MacBook.</p></article>
+          <article class="feature-card"><h3>Desde la barra de menús</h3><p>Inicia y termina el modo de limpieza desde la barra de menús de macOS.</p></article>
+          <article class="feature-card"><h3>Desbloqueo seguro</h3><p>Pulsa Esc tres veces para desbloquear. El bloqueo también termina solo si tu Mac entra en reposo o se bloquea la pantalla. Desbloquear nunca se impide, aunque no tengas licencia.</p></article>
+          <article class="feature-card"><h3>Avance de limpieza</h3><p>Ves en pantalla qué teclas ya tocaste.</p></article>
+          <article class="feature-card"><h3>Sonidos y estilos</h3><p>Sonidos de teclas opcionales y siete acabados de Mac, como Medianoche, Blanco estelar, Oro y Azul cielo. Todo incluido en tu compra.</p></article>
         </div>
       </div>
     </section>
     <section class="section" id="technical">
       <div class="container">
-        <p class="eyebrow">Technical Build</p>
-        <h2 class="section-title">Native macOS code for low-level input control.</h2>
-        <div class="feature-grid">
+        <p class="eyebrow"><span data-lang="en">Technical Build</span><span data-lang="es" lang="es" hidden>Cómo está hecho</span></p>
+        <h2 class="section-title"><span data-lang="en">Native macOS code for low-level input control.</span><span data-lang="es" lang="es" hidden>Código nativo de macOS para controlar la entrada a bajo nivel.</span></h2>
+        <div class="feature-grid" data-lang="en">
           <article class="feature-card"><h3>SwiftUI + Observation</h3><p>Native menu bar popover, onboarding, virtual keyboard, and trackpad interface.</p></article>
           <article class="feature-card"><h3>AppKit + CoreGraphics</h3><p>Uses a CGEvent session tap to suppress keyDown, keyUp, and modifier events while cleaning mode is active.</p></article>
           <article class="feature-card"><h3>IOKit HID</h3><p>Detects input devices and supports hardware-aware keyboard and external mouse workflows.</p></article>
-          <article class="feature-card"><h3>macOS Permissions</h3><p>Guides users through Accessibility and Input Monitoring permissions required for input blocking.</p></article>
+          <article class="feature-card"><h3>macOS Permissions</h3><p>Guides users through the Accessibility permission required for system-wide input blocking.</p></article>
           <article class="feature-card"><h3>Keyboard Model</h3><p>Tracks an ANSI keyboard layout with visual cleaning feedback and escape-key recovery.</p></article>
-          <article class="feature-card"><h3>Privacy Boundary</h3><p>No keystroke storage, analytics, accounts, or custom backend services.</p></article>
+          <article class="feature-card"><h3>Privacy Boundary</h3><p>No keystroke storage, analytics, or accounts. The only network calls are license checks with Polar and update checks.</p></article>
+        </div>
+        <div class="feature-grid" data-lang="es" lang="es" hidden>
+          <article class="feature-card"><h3>SwiftUI + Observation</h3><p>Popover nativo en la barra de menús, bienvenida, teclado virtual e interfaz de trackpad.</p></article>
+          <article class="feature-card"><h3>AppKit + CoreGraphics</h3><p>Usa un CGEvent session tap para suprimir eventos keyDown, keyUp y de modificadores mientras el modo de limpieza está activo.</p></article>
+          <article class="feature-card"><h3>IOKit HID</h3><p>Detecta los dispositivos de entrada y se adapta al teclado y al mouse externo conectados.</p></article>
+          <article class="feature-card"><h3>Permisos de macOS</h3><p>Te guía para dar el permiso de Accesibilidad que requiere el bloqueo a nivel sistema.</p></article>
+          <article class="feature-card"><h3>Modelo de teclado</h3><p>Sigue una distribución ANSI con avance visual de limpieza y salida con la tecla Esc.</p></article>
+          <article class="feature-card"><h3>Límite de privacidad</h3><p>Sin guardar teclas, sin analítica y sin cuentas. Solo se conecta para verificar la licencia con Polar y buscar actualizaciones.</p></article>
         </div>
       </div>
     </section>
     <section class="section" id="privacy">
       <div class="container">
-        <p class="eyebrow">Privacy</p>
-        <h2 class="section-title">Your keyboard activity stays on your Mac.</h2>
-        <p class="section-copy">Klenny uses macOS system permissions only to block input while cleaning. It does not record keystrokes, send analytics, or connect to a custom backend.</p>
+        <p class="eyebrow"><span data-lang="en">Privacy</span><span data-lang="es" lang="es" hidden>Privacidad</span></p>
+        <h2 class="section-title"><span data-lang="en">Your keyboard activity stays on your Mac.</span><span data-lang="es" lang="es" hidden>Lo que escribes se queda en tu Mac.</span></h2>
+        <p class="section-copy" data-lang="en">To block every key system-wide while you clean, macOS requires Accessibility permission. Klenny uses it only during a cleaning session: it never records, stores or sends what you type, and you can turn it off any time in System Settings. Klenny has no analytics and no custom backend. The version from this website goes online only to activate and verify your license key with Polar (no computer name or personal data) and to check for updates. <a href="privacy.html">Privacy notice</a>.</p>
+        <p class="section-copy" data-lang="es" lang="es" hidden>Para bloquear todas las teclas a nivel sistema mientras limpias, macOS exige el permiso de Accesibilidad. Klenny lo usa solo durante una sesión de limpieza: nunca registra, guarda ni envía lo que escribes, y puedes quitarlo cuando quieras en Ajustes del Sistema. Klenny no tiene analítica ni servidor propio. La versión de esta web solo se conecta para activar y verificar tu llave de licencia con Polar (sin el nombre del equipo ni datos personales) y para buscar actualizaciones. <a href="privacy.html">Aviso de privacidad</a>.</p>
+      </div>
+    </section>
+    <section class="section" id="faq">
+      <div class="container">
+        <p class="eyebrow"><span data-lang="en">FAQ</span><span data-lang="es" lang="es" hidden>Preguntas frecuentes</span></p>
+        <h2 class="section-title"><span data-lang="en">Questions before you buy.</span><span data-lang="es" lang="es" hidden>Dudas antes de comprar.</span></h2>
+        <div class="faq">
+          <div id="faq-trial">
+            <details data-lang="en"><summary>What happens after the free cleaning?</summary><p>Klenny asks for a license key before it starts a new cleaning. Ending a cleaning is never blocked, so you can always unlock your keyboard.</p></details>
+            <details data-lang="es" lang="es" hidden><summary>¿Qué pasa después de la limpieza gratis?</summary><p>Klenny te pide una llave de licencia antes de iniciar otra limpieza. Terminar una limpieza nunca se bloquea, así que siempre puedes desbloquear tu teclado.</p></details>
+          </div>
+          <div id="faq-move">
+            <details data-lang="en"><summary>How do I move my license to another Mac?</summary><p>On the Mac you no longer use, click the Klenny icon in the menu bar, choose <strong>License…</strong> and click <strong>Deactivate on This Mac</strong>. That frees a slot for the new Mac. If the old Mac was lost, sold or erased first, email us and we will free the slot for you.</p></details>
+            <details data-lang="es" lang="es" hidden><summary>¿Cómo paso mi licencia a otra Mac?</summary><p>En la Mac que ya no usas, pulsa el ícono de Klenny en la barra de menús, elige <strong>Licencia…</strong> y pulsa <strong>Desactivar en esta Mac</strong>. Eso libera un lugar para la Mac nueva. Si la Mac anterior se perdió, se vendió o se borró antes, escríbenos y liberamos el lugar por ti.</p></details>
+          </div>
+          <div id="faq-key">
+            <!-- TODO: link Polar's customer portal here (key lookup, invoices) once the organization slug exists. Do not guess the URL. -->
+            <details data-lang="en"><summary>I did not get my license key.</summary><p>Polar emails the key right after checkout, to the address you used to pay. Check your spam or promotions folder. If it is not there, write to us from that email address and we will help you.</p></details>
+            <details data-lang="es" lang="es" hidden><summary>No me llegó la llave de licencia.</summary><p>Polar te envía la llave justo después del pago, al correo que usaste para comprar. Revisa spam o promociones. Si no está, escríbenos desde ese correo y te ayudamos.</p></details>
+          </div>
+          <div id="faq-refunds">
+            <details data-lang="en"><summary>Can I get a refund?</summary><p>Yes, within 7 days of your purchase. Email <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a> with the email address you used to buy. Refunds are issued through Polar, our merchant of record, to your original payment method. A refunded key stops working the next time Klenny verifies it.</p></details>
+            <details data-lang="es" lang="es" hidden><summary>¿Puedo pedir un reembolso?</summary><p>Sí, dentro de los 7 días posteriores a tu compra. Escribe a <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a> con el correo que usaste para comprar. El reembolso se emite a través de Polar, nuestro merchant of record, al mismo medio de pago. Una llave reembolsada deja de funcionar la siguiente vez que Klenny la verifica.</p></details>
+          </div>
+          <div id="faq-updates">
+            <details data-lang="en"><summary>How do updates work?</summary><p>Klenny checks for new versions on its own and offers to install them, so you never need to download it again. To check right away, choose <strong>Check for Updates…</strong> from the Klenny menu. Updates are free, signed and notarized, and your license stays active.</p></details>
+            <details data-lang="es" lang="es" hidden><summary>¿Cómo funcionan las actualizaciones?</summary><p>Klenny busca versiones nuevas por su cuenta y te ofrece instalarlas, así que no necesitas volver a descargarla. Para revisar en ese momento, elige <strong>Buscar actualizaciones…</strong> en el menú de Klenny. Las actualizaciones son gratis, firmadas y notarizadas, y tu licencia sigue activa.</p></details>
+          </div>
+          <div id="faq-offline">
+            <details data-lang="en"><summary>Does Klenny need the internet?</summary><p>Only to activate your key and to check for updates. Klenny verifies the license about once a week and keeps working for up to 30 days offline.</p></details>
+            <details data-lang="es" lang="es" hidden><summary>¿Klenny necesita internet?</summary><p>Solo para activar tu llave y buscar actualizaciones. Klenny verifica la licencia más o menos una vez por semana y sigue funcionando hasta 30 días sin conexión.</p></details>
+          </div>
+          <div id="faq-app-store">
+            <details data-lang="en"><summary>How is it different from the Mac App Store version?</summary><p>The version on this website blocks the keyboard system-wide, so it needs Accessibility permission, and it is activated with a license key and updates itself. The Mac App Store version (coming soon) locks the keyboard inside its own full-screen window, needs no special permissions, and is bought and updated through the App Store. <strong>They are sold separately:</strong> a license key does not unlock the App Store version, and an App Store purchase does not include a license key.</p></details>
+            <details data-lang="es" lang="es" hidden><summary>¿En qué se diferencia de la versión de la Mac App Store?</summary><p>La versión de esta web bloquea el teclado a nivel sistema, por eso necesita el permiso de Accesibilidad; se activa con una llave de licencia y se actualiza sola. La versión de la Mac App Store (muy pronto) bloquea el teclado dentro de su propia ventana a pantalla completa, no necesita permisos especiales y se compra y actualiza en la App Store. <strong>Se venden por separado:</strong> una llave de licencia no desbloquea la versión de la App Store, y una compra en la App Store no incluye llave de licencia.</p></details>
+          </div>
+          <div id="faq-uninstall">
+            <details data-lang="en"><summary>How do I uninstall Klenny?</summary><p>To reuse the license elsewhere, first deactivate it as described in <a href="#faq-move">moving your license</a>. Then quit Klenny, drag it from Applications to the Trash, and remove it from <strong>System Settings › Privacy &amp; Security › Accessibility</strong>.</p></details>
+            <details data-lang="es" lang="es" hidden><summary>¿Cómo desinstalo Klenny?</summary><p>Si quieres usar la licencia en otra Mac, primero desactívala como se explica en <a href="#faq-move">pasar tu licencia</a>. Luego cierra Klenny, arrástrala de Aplicaciones a la Papelera y quítala de <strong>Ajustes del Sistema › Privacidad y seguridad › Accesibilidad</strong>.</p></details>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="support">
+      <div class="container">
+        <p class="eyebrow"><span data-lang="en">Support</span><span data-lang="es" lang="es" hidden>Soporte</span></p>
+        <h2 class="section-title"><span data-lang="en">Need a hand?</span><span data-lang="es" lang="es" hidden>¿Necesitas ayuda?</span></h2>
+        <p class="section-copy" data-lang="en">Questions about installing, your license or a refund? Write to <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a>. Include your macOS version and, for license questions, the email address you used to buy.</p>
+        <p class="section-copy" data-lang="es" lang="es" hidden>¿Dudas con la instalación, tu licencia o un reembolso? Escribe a <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a>. Incluye tu versión de macOS y, si es sobre la licencia, el correo con el que compraste.</p>
+        <p><a class="btn" href="mailto:hola@misaellandero.com?subject=Klenny"><span data-lang="en">Email support</span><span data-lang="es" lang="es" hidden>Escribir a soporte</span></a></p>
       </div>
     </section>
   </main>
-  <footer><div class="container footer-inner"><span>© <script>document.write(new Date().getFullYear());</script> Klenny.</span><span><a href="privacy.html">Privacy</a> · <a href="terms.html">License</a></span></div></footer>
-  <script src="../shared/media-lang.js" defer></script>
+
+  <dialog class="guide-dialog" id="guide-dialog" aria-labelledby="guide-dialog-title">
+    <div class="guide-dialog-head">
+      <div>
+        <p class="eyebrow"><span data-lang="en">Your download has started</span><span data-lang="es" lang="es" hidden>Tu descarga ya comenzó</span></p>
+        <h2 id="guide-dialog-title"><span data-lang="en">Now install Klenny in five steps</span><span data-lang="es" lang="es" hidden>Ahora instala Klenny en cinco pasos</span></h2>
+      </div>
+      <button type="button" class="guide-close" data-guide-close aria-label="Close" data-aria-label-en="Close" data-aria-label-es="Cerrar">×</button>
+    </div>
+    <div class="guide-dialog-body" data-guide-slot></div>
+    <div class="guide-dialog-foot">
+      <p class="fine-print"><span data-lang="en">Download didn’t start?</span><span data-lang="es" lang="es" hidden>¿No empezó la descarga?</span> <a href="#download" data-dmg-again><span data-lang="en">Download again</span><span data-lang="es" lang="es" hidden>Descargar de nuevo</span></a></p>
+      <button type="button" class="btn primary" data-guide-close><span data-lang="en">Got it</span><span data-lang="es" lang="es" hidden>Entendido</span></button>
+    </div>
+  </dialog>
+
+  <footer><div class="container footer-inner"><span>© <script>document.write(new Date().getFullYear());</script> Klenny.</span><span><a href="privacy.html"><span data-lang="en">Privacy</span><span data-lang="es" lang="es" hidden>Privacidad</span></a> · <a href="terms.html"><span data-lang="en">License</span><span data-lang="es" lang="es" hidden>Licencia</span></a> · <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a></span></div></footer>
+  <script src="assets/js/klenny.js" defer></script>
 </body>
 </html>

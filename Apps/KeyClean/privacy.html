@@ -1,16 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" style="--accent:#7dd3fc;--accent-2:#86efac;--bg:#05080d;--bg-soft:#101827;">
+<html lang="en" style="--accent:#ffc83d;--accent-2:#ffe08a;--bg:#0d0a04;--bg-soft:#1a1408;"
+  data-title-en="Klenny Privacy Notice" data-title-es="Aviso de privacidad de Klenny">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Privacy notice for Klenny, a native macOS keyboard cleaning utility.">
+  <meta name="description" content="Privacy notice for Klenny, a native macOS keyboard cleaning utility. / Aviso de privacidad de Klenny.">
   <title>Klenny Privacy Notice</title>
   <link rel="icon" href="assets/images/icon.png">
-  <link rel="stylesheet" href="../shared/app-landing.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-  <header class="topbar"><div class="container"><a class="brand" href="index.html"><img src="assets/images/icon.png" alt="Klenny icon"><span>Klenny</span></a><nav><a href="index.html">Home</a><a href="terms.html">License</a></nav></div></header>
-  <main class="legal-page"><div class="container"><article class="legal-card"><p class="eyebrow">Privacy Notice</p><h1>Klenny Privacy Notice</h1><p>Last updated: July 16, 2026</p><p>Klenny is a macOS utility by Misael Landero. It is designed to lock keyboard and trackpad input while you clean your Mac.</p><h2>Data Collection</h2><p>Klenny does not collect, sell, rent, or share personal information. It does not include analytics, advertising SDKs, account creation, or a custom backend.</p><h2>Keyboard Input</h2><p>Klenny uses macOS input-blocking APIs only to suppress accidental input while cleaning. The app does not record, store, transmit, or inspect the contents of your keystrokes.</p><h2>System Permissions</h2><p>Klenny may request Accessibility or related macOS permissions so it can block input during cleaning mode. These permissions are managed by macOS in System Settings.</p><h2>Contact</h2><p>Questions: <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a></p></article></div></main>
-  <footer><div class="container footer-inner"><span>© Klenny.</span><a href="index.html">Back to app page</a></div></footer>
+  <header class="topbar"><div class="container">
+    <a class="brand" href="index.html"><img src="assets/images/icon.png" alt="Klenny icon"><span>Klenny</span></a>
+    <nav data-lang="en"><a href="index.html">Home</a><a href="terms.html">License</a></nav>
+    <nav data-lang="es" lang="es" hidden><a href="index.html">Inicio</a><a href="terms.html">Licencia</a></nav>
+    <div class="media-lang lang-toggle" role="group" aria-label="Language / Idioma">
+      <button type="button" data-lang-btn="en" aria-pressed="true">EN</button>
+      <button type="button" data-lang-btn="es" aria-pressed="false">ES</button>
+    </div>
+  </div></header>
+  <main class="legal-page"><div class="container">
+    <article class="legal-card" data-lang="en">
+      <p class="eyebrow">Privacy Notice</p>
+      <h1>Klenny Privacy Notice</h1>
+      <p>Last updated: November 19, 2026</p>
+      <p>Klenny is a macOS utility by Misael Landero. It is designed to lock keyboard and trackpad input while you clean your Mac.</p>
+      <h2>Data Collection</h2>
+      <p>Klenny does not collect, sell, rent, or share personal information. It does not include analytics, advertising SDKs, account creation, or a custom backend.</p>
+      <h2>Version From This Website</h2>
+      <p>The version downloaded from misaellandero.com connects to the internet only for two things:</p>
+      <ul>
+        <li><strong>License keys.</strong> When you activate, verify or deactivate a license key, Klenny sends the key, the app version and an activation identifier to Polar (polar.sh), the merchant of record that sells Klenny. It does not send your computer name or other personal data. Polar processes your purchase details (such as your email address and payment) under its own privacy policy.</li>
+        <li><strong>Updates.</strong> Klenny checks misaellandero.com for new versions. Like any web request, this exposes your IP address and app version to the web host.</li>
+      </ul>
+      <p>The Mac App Store version does not connect to the internet.</p>
+      <h2>Keyboard Input</h2>
+      <p>Klenny uses macOS input-blocking APIs only to suppress accidental input while cleaning. The app does not record, store, transmit, or inspect the contents of your keystrokes.</p>
+      <h2>System Permissions</h2>
+      <p>The version from this website requests Accessibility permission so it can block input system-wide during cleaning mode. These permissions are managed by macOS in System Settings.</p>
+      <h2>Contact</h2>
+      <p>Questions: <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a></p>
+    </article>
+    <article class="legal-card" data-lang="es" lang="es" hidden>
+      <p class="eyebrow">Aviso de privacidad</p>
+      <h1>Aviso de privacidad de Klenny</h1>
+      <p>Última actualización: 19 de noviembre de 2026</p>
+      <p>Klenny es una utilidad para macOS de Misael Landero. Está diseñada para bloquear el teclado y el trackpad mientras limpias tu Mac.</p>
+      <h2>Datos que recopila</h2>
+      <p>Klenny no recopila, vende, renta ni comparte información personal. No incluye analítica, SDK de publicidad, creación de cuentas ni servidor propio.</p>
+      <h2>Versión de este sitio web</h2>
+      <p>La versión descargada de misaellandero.com solo se conecta a internet para dos cosas:</p>
+      <ul>
+        <li><strong>Llaves de licencia.</strong> Al activar, verificar o desactivar una llave, Klenny envía la llave, la versión de la app y un identificador de activación a Polar (polar.sh), el merchant of record que vende Klenny. No envía el nombre de tu equipo ni otros datos personales. Polar trata los datos de tu compra (como tu correo y el pago) según su propia política de privacidad.</li>
+        <li><strong>Actualizaciones.</strong> Klenny consulta misaellandero.com para buscar versiones nuevas. Como cualquier solicitud web, esto expone tu dirección IP y la versión de la app al servidor del sitio.</li>
+      </ul>
+      <p>La versión de la Mac App Store no se conecta a internet.</p>
+      <h2>Lo que escribes</h2>
+      <p>Klenny usa las API de bloqueo de entrada de macOS solo para suprimir pulsaciones accidentales mientras limpias. La app no registra, guarda, transmite ni inspecciona el contenido de tus pulsaciones.</p>
+      <h2>Permisos del sistema</h2>
+      <p>La versión de este sitio pide el permiso de Accesibilidad para poder bloquear la entrada a nivel sistema durante el modo de limpieza. macOS administra estos permisos en Ajustes del Sistema.</p>
+      <h2>Contacto</h2>
+      <p>Dudas: <a href="mailto:hola@misaellandero.com">hola@misaellandero.com</a></p>
+    </article>
+  </div></main>
+  <footer><div class="container footer-inner"><span>© Klenny.</span><a href="index.html"><span data-lang="en">Back to app page</span><span data-lang="es" lang="es" hidden>Volver a la página de la app</span></a></div></footer>
+  <script src="assets/js/klenny.js" defer></script>
 </body>
 </html>
