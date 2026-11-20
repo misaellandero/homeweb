@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="yes"?>
+<rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>Klenny</title>
+        <item>
+            <title>1.0</title>
+            <pubDate>Thu, 19 Nov 2026 10:41:38 -0600</pubDate>
+            <sparkle:version>20261117</sparkle:version>
+            <sparkle:shortVersionString>1.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.2</sparkle:minimumSystemVersion>
+            <enclosure url="https://misaellandero.com/Apps/Klenny/downloads/Klenny-1.0.dmg" length="13483469" type="application/octet-stream" sparkle:edSignature="Rr7OUFvAzbOMEBMr8xv7Opxho6GRF6IuQYfjR72pYf1kpdb0odQKlgMvaGeAIEBPSv5WWugcH5UKTjfkk2gvDA=="/>
+        </item>
+    </channel>
+</rss>
