@@ -1,24 +1,19 @@
-# Klenny: URL corta, analítica y UTMs
+# Klenny: enlace, analítica y UTMs
 
 Este archivo es público, igual que todo el sitio. No pongas aquí datos personales, llaves ni números de órdenes.
 
-## URL corta
+## Enlace público
 
-`https://misaellandero.com/klenny` sirve `klenny/index.html` (en la raíz del repo, en minúsculas), que redirige a
-`/Apps/Klenny/index.html` y **conserva** `?query` y `#hash`:
+Usa siempre `https://misaellandero.com/Apps/Klenny/` (con la barra final). Conserva `?query` y `#hash`:
 
 | Enlace publicado | Abre |
 |---|---|
-| `misaellandero.com/klenny` | la página de Klenny (idioma del navegador) |
-| `misaellandero.com/klenny?lang=es` | la página en español |
-| `misaellandero.com/klenny?utm_source=reddit&utm_medium=organic&utm_campaign=lanzamiento-2026` | la página, con la campaña registrada |
-| `misaellandero.com/klenny#faq` | la página, directo a una sección (`#download`, `#install`, `#app-store`, `#faq`) |
+| `misaellandero.com/Apps/Klenny/` | la página de Klenny (idioma del navegador) |
+| `misaellandero.com/Apps/Klenny/?lang=es` | la página en español |
+| `misaellandero.com/Apps/Klenny/?utm_source=reddit&utm_medium=organic&utm_campaign=lanzamiento-2026` | la página, con la campaña registrada |
+| `misaellandero.com/Apps/Klenny/#faq` | la página, directo a una sección (`#download`, `#install`, `#app-store`, `#faq`) |
 
-La redirección es por JavaScript, así que el referrer externo (reddit.com, etc.) se perdería. `klenny/index.html` lo guarda en
-`sessionStorage` (`klenny-referrer`) y `klenny.js` se lo pasa a GoatCounter.
-
-Ojo: macOS no distingue mayúsculas en el disco, pero GitHub Pages sí. No crees una carpeta `Klenny/` en la raíz; la página real
-está en `Apps/Klenny/`.
+GitHub Pages distingue mayúsculas: `Apps/Klenny`, no `apps/klenny`.
 
 ## Analítica: GoatCounter (sin cookies)
 
@@ -64,19 +59,19 @@ Convenciones: todo en minúsculas, con guiones, sin espacios ni acentos. `utm_ca
 
 | Canal | `utm_source` | `utm_medium` | Ejemplo |
 |---|---|---|---|
-| Reddit (post) | `reddit` | `organic` | `misaellandero.com/klenny?utm_source=reddit&utm_medium=organic&utm_campaign=lanzamiento-2026` |
-| Reddit Ads | `reddit` | `paid` | `misaellandero.com/klenny?utm_source=reddit&utm_medium=paid&utm_campaign=lanzamiento-2026&utm_content=anuncio-a` |
-| TikTok | `tiktok` | `video` | `misaellandero.com/klenny?utm_source=tiktok&utm_medium=video&utm_campaign=lanzamiento-2026&utm_content=video-01` |
-| Instagram Reels | `instagram` | `reels` | `misaellandero.com/klenny?utm_source=instagram&utm_medium=reels&utm_campaign=lanzamiento-2026` |
-| YouTube Shorts | `youtube` | `shorts` | `misaellandero.com/klenny?utm_source=youtube&utm_medium=shorts&utm_campaign=lanzamiento-2026` |
-| YouTube (video largo) | `youtube` | `video` | `misaellandero.com/klenny?utm_source=youtube&utm_medium=video&utm_campaign=lanzamiento-2026` |
-| X | `x` | `social` | `misaellandero.com/klenny?utm_source=x&utm_medium=social&utm_campaign=lanzamiento-2026` |
-| Threads | `threads` | `social` | `misaellandero.com/klenny?utm_source=threads&utm_medium=social&utm_campaign=lanzamiento-2026` |
-| AlternativeTo | `alternativeto` | `listing` | `misaellandero.com/klenny?utm_source=alternativeto&utm_medium=listing&utm_campaign=lanzamiento-2026` |
-| Creadores / reseñas | `<nombre-del-canal>` | `creator` | `misaellandero.com/klenny?utm_source=nombre-del-canal&utm_medium=creator&utm_campaign=lanzamiento-2026` |
+| Reddit (post) | `reddit` | `organic` | `misaellandero.com/Apps/Klenny/?utm_source=reddit&utm_medium=organic&utm_campaign=lanzamiento-2026` |
+| Reddit Ads | `reddit` | `paid` | `misaellandero.com/Apps/Klenny/?utm_source=reddit&utm_medium=paid&utm_campaign=lanzamiento-2026&utm_content=anuncio-a` |
+| TikTok | `tiktok` | `video` | `misaellandero.com/Apps/Klenny/?utm_source=tiktok&utm_medium=video&utm_campaign=lanzamiento-2026&utm_content=video-01` |
+| Instagram Reels | `instagram` | `reels` | `misaellandero.com/Apps/Klenny/?utm_source=instagram&utm_medium=reels&utm_campaign=lanzamiento-2026` |
+| YouTube Shorts | `youtube` | `shorts` | `misaellandero.com/Apps/Klenny/?utm_source=youtube&utm_medium=shorts&utm_campaign=lanzamiento-2026` |
+| YouTube (video largo) | `youtube` | `video` | `misaellandero.com/Apps/Klenny/?utm_source=youtube&utm_medium=video&utm_campaign=lanzamiento-2026` |
+| X | `x` | `social` | `misaellandero.com/Apps/Klenny/?utm_source=x&utm_medium=social&utm_campaign=lanzamiento-2026` |
+| Threads | `threads` | `social` | `misaellandero.com/Apps/Klenny/?utm_source=threads&utm_medium=social&utm_campaign=lanzamiento-2026` |
+| AlternativeTo | `alternativeto` | `listing` | `misaellandero.com/Apps/Klenny/?utm_source=alternativeto&utm_medium=listing&utm_campaign=lanzamiento-2026` |
+| Creadores / reseñas | `<nombre-del-canal>` | `creator` | `misaellandero.com/Apps/Klenny/?utm_source=nombre-del-canal&utm_medium=creator&utm_campaign=lanzamiento-2026` |
 
 Con idioma: agrega `&lang=es` o `&lang=en` (por ejemplo, un video en español:
-`misaellandero.com/klenny?lang=es&utm_source=tiktok&utm_medium=video&utm_campaign=lanzamiento-2026`).
+`misaellandero.com/Apps/Klenny/?lang=es&utm_source=tiktok&utm_medium=video&utm_campaign=lanzamiento-2026`).
 
 Límites: las compras que se hacen desde la app (después de la limpieza gratis) no llevan estos UTMs. Para esas ver el informe de
 marketing en el repo KeyClean (`.ai/marketing/canales-y-publicidad-2026-11.md`, sección 3.4: campo "¿Dónde conociste Klenny?" o

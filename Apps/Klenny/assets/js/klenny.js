@@ -99,14 +99,10 @@
     return navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.globalPrivacyControl === true;
   }
   if (/^[a-z0-9-]+$/i.test(GOATCOUNTER_CODE) && !privacySignal()) {
-    var originalReferrer = null;
-    try { originalReferrer = sessionStorage.getItem('klenny-referrer'); } catch (e) {}
     window.goatcounter = {
       // One path per page: ?lang= and utm_* would otherwise split it (campaigns are still read
       // from the query string by count.js).
-      path: function () { return location.pathname.replace(/index\.html$/, ''); },
-      // The /klenny short URL redirects in JS; it saves the outside referrer for us.
-      referrer: function (fallback) { return originalReferrer || fallback; }
+      path: function () { return location.pathname.replace(/index\.html$/, ''); }
     };
     var gc = document.createElement('script');
     gc.async = true;
