@@ -9,6 +9,13 @@
 //    Closing puts it back in the page.
 (function () {
   'use strict';
+
+  // ==== Analytics: GoatCounter (no cookies). THE ONLY PLACE TO CONFIGURE IT ==================
+  // Put the GoatCounter site code here (the "<code>" in https://<code>.goatcounter.com) to turn
+  // it on for every Klenny page. Empty = off: no script is loaded and no request is made.
+  // See Apps/Klenny/MARKETING.md.
+  var GOATCOUNTER_CODE = '';
+
   var SUPPORTED = ['en', 'es'];
   var KEY = 'klenny-lang';
   var MEDIA_KEY = 'app-media-lang'; // shared with ../shared/media-lang.js on other app pages
@@ -80,9 +87,75 @@
 
   document.addEventListener('click', function (e) {
     var b = e.target.closest('[data-lang-btn]');
-    if (b) applyLanguage(b.getAttribute('data-lang-btn'));
+    if (!b) return;
+    applyLanguage(b.getAttribute('data-lang-btn'));
+    track('lang-' + b.getAttribute('data-lang-btn'), 'Language: ' + b.getAttribute('data-lang-btn'));
   });
   applyLanguage(initialLanguage());
+
+  // --- Analytics loader -----------------------------------------------------------------------
+  // Skipped when there is no code, or the browser sends Do Not Track / Global Privacy Control.
+  function privacySignal() {
+    return navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.globalPrivacyControl === true;
+  }
+  if (/^[a-z0-9-]+$/i.test(GOATCOUNTER_CODE) && !privacySignal()) {
+    var originalReferrer = null;
+    try { originalReferrer = sessionStorage.getItem('klenny-referrer'); } catch (e) {}
+    window.goatcounter = {
+      // One path per page: ?lang= and utm_* would otherwise split it (campaigns are still read
+      // from the query string by count.js).
+      path: function () { return location.pathname.replace(/index\.html$/, ''); },
+      // The /klenny short URL redirects in JS; it saves the outside referrer for us.
+      referrer: function (fallback) { return originalReferrer || fallback; }
+    };
+    var gc = document.createElement('script');
+    gc.async = true;
+    gc.src = 'https://gc.zgo.at/count.js';
+    gc.setAttribute('data-goatcounter', 'https://' + GOATCOUNTER_CODE + '.goatcounter.com/count');
+    document.head.appendChild(gc);
+  }
+
+  // Sends an event only if GoatCounter actually loaded; otherwise does nothing.
+  function track(name, title) {
+    var g = window.goatcounter;
+    if (!g || typeof g.count !== 'function') return;
+    try { g.count({ path: name, title: title || name, event: true }); } catch (e) {}
+  }
+
+  document.addEventListener('click', function (e) {
+    var dl = e.target.closest('#dmg-link, [data-start-download], [data-dmg-again]');
+    if (dl) {
+      var where = dl.closest('[data-mobile-cta]') ? 'mobile-bar'
+        : dl.closest('dialog') ? 'install-guide'
+        : (dl.closest('section[id]') || {}).id || (dl.closest('.hero') ? 'hero' : 'page');
+      track('download-dmg', 'Download DMG (' + where + ')');
+      return;
+    }
+    var buy = e.target.closest('a[href^="https://buy.polar.sh/"]');
+    if (buy) {
+      var from = (buy.closest('section[id]') || {}).id || (buy.closest('.hero') ? 'hero' : 'page');
+      track('buy-polar', 'Buy on Polar (' + from + ')');
+    }
+  });
+
+  // --- UTM parameters: kept for this tab and passed on to Polar checkout ---------------------
+  var UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  var utm = {};
+  try {
+    var params = new URLSearchParams(location.search);
+    UTM_KEYS.forEach(function (k) { if (params.get(k)) utm[k] = params.get(k).slice(0, 100); });
+    if (Object.keys(utm).length) sessionStorage.setItem('klenny-utm', JSON.stringify(utm));
+    else utm = JSON.parse(sessionStorage.getItem('klenny-utm') || '{}') || {};
+  } catch (e) { utm = {}; }
+  if (Object.keys(utm).length) {
+    document.querySelectorAll('a[href^="https://buy.polar.sh/"]').forEach(function (a) {
+      try {
+        var url = new URL(a.href);
+        UTM_KEYS.forEach(function (k) { if (utm[k] && !url.searchParams.has(k)) url.searchParams.set(k, utm[k]); });
+        a.href = url.toString();
+      } catch (e) {}
+    });
+  }
 
   // --- DMG link -----------------------------------------------------------------------------
   var dmg = document.getElementById('dmg-link');
