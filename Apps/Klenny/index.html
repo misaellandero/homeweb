@@ -7,7 +7,7 @@
        App Store version is live; every [data-app-store] link stays hidden while it is empty. -->
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description" content="Klenny is a native macOS menu bar utility that locks your keyboard and trackpad so you can clean your Mac safely."
     data-content-en="Klenny is a native macOS menu bar utility that locks your keyboard and trackpad so you can clean your Mac safely."
     data-content-es="Klenny es una utilidad nativa para la barra de menús de macOS que bloquea tu teclado y trackpad para que limpies tu Mac sin riesgos.">
@@ -54,37 +54,41 @@
   <main>
     <section class="hero">
       <div class="container hero-grid">
-        <div>
+        <div class="hero-top">
           <div class="app-lockup"><img src="assets/images/icon.png" alt="" ><span data-lang="en">macOS menu bar utility</span><span data-lang="es" lang="es" hidden>Utilidad para la barra de menús de macOS</span></div>
           <h1>Klenny</h1>
           <p class="headline" data-lang="en">Lock your keyboard.<br>Clean your Mac.</p>
           <p class="headline" data-lang="es" lang="es" hidden>Bloquea tu teclado.<br>Limpia tu Mac.</p>
           <p class="lead" data-lang="en">A native macOS utility that blocks accidental keyboard and trackpad input while you clean your Mac. Unlock safely when you are done.</p>
           <p class="lead" data-lang="es" lang="es" hidden>Una utilidad nativa de macOS que bloquea las pulsaciones accidentales del teclado y el trackpad mientras limpias tu Mac. Desbloquea con seguridad al terminar.</p>
+        </div>
+        <div class="hero-cta">
           <div class="cta-row">
             <a class="btn primary btn-xl" href="#download" data-start-download><span data-lang="en">Download free to try</span><span data-lang="es" lang="es" hidden>Descárgala gratis para probar</span></a>
             <a class="btn" href="#buy"><span data-lang="en">Buy · US$4.99</span><span data-lang="es" lang="es" hidden>Comprar · US$4.99</span></a>
           </div>
-          <p class="hero-note" data-lang="en">macOS 26.2 or later · Your first cleaning is free · <a href="#app-store">Prefer the Mac App Store?</a></p>
-          <p class="hero-note" data-lang="es" lang="es" hidden>macOS 26.2 o posterior · Tu primera limpieza es gratis · <a href="#app-store">¿Prefieres la Mac App Store?</a></p>
-          <ul class="trust-list" data-lang="en"><li>One-time purchase</li><li>Everything included</li><li>No account</li><li>No tracking</li></ul>
-          <ul class="trust-list" data-lang="es" lang="es" hidden><li>Pago único</li><li>Todo incluido</li><li>Sin cuenta</li><li>Sin rastreo</li></ul>
         </div>
         <!-- Promo video: 16:9 on desktop, 9:16 on phones (<source media>). klenny.js plays only the
              visible language, muted, and skips autoplay with prefers-reduced-motion. -->
         <div class="hero-video">
-          <video data-media-lang="en" data-autoplay controls muted loop playsinline preload="none"
+          <video data-media-lang="en" data-autoplay muted loop playsinline disablepictureinpicture disableremoteplayback preload="none"
             poster="assets/images/screens/klenny-promo-poster-16x9-en.jpg" data-poster-portrait="assets/images/screens/klenny-promo-poster-9x16-en.jpg"
             aria-label="Klenny promo: the keyboard locks while you clean, each key turns green, then you unlock">
             <source media="(max-width: 640px)" src="assets/video/klenny-promo-9x16-en.mp4" type="video/mp4">
             <source src="assets/video/klenny-promo-16x9-en.mp4" type="video/mp4">
           </video>
-          <video data-media-lang="es" lang="es" hidden data-autoplay controls muted loop playsinline preload="none"
+          <video data-media-lang="es" lang="es" hidden data-autoplay muted loop playsinline disablepictureinpicture disableremoteplayback preload="none"
             poster="assets/images/screens/klenny-promo-poster-16x9-es.jpg" data-poster-portrait="assets/images/screens/klenny-promo-poster-9x16-es.jpg"
             aria-label="Promo de Klenny: el teclado se bloquea mientras limpias, cada tecla se pone verde y luego desbloqueas">
             <source media="(max-width: 640px)" src="assets/video/klenny-promo-9x16-es.mp4" type="video/mp4">
             <source src="assets/video/klenny-promo-16x9-es.mp4" type="video/mp4">
           </video>
+        </div>
+        <div class="hero-meta">
+          <p class="hero-note" data-lang="en">macOS 26.2 or later · Your first cleaning is free · <a href="#app-store">Prefer the Mac App Store?</a></p>
+          <p class="hero-note" data-lang="es" lang="es" hidden>macOS 26.2 o posterior · Tu primera limpieza es gratis · <a href="#app-store">¿Prefieres la Mac App Store?</a></p>
+          <ul class="trust-list" data-lang="en"><li>One-time purchase</li><li>Everything included</li><li>No account</li><li>No tracking</li></ul>
+          <ul class="trust-list" data-lang="es" lang="es" hidden><li>Pago único</li><li>Todo incluido</li><li>Sin cuenta</li><li>Sin rastreo</li></ul>
         </div>
       </div>
     </section>
@@ -402,6 +406,12 @@
       </div>
     </section>
   </main>
+
+  <!-- Phones only: keeps the main download button reachable once the hero button scrolls away
+       (klenny.js toggles [hidden]; CSS hides it from 641 px up). -->
+  <div class="mobile-cta" data-mobile-cta hidden>
+    <a class="btn primary" href="#download" data-start-download><span data-lang="en">Download free to try</span><span data-lang="es" lang="es" hidden>Descárgala gratis para probar</span></a>
+  </div>
 
   <dialog class="guide-dialog" id="guide-dialog" aria-labelledby="guide-dialog-title">
     <div class="guide-dialog-head">

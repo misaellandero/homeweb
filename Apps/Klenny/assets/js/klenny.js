@@ -141,6 +141,33 @@
   // The real link downloads natively; we only add the guide on top.
   dmg.addEventListener('click', function () { openGuide(dmg); });
 
+  // --- Phones: sticky download bar once the hero button has scrolled away ---------------------
+  var bar = document.querySelector('[data-mobile-cta]');
+  var heroButton = document.querySelector('.hero .btn-xl');
+  var downloadSection = document.getElementById('download');
+  if (bar && heroButton && 'IntersectionObserver' in window) {
+    var phone = window.matchMedia('(max-width: 640px)');
+    var seen = { hero: true, download: false };
+    var updateBar = function () {
+      var show = phone.matches && !seen.hero && !seen.download && !(dialog && dialog.open);
+      bar.toggleAttribute('hidden', !show);
+      root.classList.toggle('has-mobile-cta', show);
+    };
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { seen[en.target === heroButton ? 'hero' : 'download'] = en.isIntersecting; });
+      updateBar();
+    }).observe(heroButton);
+    if (downloadSection) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { seen.download = en.isIntersecting; });
+        updateBar();
+      }).observe(downloadSection);
+    }
+    if (phone.addEventListener) phone.addEventListener('change', updateBar);
+    if (dialog) dialog.addEventListener('close', updateBar);
+    document.addEventListener('click', function () { setTimeout(updateBar, 0); });
+  }
+
   // Other "Download" buttons start the same download, then show the guide.
   document.querySelectorAll('[data-start-download]').forEach(function (btn) {
     btn.addEventListener('click', function (e) {
