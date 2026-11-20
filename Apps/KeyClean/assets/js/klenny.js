@@ -33,7 +33,10 @@
       var on = (el.getAttribute('data-lang') || el.getAttribute('data-media-lang')) === lang;
       // toggleAttribute (not .hidden) so it also works on SVG <text>.
       el.toggleAttribute('hidden', !on);
-      if (!on) el.querySelectorAll('video').forEach(function (v) { v.pause(); });
+      if (!on) {
+        if (el.tagName === 'VIDEO') el.pause();
+        el.querySelectorAll('video').forEach(function (v) { v.pause(); });
+      }
     });
     ATTRS.forEach(function (attr) {
       document.querySelectorAll('[data-' + attr + '-' + lang + ']').forEach(function (el) {
@@ -47,6 +50,32 @@
     });
     save(KEY, lang);
     save(MEDIA_KEY, lang);
+    playVisibleVideos();
+  }
+
+  // --- Promo video: muted autoplay of the visible language only ------------------------------
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var portrait = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+  document.querySelectorAll('video[data-poster-portrait]').forEach(function (v) {
+    if (portrait) v.setAttribute('poster', v.getAttribute('data-poster-portrait'));
+  });
+  function playVisibleVideos() {
+    if (reduceMotion) return; // controls stay available; nothing moves on its own
+    document.querySelectorAll('video[data-autoplay]').forEach(function (v) {
+      if (v.hasAttribute('hidden')) return;
+      v.muted = true;
+      var playing = v.play();
+      if (playing && playing.catch) playing.catch(function () {});
+    });
+  }
+
+  // --- Mac App Store link: one URL in <html data-app-store-url>; hidden while empty ----------
+  var storeURL = root.getAttribute('data-app-store-url');
+  if (storeURL) {
+    document.querySelectorAll('[data-app-store]').forEach(function (a) {
+      a.setAttribute('href', storeURL);
+      a.removeAttribute('hidden');
+    });
   }
 
   document.addEventListener('click', function (e) {

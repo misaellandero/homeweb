@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" style="--accent:#ffc83d;--accent-2:#ffe08a;--bg:#0d0a04;--bg-soft:#1a1408;"
   data-title-en="Klenny | Lock your keyboard to clean your Mac"
-  data-title-es="Klenny | Bloquea tu teclado para limpiar tu Mac">
+  data-title-es="Klenny | Bloquea tu teclado para limpiar tu Mac"
+  data-app-store-url="">
+  <!-- data-app-store-url: the Mac App Store link for Klenny, in ONE place. Leave it empty until the
+       App Store version is live; every [data-app-store] link stays hidden while it is empty. -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,9 +27,9 @@
       <a class="brand" href="#home"><img src="assets/images/icon.png" alt="Klenny icon" data-alt-en="Klenny icon" data-alt-es="Ícono de Klenny"><span>Klenny</span></a>
       <nav aria-label="Main navigation" data-lang="en">
         <a href="#download">Download</a>
+        <a href="#benefits">Benefits</a>
         <a href="#install">Install</a>
-        <a href="#video">Video</a>
-        <a href="#features">Features</a>
+        <a href="#app-store">Compare</a>
         <a href="#faq">FAQ</a>
         <a href="#support">Support</a>
         <a href="privacy.html">Privacy</a>
@@ -34,9 +37,9 @@
       </nav>
       <nav aria-label="Navegación principal" data-lang="es" lang="es" hidden>
         <a href="#download">Descargar</a>
+        <a href="#benefits">Beneficios</a>
         <a href="#install">Instalar</a>
-        <a href="#video">Video</a>
-        <a href="#features">Funciones</a>
+        <a href="#app-store">Comparar</a>
         <a href="#faq">Preguntas</a>
         <a href="#support">Soporte</a>
         <a href="privacy.html">Privacidad</a>
@@ -59,15 +62,82 @@
           <p class="lead" data-lang="en">A native macOS utility that blocks accidental keyboard and trackpad input while you clean your Mac. Unlock safely when you are done.</p>
           <p class="lead" data-lang="es" lang="es" hidden>Una utilidad nativa de macOS que bloquea las pulsaciones accidentales del teclado y el trackpad mientras limpias tu Mac. Desbloquea con seguridad al terminar.</p>
           <div class="cta-row">
-            <span class="store-badge pending" title="Coming soon to the Mac App Store" data-title-en="Coming soon to the Mac App Store" data-title-es="Muy pronto en la Mac App Store"><img src="assets/images/appstorebadge.svg" alt="Coming soon to the Mac App Store" data-alt-en="Coming soon to the Mac App Store" data-alt-es="Muy pronto en la Mac App Store"></span>
-            <a class="btn primary" href="#download" data-start-download><span data-lang="en">Download for Mac</span><span data-lang="es" lang="es" hidden>Descargar para Mac</span></a>
-            <a class="btn" href="#video"><span data-lang="en">See it in action</span><span data-lang="es" lang="es" hidden>Velo en acción</span></a>
+            <a class="btn primary btn-xl" href="#download" data-start-download><span data-lang="en">Download free to try</span><span data-lang="es" lang="es" hidden>Descárgala gratis para probar</span></a>
+            <a class="btn" href="#buy"><span data-lang="en">Buy · US$4.99</span><span data-lang="es" lang="es" hidden>Comprar · US$4.99</span></a>
           </div>
+          <p class="hero-note" data-lang="en">macOS 26.2 or later · Your first cleaning is free · <a href="#app-store">Prefer the Mac App Store?</a></p>
+          <p class="hero-note" data-lang="es" lang="es" hidden>macOS 26.2 o posterior · Tu primera limpieza es gratis · <a href="#app-store">¿Prefieres la Mac App Store?</a></p>
           <ul class="trust-list" data-lang="en"><li>One-time purchase</li><li>Everything included</li><li>No account</li><li>No tracking</li></ul>
           <ul class="trust-list" data-lang="es" lang="es" hidden><li>Pago único</li><li>Todo incluido</li><li>Sin cuenta</li><li>Sin rastreo</li></ul>
         </div>
-        <div class="hero-visual">
-          <img class="klenny-hero-shot" src="assets/images/screens/klenny-hero.png" alt="Klenny cleaning session: the keys you already wiped turn green while a progress bar counts them" data-alt-en="Klenny cleaning session: the keys you already wiped turn green while a progress bar counts them" data-alt-es="Sesión de limpieza de Klenny: las teclas que ya limpiaste se ponen verdes y una barra cuenta el avance" width="1200" height="735">
+        <!-- Promo video: 16:9 on desktop, 9:16 on phones (<source media>). klenny.js plays only the
+             visible language, muted, and skips autoplay with prefers-reduced-motion. -->
+        <div class="hero-video">
+          <video data-media-lang="en" data-autoplay controls muted loop playsinline preload="none"
+            poster="assets/images/screens/klenny-promo-poster-16x9-en.jpg" data-poster-portrait="assets/images/screens/klenny-promo-poster-9x16-en.jpg"
+            aria-label="Klenny promo: the keyboard locks while you clean, each key turns green, then you unlock">
+            <source media="(max-width: 640px)" src="assets/video/klenny-promo-9x16-en.mp4" type="video/mp4">
+            <source src="assets/video/klenny-promo-16x9-en.mp4" type="video/mp4">
+          </video>
+          <video data-media-lang="es" lang="es" hidden data-autoplay controls muted loop playsinline preload="none"
+            poster="assets/images/screens/klenny-promo-poster-16x9-es.jpg" data-poster-portrait="assets/images/screens/klenny-promo-poster-9x16-es.jpg"
+            aria-label="Promo de Klenny: el teclado se bloquea mientras limpias, cada tecla se pone verde y luego desbloqueas">
+            <source media="(max-width: 640px)" src="assets/video/klenny-promo-9x16-es.mp4" type="video/mp4">
+            <source src="assets/video/klenny-promo-16x9-es.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="benefits">
+      <div class="container">
+        <p class="eyebrow"><span data-lang="en">Why Klenny</span><span data-lang="es" lang="es" hidden>Por qué Klenny</span></p>
+        <h2 class="section-title"><span data-lang="en">Everything you need for a spotless keyboard.</span><span data-lang="es" lang="es" hidden>Todo para dejar tu teclado impecable.</span></h2>
+        <div class="benefits">
+          <article class="benefit">
+            <figure class="screen benefit-shot">
+              <img data-media-lang="en" src="assets/images/screens/klenny-mac-en-1.jpg" alt="Klenny window with a virtual keyboard and trackpad, ready to lock" loading="lazy" width="1440" height="900">
+              <img data-media-lang="es" lang="es" hidden src="assets/images/screens/klenny-mac-es-1.jpg" alt="Ventana de Klenny con teclado y trackpad virtuales, lista para bloquear" loading="lazy" width="1440" height="900">
+            </figure>
+            <div class="benefit-copy">
+              <h3><span data-lang="en">Total lock</span><span data-lang="es" lang="es" hidden>Bloqueo total</span></h3>
+              <p data-lang="en">One click blocks every key and the trackpad across the whole system, so nothing you wipe turns into typing or clicks.</p>
+              <p data-lang="es" lang="es" hidden>Con un clic bloquea todas las teclas y el trackpad en todo el sistema: nada de lo que limpies se convierte en texto o clics.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <figure class="screen benefit-shot">
+              <img data-media-lang="en" src="assets/images/screens/klenny-mac-en-2.jpg" alt="Cleaning in progress: wiped keys glow green and a counter shows 47 of 70 keys" loading="lazy" width="1440" height="900">
+              <img data-media-lang="es" lang="es" hidden src="assets/images/screens/klenny-mac-es-2.jpg" alt="Limpieza en curso: las teclas limpias se ponen verdes y un contador marca 47 de 70" loading="lazy" width="1440" height="900">
+            </figure>
+            <div class="benefit-copy">
+              <h3><span data-lang="en">Guided cleaning</span><span data-lang="es" lang="es" hidden>Limpieza guiada</span></h3>
+              <p data-lang="en">Every key you wipe turns green and a counter tracks your progress, so you never miss a spot.</p>
+              <p data-lang="es" lang="es" hidden>Cada tecla que limpias se pone verde y un contador sigue tu avance para que no se te pase ninguna.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <figure class="screen benefit-shot">
+              <img data-media-lang="en" src="assets/images/screens/klenny-mac-en-4.jpg" alt="Klenny menu in the macOS menu bar to lock and unlock in one click" loading="lazy" width="1440" height="900">
+              <img data-media-lang="es" lang="es" hidden src="assets/images/screens/klenny-mac-es-4.jpg" alt="Menú de Klenny en la barra de menús para bloquear y desbloquear en un clic" loading="lazy" width="1440" height="900">
+            </figure>
+            <div class="benefit-copy">
+              <h3><span data-lang="en">Safe unlock, right from the menu bar</span><span data-lang="es" lang="es" hidden>Desbloqueo seguro desde la barra de menús</span></h3>
+              <p data-lang="en">Start a cleaning from the menu bar and press <strong>Esc</strong> three times to unlock. It also ends on its own if your Mac sleeps or the screen locks.</p>
+              <p data-lang="es" lang="es" hidden>Inicia una limpieza desde la barra de menús y pulsa <strong>Esc</strong> tres veces para desbloquear. También termina sola si tu Mac entra en reposo o se bloquea la pantalla.</p>
+            </div>
+          </article>
+          <article class="benefit">
+            <figure class="screen benefit-shot">
+              <img data-media-lang="en" src="assets/images/screens/klenny-mac-en-3.jpg" alt="Settings menu with key sounds, Mac color finishes and key styles" loading="lazy" width="1440" height="900">
+              <img data-media-lang="es" lang="es" hidden src="assets/images/screens/klenny-mac-es-3.jpg" alt="Menú de ajustes con sonidos de teclas, colores del Mac y estilos de teclas" loading="lazy" width="1440" height="900">
+            </figure>
+            <div class="benefit-copy">
+              <h3><span data-lang="en">Make it yours</span><span data-lang="es" lang="es" hidden>Hazlo tuyo</span></h3>
+              <p data-lang="en">Optional key sounds and seven Mac finishes, including Midnight, Starlight, Gold and Sky Blue. All included with your license.</p>
+              <p data-lang="es" lang="es" hidden>Sonidos de teclas opcionales y siete acabados de Mac, como Medianoche, Blanco estelar, Oro y Azul cielo. Todo incluido en tu licencia.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -105,10 +175,11 @@
             <p class="fine-print" data-lang="es" lang="es" hidden>El pago lo procesa Polar, nuestro merchant of record: se encarga del cobro, la factura y los impuestos, y te envía la llave por correo. <a href="#faq-refunds">Reembolso en 7 días</a>.</p>
           </article>
         </div>
-        <p class="section-copy" data-lang="en">A Mac App Store version is coming soon. <a href="#faq-app-store">How the two versions differ</a>.</p>
-        <p class="section-copy" data-lang="es" lang="es" hidden>Muy pronto habrá una versión en la Mac App Store. <a href="#faq-app-store">En qué se diferencian</a>.</p>
+        <p class="section-copy" data-lang="en">Prefer the Mac App Store? <a href="#app-store">See what is different</a>.</p>
+        <p class="section-copy" data-lang="es" lang="es" hidden>¿Prefieres la Mac App Store? <a href="#app-store">Mira qué cambia</a>.</p>
       </div>
     </section>
+
 
     <!-- Install guide. Shown here and, after a download starts, moved into #guide-dialog by klenny.js. -->
     <section class="section" id="install">
@@ -208,56 +279,46 @@
       </div>
     </section>
 
-    <section class="section" id="video">
+    <section class="section" id="app-store">
       <div class="container">
-        <p class="eyebrow">Video</p>
-        <h2 class="section-title"><span data-lang="en">Lock, wipe, done.</span><span data-lang="es" lang="es" hidden>Bloquea, limpia, listo.</span></h2>
-        <figure class="screen preview-video" data-media-lang="en">
-          <video src="assets/video/klenny-preview-en.mp4" poster="assets/images/screens/klenny-video-poster-en.jpg" width="1280" height="720" controls muted loop playsinline preload="none" aria-label="Klenny preview: locking a MacBook keyboard and trackpad, wiping the keys until every one turns green, then unlocking"></video>
-        </figure>
-        <figure class="screen preview-video" data-media-lang="es" lang="es" hidden>
-          <video src="assets/video/klenny-preview-es.mp4" poster="assets/images/screens/klenny-video-poster-es.jpg" width="1280" height="720" controls muted loop playsinline preload="none" aria-label="Vista previa de Klenny: bloquear el teclado y el trackpad de una MacBook, limpiar hasta que todas las teclas estén en verde y desbloquear"></video>
-        </figure>
-      </div>
-    </section>
-    <section class="section" id="screenshots">
-      <div class="container">
-        <p class="eyebrow"><span data-lang="en">Screenshots</span><span data-lang="es" lang="es" hidden>Capturas</span></p>
-        <h2 class="section-title"><span data-lang="en">See every key you have cleaned.</span><span data-lang="es" lang="es" hidden>Mira cada tecla que ya limpiaste.</span></h2>
-        <div class="screens" data-media-lang="en">
-          <figure class="screen"><img src="assets/images/screens/klenny-mac-en-1.jpg" alt="Klenny window with a virtual keyboard and trackpad, ready to lock" loading="lazy" width="1440" height="900"></figure>
-          <figure class="screen"><img src="assets/images/screens/klenny-mac-en-2.jpg" alt="Cleaning in progress: wiped keys glow green and a counter shows 47 of 70 keys" loading="lazy" width="1440" height="900"></figure>
-          <figure class="screen"><img src="assets/images/screens/klenny-mac-en-3.jpg" alt="Settings menu with key sounds, Mac color finishes and key styles" loading="lazy" width="1440" height="900"></figure>
-          <figure class="screen"><img src="assets/images/screens/klenny-mac-en-4.jpg" alt="Klenny menu in the macOS menu bar to lock and unlock in one click" loading="lazy" width="1440" height="900"></figure>
+        <p class="eyebrow"><span data-lang="en">Website vs. Mac App Store</span><span data-lang="es" lang="es" hidden>Web vs. Mac App Store</span></p>
+        <h2 class="section-title"><span data-lang="en">The full Klenny is the one you download here.</span><span data-lang="es" lang="es" hidden>El Klenny completo es el que descargas aquí.</span></h2>
+        <p class="section-copy" data-lang="en">Mac App Store rules don’t let Klenny block the keyboard for the whole system, so the App Store version has fewer features.</p>
+        <p class="section-copy" data-lang="es" lang="es" hidden>Las reglas de la Mac App Store no permiten que Klenny bloquee el teclado en todo el sistema, así que esa versión tiene menos funciones.</p>
+        <div class="compare">
+          <article class="feature-card compare-card is-featured">
+            <h3><span data-lang="en">Klenny from this website</span><span data-lang="es" lang="es" hidden>Klenny de esta web</span></h3>
+            <ul class="check-list" data-lang="en">
+              <li>Blocks the keyboard and trackpad across the whole system</li>
+              <li>Updates itself automatically</li>
+              <li>One license for up to 3 Macs</li>
+              <li>Your first cleaning is free</li>
+            </ul>
+            <ul class="check-list" data-lang="es" lang="es" hidden>
+              <li>Bloquea teclado y trackpad en todo el sistema</li>
+              <li>Se actualiza sola</li>
+              <li>Una licencia para hasta 3 Macs</li>
+              <li>Tu primera limpieza es gratis</li>
+            </ul>
+            <p><a class="btn primary" href="#download" data-start-download><span data-lang="en">Download free to try</span><span data-lang="es" lang="es" hidden>Descárgala gratis para probar</span></a></p>
+          </article>
+          <article class="feature-card compare-card">
+            <h3><span data-lang="en">Mac App Store version</span><span data-lang="es" lang="es" hidden>Versión de la Mac App Store</span></h3>
+            <ul class="dot-list" data-lang="en">
+              <li>Locks the keyboard only inside its own full-screen window (kiosk mode)</li>
+              <li>Bought and updated through the App Store</li>
+              <li>Needs no Accessibility permission</li>
+            </ul>
+            <ul class="dot-list" data-lang="es" lang="es" hidden>
+              <li>Bloquea el teclado solo dentro de su propia ventana a pantalla completa (modo quiosco)</li>
+              <li>Se compra y se actualiza en la App Store</li>
+              <li>No necesita el permiso de Accesibilidad</li>
+            </ul>
+            <p><a class="store-badge" href="#" data-app-store hidden rel="noopener"><img src="assets/images/appstorebadge.svg" alt="Download on the Mac App Store" data-alt-en="Download on the Mac App Store" data-alt-es="Descargar en la Mac App Store"></a></p>
+          </article>
         </div>
-        <div class="screens" data-media-lang="es" lang="es" hidden>
-          <figure class="screen"><img src="assets/images/screens/klenny-mac-es-1.jpg" alt="Ventana de Klenny con teclado y trackpad virtuales, lista para bloquear" loading="lazy" width="1440" height="900"></figure>
-          <figure class="screen"><img src="assets/images/screens/klenny-mac-es-2.jpg" alt="Limpieza en curso: las teclas limpias se ponen verdes y un contador marca 47 de 70" loading="lazy" width="1440" height="900"></figure>
-          <figure class="screen"><img src="assets/images/screens/klenny-mac-es-3.jpg" alt="Menú de ajustes con sonidos de teclas, colores del Mac y estilos de teclas" loading="lazy" width="1440" height="900"></figure>
-          <figure class="screen"><img src="assets/images/screens/klenny-mac-es-4.jpg" alt="Menú de Klenny en la barra de menús para bloquear y desbloquear en un clic" loading="lazy" width="1440" height="900"></figure>
-        </div>
-      </div>
-    </section>
-    <section class="section" id="features">
-      <div class="container">
-        <p class="eyebrow"><span data-lang="en">Features</span><span data-lang="es" lang="es" hidden>Funciones</span></p>
-        <h2 class="section-title"><span data-lang="en">Built for quick, safe keyboard cleaning.</span><span data-lang="es" lang="es" hidden>Hecho para limpiar el teclado rápido y sin riesgos.</span></h2>
-        <div class="feature-grid" data-lang="en">
-          <article class="feature-card"><h3>Keyboard Lock</h3><p>Suppresses accidental key input while cleaning your keyboard.</p></article>
-          <article class="feature-card"><h3>Trackpad Lock</h3><p>Helps avoid cursor movement and clicks while wiping your MacBook.</p></article>
-          <article class="feature-card"><h3>Menu Bar Ready</h3><p>Start and stop cleaning mode from the macOS menu bar.</p></article>
-          <article class="feature-card"><h3>Safe Unlock</h3><p>Press Esc three times to unlock. Locking also ends on its own if your Mac sleeps or the screen locks. Unlocking is never blocked, even without a license.</p></article>
-          <article class="feature-card"><h3>Cleaning Progress</h3><p>Visual feedback helps you see what keys have been touched.</p></article>
-          <article class="feature-card"><h3>Sounds &amp; Styles</h3><p>Optional key sounds and seven Mac finishes, including Midnight, Starlight, Gold and Sky Blue. All included with your purchase.</p></article>
-        </div>
-        <div class="feature-grid" data-lang="es" lang="es" hidden>
-          <article class="feature-card"><h3>Bloqueo de teclado</h3><p>Evita pulsaciones accidentales mientras limpias el teclado.</p></article>
-          <article class="feature-card"><h3>Bloqueo de trackpad</h3><p>Evita que el cursor se mueva o haga clic mientras limpias tu MacBook.</p></article>
-          <article class="feature-card"><h3>Desde la barra de menús</h3><p>Inicia y termina el modo de limpieza desde la barra de menús de macOS.</p></article>
-          <article class="feature-card"><h3>Desbloqueo seguro</h3><p>Pulsa Esc tres veces para desbloquear. El bloqueo también termina solo si tu Mac entra en reposo o se bloquea la pantalla. Desbloquear nunca se impide, aunque no tengas licencia.</p></article>
-          <article class="feature-card"><h3>Avance de limpieza</h3><p>Ves en pantalla qué teclas ya tocaste.</p></article>
-          <article class="feature-card"><h3>Sonidos y estilos</h3><p>Sonidos de teclas opcionales y siete acabados de Mac, como Medianoche, Blanco estelar, Oro y Azul cielo. Todo incluido en tu compra.</p></article>
-        </div>
+        <p class="fine-print" data-lang="en">The two versions are licensed separately. <a href="#faq-app-store">How licenses work</a>.</p>
+        <p class="fine-print" data-lang="es" lang="es" hidden>Cada versión tiene su propia licencia. <a href="#faq-app-store">Cómo funcionan las licencias</a>.</p>
       </div>
     </section>
     <section class="section" id="technical">
@@ -321,8 +382,8 @@
             <details data-lang="es" lang="es" hidden><summary>¿Klenny necesita internet?</summary><p>Solo para activar tu llave y buscar actualizaciones. Klenny verifica la licencia más o menos una vez por semana y sigue funcionando hasta 30 días sin conexión.</p></details>
           </div>
           <div id="faq-app-store">
-            <details data-lang="en"><summary>How is it different from the Mac App Store version?</summary><p>The version on this website blocks the keyboard system-wide, so it needs Accessibility permission, and it is activated with a license key and updates itself. The Mac App Store version (coming soon) locks the keyboard inside its own full-screen window, needs no special permissions, and is bought and updated through the App Store. <strong>They are sold separately:</strong> a license key does not unlock the App Store version, and an App Store purchase does not include a license key.</p></details>
-            <details data-lang="es" lang="es" hidden><summary>¿En qué se diferencia de la versión de la Mac App Store?</summary><p>La versión de esta web bloquea el teclado a nivel sistema, por eso necesita el permiso de Accesibilidad; se activa con una llave de licencia y se actualiza sola. La versión de la Mac App Store (muy pronto) bloquea el teclado dentro de su propia ventana a pantalla completa, no necesita permisos especiales y se compra y actualiza en la App Store. <strong>Se venden por separado:</strong> una llave de licencia no desbloquea la versión de la App Store, y una compra en la App Store no incluye llave de licencia.</p></details>
+            <details data-lang="en"><summary>Does my license work with the Mac App Store version?</summary><p>No. They are sold separately: a license key from this website does not unlock the Mac App Store version, and an App Store purchase does not include a license key. To compare features, see <a href="#app-store">Website vs. Mac App Store</a>.</p></details>
+            <details data-lang="es" lang="es" hidden><summary>¿Mi licencia sirve para la versión de la Mac App Store?</summary><p>No. Se venden por separado: una llave de licencia de esta web no desbloquea la versión de la Mac App Store, y una compra en la App Store no incluye llave de licencia. Para comparar funciones, mira <a href="#app-store">Web vs. Mac App Store</a>.</p></details>
           </div>
           <div id="faq-uninstall">
             <details data-lang="en"><summary>How do I uninstall Klenny?</summary><p>To reuse the license elsewhere, first deactivate it as described in <a href="#faq-move">moving your license</a>. Then quit Klenny, drag it from Applications to the Trash, and remove it from <strong>System Settings › Privacy &amp; Security › Accessibility</strong>.</p></details>
