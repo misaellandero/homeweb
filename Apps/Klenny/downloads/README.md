@@ -7,19 +7,19 @@ into `Distribution/Direct/updates/`. To publish a release:
    if the appcast still points to them.
 2. Copy `appcast.xml` to `Apps/Klenny/appcast.xml` (the URL in `KLENNY_SPARKLE_FEED_URL`).
 3. Point the website at the new DMG. The download URL appears **once** in the HTML, in the
-   `href` of `#dmg-link` in `Apps/KeyClean/index.html`:
+   `href` of `#dmg-link` in `Apps/Klenny/index.html`:
 
    ```html
    <a class="btn primary" id="dmg-link" href="../Klenny/downloads/Klenny-1.0.dmg" download>
    ```
 
-   `Apps/KeyClean/assets/js/klenny.js` reads that `href` to fill in the file name, the version
+   `Apps/Klenny/assets/js/klenny.js` reads that `href` to fill in the file name, the version
    label, the "Download again" link in the install guide and the other Download buttons. One
    replacement is enough (run from the homeweb repo root, with `VERSION` set, e.g. `1.1`):
 
    ```sh
-   sed -i '' -E "s#(downloads/Klenny-)[^\"]+(\.dmg)#\1${VERSION}\2#" Apps/KeyClean/index.html
-   grep -n 'id="dmg-link"' Apps/KeyClean/index.html   # check
+   sed -i '' -E "s#(downloads/Klenny-)[^\"]+(\.dmg)#\1${VERSION}\2#" Apps/Klenny/index.html
+   grep -n 'id="dmg-link"' Apps/Klenny/index.html   # check
    ```
 
    Visible text that shows `Klenny-1.0.dmg` / `1.0` before JavaScript runs is a fallback; it is
